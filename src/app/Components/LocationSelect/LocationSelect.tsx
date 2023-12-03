@@ -99,7 +99,7 @@ export default function LocationSelect({
           onChange={(e) => handleSelect(e)}
         >
           <option value="" disabled>
-            Select location type
+            Select location
           </option>
           {createDisplayOptions()}
         </select>

@@ -1,16 +1,9 @@
-"use client"
+"use client";
 
 import "./home.css";
 import { useEffect, useState } from "react";
-import {
-  fetchForecast,
-  fetchWeatherSelectedLocation,
-} from "./Util/APICalls";
-import {
-  Coords,
-  ForecastData,
-  LocationDetails,
-} from "./Interfaces/interfaces";
+import { fetchForecast, fetchWeatherSelectedLocation } from "./Util/APICalls";
+import { Coords, ForecastData, LocationDetails } from "./Interfaces/interfaces";
 import LocationSelect from "./Components/LocationSelect/LocationSelect";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
 import TypeSelect from "./Components/TypeSelect/TypeSelect";
@@ -78,16 +71,27 @@ export default function Home() {
     if (forecastUrl) {
       console.log(forecastUrl);
       setIsLoading(true);
-      fetchForecast(forecastUrl)
-        .then((result) => {
-          setForecastData(result);
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          console.error(err);
-          setError(err);
-          setIsLoading(false);
-        });
+      let numOfFailedFetches = 0;
+
+      const getForecast = (url: string) => {
+        fetchForecast(url)
+          .then((result) => {
+            setForecastData(result);
+          })
+          .catch((err) => {
+            console.error(err);
+            setError(err);
+            numOfFailedFetches += 1;
+            console.log(`Failed to fetch forecast x${numOfFailedFetches}`);
+            if (numOfFailedFetches <= 5) {
+              setTimeout(() => {
+                getForecast(url);
+              }, 3000);
+            }
+          });
+        setIsLoading(false);
+      };
+      getForecast(forecastUrl);
     }
   }, [forecastUrl]);
 
@@ -121,9 +125,7 @@ export default function Home() {
                 setSelectedLocCoords={setSelectedLocCoords}
               />
               {isLoading ? (
-                <p className="loading-msg">
-                  Please wait while we load weather data for your location
-                </p>
+                <p className="loading-msg">Loading forecast</p>
               ) : null}
               {locationDetails ? (
                 <h2 className="current-loc-display">{`Forecast for: ${locationDetails.properties.relativeLocation.geometry.coordinates[0]}, ${locationDetails.properties.relativeLocation.geometry.coordinates[1]}
