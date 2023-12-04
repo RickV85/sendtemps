@@ -2,7 +2,10 @@
 
 import "./home.css";
 import { useEffect, useState } from "react";
-import { fetchForecast, fetchWeatherSelectedLocation } from "./Util/APICalls";
+import {
+  fetchDailyForecastWithRetry,
+  fetchWeatherSelectedLocation,
+} from "./Util/APICalls";
 import { Coords, ForecastData, LocationDetails } from "./Interfaces/interfaces";
 import LocationSelect from "./Components/LocationSelect/LocationSelect";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
@@ -52,7 +55,6 @@ export default function Home() {
 
   useEffect(() => {
     if (selectedLocCoords) {
-      setIsLoading(true);
       fetchWeatherSelectedLocation(selectedLocCoords)
         .then((result) => {
           setLocationDetails(result);
@@ -62,7 +64,6 @@ export default function Home() {
         .catch((err) => {
           console.error(err);
           setError(err);
-          setIsLoading(false);
         });
     }
   }, [selectedLocCoords]);
@@ -71,27 +72,17 @@ export default function Home() {
     if (forecastUrl) {
       console.log(forecastUrl);
       setIsLoading(true);
-      let numOfFailedFetches = 0;
 
-      const getForecast = (url: string) => {
-        fetchForecast(url)
-          .then((result) => {
-            setForecastData(result);
-          })
-          .catch((err) => {
-            console.error(err);
-            setError(err);
-            numOfFailedFetches += 1;
-            console.log(`Failed to fetch forecast x${numOfFailedFetches}`);
-            if (numOfFailedFetches <= 5) {
-              setTimeout(() => {
-                getForecast(url);
-              }, 3000);
-            }
-          });
-        setIsLoading(false);
-      };
-      getForecast(forecastUrl);
+      fetchDailyForecastWithRetry(forecastUrl)
+        .then((result) => {
+          setForecastData(result);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.error(err.message);
+          setError(err.message);
+          setIsLoading(false);
+        });
     }
   }, [forecastUrl]);
 
@@ -110,9 +101,11 @@ export default function Home() {
         {/* Conditional loading if error */}
         {error ? (
           <>
-            <p>{`An error occurred while fetching your forecast. Please reload the page and try your request again.
-           Error: ${error}`}</p>
-            <button onClick={() => window.location.reload()}>
+            <p className="error-msg">{`An error occurred while fetching your forecast. Please reload the page and try your request again. ${error}`}</p>
+            <button
+              className="reload-page-btn"
+              onClick={() => window.location.reload()}
+            >
               Reload page
             </button>
           </>
@@ -124,15 +117,15 @@ export default function Home() {
                 selectedLocType={selectedLocType}
                 setSelectedLocCoords={setSelectedLocCoords}
               />
-              {isLoading ? (
-                <p className="loading-msg">Loading forecast</p>
-              ) : null}
               {locationDetails ? (
                 <h2 className="current-loc-display">{`Forecast for: ${locationDetails.properties.relativeLocation.geometry.coordinates[0]}, ${locationDetails.properties.relativeLocation.geometry.coordinates[1]}
-          near ${locationDetails.properties.relativeLocation.properties.city}, ${locationDetails.properties.relativeLocation.properties.state}`}</h2>
+                near ${locationDetails.properties.relativeLocation.properties.city}, ${locationDetails.properties.relativeLocation.properties.state}`}</h2>
               ) : (
                 <p className="loading-msg">Fetching your location</p>
               )}
+              {isLoading ? (
+                <p className="loading-msg">Loading forecast</p>
+              ) : null}
             </section>
             <section className="detailed-forecast">
               {createDetailedForecast()}

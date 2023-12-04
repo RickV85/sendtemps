@@ -70,6 +70,17 @@
   text-align: center;
 }
 
+.error-msg {
+  text-align: center;
+  width: 80vw;
+  margin: 10px;
+}
+
+.reload-page-button {
+  padding: clamp(2px, 1vw, 12px);
+  border-radius: 5px;
+}
+
 @media screen and (max-width: 600px) {
   h2 {
     font-size: 1.2rem;
