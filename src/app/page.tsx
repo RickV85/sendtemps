@@ -4,7 +4,7 @@ import "./home.css";
 import { useEffect, useState } from "react";
 import {
   fetchDailyForecastWithRetry,
-  fetchWeatherSelectedLocation,
+  fetchNoaaGridLocationWithRetry,
 } from "./Util/APICalls";
 import { Coords, ForecastData, LocationDetails } from "./Interfaces/interfaces";
 import LocationSelect from "./Components/LocationSelect/LocationSelect";
@@ -55,7 +55,7 @@ export default function Home() {
 
   useEffect(() => {
     if (selectedLocCoords) {
-      fetchWeatherSelectedLocation(selectedLocCoords)
+      fetchNoaaGridLocationWithRetry(selectedLocCoords)
         .then((result) => {
           setLocationDetails(result);
           setForecastUrl(result.properties.forecast);

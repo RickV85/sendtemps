@@ -76,7 +76,7 @@
   margin: 10px;
 }
 
-.reload-page-button {
+.reload-page-btn {
   padding: clamp(2px, 1vw, 12px);
   border-radius: 5px;
 }

@@ -1,13 +1,32 @@
 import { ForecastData } from "../Interfaces/interfaces";
 
-export function fetchWeatherSelectedLocation(coords: string) {
-  return fetch(`https://api.weather.gov/points/${coords}`).then((response) => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error();
+export async function fetchNoaaGridLocation(coords: string) {
+  const response = await fetch(`https://api.weather.gov/points/${coords}`);
+  if (!response.ok) {
+    throw new Error("Request to fetch location grid point failed.");
+  }
+  return response.json();
+}
+
+export async function fetchNoaaGridLocationWithRetry(
+  coords: string,
+  retries: number = 5,
+  delay: number = 2000
+) {
+  for (let i = 1; i <= retries; i++) {
+    try {
+      return await fetchNoaaGridLocation(coords);
+    } catch (err) {
+      console.error(
+        `Fetch NOAA grid location attempt ${i} failed for coordinates: ${coords}`
+      );
+      if (i === retries) {
+        throw new Error("All fetch NOAA grid location attempts failed.");
+      }
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
-  });
+  }
+  throw new Error();
 }
 
 export async function fetchDailyForecast(url: string): Promise<ForecastData> {
