@@ -21,7 +21,7 @@ export async function fetchNoaaGridLocationWithRetry(
         `Fetch NOAA grid location attempt ${i} failed for coordinates: ${coords}`
       );
       if (i === retries) {
-        throw new Error("All fetch NOAA grid location attempts failed.");
+        throw new Error(`All attempts to fetch NOAA grid location failed for coordinates: ${coords}.`);
       }
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
