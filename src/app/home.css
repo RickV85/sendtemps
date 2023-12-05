@@ -62,6 +62,16 @@
   margin: 2% 0% 2% 0%;
 }
 
+.day-forecast-header {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+
+.day-forecast-icon {
+  border-radius: 5px;
+}
+
 .loading-msg {
   color: rgb(209 0 255);
   font-size: 1.3rem;
