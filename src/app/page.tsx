@@ -45,6 +45,21 @@ export default function Home() {
     );
   }, []);
 
+  const getDefaultLocations = async () => {
+    try {
+      const response = await fetch("/api/default-locations");
+      const result = await response.json();
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.error("Get default locations request failed.");
+    }
+  };
+
+  useEffect(() => {
+    getDefaultLocations();
+  }, []);
+
   useEffect(() => {
     if (selectedLocType === "Current Location" && currentGPSCoords) {
       setSelectedLocCoords(
@@ -118,8 +133,16 @@ export default function Home() {
                 setSelectedLocCoords={setSelectedLocCoords}
               />
               {locationDetails ? (
-                <h2 className="current-loc-display">{`Forecast for: ${locationDetails.properties.relativeLocation.geometry.coordinates[1].toFixed(3)}, ${locationDetails.properties.relativeLocation.geometry.coordinates[0].toFixed(3)}
-                near ${locationDetails.properties.relativeLocation.properties.city}, ${locationDetails.properties.relativeLocation.properties.state}`}</h2>
+                <h2 className="current-loc-display">{`Forecast for: ${locationDetails.properties.relativeLocation.geometry.coordinates[1].toFixed(
+                  3
+                )}, ${locationDetails.properties.relativeLocation.geometry.coordinates[0].toFixed(
+                  3
+                )}
+                near ${
+                  locationDetails.properties.relativeLocation.properties.city
+                }, ${
+                  locationDetails.properties.relativeLocation.properties.state
+                }`}</h2>
               ) : (
                 <p className="loading-msg">Fetching your location</p>
               )}

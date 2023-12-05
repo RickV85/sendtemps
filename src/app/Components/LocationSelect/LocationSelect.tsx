@@ -17,9 +17,6 @@ export default function LocationSelect({
     setSelectedLocCoords(e.target.value);
   };
 
-  {
-    /* ADD THESE TO A DATA FILE AND MAP THEM TO CREATE */
-  }
   const createDisplayOptions = () => {
     let options;
     switch (selectedLocType) {
@@ -36,7 +33,6 @@ export default function LocationSelect({
               Upper BoCan
             </option>
             <option value={`40.002601,-105.297147`}>Flagstaff</option>
-            {/* N Flatirons doesn't work for some reason */}
             <option value={`39.98831961133335,-105.29584913855683`}>
               North Flatirons
             </option>
