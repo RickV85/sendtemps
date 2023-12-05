@@ -55,6 +55,8 @@ export default function LocationSelect({
     (locType: string) => {
       if (allLocationOptions.length <= 0) return;
       let options;
+      // Refactor to create these dynamically when all static data
+      // is gone to remove switch
       switch (locType) {
         case "climb":
           const rockClimbingOptions = filterAndSortLocationsAlphaByName(
@@ -64,13 +66,11 @@ export default function LocationSelect({
           options = mapLocationOptions(rockClimbingOptions);
           break;
         case "mtb":
-          options = (
-            <>
-              <option value={`39.81203821942002,-105.50553715534731`}>
-                Maryland Mountain
-              </option>
-            </>
+          const mtbClimbingOptions = filterAndSortLocationsAlphaByName(
+            allLocationOptions,
+            "mtb"
           );
+          options = mapLocationOptions(mtbClimbingOptions);
           break;
         case "ski":
           options = (

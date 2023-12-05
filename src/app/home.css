@@ -50,10 +50,6 @@
   align-items: center;
 }
 
-/* .current-loc-display {
-  margin-top: 1vh;
-} */
-
 .detailed-forecast {
   width: 90%;
 }
@@ -78,7 +74,6 @@
   font-weight: 600;
   width: 80vw;
   text-align: center;
-  margin-top: 1vh;
 }
 
 .error-msg {
