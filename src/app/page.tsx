@@ -45,21 +45,6 @@ export default function Home() {
     );
   }, []);
 
-  const getDefaultLocations = async () => {
-    try {
-      const response = await fetch("/api/default-locations");
-      const result = await response.json();
-      console.log(result);
-      return result;
-    } catch (error) {
-      console.error("Get default locations request failed.");
-    }
-  };
-
-  useEffect(() => {
-    getDefaultLocations();
-  }, []);
-
   useEffect(() => {
     if (selectedLocType === "Current Location" && currentGPSCoords) {
       setSelectedLocCoords(

@@ -1,16 +1,32 @@
-"use client"
+"use client";
 import { LocationSelectProps } from "../../Interfaces/interfaces";
 import { useState, useEffect } from "react";
+import { getAllDefaultLocations } from "@/app/Util/APICalls";
 
 export default function LocationSelect({
   setSelectedLocCoords,
   selectedLocType,
 }: LocationSelectProps) {
   const [selection, setSelection] = useState("");
+  const [allLocationOptions, setAllLocationOptions] = useState(undefined);
 
   useEffect(() => {
     setSelection("");
   }, [selectedLocType]);
+
+  useEffect(() => {
+    getAllDefaultLocations()
+      .then((response) => {
+        if (response) {
+          console.log(response);
+          setAllLocationOptions(response);
+        }
+      })
+      .catch((error) => {
+        // need to pass setError
+        console.error(error);
+      });
+  }, []);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelection(e.target.value);
