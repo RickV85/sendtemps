@@ -16,7 +16,6 @@ export default function Home() {
   const [selectedLocCoords, setSelectedLocCoords] = useState("");
   const [selectedLocType, setSelectedLocType] = useState("Current Location");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
-  const [forecastUrl, setForecastUrl] = useState("");
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +58,6 @@ export default function Home() {
       fetchNoaaGridLocationWithRetry(selectedLocCoords)
         .then((result) => {
           setLocationDetails(result);
-          setForecastUrl(result.properties.forecast);
         })
         .catch((err) => {
           console.error(err);
@@ -69,10 +67,10 @@ export default function Home() {
   }, [selectedLocCoords]);
 
   useEffect(() => {
-    if (forecastUrl) {
+    if (locationDetails?.properties.forecast) {
       setIsLoading(true);
 
-      fetchDailyForecastWithRetry(forecastUrl)
+      fetchDailyForecastWithRetry(locationDetails.properties.forecast)
         .then((result) => {
           setForecastData(result);
           setIsLoading(false);
@@ -83,11 +81,11 @@ export default function Home() {
           setIsLoading(false);
         });
     }
-  }, [forecastUrl]);
+  }, [locationDetails]);
 
   const createDetailedForecast = () => {
     const forecast = forecastData?.properties.periods.map((data, i) => {
-      return <DetailedDayForecast data={data} key={i} />;
+      return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
     });
     return forecast;
   };
@@ -97,7 +95,7 @@ export default function Home() {
       <div className="home-content">
         <h1>WeatherWise</h1>
         <p className="tagline">The best weather app of all time</p>
-        {/* Conditional loading if error */}
+        {/* Error ? load: */}
         {error ? (
           <>
             <p className="error-msg">{`An error occurred while fetching your forecast. 
@@ -111,6 +109,7 @@ export default function Home() {
           </>
         ) : (
           <>
+          {/* No error ? load: */}
             <section className="header-section">
               <TypeSelect setSelectedLocType={setSelectedLocType} />
               <LocationSelect
