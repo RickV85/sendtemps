@@ -152,7 +152,7 @@ export interface ForecastData {
 }
 
 export interface LocationObject {
-  def_loc_id: number;
+  id: number;
   latitude: string;
   longitude: string;
   name: string;

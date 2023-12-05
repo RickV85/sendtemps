@@ -42,7 +42,7 @@ export default function LocationSelect({
       return (
         <option
           value={`${loc.latitude},${loc.longitude}`}
-          key={`locId-${loc.def_loc_id}`}
+          key={`locId-${loc.id}`}
         >
           {loc.name}
         </option>
@@ -56,14 +56,14 @@ export default function LocationSelect({
       if (allLocationOptions.length <= 0) return;
       let options;
       switch (locType) {
-        case "Climbing":
+        case "climb":
           const rockClimbingOptions = filterAndSortLocationsAlphaByName(
             allLocationOptions,
-            "rock climbing"
+            "climb"
           );
           options = mapLocationOptions(rockClimbingOptions);
           break;
-        case "Mountain Biking":
+        case "mtb":
           options = (
             <>
               <option value={`39.81203821942002,-105.50553715534731`}>
@@ -72,7 +72,7 @@ export default function LocationSelect({
             </>
           );
           break;
-        case "Snowboarding":
+        case "ski":
           options = (
             <>
               <option value={`40.157534026830845,-105.56773211156882`}>

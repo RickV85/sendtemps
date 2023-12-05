@@ -61,7 +61,7 @@ export async function fetchDailyForecastWithRetry(
 
 export async function getAllDefaultLocations() {
   try {
-    const response = await fetch("/api/default-locations");
+    const response = await fetch("/api/default_locations");
     const result = await response.json();
     return result;
   } catch (error) {
