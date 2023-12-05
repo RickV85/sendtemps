@@ -118,7 +118,7 @@ export default function Home() {
                 setSelectedLocCoords={setSelectedLocCoords}
               />
               {locationDetails ? (
-                <h2 className="current-loc-display">{`Forecast for: ${locationDetails.properties.relativeLocation.geometry.coordinates[0]}, ${locationDetails.properties.relativeLocation.geometry.coordinates[1]}
+                <h2 className="current-loc-display">{`Forecast for: ${locationDetails.properties.relativeLocation.geometry.coordinates[1].toFixed(3)}, ${locationDetails.properties.relativeLocation.geometry.coordinates[0].toFixed(3)}
                 near ${locationDetails.properties.relativeLocation.properties.city}, ${locationDetails.properties.relativeLocation.properties.state}`}</h2>
               ) : (
                 <p className="loading-msg">Fetching your location</p>
