@@ -10,87 +10,87 @@ export interface LocationDetails {
     string,
     {
       "@version": string;
-      "wx": string;
-      "s": string;
-      "geo": string;
-      "unit": string;
+      wx: string;
+      s: string;
+      geo: string;
+      unit: string;
       "@vocab": string;
-      "geometry": {
+      geometry: {
         "@id": string;
         "@type": string;
       };
-      "city": string;
-      "state": string;
-      "distance": {
+      city: string;
+      state: string;
+      distance: {
         "@id": string;
         "@type": string;
       };
-      "bearing": {
+      bearing: {
         "@type": string;
       };
-      "value": {
+      value: {
         "@id": string;
       };
-      "unitCode": {
+      unitCode: {
         "@id": string;
         "@type": string;
       };
-      "forecastOffice": {
+      forecastOffice: {
         "@type": string;
       };
-      "forecastGridData": {
+      forecastGridData: {
         "@type": string;
       };
-      "publicZone": {
+      publicZone: {
         "@type": string;
       };
-      "county": {
+      county: {
         "@type": string;
       };
     }
   ];
-  "id": string;
-  "type": string;
-  "geometry": {
-    "type": string;
-    "coordinates": number[];
+  id: string;
+  type: string;
+  geometry: {
+    type: string;
+    coordinates: number[];
   };
-  "properties": {
+  properties: {
     "@id": string;
     "@type": string;
-    "cwa": string;
-    "forecastOffice": string;
-    "gridId": string;
-    "gridX": number;
-    "gridY": number;
-    "forecast": string;
-    "forecastHourly": string;
-    "forecastGridData": string;
-    "observationStations": string;
-    "relativeLocation": {
-      "type": string;
-      "geometry": {
-        "type": string;
-        "coordinates": number[];
+    cwa: string;
+    forecastOffice: string;
+    gridId: string;
+    gridX: number;
+    gridY: number;
+    forecast: string;
+    forecastHourly: string;
+    forecastGridData: string;
+    observationStations: string;
+    relativeLocation: {
+      type: string;
+      geometry: {
+        type: string;
+        coordinates: number[];
       };
-      "properties": {
-        "city": string;
-        "state": string;
-        "distance": {
-          "unitCode": string;
-          "value": number;
+      properties: {
+        city: string;
+        state: string;
+        distance: {
+          unitCode: string;
+          value: number;
         };
-        "bearing": {
-          "unitCode": string;
-          "value": number;
+        bearing: {
+          unitCode: string;
+          value: number;
         };
       };
     };
-    "forecastZone": string;
-    "county": string;
-    "fireWeatherZone": string;
-    "timeZone": string;
-    "radarStation": string;
+    forecastZone: string;
+    county: string;
+    fireWeatherZone: string;
+    timeZone: string;
+    radarStation: string;
   };
 }
 
@@ -149,6 +149,14 @@ export interface ForecastData {
       detailedForecast: string;
     }[];
   };
+}
+
+export interface LocationObject {
+  def_loc_id: number;
+  latitude: string;
+  longitude: string;
+  name: string;
+  poi_type: string;
 }
 
 export interface LocationSelectProps {

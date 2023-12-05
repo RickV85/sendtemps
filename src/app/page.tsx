@@ -119,9 +119,9 @@ export default function Home() {
               />
               {locationDetails ? (
                 <h2 className="current-loc-display">{`Forecast for: ${locationDetails.properties.relativeLocation.geometry.coordinates[1].toFixed(
-                  3
+                  4
                 )}, ${locationDetails.properties.relativeLocation.geometry.coordinates[0].toFixed(
-                  3
+                  4
                 )}
                 near ${
                   locationDetails.properties.relativeLocation.properties.city
