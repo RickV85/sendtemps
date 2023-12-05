@@ -93,11 +93,11 @@
 
 @media screen and (max-width: 600px) {
   h2 {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   h3 {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
   }
 
   p {
@@ -106,5 +106,14 @@
 
   select {
     font-size: 0.8rem !important;
+  }
+
+  .detailed-forecast {
+    width: 97%;
+  }
+
+  .day-forecast-icon {
+    height: 40px;
+    width: 40px;
   }
 }
