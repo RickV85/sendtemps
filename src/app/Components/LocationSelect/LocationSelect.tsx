@@ -61,7 +61,7 @@ export default function LocationSelect({
             allLocationOptions,
             "rock climbing"
           );
-          options = <>{mapLocationOptions(rockClimbingOptions)}</>;
+          options = mapLocationOptions(rockClimbingOptions);
           break;
         case "Mountain Biking":
           options = (
