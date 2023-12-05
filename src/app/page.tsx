@@ -24,13 +24,14 @@ export default function Home() {
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
       latitude: `${position.coords.latitude}`,
-      longitude: `${position.coords.longitude}`,
+      longitude: `${position.coords.longitude}`
     });
   };
 
   const locationFetchFailure = () => {
     setError(
-      "There was an error using your current location. Please allow this site to access your location or reload the page to try again."
+      `There was an error using your current location. 
+      Please allow this site to access your location or reload the page to try again.`
     );
     setTimeout(() => {
       setError("");
@@ -59,7 +60,6 @@ export default function Home() {
         .then((result) => {
           setLocationDetails(result);
           setForecastUrl(result.properties.forecast);
-          console.log(result);
         })
         .catch((err) => {
           console.error(err);
@@ -70,7 +70,6 @@ export default function Home() {
 
   useEffect(() => {
     if (forecastUrl) {
-      console.log(forecastUrl);
       setIsLoading(true);
 
       fetchDailyForecastWithRetry(forecastUrl)
@@ -101,7 +100,8 @@ export default function Home() {
         {/* Conditional loading if error */}
         {error ? (
           <>
-            <p className="error-msg">{`An error occurred while fetching your forecast. Please reload the page and try your request again. ${error}`}</p>
+            <p className="error-msg">{`An error occurred while fetching your forecast. 
+            Please reload the page and try your request again. ${error}`}</p>
             <button
               className="reload-page-btn"
               onClick={() => window.location.reload()}
@@ -117,7 +117,7 @@ export default function Home() {
                 selectedLocType={selectedLocType}
                 setSelectedLocCoords={setSelectedLocCoords}
               />
-              {locationDetails ? (
+              {locationDetails && !isLoading ? (
                 <h2 className="current-loc-display">{`Forecast for: ${locationDetails.properties.relativeLocation.geometry.coordinates[1].toFixed(
                   4
                 )}, ${locationDetails.properties.relativeLocation.geometry.coordinates[0].toFixed(
@@ -128,12 +128,7 @@ export default function Home() {
                 }, ${
                   locationDetails.properties.relativeLocation.properties.state
                 }`}</h2>
-              ) : (
-                <p className="loading-msg">Fetching your location</p>
-              )}
-              {isLoading ? (
-                <p className="loading-msg">Loading forecast</p>
-              ) : null}
+              ) : <p className="loading-msg">Loading forecast</p>}
             </section>
             <section className="detailed-forecast">
               {createDetailedForecast()}

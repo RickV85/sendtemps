@@ -37,7 +37,7 @@ export default function LocationSelect({
     setSelectedLocCoords(e.target.value);
   };
 
-  function mapLocationOptions(locArr: Array<LocationObject>) {
+  const mapLocationOptions = useCallback((locArr: Array<LocationObject>) => {
     const mappedOptions = locArr.map((loc: LocationObject) => {
       return (
         <option
@@ -47,53 +47,55 @@ export default function LocationSelect({
           {loc.name}
         </option>
       );
-    })
+    });
     return mappedOptions;
-  }
+  }, []);
 
-  const createDisplayOptions = useCallback((locType: string) => {
-    if (allLocationOptions.length <= 0) return;
-    let options;
-    switch (locType) {
-      case "Climbing":
-        const rockClimbingOptions = filterAndSortLocationsAlphaByName(allLocationOptions, "rock climbing");
-        options = (
-          <>
-            {mapLocationOptions(rockClimbingOptions)}
-          </>
-        );
-        break;
-      case "Mountain Biking":
-        options = (
-          <>
-            <option value={`39.81203821942002,-105.50553715534731`}>
-              Maryland Mountain
-            </option>
-          </>
-        );
-        break;
-      case "Snowboarding":
-        options = (
-          <>
-            <option value={`40.157534026830845,-105.56773211156882`}>
-              Ski Road
-            </option>
-          </>
-        );
-        break;
-      case "Other Favorites":
-        options = (
-          <>
-            <option value={"40.017122873300956,-105.08883257979652"}>
-              Home
-            </option>
-          </>
-        );
-        break;
-    }
+  const createDisplayOptions = useCallback(
+    (locType: string) => {
+      if (allLocationOptions.length <= 0) return;
+      let options;
+      switch (locType) {
+        case "Climbing":
+          const rockClimbingOptions = filterAndSortLocationsAlphaByName(
+            allLocationOptions,
+            "rock climbing"
+          );
+          options = <>{mapLocationOptions(rockClimbingOptions)}</>;
+          break;
+        case "Mountain Biking":
+          options = (
+            <>
+              <option value={`39.81203821942002,-105.50553715534731`}>
+                Maryland Mountain
+              </option>
+            </>
+          );
+          break;
+        case "Snowboarding":
+          options = (
+            <>
+              <option value={`40.157534026830845,-105.56773211156882`}>
+                Ski Road
+              </option>
+            </>
+          );
+          break;
+        case "Other Favorites":
+          options = (
+            <>
+              <option value={"40.017122873300956,-105.08883257979652"}>
+                Home
+              </option>
+            </>
+          );
+          break;
+      }
 
-    return options;
-  }, [allLocationOptions]);
+      return options;
+    },
+    [allLocationOptions, mapLocationOptions]
+  );
 
   useEffect(() => {
     const options = createDisplayOptions(selectedLocType);
