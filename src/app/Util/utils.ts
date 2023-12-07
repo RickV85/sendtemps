@@ -1,6 +1,6 @@
 import { LocationObject } from "../Interfaces/interfaces";
 
-export function filterAndSortLocationsAlphaByName(locArr: Array<LocationObject>, selectedType: string) {
+export function filterAndSortLocationsAlphaByName(locArr: Array<LocationObject>, selectedType: string): Array<LocationObject> {
   const filteredSortedLocations = locArr
     .filter((loc) => loc.poi_type === selectedType)
     .sort((a, b) => {

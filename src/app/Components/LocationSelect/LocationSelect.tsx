@@ -3,7 +3,7 @@ import {
   LocationSelectProps,
   LocationObject,
 } from "../../Interfaces/interfaces";
-import { useState, useEffect, ReactNode, useCallback } from "react";
+import { useState, useEffect, ReactNode, useCallback, ReactElement } from "react";
 import { getAllDefaultLocations } from "@/app/Util/APICalls";
 import { filterAndSortLocationsAlphaByName } from "@/app/Util/utils";
 
@@ -37,9 +37,9 @@ export default function LocationSelect({
     setSelectedLocCoords(e.target.value);
   };
 
-  const mapLocationOptions = useCallback((locArr: Array<LocationObject>) => {
+  const mapLocationOptions = useCallback((locArr: Array<LocationObject>): Array<ReactElement> => {
     const mappedOptions = locArr.map((loc: LocationObject) => {
-      return (
+      const optElement: ReactElement = (
         <option
           value={`${loc.latitude},${loc.longitude}`}
           key={`locId-${loc.id}`}
@@ -47,6 +47,7 @@ export default function LocationSelect({
           {loc.name}
         </option>
       );
+      return optElement;
     });
     return mappedOptions;
   }, []);
@@ -54,45 +55,12 @@ export default function LocationSelect({
   const createDisplayOptions = useCallback(
     (locType: string) => {
       if (allLocationOptions.length <= 0) return;
-      let options;
-      // Refactor to create these dynamically when all static data
-      // is gone to remove switch
-      switch (locType) {
-        case "climb":
-          const rockClimbingOptions = filterAndSortLocationsAlphaByName(
-            allLocationOptions,
-            "climb"
-          );
-          options = mapLocationOptions(rockClimbingOptions);
-          break;
-        case "mtb":
-          const mtbClimbingOptions = filterAndSortLocationsAlphaByName(
-            allLocationOptions,
-            "mtb"
-          );
-          options = mapLocationOptions(mtbClimbingOptions);
-          break;
-        case "ski":
-          options = (
-            <>
-              <option value={`40.157534026830845,-105.56773211156882`}>
-                Ski Road
-              </option>
-            </>
-          );
-          break;
-        case "Other Favorites":
-          options = (
-            <>
-              <option value={"40.017122873300956,-105.08883257979652"}>
-                Home
-              </option>
-            </>
-          );
-          break;
-      }
-
-      return options;
+      const options = filterAndSortLocationsAlphaByName(
+        allLocationOptions,
+        locType
+      );
+      const optionElements = mapLocationOptions(options);
+      return optionElements;
     },
     [allLocationOptions, mapLocationOptions]
   );

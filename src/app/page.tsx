@@ -37,6 +37,7 @@ export default function Home() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     navigator.geolocation.getCurrentPosition(
       locationFetchSuccess,
       locationFetchFailure

@@ -1,5 +1,7 @@
 import { ForecastData } from "../Interfaces/interfaces";
 
+// NOAA API CALLS
+
 export async function fetchNoaaGridLocation(coords: string) {
   const response = await fetch(`https://api.weather.gov/points/${coords}`);
   if (!response.ok) {
@@ -58,6 +60,15 @@ export async function fetchDailyForecastWithRetry(
   throw new Error();
 }
 
+// VERCEL POSTGRES DB CALLS
+
+// For immediate DB update, bypass caching with this header:
+// {
+//   headers: {
+//     'Cache-Control': 'no-cache'
+//   },
+//   cache: "no-cache"
+// }
 
 export async function getAllDefaultLocations() {
   try {
