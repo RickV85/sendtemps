@@ -11,7 +11,9 @@ const TypeSelect: React.FC<TypeSelectProps> = ({
       <option value="climb">Climbing</option>
       <option value="mtb">Mountain Biking</option>
       <option value="ski">Skiing / Snowboarding</option>
-      <option value="Other Favorites">Other Favorites</option>
+      {/* Disabled "Other Favorites" - reenable once functionality
+      for user created locations is created */}
+      {/* <option value="Other Favorites">Other Favorites</option> */}
     </>
   );
 
