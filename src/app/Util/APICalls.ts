@@ -1,5 +1,7 @@
 import { ForecastData } from "../Interfaces/interfaces";
 
+// NOAA API CALLS
+
 export async function fetchNoaaGridLocation(coords: string) {
   const response = await fetch(`https://api.weather.gov/points/${coords}`);
   if (!response.ok) {
@@ -57,3 +59,23 @@ export async function fetchDailyForecastWithRetry(
   }
   throw new Error();
 }
+
+// VERCEL POSTGRES DB CALLS
+
+// For immediate DB update, bypass caching with this header:
+// {
+//   headers: {
+//     'Cache-Control': 'no-cache'
+//   },
+//   cache: "no-cache"
+// }
+
+export async function getAllDefaultLocations() {
+  try {
+    const response = await fetch("/api/default_locations");
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Get default locations request failed.");
+  }
+};

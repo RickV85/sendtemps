@@ -1,94 +1,74 @@
-"use client"
-import { LocationSelectProps } from "../../Interfaces/interfaces";
-import { useState, useEffect } from "react";
+"use client";
+import {
+  LocationSelectProps,
+  LocationObject,
+} from "../../Interfaces/interfaces";
+import { useState, useEffect, ReactNode, useCallback, ReactElement } from "react";
+import { getAllDefaultLocations } from "@/app/Util/APICalls";
+import { filterAndSortLocationsAlphaByName } from "@/app/Util/utils";
 
 export default function LocationSelect({
   setSelectedLocCoords,
   selectedLocType,
 }: LocationSelectProps) {
   const [selection, setSelection] = useState("");
+  const [allLocationOptions, setAllLocationOptions] = useState([]);
+  const [displayOptions, setDisplayOptions] = useState<ReactNode>();
 
   useEffect(() => {
     setSelection("");
   }, [selectedLocType]);
+
+  useEffect(() => {
+    getAllDefaultLocations()
+      .then((response) => {
+        if (response) {
+          setAllLocationOptions(response);
+        }
+      })
+      .catch((error) => {
+        // need to pass setError
+        console.error(error);
+      });
+  }, []);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelection(e.target.value);
     setSelectedLocCoords(e.target.value);
   };
 
-  {
-    /* ADD THESE TO A DATA FILE AND MAP THEM TO CREATE */
-  }
-  const createDisplayOptions = () => {
-    let options;
-    switch (selectedLocType) {
-      case "Climbing":
-        options = (
-          <>
-            <option value={`40.00448179512719,-105.35580040554191`}>
-              Lower BoCan
-            </option>
-            <option value={`40.00593496131527,-105.40944467300872`}>
-              Middle BoCan
-            </option>
-            <option value={`39.977033107953744,-105.45843127551137`}>
-              Upper BoCan
-            </option>
-            <option value={`40.002601,-105.297147`}>Flagstaff</option>
-            {/* N Flatirons doesn't work for some reason */}
-            <option value={`39.98831961133335,-105.29584913855683`}>
-              North Flatirons
-            </option>
-            <option value={`39.975220034304584,-105.28993821568915`}>
-              Middle Flatirons
-            </option>
-            <option value={`39.95465211561836,-105.28848226770084`}>
-              South Flatirons
-            </option>
-            <option value={`39.933209521423514,-105.28935940451142`}>
-              Eldorado Canyon
-            </option>
-            <option value={`39.73754560925745,-105.31547452836261`}>
-              Lower CCC
-            </option>
-            <option value={`39.74535727604811,-105.4051450280658`}>
-              Upper CCC
-            </option>
-          </>
-        );
-        break;
-      case "Mountain Biking":
-        options = (
-          <>
-            <option value={`39.81203821942002,-105.50553715534731`}>
-              Maryland Mountain
-            </option>
-          </>
-        );
-        break;
-      case "Snowboarding":
-        options = (
-          <>
-            <option value={`40.157534026830845,-105.56773211156882`}>
-              Ski Road
-            </option>
-          </>
-        );
-        break;
-      case "Other Favorites":
-        options = (
-          <>
-            <option value={"40.017122873300956,-105.08883257979652"}>
-              Home
-            </option>
-          </>
-        );
-        break;
-    }
+  const mapLocationOptions = useCallback((locArr: Array<LocationObject>): Array<ReactElement> => {
+    const mappedOptions = locArr.map((loc: LocationObject) => {
+      const optElement: ReactElement = (
+        <option
+          value={`${loc.latitude},${loc.longitude}`}
+          key={`locId-${loc.id}`}
+        >
+          {loc.name}
+        </option>
+      );
+      return optElement;
+    });
+    return mappedOptions;
+  }, []);
 
-    return options;
-  };
+  const createDisplayOptions = useCallback(
+    (locType: string) => {
+      if (allLocationOptions.length <= 0) return;
+      const options = filterAndSortLocationsAlphaByName(
+        allLocationOptions,
+        locType
+      );
+      const optionElements = mapLocationOptions(options);
+      return optionElements;
+    },
+    [allLocationOptions, mapLocationOptions]
+  );
+
+  useEffect(() => {
+    const options = createDisplayOptions(selectedLocType);
+    setDisplayOptions(options);
+  }, [selectedLocType, createDisplayOptions]);
 
   if (selectedLocType !== "Current Location") {
     return (
@@ -102,7 +82,7 @@ export default function LocationSelect({
           <option value="" disabled>
             Select location
           </option>
-          {createDisplayOptions()}
+          {displayOptions}
         </select>
       </div>
     );
