@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+
 import { TypeSelectProps } from "../../Interfaces/interfaces";
 
 const TypeSelect: React.FC<TypeSelectProps> = ({
