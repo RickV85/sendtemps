@@ -160,7 +160,7 @@ export interface LocationObject {
 }
 
 export interface LocationSelectProps {
-  setSelectedLocCoords: Dispatch<SetStateAction<string>>;
+  setSelectedLocCoords: Dispatch<SetStateAction<string | undefined>>;
   selectedLocType: string;
 }
 

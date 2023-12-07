@@ -13,8 +13,8 @@ import TypeSelect from "./Components/TypeSelect/TypeSelect";
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
-  const [selectedLocCoords, setSelectedLocCoords] = useState("");
-  const [selectedLocType, setSelectedLocType] = useState("Current Location");
+  const [selectedLocCoords, setSelectedLocCoords] = useState<string | undefined>();
+  const [selectedLocType, setSelectedLocType] = useState<string>("Current Location");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
@@ -23,22 +23,20 @@ export default function Home() {
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
       latitude: `${position.coords.latitude}`,
-      longitude: `${position.coords.longitude}`
+      longitude: `${position.coords.longitude}`,
     });
+    setSelectedLocCoords(
+      `${position.coords.latitude},${position.coords.longitude}`
+    );
   };
 
   const locationFetchFailure = () => {
-    setError(
-      `There was an error using your current location. 
-      Please allow this site to access your location or reload the page to try again.`
+    alert(
+      "Please consider allowing this app to use your location for an immediate display of your current location's forecast."
     );
-    setTimeout(() => {
-      setError("");
-    }, 3000);
   };
 
   useEffect(() => {
-    setIsLoading(true);
     navigator.geolocation.getCurrentPosition(
       locationFetchSuccess,
       locationFetchFailure
@@ -109,9 +107,9 @@ export default function Home() {
           </>
         ) : (
           <>
-          {/* No error ? load: */}
+            {/* No error ? load: */}
             <section className="header-section">
-              <TypeSelect setSelectedLocType={setSelectedLocType} />
+              <TypeSelect setSelectedLocType={setSelectedLocType} currentGPSCoords={currentGPSCoords} />
               <LocationSelect
                 selectedLocType={selectedLocType}
                 setSelectedLocCoords={setSelectedLocCoords}
@@ -127,7 +125,10 @@ export default function Home() {
                 }, ${
                   locationDetails.properties.relativeLocation.properties.state
                 }`}</h2>
-              ) : <p className="loading-msg">Loading forecast</p>}
+              ) : null}
+              {isLoading ? (
+                <p className="loading-msg">Loading forecast</p>
+              ) : null}
             </section>
             <section className="detailed-forecast">
               {createDetailedForecast()}
