@@ -1,5 +1,4 @@
 .home-main {
-  max-width: 1600px;
   width: 100vw;
   min-height: 100vh;
   display: flex;
@@ -9,7 +8,6 @@
 }
 
 .home-content {
-  max-width: 1600px;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -101,9 +99,9 @@
 }
 
 .detailed-forecast {
-  width: 100%;
-  margin: 0% 2% 0% 2%;
-  /* border-bottom: 1px solid #00b2ff; */
+  padding: 0% 2% 0% 2%;
+  border-bottom: 1px solid #00b2ff;
+  min-height: -webkit-fill-available;
 }
 
 .detailed-day-forecast {
