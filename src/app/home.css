@@ -52,8 +52,8 @@
   align-items: center;
   gap: 1rem;
   width: 100vw;
+  min-height: 10vh;
   text-align: center;
-  margin: 0rem auto 0rem auto;
   padding: 1rem 0rem 1rem 0rem;
   border-top: 1px solid #00b2ff;
   border-bottom: 1px solid #00b2ff;
@@ -101,7 +101,7 @@
 .detailed-forecast {
   padding: 0% 2% 0% 2%;
   border-bottom: 1px solid #00b2ff;
-  min-height: -webkit-fill-available;
+  min-height: 70dvh;
 }
 
 .detailed-day-forecast {
