@@ -23,7 +23,9 @@ export async function fetchNoaaGridLocationWithRetry(
         `Fetch NOAA grid location attempt ${i} failed for coordinates: ${coords}`
       );
       if (i === retries) {
-        throw new Error(`All attempts to fetch NOAA grid location failed for coordinates: ${coords}.`);
+        throw new Error(
+          `All attempts to fetch NOAA grid location failed for coordinates: ${coords}.`
+        );
       }
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
@@ -63,19 +65,21 @@ export async function fetchDailyForecastWithRetry(
 // VERCEL POSTGRES DB CALLS
 
 // For immediate DB update, bypass caching with this header:
-// {
-//   headers: {
-//     'Cache-Control': 'no-cache'
-//   },
-//   cache: "no-cache"
-// }
+// { cache: "no-store" }
+// Otherwise use Next revalidation time in seconds:
+// { next: { revalidate: 3600 } }
+// which validates data at maximum once an hour
 
 export async function getAllDefaultLocations() {
   try {
-    const response = await fetch("/api/default_locations");
+    const response = await fetch("/api/default_locations", {
+      next: {
+        revalidate: 3600
+      }
+    });
     const result = await response.json();
     return result;
   } catch (error) {
     console.error("Get default locations request failed.");
   }
-};
+}
