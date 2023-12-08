@@ -107,7 +107,7 @@ export default function Home() {
           />
         </div>
       </header>
-      <section className="home-forecast-section">
+      <section className="home-main-display">
         <section className="type-location-section">
           <TypeSelect
             setSelectedLocType={setSelectedLocType}
@@ -133,8 +133,8 @@ export default function Home() {
         ) : (
           <>
             {/* No error ? load: */}
-            {isLoading ? <p className="loading-msg">Loading forecast</p> : null}
-            <section className="detailed-forecast">
+            {isLoading ? <p className="loading-msg">Loading forecast...</p> : null}
+            <section className="forecast-section">
               {createDetailedForecast()}
             </section>
           </>
