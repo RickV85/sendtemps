@@ -58,6 +58,7 @@ export default function Home() {
 
   useEffect(() => {
     if (selectedLocCoords) {
+      setIsLoading(true);
       fetchNoaaGridLocationWithRetry(selectedLocCoords)
         .then((result) => {
           setLocationDetails(result);
@@ -112,10 +113,12 @@ export default function Home() {
           <TypeSelect
             setSelectedLocType={setSelectedLocType}
             currentGPSCoords={currentGPSCoords}
+            setForecastData={setForecastData}
           />
           <LocationSelect
             selectedLocType={selectedLocType}
             setSelectedLocCoords={setSelectedLocCoords}
+            setForecastData={setForecastData}
           />
         </section>
         {/* Error ? load: */}
@@ -133,9 +136,11 @@ export default function Home() {
         ) : (
           <>
             {/* No error ? load: */}
-            {isLoading ? <p className="loading-msg">Loading forecast...</p> : null}
             <section className="forecast-section">
-              {createDetailedForecast()}
+              {isLoading ? (
+                <p className="loading-msg">Loading forecast...</p>
+              ) : null}
+              {forecastData ? createDetailedForecast() : null}
             </section>
           </>
         )}

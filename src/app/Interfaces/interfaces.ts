@@ -159,12 +159,14 @@ export interface LocationObject {
   poi_type: string;
 }
 
-export interface LocationSelectProps {
-  setSelectedLocCoords: Dispatch<SetStateAction<string | undefined>>;
-  selectedLocType: string;
+export interface TypeSelectProps {
+  setSelectedLocType: Dispatch<SetStateAction<string>>;
+  setForecastData: Dispatch<SetStateAction<ForecastData | undefined>>;
+  currentGPSCoords?: Coords;
 }
 
-export interface TypeSelectProps {
-  currentGPSCoords?: Coords;
-  setSelectedLocType: Dispatch<SetStateAction<string>>;
+export interface LocationSelectProps {
+  setSelectedLocCoords: Dispatch<SetStateAction<string | undefined>>;
+  setForecastData: Dispatch<SetStateAction<ForecastData | undefined>>;
+  selectedLocType: string;
 }

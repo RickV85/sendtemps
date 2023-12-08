@@ -5,6 +5,7 @@ import { TypeSelectProps } from "../../Interfaces/interfaces";
 const TypeSelect: React.FC<TypeSelectProps> = ({
   setSelectedLocType,
   currentGPSCoords,
+  setForecastData
 }) => {
   const poiTypeOptions = (
     <>
@@ -22,6 +23,7 @@ const TypeSelect: React.FC<TypeSelectProps> = ({
       <select
         className="type-select"
         onChange={(e) => {
+          setForecastData(undefined);
           setSelectedLocType(e.target.value);
         }}
         defaultValue={"Current Location"}
