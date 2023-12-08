@@ -92,8 +92,7 @@ export default function Home() {
   return (
     <main className="home-main">
       <div className="home-content">
-        <h1>WeatherWise</h1>
-        <p className="tagline">The best weather app of all time</p>
+        <h1 className="site-title">SendTemps</h1>
         {/* Error ? load: */}
         {error ? (
           <>

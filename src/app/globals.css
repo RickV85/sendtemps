@@ -15,8 +15,10 @@ body {
 }
 
 body {
-  background: linear-gradient(-65deg, #00ff33, #00d0ff);
-  font-family: Verdana, Tahoma, sans-serif;
+  background-color: #2A3C43;
+  font-family: var(--font-hanuman);
+  color: #ffffff;
+  font-size: 13px;
   line-height: 1.5;
 }
 
