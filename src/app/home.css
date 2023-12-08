@@ -19,20 +19,27 @@
 .home-header {
   position: sticky;
   top: 0;
-  z-index: 0;
+  z-index: -1;
 }
 
 .hero-img-div {
   height: 20vh;
   width: 100vw;
   position: relative;
-  z-index: 1;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .site-title {
   font-family: var(--font-fugazOne);
   position: relative;
-  z-index: 2;
+  z-index: 1;
+  color: #ffffff00;
+  font-size: 48px;
+  -webkit-text-stroke: .5px #00B2FF;
 }
 
 .header-bkgd-img {
@@ -52,7 +59,7 @@
 
 .home-forecast-section {
   position: relative;
-  z-index: 5;
+  z-index: 3;
   background-color: #2A3C43;
 }
 
@@ -115,7 +122,9 @@
   border-radius: 5px;
 }
 
-@media screen and (max-width: 600px) {
+/* Change to Desktop breakpoint */
+
+/* @media screen and (max-width: 600px) {
   h2 {
     font-size: 1rem;
   }
@@ -140,4 +149,4 @@
     height: 55px;
     width: 55px;
   }
-}
+} */
