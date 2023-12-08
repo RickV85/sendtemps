@@ -20,6 +20,9 @@ body {
   color: #ffffff;
   font-size: 13px;
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: 400;
 }
 
 a {
