@@ -21,10 +21,15 @@ const DetailedDayForecast: React.FC<Props> = ({ data }) => {
           alt="weather icon"
           className="day-forecast-icon"
         />
-        <h3>{data.name}</h3>
+        <h3 className="day-header-text">{data.name}</h3>
         <div className="humidity-div">
-          <p>RH:{" "}
-          {data.relativeHumidity.value}%</p>
+          <p>{data.relativeHumidity.value}%</p>
+          <Image 
+            src={"/icons/icons8-humidity-48.png"}
+            alt="Humidity icon"
+            height={24}
+            width={24}
+          />
         </div>
       </div>
         <p className="day-forecast-text">

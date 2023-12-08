@@ -52,7 +52,6 @@
   align-items: center;
   gap: 1rem;
   width: 100vw;
-  min-height: 10vh;
   text-align: center;
   padding: 1rem 0rem 1rem 0rem;
   border-top: 1px solid #00b2ff;
@@ -79,21 +78,19 @@
   width: 90vw;
   height: 3rem;
   background-color: transparent;
-  /* Removes BG bubble appearance in Safari */
-  appearance: initial;
   border: 1px solid #00b3ff;
   border-radius: 5px;
 
   font-family: var(--font-fugazOne);
   font-weight: 400;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   text-align: center;
   text-align-last: center;
   color: #ffffff;
 }
 
 .location-select {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
 }
 
 .type-select-div {
@@ -102,27 +99,45 @@
 }
 
 .forecast-section {
-  padding: 0% 2% 0% 2%;
+  padding: 2%;
   border-bottom: 1px solid #00b2ff;
-  min-height: 70dvh;
+  min-height: 80dvh;
 }
 
 .detailed-day-forecast {
   margin: 2% 0% 2% 0%;
   border-radius: 3px;
   border: 1px solid #9FAF90;
-  padding: 1rem;
+  padding: .5rem;
 }
 
 .day-forecast-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1vw;
+  margin-bottom: .5rem;
+}
+
+.day-header-text {
+  font-family: var(--font-fugazOne);
+  font-size: 1.5rem;
+  font-weight: 400;
 }
 
 .day-forecast-icon {
   border-radius: 5px;
+}
+
+.humidity-div {
+  display: flex;
+  align-items: center;
+}
+
+.humidity-div p {
+  font-weight: 600;
+  font-size: 1.2rem;
+  position: relative;
+  top: 3px;
 }
 
 .loading-msg {
