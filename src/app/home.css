@@ -35,11 +35,11 @@
 
 .site-title {
   font-family: var(--font-fugazOne);
-  position: relative;
   z-index: 1;
   color: #ffffff00;
   font-size: 48px;
-  -webkit-text-stroke: .5px #00B2FF;
+  font-weight: 400;
+  -webkit-text-stroke: 1px #00B2FF;
 }
 
 .header-bkgd-img {
@@ -58,7 +58,6 @@
 
 
 .home-forecast-section {
-  position: relative;
   z-index: 3;
   background-color: #2A3C43;
 }
