@@ -1,8 +1,11 @@
 .home-main {
+  max-width: 1600px;
+  width: 100vw;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
+  position: absolute;
 }
 
 .home-content {
@@ -13,7 +16,31 @@
   align-items: center;
 }
 
-.header-section {
+.home-header {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+}
+
+.hero-img-div {
+  height: 20vh;
+  width: 100vw;
+  position: relative;
+  z-index: 1;
+}
+
+.site-title {
+  font-family: var(--font-fugazOne);
+  position: relative;
+  z-index: 2;
+}
+
+.header-bkgd-img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.type-location-select-section {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,8 +49,11 @@
   text-align: center;
 }
 
-.site-title {
-  font-family: var(--font-fugazOne);
+
+.home-forecast-section {
+  position: relative;
+  z-index: 5;
+  background-color: #2A3C43;
 }
 
 .location-div {

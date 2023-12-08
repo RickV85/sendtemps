@@ -1,6 +1,7 @@
 "use client";
 
 import "./home.css";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
   fetchDailyForecastWithRetry,
@@ -13,8 +14,11 @@ import TypeSelect from "./Components/TypeSelect/TypeSelect";
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
-  const [selectedLocCoords, setSelectedLocCoords] = useState<string | undefined>();
-  const [selectedLocType, setSelectedLocType] = useState<string>("Current Location");
+  const [selectedLocCoords, setSelectedLocCoords] = useState<
+    string | undefined
+  >();
+  const [selectedLocType, setSelectedLocType] =
+    useState<string>("Current Location");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
@@ -91,8 +95,29 @@ export default function Home() {
 
   return (
     <main className="home-main">
-      <div className="home-content">
-        <h1 className="site-title">SendTemps</h1>
+      <header className="home-header">
+        <div className="hero-img-div">
+          <h1 className="site-title">SendTemps</h1>
+          <Image
+            src={"/images/sendtemps_header.webp"}
+            alt="Boulder Flatirons background with rock climber silhouette in foreground"
+            fill={true}
+            priority={true}
+            className="header-bkgd-img"
+          />
+        </div>
+      </header>
+      <section className="home-forecast-section">
+        <section className="type-location-select-section">
+          <TypeSelect
+            setSelectedLocType={setSelectedLocType}
+            currentGPSCoords={currentGPSCoords}
+          />
+          <LocationSelect
+            selectedLocType={selectedLocType}
+            setSelectedLocCoords={setSelectedLocCoords}
+          />
+        </section>
         {/* Error ? load: */}
         {error ? (
           <>
@@ -108,34 +133,13 @@ export default function Home() {
         ) : (
           <>
             {/* No error ? load: */}
-            <section className="header-section">
-              <TypeSelect setSelectedLocType={setSelectedLocType} currentGPSCoords={currentGPSCoords} />
-              <LocationSelect
-                selectedLocType={selectedLocType}
-                setSelectedLocCoords={setSelectedLocCoords}
-              />
-              {locationDetails && !isLoading ? (
-                <h2 className="current-loc-display">{`Forecast for: ${locationDetails.properties.relativeLocation.geometry.coordinates[1].toFixed(
-                  4
-                )}, ${locationDetails.properties.relativeLocation.geometry.coordinates[0].toFixed(
-                  4
-                )}
-                near ${
-                  locationDetails.properties.relativeLocation.properties.city
-                }, ${
-                  locationDetails.properties.relativeLocation.properties.state
-                }`}</h2>
-              ) : null}
-              {isLoading ? (
-                <p className="loading-msg">Loading forecast</p>
-              ) : null}
-            </section>
+            {isLoading ? <p className="loading-msg">Loading forecast</p> : null}
             <section className="detailed-forecast">
               {createDetailedForecast()}
             </section>
           </>
         )}
-      </div>
+      </section>
     </main>
   );
 }
