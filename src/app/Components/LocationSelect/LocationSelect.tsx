@@ -73,7 +73,6 @@ export default function LocationSelect({
   if (selectedLocType !== "Current Location") {
     return (
       <div className="location-div">
-        <h3>Location:</h3>
         <select
           className="location-select"
           value={selection}

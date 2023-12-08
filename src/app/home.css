@@ -38,8 +38,9 @@
   z-index: 1;
   color: #ffffff00;
   font-size: 48px;
+  font-style: normal;
   font-weight: 400;
-  -webkit-text-stroke: 1px #00B2FF;
+  -webkit-text-stroke: 1px #00b2ff;
 }
 
 .header-bkgd-img {
@@ -47,19 +48,25 @@
   object-position: center;
 }
 
-.type-location-select-section {
+.type-location-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1vh;
-  width: 90%;
+  gap: 1rem;
+  width: 100vw;
   text-align: center;
+  margin: 0rem auto 0rem auto;
+  padding: 1rem 0rem 1rem 0rem;
+  border-top: 1px solid #00b2ff;
+  border-bottom: 1px solid #00b2ff;
+  position: sticky;
+  top: 0;
+  background-color: #2a3c43;
 }
-
 
 .home-forecast-section {
   z-index: 3;
-  background-color: #2A3C43;
+  background-color: #2a3c43;
 }
 
 .location-div {
@@ -67,16 +74,25 @@
   align-items: center;
 }
 
-.location-select {
-  padding: 5px;
-  border-radius: 3px;
-  margin-left: 1vw;
+.type-select, .location-select {
+  width: 90vw;
+  height: 3rem;
+  background-color: transparent;
+  /* Removes BG bubble appearance in Safari */
+  appearance: initial;
+  border: 1px solid #00b3ff;
+  border-radius: 5px;
+
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
+  font-size: 1.6rem;
+  text-align: center;
+  text-align-last: center;
+  color: #ffffff;
 }
 
-.type-select {
-  padding: 5px;
-  margin: 0vh 0vw 0vh 1vw;
-  border-radius: 3px;
+.location-select {
+  font-size: 1.4rem;
 }
 
 .type-select-div {
@@ -85,7 +101,9 @@
 }
 
 .detailed-forecast {
-  width: 90%;
+  width: 100%;
+  margin: 0% 2% 0% 2%;
+  /* border-bottom: 1px solid #00b2ff; */
 }
 
 .detailed-day-forecast {

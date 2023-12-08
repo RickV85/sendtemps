@@ -108,7 +108,7 @@ export default function Home() {
         </div>
       </header>
       <section className="home-forecast-section">
-        <section className="type-location-select-section">
+        <section className="type-location-section">
           <TypeSelect
             setSelectedLocType={setSelectedLocType}
             currentGPSCoords={currentGPSCoords}

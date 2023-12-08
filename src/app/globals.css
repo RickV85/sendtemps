@@ -33,3 +33,6 @@ input, button, textarea, select {
   font: inherit;
 }
 
+:focus {
+  outline: 2px solid #F18F01;
+}

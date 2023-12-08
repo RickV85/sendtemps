@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 export const fugazOne = Fugaz_One({
   subsets: ["latin"],
   display: "swap",
+  style: "normal",
   weight: "400",
   preload: true,
   variable: "--font-fugazOne",
@@ -20,6 +21,7 @@ export const hanuman = Hanuman({
   subsets: ["latin"],
   display: "swap",
   weight: ["300", "400", "700", "900"],
+  style: "normal",
   preload: true,
   variable: "--font-hanuman",
 });
