@@ -130,7 +130,7 @@
 }
 
 .detailed-day-forecast {
-  animation: fadeIn 1000ms ease-in-out;
+  animation: fadeIn 500ms ease-in-out;
   margin: 2% 0% 2% 0%;
   border-radius: 3px;
   border: 1px solid #9FAF90;

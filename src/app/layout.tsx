@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "A simple, personalized, pinpoint weather app for your outdoor adventures in the Colorado Front Range.",
 };
 
-export const fugazOne = Fugaz_One({
+const fugazOne = Fugaz_One({
   subsets: ["latin"],
   display: "swap",
   style: "normal",
@@ -17,7 +17,7 @@ export const fugazOne = Fugaz_One({
   variable: "--font-fugazOne",
 });
 
-export const hanuman = Hanuman({
+const hanuman = Hanuman({
   subsets: ["latin"],
   display: "swap",
   weight: ["300", "400", "700", "900"],
