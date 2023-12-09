@@ -1,5 +1,5 @@
 "use client";
-
+import { useEffect, useState } from "react";
 import { TypeSelectProps } from "../../Interfaces/interfaces";
 
 const TypeSelect: React.FC<TypeSelectProps> = ({
@@ -7,6 +7,12 @@ const TypeSelect: React.FC<TypeSelectProps> = ({
   currentGPSCoords,
   setForecastData
 }) => {
+  const [selection, setSelection] = useState("Select sport");
+
+  useEffect(() => {
+    setSelectedLocType(selection);
+  }, [selection, setSelectedLocType])
+
   const poiTypeOptions = (
     <>
       <option value="climb">Climbing</option>
@@ -22,11 +28,12 @@ const TypeSelect: React.FC<TypeSelectProps> = ({
     <div className="type-select-div">
       <select
         className="type-select"
+        value={selection}
         onChange={(e) => {
           setForecastData(undefined);
-          setSelectedLocType(e.target.value);
+          setSelection(e.target.value);
         }}
-        defaultValue={currentGPSCoords ? "Current Location" : "Select sport"}
+        // defaultValue={currentGPSCoords ? "Current Location" : "Select sport"}
       >
         {currentGPSCoords ? (
           <>

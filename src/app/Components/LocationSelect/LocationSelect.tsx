@@ -72,7 +72,7 @@ export default function LocationSelect({
     setDisplayOptions(options);
   }, [selectedLocType, createDisplayOptions]);
 
-  if (selectedLocType !== "") {
+  if (selectedLocType !== "Current Location" && selectedLocType !== "Select sport") {
     return (
       <div className="location-div">
         <select

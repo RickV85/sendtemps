@@ -17,7 +17,7 @@ export default function Home() {
   const [selectedLocCoords, setSelectedLocCoords] = useState<
     string | undefined
   >();
-  const [selectedLocType, setSelectedLocType] = useState<string>("");
+  const [selectedLocType, setSelectedLocType] = useState<string>("Select sport");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
