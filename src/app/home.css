@@ -102,6 +102,8 @@
   background-color: transparent;
   border: 1px solid #00b3ff;
   border-radius: 5px;
+  /* change with desktop media Q */
+  max-width: 500px;
 
   font-family: var(--font-fugazOne);
   font-weight: 400;
@@ -127,14 +129,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: -1;
 }
 
 .detailed-day-forecast {
   animation: fadeIn 500ms ease-in-out;
   margin: 2% 0% 2% 0%;
+  width: 100%;
   border-radius: 3px;
   border: 1px solid #9FAF90;
   padding: .5rem;
+  /* change with desktop media Q */
+  max-width: 800px;
 }
 
 .day-forecast-header {
