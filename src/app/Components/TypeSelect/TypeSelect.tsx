@@ -26,7 +26,7 @@ const TypeSelect: React.FC<TypeSelectProps> = ({
           setForecastData(undefined);
           setSelectedLocType(e.target.value);
         }}
-        defaultValue={"Current Location"}
+        defaultValue={currentGPSCoords ? "Current Location" : "Select sport"}
       >
         {currentGPSCoords ? (
           <>
@@ -35,7 +35,7 @@ const TypeSelect: React.FC<TypeSelectProps> = ({
           </>
         ) : (
           <>
-            <option disabled value="Current Location">Current Location</option>
+            <option disabled value="Select sport">Select sport</option>
             {poiTypeOptions}
           </>
         )}
