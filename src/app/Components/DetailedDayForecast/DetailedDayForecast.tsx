@@ -14,7 +14,9 @@ const DetailedDayForecast: React.FC<Props> = ({ data }) => {
   return (
     <article className="detailed-day-forecast">
       <div className="day-forecast-header">
-        <Image
+        {/* Using img here, had issues with loading using Image component */}
+        {/* eslint-disable-next-line */}
+        <img
           src={data.icon}
           height={50}
           width={50}
