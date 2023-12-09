@@ -1,48 +1,47 @@
-"use client"
+"use client";
 
 import "./home.css";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
-  fetchForecast,
-  fetchWeatherSelectedLocation,
+  fetchDailyForecastWithRetry,
+  fetchNoaaGridLocationWithRetry,
 } from "./Util/APICalls";
-import {
-  Coords,
-  ForecastData,
-  LocationDetails,
-} from "./Interfaces/interfaces";
+import { Coords, ForecastData, LocationDetails } from "./Interfaces/interfaces";
 import LocationSelect from "./Components/LocationSelect/LocationSelect";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
 import TypeSelect from "./Components/TypeSelect/TypeSelect";
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
-  const [selectedLocCoords, setSelectedLocCoords] = useState("");
-  const [selectedLocType, setSelectedLocType] = useState("Current Location");
+  const [selectedLocCoords, setSelectedLocCoords] = useState<
+    string | undefined
+  >();
+  const [selectedLocType, setSelectedLocType] =
+    useState<string>("Current Location");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
-  const [forecastUrl, setForecastUrl] = useState("");
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
       latitude: `${position.coords.latitude}`,
       longitude: `${position.coords.longitude}`,
     });
+    setSelectedLocCoords(
+      `${position.coords.latitude},${position.coords.longitude}`
+    );
   };
 
   const locationFetchFailure = () => {
-    setError(
-      "There was an error using your current location. Please allow this site to access your location or reload the page to try again."
+    setIsLoading(false);
+    alert(
+      "Please consider allowing this app to use your location for an immediate display of your current location's forecast."
     );
-    setTimeout(() => {
-      setError("");
-    }, 3000);
   };
 
   useEffect(() => {
-    setIsLoading(true);
     navigator.geolocation.getCurrentPosition(
       locationFetchSuccess,
       locationFetchFailure
@@ -60,84 +59,91 @@ export default function Home() {
   useEffect(() => {
     if (selectedLocCoords) {
       setIsLoading(true);
-      fetchWeatherSelectedLocation(selectedLocCoords)
+      fetchNoaaGridLocationWithRetry(selectedLocCoords)
         .then((result) => {
           setLocationDetails(result);
-          setForecastUrl(result.properties.forecast);
-          console.log(result);
         })
         .catch((err) => {
           console.error(err);
           setError(err);
-          setIsLoading(false);
         });
     }
   }, [selectedLocCoords]);
 
   useEffect(() => {
-    if (forecastUrl) {
-      console.log(forecastUrl);
+    if (locationDetails?.properties.forecast) {
       setIsLoading(true);
-      fetchForecast(forecastUrl)
+      fetchDailyForecastWithRetry(locationDetails.properties.forecast)
         .then((result) => {
           setForecastData(result);
           setIsLoading(false);
         })
         .catch((err) => {
-          console.error(err);
-          setError(err);
+          console.error(err.message);
+          setError(err.message);
           setIsLoading(false);
         });
     }
-  }, [forecastUrl]);
+  }, [locationDetails]);
 
   const createDetailedForecast = () => {
     const forecast = forecastData?.properties.periods.map((data, i) => {
-      return <DetailedDayForecast data={data} key={i} />;
+      return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
     });
     return forecast;
   };
 
   return (
     <main className="home-main">
-      <div className="home-content">
-        <h1>WeatherWise</h1>
-        <p className="tagline">The best weather app of all time</p>
-        {/* Conditional loading if error */}
+      <header className="home-header">
+        <div className="hero-img-div">
+          <h1 className="site-title">SendTemps</h1>
+          <Image
+            src={"/images/sendtemps_header.webp"}
+            alt="Boulder Flatirons background with rock climber silhouette in foreground"
+            fill={true}
+            priority={true}
+            className="header-bkgd-img"
+          />
+        </div>
+      </header>
+      <section className="home-main-display">
+        <section className="type-location-section">
+          <TypeSelect
+            setSelectedLocType={setSelectedLocType}
+            currentGPSCoords={currentGPSCoords}
+            setForecastData={setForecastData}
+          />
+          <LocationSelect
+            selectedLocType={selectedLocType}
+            setSelectedLocCoords={setSelectedLocCoords}
+            setForecastData={setForecastData}
+          />
+        </section>
+        {/* Error ? load: */}
         {error ? (
           <>
-            <p>{`An error occurred while fetching your forecast. Please reload the page and try your request again.
-           Error: ${error}`}</p>
-            <button onClick={() => window.location.reload()}>
+            <p className="error-msg">{`An error occurred while fetching your forecast. 
+            Please reload the page and try your request again. ${error}`}</p>
+            <button
+              className="reload-page-btn"
+              onClick={() => window.location.reload()}
+            >
               Reload page
             </button>
           </>
         ) : (
           <>
-            <section className="header-section">
-              <TypeSelect setSelectedLocType={setSelectedLocType} />
-              <LocationSelect
-                selectedLocType={selectedLocType}
-                setSelectedLocCoords={setSelectedLocCoords}
-              />
+            {/* No error ? load: */}
+            <section className="forecast-section">
               {isLoading ? (
-                <p className="loading-msg">
-                  Please wait while we load weather data for your location
-                </p>
+                <p className="loading-msg">Loading forecast...</p>
               ) : null}
-              {locationDetails ? (
-                <h2 className="current-loc-display">{`Forecast for: ${locationDetails.properties.relativeLocation.geometry.coordinates[0]}, ${locationDetails.properties.relativeLocation.geometry.coordinates[1]}
-          near ${locationDetails.properties.relativeLocation.properties.city}, ${locationDetails.properties.relativeLocation.properties.state}`}</h2>
-              ) : (
-                <p className="loading-msg">Fetching your location</p>
-              )}
-            </section>
-            <section className="detailed-forecast">
               {createDetailedForecast()}
             </section>
           </>
         )}
-      </div>
+      </section>
     </main>
   );
 }
