@@ -17,7 +17,7 @@ export default function Home() {
   const [selectedLocCoords, setSelectedLocCoords] = useState<
     string | undefined
   >();
-  const [selectedLocType, setSelectedLocType] = useState<string>("Select sport");
+  const [selectedLocType, setSelectedLocType] = useState<string>("Select Sport");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
@@ -102,6 +102,7 @@ export default function Home() {
             alt="Boulder Flatirons background with rock climber silhouette in foreground"
             fill={true}
             priority={true}
+            quality={100}
             className="header-bkgd-img"
           />
         </div>

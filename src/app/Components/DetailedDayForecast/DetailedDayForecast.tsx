@@ -29,8 +29,9 @@ const DetailedDayForecast: React.FC<Props> = ({ data }) => {
           <Image 
             src={"/icons/icons8-humidity-48.png"}
             alt="Humidity icon"
-            height={24}
-            width={24}
+            height={48}
+            width={48}
+            className="humidity-icon"
           />
         </div>
       </div>

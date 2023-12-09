@@ -106,8 +106,6 @@
   background-color: transparent;
   border: 1px solid #00b2ff;
   border-radius: 5px;
-  /* change with desktop media Q */
-  max-width: 500px;
 
   font-family: var(--font-fugazOne);
   font-weight: 400;
@@ -145,8 +143,6 @@
   border-radius: 3px;
   border: 1px solid #9faf90;
   padding: 0.5rem;
-  /* change with desktop media Q */
-  max-width: 800px;
 }
 
 .day-forecast-header {
@@ -169,6 +165,11 @@
 .humidity-div {
   display: flex;
   align-items: center;
+}
+
+.humidity-icon {
+  width: 24px;
+  height: 24px;
 }
 
 .humidity-div p {
@@ -199,7 +200,7 @@
   border-radius: 5px;
 }
 
-/* Change to Desktop breakpoint */
+/* Desktop breakpoints */
 
 @media screen and (min-width: 769px) {
   .hero-img-div {
@@ -209,6 +210,34 @@
 
   .site-title {
     font-size: clamp(0px, 13vw, 120px);
+  }
+
+  .type-select, .location-select {
+    max-width: 700px;
+  }
+
+  .day-forecast-header {
+    margin-bottom: .75rem;
+  }
+
+  .day-header-text {
+    font-size: 1.75rem;
+  }
+
+  .humidity-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .day-forecast-icon {
+    width: 70px;
+    height: 70px;
+  }
+
+  .detailed-day-forecast {
+    max-width: 1000px;
+    margin: 10px 0px 10px 0px;
+    padding: 1rem;
   }
 }
 
