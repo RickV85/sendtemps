@@ -72,7 +72,7 @@ export default function LocationSelect({
     setDisplayOptions(options);
   }, [selectedLocType, createDisplayOptions]);
 
-  if (selectedLocType !== "Current Location") {
+  if (selectedLocType !== "") {
     return (
       <div className="location-div">
         <select
