@@ -13,20 +13,28 @@ interface Props {
 const DetailedDayForecast: React.FC<Props> = ({ data }) => {
   return (
     <article className="detailed-day-forecast">
-        <h3>{data.name}</h3>
       <div className="day-forecast-header">
         <Image
           src={data.icon}
-          height={60}
-          width={60}
+          height={50}
+          width={50}
           alt="weather icon"
           className="day-forecast-icon"
         />
-      <p className="day-forecast-text">
-        {data.detailedForecast} Relative humidity: {data.relativeHumidity.value}
-        %
-      </p>
+        <h3 className="day-header-text">{data.name}</h3>
+        <div className="humidity-div">
+          <p>{data.relativeHumidity.value}%</p>
+          <Image 
+            src={"/icons/icons8-humidity-48.png"}
+            alt="Humidity icon"
+            height={24}
+            width={24}
+          />
+        </div>
       </div>
+        <p className="day-forecast-text">
+          {data.detailedForecast}
+        </p>
     </article>
   );
 };

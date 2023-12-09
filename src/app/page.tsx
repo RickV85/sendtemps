@@ -1,6 +1,7 @@
 "use client";
 
 import "./home.css";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
   fetchDailyForecastWithRetry,
@@ -13,12 +14,15 @@ import TypeSelect from "./Components/TypeSelect/TypeSelect";
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
-  const [selectedLocCoords, setSelectedLocCoords] = useState<string | undefined>();
-  const [selectedLocType, setSelectedLocType] = useState<string>("Current Location");
+  const [selectedLocCoords, setSelectedLocCoords] = useState<
+    string | undefined
+  >();
+  const [selectedLocType, setSelectedLocType] =
+    useState<string>("Current Location");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
@@ -31,13 +35,13 @@ export default function Home() {
   };
 
   const locationFetchFailure = () => {
+    setIsLoading(false);
     alert(
       "Please consider allowing this app to use your location for an immediate display of your current location's forecast."
     );
   };
 
   useEffect(() => {
-    setIsLoading(true);
     navigator.geolocation.getCurrentPosition(
       locationFetchSuccess,
       locationFetchFailure
@@ -54,6 +58,7 @@ export default function Home() {
 
   useEffect(() => {
     if (selectedLocCoords) {
+      setIsLoading(true);
       fetchNoaaGridLocationWithRetry(selectedLocCoords)
         .then((result) => {
           setLocationDetails(result);
@@ -68,7 +73,6 @@ export default function Home() {
   useEffect(() => {
     if (locationDetails?.properties.forecast) {
       setIsLoading(true);
-
       fetchDailyForecastWithRetry(locationDetails.properties.forecast)
         .then((result) => {
           setForecastData(result);
@@ -91,9 +95,31 @@ export default function Home() {
 
   return (
     <main className="home-main">
-      <div className="home-content">
-        <h1>WeatherWise</h1>
-        <p className="tagline">The best weather app of all time</p>
+      <header className="home-header">
+        <div className="hero-img-div">
+          <h1 className="site-title">SendTemps</h1>
+          <Image
+            src={"/images/sendtemps_header.webp"}
+            alt="Boulder Flatirons background with rock climber silhouette in foreground"
+            fill={true}
+            priority={true}
+            className="header-bkgd-img"
+          />
+        </div>
+      </header>
+      <section className="home-main-display">
+        <section className="type-location-section">
+          <TypeSelect
+            setSelectedLocType={setSelectedLocType}
+            currentGPSCoords={currentGPSCoords}
+            setForecastData={setForecastData}
+          />
+          <LocationSelect
+            selectedLocType={selectedLocType}
+            setSelectedLocCoords={setSelectedLocCoords}
+            setForecastData={setForecastData}
+          />
+        </section>
         {/* Error ? load: */}
         {error ? (
           <>
@@ -109,34 +135,15 @@ export default function Home() {
         ) : (
           <>
             {/* No error ? load: */}
-            <section className="header-section">
-              <TypeSelect setSelectedLocType={setSelectedLocType} currentGPSCoords={currentGPSCoords} />
-              <LocationSelect
-                selectedLocType={selectedLocType}
-                setSelectedLocCoords={setSelectedLocCoords}
-              />
-              {locationDetails && !isLoading ? (
-                <h2 className="current-loc-display">{`Forecast for: ${locationDetails.properties.relativeLocation.geometry.coordinates[1].toFixed(
-                  4
-                )}, ${locationDetails.properties.relativeLocation.geometry.coordinates[0].toFixed(
-                  4
-                )}
-                near ${
-                  locationDetails.properties.relativeLocation.properties.city
-                }, ${
-                  locationDetails.properties.relativeLocation.properties.state
-                }`}</h2>
-              ) : null}
+            <section className="forecast-section">
               {isLoading ? (
-                <p className="loading-msg">Loading forecast</p>
+                <p className="loading-msg">Loading forecast...</p>
               ) : null}
-            </section>
-            <section className="detailed-forecast">
               {createDetailedForecast()}
             </section>
           </>
         )}
-      </div>
+      </section>
     </main>
   );
 }

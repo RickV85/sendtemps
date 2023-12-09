@@ -10,6 +10,7 @@ import { filterAndSortLocationsAlphaByName } from "@/app/Util/utils";
 export default function LocationSelect({
   setSelectedLocCoords,
   selectedLocType,
+  setForecastData
 }: LocationSelectProps) {
   const [selection, setSelection] = useState("");
   const [allLocationOptions, setAllLocationOptions] = useState([]);
@@ -33,6 +34,7 @@ export default function LocationSelect({
   }, []);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setForecastData(undefined);
     setSelection(e.target.value);
     setSelectedLocCoords(e.target.value);
   };
@@ -73,7 +75,6 @@ export default function LocationSelect({
   if (selectedLocType !== "Current Location") {
     return (
       <div className="location-div">
-        <h3>Location:</h3>
         <select
           className="location-select"
           value={selection}

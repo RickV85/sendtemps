@@ -11,13 +11,20 @@
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+}
+
+html {
+  font-size: 14px;
 }
 
 body {
-  background: linear-gradient(-65deg, #00ff33, #00d0ff);
-  font-family: Verdana, Tahoma, sans-serif;
+  background-color: #2A3C43;
+  font-family: var(--font-hanuman);
+  color: #ffffff;
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: 400;
 }
 
 a {
@@ -29,3 +36,6 @@ input, button, textarea, select {
   font: inherit;
 }
 
+:focus {
+  outline: 2px solid #F18F01;
+}

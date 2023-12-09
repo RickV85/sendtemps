@@ -1,10 +1,11 @@
 "use client";
-import { useEffect } from "react";
+
 import { TypeSelectProps } from "../../Interfaces/interfaces";
 
 const TypeSelect: React.FC<TypeSelectProps> = ({
   setSelectedLocType,
   currentGPSCoords,
+  setForecastData
 }) => {
   const poiTypeOptions = (
     <>
@@ -19,10 +20,10 @@ const TypeSelect: React.FC<TypeSelectProps> = ({
 
   return (
     <div className="type-select-div">
-      <h3>Select location type:</h3>
       <select
         className="type-select"
         onChange={(e) => {
+          setForecastData(undefined);
           setSelectedLocType(e.target.value);
         }}
         defaultValue={"Current Location"}
