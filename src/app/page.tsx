@@ -99,7 +99,7 @@ export default function Home() {
         <div className="hero-img-div">
           <h1 className="site-title">SendTemps</h1>
           <Image
-            src={"/images/sendtemps_header.webp"}
+            src={"/images/sendtemps_header_2.webp"}
             alt="Boulder Flatirons background with rock climber silhouette in foreground"
             fill={true}
             priority={true}

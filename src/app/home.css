@@ -12,7 +12,7 @@
     opacity: 1;
   }
   to {
-      opacity: 0;
+    opacity: 0;
   }
 }
 
@@ -43,8 +43,9 @@
 }
 
 .hero-img-div {
-  height: 20vh;
+  height: 50vw;
   width: 100vw;
+  max-width: 1600px;
   position: relative;
   z-index: 0;
   display: flex;
@@ -57,7 +58,7 @@
   font-family: var(--font-fugazOne);
   z-index: 1;
   color: #ffffff00;
-  font-size: 48px;
+  font-size: 11.5vw;
   font-style: normal;
   font-weight: 400;
   -webkit-text-stroke: 1px #00b2ff;
@@ -74,6 +75,7 @@
   align-items: center;
   gap: 1rem;
   width: 100vw;
+  max-width: 1600px;
   text-align: center;
   padding: 1rem 0rem 1rem 0rem;
   border-top: 1px solid #00b2ff;
@@ -97,11 +99,12 @@
   align-items: center;
 }
 
-.type-select, .location-select {
+.type-select,
+.location-select {
   width: 90vw;
   height: 3rem;
   background-color: transparent;
-  border: 1px solid #00b3ff;
+  border: 1px solid #00b2ff;
   border-radius: 5px;
   /* change with desktop media Q */
   max-width: 500px;
@@ -124,9 +127,11 @@
 }
 
 .forecast-section {
-  padding: 2%;
+  padding: 8px;
   border-bottom: 1px solid #00b2ff;
   min-height: 80dvh;
+  width: 100vw;
+  max-width: 1600px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -135,11 +140,11 @@
 
 .detailed-day-forecast {
   animation: fadeIn 500ms ease-in-out;
-  margin: 2% 0% 2% 0%;
+  margin: 5px 0px 5px 0px;
   width: 100%;
   border-radius: 3px;
-  border: 1px solid #9FAF90;
-  padding: .5rem;
+  border: 1px solid #9faf90;
+  padding: 0.5rem;
   /* change with desktop media Q */
   max-width: 800px;
 }
@@ -148,7 +153,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .day-header-text {
@@ -175,7 +180,7 @@
 
 .loading-msg {
   animation: fadeIn 250ms ease-in-out;
-  color: #EF8354;
+  color: #ef8354;
   font-size: 1.5rem;
   font-weight: 600;
   width: 80vw;
@@ -196,29 +201,25 @@
 
 /* Change to Desktop breakpoint */
 
-/* @media screen and (max-width: 600px) {
-  h2 {
-    font-size: 1rem;
+@media screen and (min-width: 769px) {
+  .hero-img-div {
+    height: 60vw;
+    max-height: 70vh;
   }
 
-  h3 {
-    font-size: 0.9rem;
+  .site-title {
+    font-size: clamp(0px, 13vw, 120px);
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .home-header {
+    border-left: 1px solid #00b2ff;
+    border-right: 1px solid #00b2ff;
   }
 
-  p {
-    font-size: 0.8rem;
+  .home-main-display {
+    border-left: 1px solid #00b2ff;
+    border-right: 1px solid #00b2ff;
   }
-
-  select {
-    font-size: 0.8rem !important;
-  }
-
-  .detailed-forecast {
-    width: 97%;
-  }
-
-  .day-forecast-icon {
-    height: 55px;
-    width: 55px;
-  }
-} */
+}
