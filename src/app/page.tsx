@@ -22,7 +22,7 @@ export default function Home() {
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
@@ -35,13 +35,13 @@ export default function Home() {
   };
 
   const locationFetchFailure = () => {
+    setIsLoading(false);
     alert(
       "Please consider allowing this app to use your location for an immediate display of your current location's forecast."
     );
   };
 
   useEffect(() => {
-    setIsLoading(true);
     navigator.geolocation.getCurrentPosition(
       locationFetchSuccess,
       locationFetchFailure
@@ -73,7 +73,6 @@ export default function Home() {
   useEffect(() => {
     if (locationDetails?.properties.forecast) {
       setIsLoading(true);
-
       fetchDailyForecastWithRetry(locationDetails.properties.forecast)
         .then((result) => {
           setForecastData(result);
@@ -140,7 +139,7 @@ export default function Home() {
               {isLoading ? (
                 <p className="loading-msg">Loading forecast...</p>
               ) : null}
-              {forecastData ? createDetailedForecast() : null}
+              {createDetailedForecast()}
             </section>
           </>
         )}
