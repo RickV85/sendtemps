@@ -153,6 +153,11 @@
   margin-bottom: 0.5rem;
 }
 
+.day-forecast-icon {
+  width: 50px;
+  height: 50px;
+}
+
 .day-header-text {
   font-family: var(--font-fugazOne);
   font-size: 1.5rem;
@@ -213,12 +218,18 @@
     font-size: clamp(0px, 13vw, 120px);
   }
 
-  .type-select, .location-select {
+  .type-select,
+  .location-select {
     max-width: 700px;
   }
 
   .day-forecast-header {
-    margin-bottom: .75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .day-forecast-icon {
+    width: 60px;
+    height: 60px;
   }
 
   .day-header-text {
@@ -226,13 +237,8 @@
   }
 
   .humidity-icon {
-    width: 35px;
-    height: 35px;
-  }
-
-  .day-forecast-icon {
-    width: 70px;
-    height: 70px;
+    width: 36px;
+    height: 36px;
   }
 
   .detailed-day-forecast {

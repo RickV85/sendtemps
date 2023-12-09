@@ -18,8 +18,8 @@ const DetailedDayForecast: React.FC<Props> = ({ data }) => {
         {/* eslint-disable-next-line */}
         <img
           src={data.icon}
-          height={50}
-          width={50}
+          height={60}
+          width={60}
           alt="weather icon"
           className="day-forecast-icon"
         />
