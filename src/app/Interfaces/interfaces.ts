@@ -170,12 +170,3 @@ export interface LocationSelectProps {
   setForecastData: Dispatch<SetStateAction<ForecastData | undefined>>;
   selectedLocType: string;
 }
-
-export interface User {
-  id: number;
-  email: string;
-  name: string;
-  last_login: Date;
-  date_created: Date;
-  last_modified: Date;
-}
