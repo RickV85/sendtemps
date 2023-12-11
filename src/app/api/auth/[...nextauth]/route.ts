@@ -25,7 +25,7 @@ const authOption: NextAuthOptions = {
         throw new Error('No Google account for user.')
       }
 
-      const googleUserId = account?.userId;
+      const googleUserId = account.userId;
       const googleUserEmail = profile.email;
       const googleUserName = profile.name;
 
