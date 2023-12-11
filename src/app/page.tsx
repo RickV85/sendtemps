@@ -103,6 +103,7 @@ export default function Home() {
             fill={true}
             priority={true}
             quality={100}
+            sizes="100vw"
             className="header-bkgd-img"
           />
         </div>

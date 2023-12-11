@@ -21,6 +21,7 @@ const DetailedDayForecast: React.FC<Props> = ({ data }) => {
           height={60}
           width={60}
           alt="weather icon"
+          loading="lazy"
           className="day-forecast-icon"
         />
         <h3 className="day-header-text">{data.name}</h3>
