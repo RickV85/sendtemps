@@ -3,14 +3,20 @@ import {
   LocationSelectProps,
   LocationObject,
 } from "../../Interfaces/interfaces";
-import { useState, useEffect, ReactNode, useCallback, ReactElement } from "react";
+import {
+  useState,
+  useEffect,
+  ReactNode,
+  useCallback,
+  ReactElement,
+} from "react";
 import { getAllDefaultLocations } from "@/app/Util/APICalls";
 import { filterAndSortLocationsAlphaByName } from "@/app/Util/utils";
 
 export default function LocationSelect({
   setSelectedLocCoords,
   selectedLocType,
-  setForecastData
+  setForecastData,
 }: LocationSelectProps) {
   const [selection, setSelection] = useState("");
   const [allLocationOptions, setAllLocationOptions] = useState([]);
@@ -39,20 +45,23 @@ export default function LocationSelect({
     setSelectedLocCoords(e.target.value);
   };
 
-  const mapLocationOptions = useCallback((locArr: Array<LocationObject>): Array<ReactElement> => {
-    const mappedOptions = locArr.map((loc: LocationObject) => {
-      const optElement: ReactElement = (
-        <option
-          value={`${loc.latitude},${loc.longitude}`}
-          key={`locId-${loc.id}`}
-        >
-          {loc.name}
-        </option>
-      );
-      return optElement;
-    });
-    return mappedOptions;
-  }, []);
+  const mapLocationOptions = useCallback(
+    (locArr: Array<LocationObject>): Array<ReactElement> => {
+      const mappedOptions = locArr.map((loc: LocationObject) => {
+        const optElement: ReactElement = (
+          <option
+            value={`${loc.latitude},${loc.longitude}`}
+            key={`locId-${loc.id}`}
+          >
+            {loc.name}
+          </option>
+        );
+        return optElement;
+      });
+      return mappedOptions;
+    },
+    []
+  );
 
   const createDisplayOptions = useCallback(
     (locType: string) => {
@@ -72,23 +81,21 @@ export default function LocationSelect({
     setDisplayOptions(options);
   }, [selectedLocType, createDisplayOptions]);
 
-  if (selectedLocType !== "Current Location" && selectedLocType !== "Select Sport") {
-    return (
-      <div className="location-div">
-        <select
-          className="location-select"
-          value={selection}
-          onChange={(e) => handleSelect(e)}
-          aria-label="Select location you would like a forecast for"
-        >
-          <option value="" disabled>
-            Select location
-          </option>
-          {displayOptions}
-        </select>
-      </div>
-    );
-  } else {
-    return null;
-  }
+  const noDisplayLocTypes = ["Select Sport", "Current Location"];
+
+  return (
+    <div className={`location-div ${noDisplayLocTypes.includes(selectedLocType) ? "hidden" : ""}`}>
+      <select
+        className="location-select"
+        value={selection}
+        onChange={(e) => handleSelect(e)}
+        aria-label="Select location you would like a forecast for"
+      >
+        <option value="" disabled>
+          Select location
+        </option>
+        {displayOptions}
+      </select>
+    </div>
+  );
 }

@@ -17,11 +17,12 @@ export default function Home() {
   const [selectedLocCoords, setSelectedLocCoords] = useState<
     string | undefined
   >();
-  const [selectedLocType, setSelectedLocType] = useState<string>("Select Sport");
+  const [selectedLocType, setSelectedLocType] =
+    useState<string>("Select Sport");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
@@ -36,16 +37,19 @@ export default function Home() {
   const locationFetchFailure = () => {
     setIsLoading(false);
     alert(
-      "Please consider allowing this app to use your location for an immediate display of your current location's forecast."
+      "Please allow this app to use your location if you would like a display of your current location's forecast."
     );
   };
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      locationFetchSuccess,
-      locationFetchFailure
-    );
-  }, []);
+    if (selectedLocType === "Current Location") {
+      setIsLoading(true);
+      navigator.geolocation.getCurrentPosition(
+        locationFetchSuccess,
+        locationFetchFailure
+      );
+    }
+  }, [selectedLocType]);
 
   useEffect(() => {
     if (selectedLocType === "Current Location" && currentGPSCoords) {
@@ -91,6 +95,33 @@ export default function Home() {
     });
     return forecast;
   };
+
+  const welcomeMessage = (
+    <div className="home-welcome-msg-div">
+      <h2 className="home-welcome-header">Welcome to SendTemps!</h2>
+      <p>
+        Choose from Climbing, Mountain Biking, or Skiing/Snowboarding above to
+        get highly-accurate, NOAA pinpoint forecasts for any of my favorite
+        destinations for the selected sport all around Colorado&apos;s Front
+        Range.
+        <br />
+        <br />
+        In my experience over the last decade, NOAA&apos;s pinpoint forecasts
+        have proven to be far more accurate for backcountry destinations when
+        compared to the average weather app. So I decided to build this
+        straight-forward, ad-free app for my fellow Front-Rangers to easily get
+        an accurate forecast for their own backcountry adventures!
+        <br />
+        <br />
+        New features are coming soon! Next up, I am building an &quot;Add your
+        own location&quot; feature so you can save your favorite locations and
+        hourly forecasts for a selected day. If you have feedback or feature
+        suggestions, please email to rickv85@gmail.com to give me!
+      </p>
+      <br />
+      <p>- Rick Vermeil</p>
+    </div>
+  );
 
   return (
     <main className="home-main">
@@ -140,6 +171,7 @@ export default function Home() {
               {isLoading ? (
                 <p className="loading-msg">Loading forecast...</p>
               ) : null}
+              {selectedLocType === "Select Sport" ? welcomeMessage : null}
               {createDetailedForecast()}
             </section>
           </>

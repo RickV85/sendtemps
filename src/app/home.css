@@ -101,6 +101,7 @@
 .type-select,
 .location-select {
   width: 90vw;
+  max-width: 600px;
   height: 3rem;
   background-color: transparent;
   border: 1px solid #00b2ff;
@@ -126,8 +127,6 @@
 
 .forecast-section {
   padding: 8px;
-  border-bottom: 1px solid #00b2ff;
-  min-height: 80dvh;
   width: 100vw;
   max-width: 1600px;
   display: flex;
@@ -136,7 +135,7 @@
   z-index: -1;
 }
 
-.detailed-day-forecast {
+.detailed-day-forecast, .home-welcome-msg-div {
   animation: fadeIn 500ms ease-in-out;
   margin: 5px 0px 5px 0px;
   width: 100%;
@@ -184,9 +183,16 @@
   top: 3px;
 }
 
+.home-welcome-header {
+  font-family: var(--font-fugazOne);
+  color: #EF8354;
+  font-weight: 400;
+  text-align: center;
+}
+
 .loading-msg {
   animation: fadeIn 250ms ease-in-out;
-  color: #F18F01;
+  color: #EF8354;
   font-size: 1.5rem;
   font-weight: 600;
   width: 80vw;
@@ -217,11 +223,6 @@
     font-size: clamp(0px, 13vw, 120px);
   }
 
-  .type-select,
-  .location-select {
-    max-width: 700px;
-  }
-
   .day-forecast-header {
     margin-bottom: 0.75rem;
   }
@@ -240,7 +241,7 @@
     height: 36px;
   }
 
-  .detailed-day-forecast {
+  .detailed-day-forecast, .home-welcome-msg-div {
     max-width: 1000px;
     margin: 10px 0px 10px 0px;
     padding: 1rem;
