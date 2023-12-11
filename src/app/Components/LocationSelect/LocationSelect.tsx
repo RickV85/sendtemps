@@ -79,6 +79,7 @@ export default function LocationSelect({
           className="location-select"
           value={selection}
           onChange={(e) => handleSelect(e)}
+          aria-label="Select location you would like a forecast for"
         >
           <option value="" disabled>
             Select location

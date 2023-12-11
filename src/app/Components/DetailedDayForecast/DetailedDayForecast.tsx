@@ -24,7 +24,7 @@ const DetailedDayForecast: React.FC<Props> = ({ data }) => {
           loading="lazy"
           className="day-forecast-icon"
         />
-        <h3 className="day-header-text">{data.name}</h3>
+        <h2 className="day-header-text">{data.name}</h2>
         <div className="humidity-div">
           <p>{data.relativeHumidity.value}%</p>
           <Image 

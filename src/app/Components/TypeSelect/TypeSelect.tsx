@@ -33,6 +33,7 @@ const TypeSelect: React.FC<TypeSelectProps> = ({
           setForecastData(undefined);
           setSelection(e.target.value);
         }}
+        aria-label="Select sport for locations or current location forecast"
       >
         {currentGPSCoords ? (
           <>
