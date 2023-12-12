@@ -2,12 +2,17 @@
 
 import "./home.css";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   fetchDailyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
 } from "./Util/APICalls";
-import { Coords, ForecastData, LocationDetails } from "./Interfaces/interfaces";
+import {
+  Coords,
+  ForecastData,
+  LocationDetails,
+  UserSessionInfo,
+} from "./Interfaces/interfaces";
 import LocationSelect from "./Components/LocationSelect/LocationSelect";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
 import TypeSelect from "./Components/TypeSelect/TypeSelect";
@@ -25,6 +30,11 @@ export default function Home() {
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const loggedInUserInfo = useRef<UserSessionInfo | undefined>();
+
+  const setLoggedInUserInfo = (userInfo: UserSessionInfo) => {
+    loggedInUserInfo.current = userInfo;
+  };
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
@@ -127,7 +137,7 @@ export default function Home() {
     <main className="home-main">
       <header className="home-header">
         <SessionProvider>
-          <Session />
+          <Session setLoggedInUserInfo={setLoggedInUserInfo} />
         </SessionProvider>
         <div className="hero-img-div">
           <h1 className="site-title">SendTemps</h1>

@@ -1,10 +1,15 @@
 import { useSession } from "next-auth/react";
 
-export default function Session() {
-  const { data: session, status } = useSession();
-  console.log(session, status)
+interface Props {
+  setLoggedInUserInfo: Function
+}
 
+export default function Session ({ setLoggedInUserInfo }: Props) {
+  const { data: session, status } = useSession();
+  
   if (status === "authenticated" && session.user) {
+    console.log(session, status)
+    setLoggedInUserInfo(session);
     return <p>Signed in as {session.user.name}</p>
   }
 
