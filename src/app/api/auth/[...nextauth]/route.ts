@@ -23,78 +23,65 @@ const authOption: NextAuthOptions = {
         throw new Error("No Google user retrieved.");
       }
 
-      // if (!account) {
-      //   throw new Error("No Google account for user.");
-      // }
-
       const googleUserInfo = {
         id: user.id,
         email: user.email,
         name: user.name,
       };
 
-      console.log({ googleUserInfo });
-
-      let userCreateUpdateSuccess;
-      let userAlreadyExists;
-
       const userPostReq = async () => {
-        try {
-          const res = await fetch("http://localhost:3000/api/users", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(googleUserInfo),
-          });
-          if (!res.ok) {
-            if (res.status === 409) {
-              userAlreadyExists = true;
-            } else {
-              userCreateUpdateSuccess = false;
-              const errorData = await res.json();
-              console.error("Post user error Response:", errorData);
-              throw new Error(`Post req API response was not ok: ${res.status}`);
-            }
-          }
-          if (res.status === 201) {
-            userAlreadyExists = false;
-          }
-          const data = await res.json();
-          return data;
-        } catch (error) {
-          throw error;
+        const res = await fetch("http://localhost:3000/api/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(googleUserInfo),
+        });
+
+        if (res.status === 201) {
+          return true;
+        } else if (res.status === 409) {
+          return false;
+        } else {
+          const errorData = await res.json();
+          console.error("userPostReq error response:", errorData);
+          throw new Error(`userPostReq response was not ok: ${res.status}`);
         }
       };
 
-      // Needs await to make sure the last conditional
-      // is determining whether the user can login or not
-      const userPostReqResult = await userPostReq()
-        .then((result) => {
-          const postSuccess = {
-            success: true,
-            message: `Successful userPostReq:, ${result}`
-          }
-          return postSuccess;
-        })
-        .catch((error) => {
-          const postFailure = {
-            success: false,
-            message: `Failed userPostReq:, ${error}`
-          }
-          return postFailure;
+      const userPatchReq = async () => {
+        const res = await fetch("http://localhost:3000/api/users", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(googleUserInfo),
         });
 
-      await console.log({userPostReqResult})
-
-      // Put patch req here with .then chaining off post?
-
-
-      if (userCreateUpdateSuccess === false) {
-        console.error("USER NOT ALLOWED TO LOGIN - GOOGLE OAUTH / DB FAILURE");
-        return false;
-      } else {
+        if (!res.ok) {
+          const errorData = await res.json();
+          console.error("userPatchReq error Response:", errorData);
+          throw new Error(
+            `userPatchReq API response was not ok: ${res.status}`
+          );
+        }
         return true;
+      };
+
+      try {
+        const postResult = await userPostReq();
+
+        if (postResult === false) {
+          console.log(`User exists, running patch to update with Google info`)
+          await userPatchReq();
+        } else if (postResult === true) {
+          console.log(`New user created from Google info`)
+        }
+
+        return true;
+      } catch (error) {
+        console.error("Error in user creation/updating process:", error);
+        return false;
       }
     },
     async redirect({ url, baseUrl }) {
