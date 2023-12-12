@@ -8,11 +8,6 @@ WHERE id = ${userId};`;
   return rows[0];
 };
 
-const updateUser = async (request: NextRequest) => {
-  const response = PATCH(request);
-  return response;
-}
-
 export async function GET(request: NextRequest) {
   try {
     const userId = await request.nextUrl.searchParams.get("user_id");

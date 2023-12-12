@@ -1,5 +1,5 @@
 export class User {
-  id: number;
+  id: string;
   email: string;
   name: string;
   last_login: string | null;
@@ -7,7 +7,7 @@ export class User {
   last_modified: string | null;
 
   constructor(
-    id: number,
+    id: string,
     email: string,
     name: string,
     last_login: string | null,

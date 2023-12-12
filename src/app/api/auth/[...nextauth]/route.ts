@@ -1,49 +1,60 @@
-import NextAuth from "next-auth/next";
 import nextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { NextResponse } from "next/server";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!;
 
 const authOption: NextAuthOptions = {
   session: {
-    strategy: 'jwt'
+    strategy: "jwt",
   },
   providers: [
-    GoogleProvider ({
+    GoogleProvider({
       clientId: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET
-    })
+      clientSecret: GOOGLE_CLIENT_SECRET,
+    }),
   ],
   callbacks: {
-    async signIn({account, profile}) {
+    async signIn({ account, profile }) {
       if (!profile) {
-        throw new Error ('No Google profile for user.')
+        throw new Error("No Google profile for user.");
       }
 
       if (!account) {
-        throw new Error('No Google account for user.')
+        throw new Error("No Google account for user.");
       }
 
-      const googleUserId = account.userId;
-      const googleUserEmail = profile.email;
-      const googleUserName = profile.name;
+      const googleUserInfo = {
+        id: Number(profile.sub),
+        email: profile.email,
+        name: profile.name,
+      };
 
-      // Create logic here for the following:
+      const postReq = async () => {
+        try {
+          const res = await fetch("http://localhost:3000/api/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(googleUserInfo),
+          });
+          if (res.ok) {
+            const data = res.json();
+            return data;
+          }
+        } catch (error) {
+          console.error(error)
+          throw new Error();
+        }
+      };
 
-      // API call to sendtemps.users, first a GET for the googleUserId
-      // then if exists, check info matches above fetched from Google acct
+      postReq();
 
-      // If they do not match, run a patch, updating the user information
-      // in the users table.
-
-      // If does not exist, post new user to users table with
-      // userId, email, and name
-
-      // Return true for successful signIn flow
       return true;
-    }
-  }
-}
-  const handler = nextAuth(authOption);
-  export {handler as GET, handler as POST};
+    },
+  },
+};
+const handler = nextAuth(authOption);
+export { handler as GET, handler as POST, handler as PATCH };
