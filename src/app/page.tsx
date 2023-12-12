@@ -2,6 +2,7 @@
 
 import "./home.css";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import {
   fetchDailyForecastWithRetry,
@@ -136,9 +137,6 @@ export default function Home() {
   return (
     <main className="home-main">
       <header className="home-header">
-        <SessionProvider>
-          <Session setLoggedInUserInfo={setLoggedInUserInfo} />
-        </SessionProvider>
         <div className="hero-img-div">
           <h1 className="site-title">SendTemps</h1>
           <Image
@@ -150,6 +148,9 @@ export default function Home() {
             sizes="100vw"
             className="header-bkgd-img"
           />
+        <SessionProvider>
+          <Session setLoggedInUserInfo={setLoggedInUserInfo} />
+        </SessionProvider>
         </div>
       </header>
       <section className="home-main-display">
