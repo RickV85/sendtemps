@@ -31,10 +31,10 @@ export default function Home() {
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const loggedInUserInfo = useRef<UserSessionInfo | undefined>();
+  const [userInfo, setUserInfo] = useState<UserSessionInfo | undefined>()
 
   const setLoggedInUserInfo = (userInfo: UserSessionInfo) => {
-    loggedInUserInfo.current = userInfo;
+    setUserInfo(userInfo);
   };
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
@@ -148,9 +148,9 @@ export default function Home() {
             sizes="100vw"
             className="header-bkgd-img"
           />
-        <SessionProvider>
-          <Session setLoggedInUserInfo={setLoggedInUserInfo} />
-        </SessionProvider>
+          <SessionProvider>
+            <Session setLoggedInUserInfo={setLoggedInUserInfo} />
+          </SessionProvider>
         </div>
       </header>
       <section className="home-main-display">
@@ -165,6 +165,9 @@ export default function Home() {
             setSelectedLocCoords={setSelectedLocCoords}
             setForecastData={setForecastData}
           />
+          {userInfo ? (
+            <button className="add-location-btn">Your Locations</button>
+          ) : null}
         </section>
         {/* Error ? load: */}
         {error ? (
