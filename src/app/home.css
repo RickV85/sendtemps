@@ -57,7 +57,7 @@
 .site-title {
   font-family: var(--font-fugazOne);
   z-index: 1;
-  color: #ffffff00;
+  color: transparent;
   font-size: 11.5vw;
   font-style: normal;
   font-weight: 400;

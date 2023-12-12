@@ -1,0 +1,16 @@
+.custom-loc-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.site-title {
+  font-family: var(--font-fugazOne);
+  z-index: 1;
+  color: transparent;
+  font-size: clamp(10px, 3rem, 5rem);
+  font-style: normal;
+  font-weight: 400;
+  -webkit-text-stroke: 1px #00b2ff;
+}
+

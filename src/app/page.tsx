@@ -3,7 +3,7 @@
 import "./home.css";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   fetchDailyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
@@ -17,7 +17,7 @@ import {
 import LocationSelect from "./Components/LocationSelect/LocationSelect";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
 import TypeSelect from "./Components/TypeSelect/TypeSelect";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, getSession } from "next-auth/react";
 import Session from "./Components/Session/Session";
 
 export default function Home() {
@@ -31,11 +31,17 @@ export default function Home() {
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [userInfo, setUserInfo] = useState<UserSessionInfo | undefined>()
+  const [userInfo, setUserInfo] = useState<UserSessionInfo | undefined>();
 
-  const setLoggedInUserInfo = (userInfo: UserSessionInfo) => {
-    setUserInfo(userInfo);
-  };
+  useEffect(() => {
+    if (!userInfo) {
+      const getUserSessionInfo = async () => {
+        const session = await getSession();
+        setUserInfo(session?.user);
+      };
+      getUserSessionInfo();
+    }
+  }, [userInfo]);
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
@@ -149,7 +155,7 @@ export default function Home() {
             className="header-bkgd-img"
           />
           <SessionProvider>
-            <Session setLoggedInUserInfo={setLoggedInUserInfo} />
+            <Session />
           </SessionProvider>
         </div>
       </header>
@@ -166,7 +172,9 @@ export default function Home() {
             setForecastData={setForecastData}
           />
           {userInfo ? (
-            <button className="add-location-btn">Your Locations</button>
+            <Link href={"/custom_locations"}>
+              <button className="add-location-btn">Your Locations</button>
+            </Link>
           ) : null}
         </section>
         {/* Error ? load: */}

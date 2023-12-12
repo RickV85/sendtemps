@@ -2,19 +2,15 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
-interface Props {
-  setLoggedInUserInfo: Function;
-}
+// interface Props {
+//   setLoggedInUserInfo: Function;
+// }
 
-export default function Session({ setLoggedInUserInfo }: Props) {
+export default function Session() {
   const { data: session, status } = useSession();
   let userProfileImgUrl = session?.user.image ? session?.user.image : null;
 
   if (status === "authenticated" && session.user) {
-    setLoggedInUserInfo(session);
-  }
-
-  if (status !== "loading") {
     return (
       <div className="user-profile-div">
         {session?.user ? (
@@ -37,6 +33,7 @@ export default function Session({ setLoggedInUserInfo }: Props) {
                   src={userProfileImgUrl}
                   alt={"User's Google profile picture"}
                   fill={true}
+                  sizes="(max-width: 768px) 5vw, 2vw"
                   priority={true}
                   style={{ borderRadius: "5px" }}
                 />

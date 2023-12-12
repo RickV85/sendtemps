@@ -172,11 +172,8 @@ export interface LocationSelectProps {
 }
 
 export interface UserSessionInfo {
-  user: {
     id: string,
     email: string,
     name: string,
     image: string
-  }
-  expires: string
 }
