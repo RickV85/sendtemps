@@ -2,17 +2,24 @@ export class User {
   id: number;
   email: string;
   name: string;
-  last_login: string;
-  date_created: string;
-  last_modified: string;
+  last_login: string | null;
+  date_created: string | null;
+  last_modified: string | null;
 
-  constructor(id: number, email: string, name: string) {
+  constructor(
+    id: number,
+    email: string,
+    name: string,
+    last_login: string | null,
+    date_created: string | null,
+    last_modified: string | null
+  ) {
     this.id = id;
     this.email = email;
     this.name = name;
-    this.last_login = new Date().toISOString();
-    this.date_created = new Date().toISOString();
-    this.last_modified = new Date().toISOString();
+    this.last_login = last_login || new Date().toISOString();
+    this.date_created = date_created || new Date().toISOString();
+    this.last_modified = last_modified || new Date().toISOString();
   }
 
   updateEmail(email: string) {

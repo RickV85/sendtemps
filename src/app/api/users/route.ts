@@ -8,6 +8,11 @@ WHERE id = ${userId};`;
   return rows[0];
 };
 
+const updateUser = async (request: NextRequest) => {
+  const response = PATCH(request);
+  return response;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const userId = await request.nextUrl.searchParams.get("user_id");
@@ -33,9 +38,12 @@ export async function POST(request: NextRequest) {
     const reqUserData = await request.json();
     const foundUser = await findUserById(reqUserData.id);
     const newUser = new User(
-      +reqUserData.id,
+      reqUserData.id,
       reqUserData.email,
-      reqUserData.name
+      reqUserData.name,
+      null,
+      null,
+      null
     );
     let response;
     if (!foundUser) {
@@ -61,6 +69,59 @@ export async function PATCH(request: NextRequest) {
   try {
     const userInfoToUpdate = await request.json();
     const previousUserData = await findUserById(userInfoToUpdate.id);
+
+    if (!previousUserData) {
+      return NextResponse.json(`User id: ${userInfoToUpdate.id} not found`, {
+        status: 404,
+      });
+    }
+
+    const user = new User(
+      previousUserData.id,
+      previousUserData.email,
+      previousUserData.name,
+      previousUserData.last_login,
+      previousUserData.date_created,
+      previousUserData.last_modified
+    );
+
+    let isUpdated = false;
+    if (userInfoToUpdate.email && user.email !== userInfoToUpdate.email) {
+      user.updateEmail(userInfoToUpdate.email);
+      isUpdated = true;
+    }
+    if (userInfoToUpdate.name && user.name !== userInfoToUpdate.name) {
+      user.updateName(userInfoToUpdate.name);
+      isUpdated = true;
+    }
+
+    if (isUpdated) {
+      user.updateLastModifiedToNow();
+      user.updateLastLoginToNow();
+
+      await sql`
+        UPDATE sendtemps.users 
+        SET email = ${user.email}, name = ${user.name}, last_modified = ${user.last_modified}, last_login = ${user.last_login} 
+        WHERE id = ${user.id};
+      `;
+
+      return NextResponse.json(`User id: ${user.id} updated successfully.`, {
+        status: 200,
+      });
+    } else {
+      user.updateLastLoginToNow();
+
+      await sql`
+      UPDATE sendtemps.users 
+      SET last_login = ${user.last_login} 
+      WHERE id = ${user.id};
+    `;
+
+      return NextResponse.json(
+        `New user data for id: ${user.id} matches previous user data from database. New login: ${user.last_login}`,
+        { status: 200 }
+      );
+    }
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
