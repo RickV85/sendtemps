@@ -3,9 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { User } from "@/app/Classes/User";
 
 const findUserById = async (userId: string) => {
-  const { rows } = await sql`SELECT * FROM sendtemps.users 
-WHERE id = ${userId};`;
-  return rows[0];
+  try {
+    const { rows } = await sql`SELECT * FROM sendtemps.users WHERE id = ${userId};`;
+    return rows[0] || null;
+  } catch (error) {
+    console.error("Error in findUserById:", error);
+    throw error;
+  }
 };
 
 export async function GET(request: NextRequest) {
@@ -31,7 +35,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const reqUserData = await request.json();
+    console.log({reqUserData})
     const foundUser = await findUserById(reqUserData.id);
+    console.log({foundUser})
     const newUser = new User(
       reqUserData.id,
       reqUserData.email,
