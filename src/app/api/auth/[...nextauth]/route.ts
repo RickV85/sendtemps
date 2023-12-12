@@ -108,9 +108,11 @@ const authOption: NextAuthOptions = {
       //   jti: '3ef9a969-f276-49ed-a645-688981616a0f'
       // }
 
-      // Assign those values to the session like this:
-      // session.accessToken = token.accessToken
-      // session.user.id = token.sub
+      // Assign those values here, update @/types/next-auth.d.ts
+      // with any new data added to session
+      if (session && token.sub) {
+        session.user.id = token.sub
+      }
       return session;
     },
     async jwt({ token, user, account, profile }) {

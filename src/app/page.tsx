@@ -11,6 +11,8 @@ import { Coords, ForecastData, LocationDetails } from "./Interfaces/interfaces";
 import LocationSelect from "./Components/LocationSelect/LocationSelect";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
 import TypeSelect from "./Components/TypeSelect/TypeSelect";
+import { SessionProvider } from "next-auth/react";
+import Session from "./Components/Session/Session";
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
@@ -124,6 +126,9 @@ export default function Home() {
   return (
     <main className="home-main">
       <header className="home-header">
+        <SessionProvider>
+          <Session />
+        </SessionProvider>
         <div className="hero-img-div">
           <h1 className="site-title">SendTemps</h1>
           <Image
