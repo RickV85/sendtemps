@@ -33,7 +33,18 @@ export default function CustomLocations() {
   return (
     <main className="custom-loc-main">
       <h1 className="site-title">SendTemps</h1>
-      <h2>Your Custom Locations</h2>
+      {/* Here is where I'll load from the user's already created locations */}
+      <section className="user-custom-loc-section">
+        <h2>Your Custom Locations</h2>
+      </section>
+      {/* CREATE NEW LOCATION SECTION */}
+      <section className="create-custom-loc-section">
+        <h2>Add a new location!</h2>
+        {userCustomLocation ? <form></form> : null}
+        {userCustomLocation ? null : (
+          <p>Pick a point on the map below to create a new location</p>
+        )}
+      </section>
       <div className="map-container">
         {defaultLocations.length ? (
           <Map

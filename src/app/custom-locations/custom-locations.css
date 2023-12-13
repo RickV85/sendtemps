@@ -14,7 +14,12 @@
   -webkit-text-stroke: 1px #00b2ff;
 }
 
+.create-custom-loc-section {
+  text-align: center;
+  margin: 1rem .2rem .5rem .2rem;
+}
+
 .map-container {
   width: 100vw;
-  height: 80vh;
+  height: 100vh;
 }

@@ -25,7 +25,7 @@ export default function Map({ defaultLocations, setUserCustomLocation }: Props) 
     loader.importLibrary("maps").then(() => {
       if (mapRef.current !== null) {
         map = new google.maps.Map(mapRef.current, {
-          center: { lat: 40, lng: -105.4 },
+          center: { lat: 40, lng: -105.5 },
           zoom: 10,
         });
       }
@@ -50,7 +50,7 @@ export default function Map({ defaultLocations, setUserCustomLocation }: Props) 
         drawingMode: google.maps.drawing.OverlayType.MARKER,
         drawingControl: true,
         drawingControlOptions: {
-          position: google.maps.ControlPosition.TOP_CENTER,
+          position: google.maps.ControlPosition.BOTTOM_CENTER,
           drawingModes: [google.maps.drawing.OverlayType.MARKER],
         },
         markerOptions: {
