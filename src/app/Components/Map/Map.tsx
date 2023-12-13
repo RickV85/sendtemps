@@ -4,13 +4,14 @@ import { Loader } from "@googlemaps/js-api-loader";
 import MapMarker from "../MapMarker/MapMarker";
 import { useRef, useEffect, useState } from "react";
 import { UserMapPoint } from "@/app/Interfaces/interfaces";
+import { Fugaz_One } from "next/font/google";
 
 export default function Map() {
   const mapRef = useRef(null);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!;
-  const [userMapPoints, setUserMapPoints] = useState<Array<UserMapPoint>>([]);
+  const [userCustomLocation, setUserCustomLocation] = useState<UserMapPoint>();
 
-  const maxMarkers = 5;
+  const maxMarkers = 1;
 
   useEffect(() => {
     const loader = new Loader({
@@ -25,9 +26,45 @@ export default function Map() {
       if (mapRef.current !== null) {
         map = new google.maps.Map(mapRef.current, {
           center: { lat: 40, lng: -105.4 },
-          zoom: 8,
+          zoom: 10,
         });
       }
+
+      const fetchPredefinedLocations = async () => {
+        const locations = await fetch("/api/default_locations");
+        return locations;
+      };
+
+      fetchPredefinedLocations()
+        .then((response) => {
+          if (response.ok) {
+            const locations = response.json();
+            return locations;
+          } else {
+            throw new Error("Default locations did not load from API");
+          }
+        })
+        .then((result) => {
+          if (result) {
+            const defaultMarkers = result.map((location: any) => {
+              if (map !== null) {
+                const coords = {lat: +location.latitude, lng: +location.longitude};
+                const point = new google.maps.Marker({
+                  position: coords,
+                  map: map,
+                  label: {
+                    text: location.name,
+                    fontFamily: "Tahoma",
+                    fontSize: "12px",
+                    fontWeight: "500",
+                  },
+                  clickable: false,
+                });
+              }
+            });
+            return defaultMarkers;
+          }
+        });
 
       const drawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.MARKER,
@@ -39,6 +76,12 @@ export default function Map() {
         markerOptions: {
           // Define this to use a specific image
           icon: undefined,
+          label: {
+            text: "Your new location!",
+            fontFamily: "Tahoma",
+            fontSize: "12px",
+            fontWeight: "500",
+          }
         },
       });
 
@@ -55,18 +98,15 @@ export default function Map() {
               lat: markerPosition.lat().toFixed(6),
               lng: markerPosition.lng().toFixed(6),
             };
-            console.log(newUserMapPoint);
 
-            setUserMapPoints((prevPoints) => {
-              const updatedPoints = [...prevPoints, newUserMapPoint];
-
-              if (updatedPoints.length >= maxMarkers) {
+            setUserCustomLocation(() => {
+              if (newUserMapPoint) {
                 drawingManager.setOptions({
                   drawingMode: null,
                   drawingControl: false,
                 });
               }
-              return updatedPoints;
+              return newUserMapPoint;
             });
           }
         }
@@ -78,6 +118,7 @@ export default function Map() {
         map = null;
       }
     };
+    //eslint-disable-next-line
   }, []);
 
   return <div ref={mapRef} style={{ height: "100%", width: "100%" }} />;
