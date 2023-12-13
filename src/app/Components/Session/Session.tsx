@@ -2,10 +2,6 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
-// interface Props {
-//   setLoggedInUserInfo: Function;
-// }
-
 export default function Session() {
   const { data: session, status } = useSession();
   let userProfileImgUrl = session?.user.image ? session?.user.image : null;

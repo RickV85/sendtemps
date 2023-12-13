@@ -172,7 +172,7 @@ export default function Home() {
             setForecastData={setForecastData}
           />
           {userInfo ? (
-            <Link href={"/custom_locations"}>
+            <Link href={"/custom-locations"}>
               <button className="add-location-btn">Your Locations</button>
             </Link>
           ) : null}
