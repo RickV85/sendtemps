@@ -9,16 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.2",
     "@vercel/analytics": "^1.1.1",
     "@vercel/postgres": "^0.5.1",
-    "google-map-react": "^2.2.1",
     "next": "^14.0.4",
     "next-auth": "^4.24.5",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@types/google-map-react": "^2.1.10",
+    "@types/googlemaps": "^3.43.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
