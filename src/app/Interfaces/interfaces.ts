@@ -177,3 +177,8 @@ export interface UserSessionInfo {
     name: string,
     image: string
 }
+
+export interface UserMapPoint {
+  lat: string,
+  lng: string
+}
