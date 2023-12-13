@@ -178,7 +178,10 @@ export interface UserSessionInfo {
     image: string
 }
 
-export interface UserMapPoint {
-  lat: string,
-  lng: string
+export interface GoogleMapPoint {
+  name: string;
+  coords: {
+    lat: number;
+    lng: number;
+  };
 }
