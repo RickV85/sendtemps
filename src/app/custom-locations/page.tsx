@@ -1,5 +1,6 @@
 "use client";
 import "./custom-locations.css";
+import Map from "../Components/Map/Map";
 
 export default function CustomLocations() {
   // Will need to fetch user locations from
@@ -55,6 +56,9 @@ export default function CustomLocations() {
     <main className="custom-loc-main">
       <h1 className="site-title">SendTemps</h1>
       <h2>Your Custom Locations</h2>
+      <div className="map-container">
+        <Map />
+      </div>
     </main>
   );
 }

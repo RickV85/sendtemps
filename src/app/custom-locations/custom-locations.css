@@ -14,3 +14,7 @@
   -webkit-text-stroke: 1px #00b2ff;
 }
 
+.map-container {
+  width: 100vw;
+  height: 80vh;
+}
