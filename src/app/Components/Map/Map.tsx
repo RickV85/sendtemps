@@ -88,6 +88,10 @@ export default function Map({ defaultLocations, setUserCustomLocation }: Props) 
               }
               return newUserMapPoint;
             });
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
           }
         }
       );

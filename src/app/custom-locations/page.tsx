@@ -3,6 +3,7 @@ import "./custom-locations.css";
 import Map from "../Components/Map/Map";
 import { useEffect, useState } from "react";
 import { getAllDefaultLocations } from "../Util/APICalls";
+import CustomLocForm from "../Components/CustomLocForm/CustomLocForm";
 
 export default function CustomLocations() {
   const [defaultLocations, setDefaultLocations] = useState([]);
@@ -34,13 +35,13 @@ export default function CustomLocations() {
     <main className="custom-loc-main">
       <h1 className="site-title">SendTemps</h1>
       {/* Here is where I'll load from the user's already created locations */}
-      <section className="user-custom-loc-section">
+      {/* <section className="user-custom-loc-section">
         <h2>Your Custom Locations</h2>
-      </section>
+      </section> */}
       {/* CREATE NEW LOCATION SECTION */}
       <section className="create-custom-loc-section">
         <h2>Add a new location!</h2>
-        {userCustomLocation ? <form></form> : null}
+        {userCustomLocation ? <CustomLocForm userCustomLocation={userCustomLocation} /> : null}
         {userCustomLocation ? null : (
           <p>Pick a point on the map below to create a new location</p>
         )}

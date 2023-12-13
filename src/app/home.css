@@ -55,7 +55,6 @@
 }
 
 .site-title {
-  font-family: var(--font-fugazOne);
   z-index: 1;
   color: transparent;
   font-size: 11.5vw;
@@ -207,9 +206,7 @@
 }
 
 .day-header-text {
-  font-family: var(--font-fugazOne);
   font-size: 1.5rem;
-  font-weight: 400;
 }
 
 .day-forecast-icon {
@@ -234,9 +231,7 @@
 }
 
 .home-welcome-header {
-  font-family: var(--font-fugazOne);
   color: #ef8354;
-  font-weight: 400;
   text-align: center;
 }
 

@@ -5,7 +5,6 @@
 }
 
 .site-title {
-  font-family: var(--font-fugazOne);
   z-index: 1;
   color: transparent;
   font-size: 10vw;
@@ -16,10 +15,53 @@
 
 .create-custom-loc-section {
   text-align: center;
-  margin: 1rem .2rem .5rem .2rem;
+  margin: 1rem 0.2rem 0.5rem 0.2rem;
+}
+
+.custom-loc-form {
+  width: 98vw;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1vh;
+  background-color: transparent;
+  border-radius: 5px;
+  border: 1px solid #00b2ff;
+  padding: 1rem;
+  margin-bottom: .5rem;
+}
+
+.custom-loc-form-coords {
+  display: flex;
+  justify-content: center;
+  gap: 5vw;
+  font-size: 1.3rem;
+  margin-bottom: .5rem;
+}
+
+.custom-loc-form-input {
+  width: 95%;
+  max-width: 500px;
+
+  background-color: transparent;
+  border: 1px solid #00b2ff;
+  border-radius: 5px;
+
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
+  font-size: 1.5rem;
+  text-align: center;
+  text-align-last: center;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+#customLocNameInput {
+  font-family: var(--font-hanuman);
 }
 
 .map-container {
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
 }

@@ -36,6 +36,11 @@ input, button, textarea, select {
   font: inherit;
 }
 
+h1, h2 {
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
+}
+
 :focus {
   outline: 2px solid #F18F01;
 }
