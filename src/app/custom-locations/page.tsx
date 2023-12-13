@@ -1,28 +1,18 @@
 "use client";
 import "./custom-locations.css";
 import Map from "../Components/Map/Map";
-import { GoogleMapPoint } from "@/app/Interfaces/interfaces";
 import { useEffect, useState } from "react";
+import { getAllDefaultLocations } from "../Util/APICalls";
 
 export default function CustomLocations() {
   const [defaultLocations, setDefaultLocations] = useState([]);
-  const [userCustomLocation, setUserCustomLocation] = useState<{lat: number, lng: number}>();
+  const [userCustomLocation, setUserCustomLocation] = useState<{
+    lat: number;
+    lng: number;
+  }>();
 
   useEffect(() => {
-    const fetchPredefinedLocations = async () => {
-      const locations = await fetch("/api/default_locations");
-      return locations;
-    };
-
-    fetchPredefinedLocations()
-      .then((response) => {
-        if (response.ok) {
-          const locations = response.json();
-          return locations;
-        } else {
-          throw new Error("Default locations did not load from API");
-        }
-      })
+    getAllDefaultLocations()
       .then((result) => {
         if (result) {
           const defaultMarkers = result.map((location: any) => {
