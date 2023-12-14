@@ -73,5 +73,21 @@ export default function CustomLocations() {
         </div>
       </main>
     );
+  } else {
+    return (
+      <main
+        style={{
+          height: "100vh",
+          width: "100vw",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <h1 className="site-title">SendTemps</h1>
+        <p>Please return to the home page and login. This page can only be used by logged in users.</p>
+      </main>
+    );
   }
 }
