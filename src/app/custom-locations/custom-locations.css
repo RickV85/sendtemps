@@ -29,7 +29,7 @@
   border-radius: 5px;
   border: 1px solid #00b2ff;
   padding: 1rem;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .custom-loc-form-coords {
@@ -37,7 +37,7 @@
   justify-content: center;
   gap: 5vw;
   font-size: 1.3rem;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .custom-loc-form-input {

@@ -1,6 +1,7 @@
 "use client";
 import "./custom-locations.css";
 import Map from "../Components/Map/Map";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getAllDefaultLocations } from "../Util/APICalls";
 import CustomLocForm from "../Components/CustomLocForm/CustomLocForm";
@@ -33,7 +34,9 @@ export default function CustomLocations() {
 
   return (
     <main className="custom-loc-main">
-      <h1 className="site-title">SendTemps</h1>
+      <Link href={"/"}>
+        <h1 className="site-title">SendTemps</h1>
+      </Link>
       {/* Here is where I'll load from the user's already created locations */}
       {/* <section className="user-custom-loc-section">
         <h2>Your Custom Locations</h2>
@@ -41,7 +44,9 @@ export default function CustomLocations() {
       {/* CREATE NEW LOCATION SECTION */}
       <section className="create-custom-loc-section">
         <h2>Add a new location!</h2>
-        {userCustomLocation ? <CustomLocForm userCustomLocation={userCustomLocation} /> : null}
+        {userCustomLocation ? (
+          <CustomLocForm userCustomLocation={userCustomLocation} />
+        ) : null}
         {userCustomLocation ? null : (
           <p>Pick a point on the map below to create a new location</p>
         )}
