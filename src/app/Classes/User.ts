@@ -22,12 +22,24 @@ export class User {
     this.last_modified = last_modified || new Date().toISOString();
   }
 
-  updateEmail(email: string) {
-    this.email = email;
+  updateEmail(newEmail: string) {
+    if (newEmail && newEmail.length <= 100) {
+      this.email = newEmail;
+    } else {
+      console.log(
+        "newEmail for User must be 100 characters or less. Email not updated."
+      );
+    }
   }
 
-  updateName(name: string) {
-    this.name = name;
+  updateName(newName: string) {
+    if (newName && newName.length <= 100) {
+      this.name = newName;
+    } else {
+      console.log(
+        "newName for User must be 100 characters or less. Name not updated."
+      );
+    }
   }
 
   updateLastLoginToNow() {
