@@ -10,7 +10,7 @@ import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 
 export default function CustomLocations() {
   const [defaultLocations, setDefaultLocations] = useState([]);
-  const [userCustomLocation, setUserCustomLocation] = useState<{
+  const [newUserLocCoords, setNewUserLocCoords] = useState<{
     lat: number;
     lng: number;
   }>();
@@ -63,10 +63,10 @@ export default function CustomLocations() {
         {/* CREATE NEW LOCATION SECTION */}
         <section className="create-custom-loc-section">
           <h2>Add a new location!</h2>
-          {userCustomLocation ? (
-            <CustomLocForm userCustomLocation={userCustomLocation} userInfo={userInfo} />
+          {newUserLocCoords ? (
+            <CustomLocForm newUserLocCoords={newUserLocCoords} userInfo={userInfo} />
           ) : null}
-          {userCustomLocation ? null : (
+          {newUserLocCoords ? null : (
             <p>Pick a point on the map below to create a new location</p>
           )}
         </section>
@@ -74,7 +74,7 @@ export default function CustomLocations() {
           {defaultLocations.length ? (
             <Map
               defaultLocations={defaultLocations}
-              setUserCustomLocation={setUserCustomLocation}
+              setNewUserLocCoords={setNewUserLocCoords}
             />
           ) : null}
         </div>

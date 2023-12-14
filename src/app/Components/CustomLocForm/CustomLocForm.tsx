@@ -5,14 +5,14 @@ import { postNewUserLocation } from "@/app/Util/APICalls";
 import { useState } from "react";
 
 interface Props {
-  userCustomLocation: {
+  newUserLocCoords: {
     lat: number;
     lng: number;
   };
   userInfo: UserSessionInfo;
 }
 
-export default function CustomLocForm({ userCustomLocation, userInfo }: Props) {
+export default function CustomLocForm({ newUserLocCoords, userInfo }: Props) {
   const [locName, setLocName] = useState("");
   const [locType, setLocType] = useState("Select Sport");
   const [submitMessage, setSubmitMessage] = useState("");
@@ -40,8 +40,8 @@ export default function CustomLocForm({ userCustomLocation, userInfo }: Props) {
     }
     const newUserLoc = {
       name: locName,
-      latitude: userCustomLocation.lat.toString(),
-      longitude: userCustomLocation.lng.toString(),
+      latitude: newUserLocCoords.lat.toString(),
+      longitude: newUserLocCoords.lng.toString(),
       user_id: userInfo.id,
       poi_type: locType,
     };
@@ -68,8 +68,8 @@ export default function CustomLocForm({ userCustomLocation, userInfo }: Props) {
           <p id="submitMessage">{submitMessage}</p>
         ) : (
           <>
-            <p>Lat: {userCustomLocation.lat}</p>
-            <p>Long: {userCustomLocation.lng}</p>
+            <p>Lat: {newUserLocCoords.lat}</p>
+            <p>Long: {newUserLocCoords.lng}</p>
           </>
         )}
       </div>

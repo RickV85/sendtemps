@@ -6,10 +6,10 @@ import { GoogleMapPoint } from "@/app/Interfaces/interfaces";
 
 interface Props {
   defaultLocations: Array<GoogleMapPoint>,
-  setUserCustomLocation: Dispatch<React.SetStateAction<{lat: number, lng: number} | undefined>>,
+  setNewUserLocCoords: Dispatch<React.SetStateAction<{lat: number, lng: number} | undefined>>,
 }
 
-export default function Map({ defaultLocations, setUserCustomLocation }: Props) {
+export default function Map({ defaultLocations, setNewUserLocCoords }: Props) {
   const mapRef = useRef(null);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!;
 
@@ -79,7 +79,7 @@ export default function Map({ defaultLocations, setUserCustomLocation }: Props) 
               lng: markerPosition.lng().toFixed(6),
             };
 
-            setUserCustomLocation(() => {
+            setNewUserLocCoords(() => {
               if (newUserMapPoint) {
                 drawingManager.setOptions({
                   drawingMode: null,
