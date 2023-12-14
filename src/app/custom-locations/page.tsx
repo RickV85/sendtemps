@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getAllDefaultLocations } from "../Util/APICalls";
 import CustomLocForm from "../Components/CustomLocForm/CustomLocForm";
 import { UserSessionInfo } from "../Interfaces/interfaces";
+import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 
 export default function CustomLocations() {
   const [defaultLocations, setDefaultLocations] = useState([]);
@@ -14,12 +15,18 @@ export default function CustomLocations() {
     lng: number;
   }>();
   const [userInfo, setUserInfo] = useState<UserSessionInfo | undefined>();
+  const [showReturnToLogin, setShowReturnToLogin] = useState(false);
 
   useEffect(() => {
     if (!userInfo) {
       const sesUserInfo = sessionStorage.getItem("userInfo");
       if (sesUserInfo) {
         setUserInfo(JSON.parse(sesUserInfo));
+      } else {
+        const timer = setTimeout(() => {
+          setShowReturnToLogin(true);
+        }, 2000);
+        return () => clearTimeout(timer);
       }
     }
   }, [userInfo]);
@@ -73,21 +80,7 @@ export default function CustomLocations() {
         </div>
       </main>
     );
-  } else {
-    return (
-      <main
-        style={{
-          height: "100vh",
-          width: "100vw",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <h1 className="site-title">SendTemps</h1>
-        <p>Please return to the home page and login. This page can only be used by logged in users.</p>
-      </main>
-    );
+  } else if (showReturnToLogin) {
+    return <ReturnToLogin />;
   }
 }
