@@ -15,12 +15,12 @@ interface Props {
 export default function CustomLocForm({ userCustomLocation, userInfo }: Props) {
   const [locName, setLocName] = useState("");
   const [locType, setLocType] = useState("Select Sport");
-  const [submitError, setSubmitError] = useState("");
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const handleSubmitError = (errMsg: string) => {
-    setSubmitError(errMsg);
+    setSubmitMessage(errMsg);
     setTimeout(() => {
-      setSubmitError("");
+      setSubmitMessage("");
     }, 2500);
   };
 
@@ -45,19 +45,27 @@ export default function CustomLocForm({ userCustomLocation, userInfo }: Props) {
       user_id: userInfo.id,
       poi_type: locType,
     };
-    const postNewUserLocResponse = await postNewUserLocation(newUserLoc)
+    const postNewUserLocResponse = await postNewUserLocation(newUserLoc);
     if (postNewUserLocResponse.startsWith("Success")) {
-      // Clear inputs, state, show success message
+      setSubmitMessage("New location saved!");
     } else {
-      // Show error message
+      setSubmitMessage("Error saving location. Please try again.");
     }
+    setTimeout(() => {
+      setLocName("");
+      setLocType("Select Sport");
+      setSubmitMessage("");
+      // Change if new reset map strategy is created
+      window.location.reload();
+      // Then get new locations for user and display on map
+    }, 2500);
   };
 
   return (
     <form className="custom-loc-form">
       <div className="custom-loc-form-coords">
-        {submitError ? (
-          <p>{submitError}</p>
+        {submitMessage ? (
+          <p id="submitMessage">{submitMessage}</p>
         ) : (
           <>
             <p>Lat: {userCustomLocation.lat}</p>
