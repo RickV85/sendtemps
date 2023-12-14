@@ -86,7 +86,15 @@ export async function getAllDefaultLocations() {
   }
 }
 
-export async function postNewUserLocation(userLoc: UserLocation) {
+interface NewUserLoc {
+  name: string;
+  latitude: string;
+  longitude: string;
+  user_id: string;
+  poi_type: string;
+}
+
+export async function postNewUserLocation(userLoc: NewUserLoc) {
   try {
     const response = await fetch("/api/user_locations", {
       method: "POST",
@@ -101,7 +109,7 @@ export async function postNewUserLocation(userLoc: UserLocation) {
       return await response.json();
     } else {
       const errorData = await response.json();
-      throw new Error("postNewUserLocation error response:", errorData);
+      throw new Error("Error response postNewUserLocation:", errorData);
     }
   } catch (error) {
     throw error;

@@ -1,5 +1,6 @@
 "use client";
 
+import { UserSessionInfo } from "@/app/Interfaces/interfaces";
 import { postNewUserLocation } from "@/app/Util/APICalls";
 import { useState } from "react";
 
@@ -8,9 +9,10 @@ interface Props {
     lat: number;
     lng: number;
   };
+  userInfo: UserSessionInfo;
 }
 
-export default function CustomLocForm({ userCustomLocation }: Props) {
+export default function CustomLocForm({ userCustomLocation, userInfo }: Props) {
   const [locName, setLocName] = useState("");
   const [locType, setLocType] = useState("Select Sport");
   const [submitError, setSubmitError] = useState("");
@@ -26,21 +28,29 @@ export default function CustomLocForm({ userCustomLocation }: Props) {
     if (!locName) {
       handleSubmitError("Please enter a name for your new location.");
       return;
-    } else if (locName.length > 100) {
-      handleSubmitError("Location names cannot be longer than 100 characters.");
-      return;
-    } else if (locName.toLowerCase().includes("script")) {
-      handleSubmitError("NO XSS");
+    } else if (locName.length > 50) {
+      handleSubmitError("Location names cannot be longer than 50 characters.");
       return;
     } else if (locType === "Select Sport") {
       handleSubmitError("Please choose a sport for this location.");
       return;
+    } else if (locName.toLowerCase().includes("script")) {
+      handleSubmitError("NO XSS");
+      return;
     }
-    // const newUserLoc = {
-    //   name: locName,
-
-    // }
-    // const postNewUserLocResponse = await postNewUserLocation()
+    const newUserLoc = {
+      name: locName,
+      latitude: userCustomLocation.lat.toString(),
+      longitude: userCustomLocation.lng.toString(),
+      user_id: userInfo.id,
+      poi_type: locType,
+    };
+    const postNewUserLocResponse = await postNewUserLocation(newUserLoc)
+    if (postNewUserLocResponse.startsWith("Success")) {
+      // Clear inputs, state, show success message
+    } else {
+      // Show error message
+    }
   };
 
   return (

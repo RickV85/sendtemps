@@ -64,7 +64,7 @@ export default function CustomLocations() {
         <section className="create-custom-loc-section">
           <h2>Add a new location!</h2>
           {userCustomLocation ? (
-            <CustomLocForm userCustomLocation={userCustomLocation} />
+            <CustomLocForm userCustomLocation={userCustomLocation} userInfo={userInfo} />
           ) : null}
           {userCustomLocation ? null : (
             <p>Pick a point on the map below to create a new location</p>
