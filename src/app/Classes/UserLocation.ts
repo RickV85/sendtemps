@@ -3,6 +3,7 @@ export class UserLocation {
   latitude: string;
   longitude: string;
   user_id: string;
+  poi_type: string;
   date_created: string;
   last_modified: string;
 
@@ -10,12 +11,14 @@ export class UserLocation {
     name: string,
     latitude: string,
     longitude: string,
-    user_id: string
+    user_id: string,
+    poi_type: string
   ) {
     this.name = name;
     this.latitude = latitude;
     this.longitude = longitude;
     this.user_id = user_id;
+    this.poi_type = poi_type;
     this.date_created = new Date().toISOString();
     this.last_modified = new Date().toISOString();
   }

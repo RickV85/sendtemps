@@ -25,13 +25,14 @@ export async function POST(request: NextRequest) {
       reqBody.name,
       reqBody.latitude,
       reqBody.longitude,
-      reqBody.user_id
+      reqBody.user_id,
+      reqBody.poi_type
     );
     console.log(newUserLoc);
     let response;
     // Could add a sql query here to see if this has already been created
     if (newUserLoc) {
-      await sql`INSERT INTO sendtemps.user_locations (name, latitude, longitude, date_created, last_modified) VALUES (${newUserLoc.name}, ${newUserLoc.latitude}, ${newUserLoc.longitude}, ${newUserLoc.date_created}, ${newUserLoc.last_modified})`;
+      await sql`INSERT INTO sendtemps.user_locations (name, latitude, longitude, user_id, poi_type, date_created, last_modified) VALUES (${newUserLoc.name}, ${newUserLoc.latitude}, ${newUserLoc.longitude}, ${newUserLoc.user_id}, ${newUserLoc.poi_type}, ${newUserLoc.date_created}, ${newUserLoc.last_modified})`;
       response = NextResponse.json(
         `New location "${newUserLoc.name} created for user: ${newUserLoc.user_id}`,
         { status: 201 }

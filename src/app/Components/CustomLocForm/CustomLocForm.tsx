@@ -1,5 +1,6 @@
 "use client";
 
+import { postNewUserLocation } from "@/app/Util/APICalls";
 import { useState } from "react";
 
 interface Props {
@@ -35,8 +36,11 @@ export default function CustomLocForm({ userCustomLocation }: Props) {
       handleSubmitError("Please choose a sport for this location.");
       return;
     }
+    // const newUserLoc = {
+    //   name: locName,
 
-    // Send API req
+    // }
+    // const postNewUserLocResponse = await postNewUserLocation()
   };
 
   return (
