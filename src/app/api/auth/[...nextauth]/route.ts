@@ -36,6 +36,7 @@ const authOption: NextAuthOptions = {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(googleUserInfo),
+          credentials: "include"
         });
 
         if (res.status === 201) {
@@ -56,6 +57,7 @@ const authOption: NextAuthOptions = {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(googleUserInfo),
+          credentials: "include"
         });
 
         if (!res.ok) {
