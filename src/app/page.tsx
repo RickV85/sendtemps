@@ -118,8 +118,6 @@ export default function Home() {
         hourly forecasts for a selected day. If you have feedback or feature
         suggestions, please email to rickv85@gmail.com to give me!
       </p>
-      <br />
-      <p>- Rick Vermeil</p>
     </div>
   );
 

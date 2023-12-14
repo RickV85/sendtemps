@@ -46,6 +46,6 @@ input, button, textarea, select {
 
 @media screen and (min-width: 769px) {
   html {
-    font-size: 18px;
+    font-size: 16px;
   }
 }

@@ -247,15 +247,3 @@
     padding: 1rem;
   }
 }
-
-@media screen and (min-width: 1600px) {
-  .home-header {
-    border-left: 1px solid #00b2ff;
-    border-right: 1px solid #00b2ff;
-  }
-
-  .home-main-display {
-    border-left: 1px solid #00b2ff;
-    border-right: 1px solid #00b2ff;
-  }
-}
