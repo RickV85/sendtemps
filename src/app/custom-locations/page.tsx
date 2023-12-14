@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getAllDefaultLocations } from "../Util/APICalls";
 import CustomLocForm from "../Components/CustomLocForm/CustomLocForm";
+import { UserSessionInfo } from "../Interfaces/interfaces";
 
 export default function CustomLocations() {
   const [defaultLocations, setDefaultLocations] = useState([]);
@@ -12,6 +13,16 @@ export default function CustomLocations() {
     lat: number;
     lng: number;
   }>();
+  const [userInfo, setUserInfo] = useState<UserSessionInfo | undefined>();
+
+  useEffect(() => {
+    if (!userInfo) {
+      const sesUserInfo = sessionStorage.getItem("userInfo");
+      if (sesUserInfo) {
+        setUserInfo(JSON.parse(sesUserInfo));
+      }
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     getAllDefaultLocations()
@@ -32,33 +43,35 @@ export default function CustomLocations() {
       });
   }, []);
 
-  return (
-    <main className="custom-loc-main">
-      <Link href={"/"}>
-        <h1 className="site-title">SendTemps</h1>
-      </Link>
-      {/* Here is where I'll load from the user's already created locations */}
-      {/* <section className="user-custom-loc-section">
+  if (userInfo) {
+    return (
+      <main className="custom-loc-main">
+        <Link href={"/"}>
+          <h1 className="site-title">SendTemps</h1>
+        </Link>
+        {/* Here is where I'll load from the user's already created locations */}
+        {/* <section className="user-custom-loc-section">
         <h2>Your Custom Locations</h2>
       </section> */}
-      {/* CREATE NEW LOCATION SECTION */}
-      <section className="create-custom-loc-section">
-        <h2>Add a new location!</h2>
-        {userCustomLocation ? (
-          <CustomLocForm userCustomLocation={userCustomLocation} />
-        ) : null}
-        {userCustomLocation ? null : (
-          <p>Pick a point on the map below to create a new location</p>
-        )}
-      </section>
-      <div className="map-container">
-        {defaultLocations.length ? (
-          <Map
-            defaultLocations={defaultLocations}
-            setUserCustomLocation={setUserCustomLocation}
-          />
-        ) : null}
-      </div>
-    </main>
-  );
+        {/* CREATE NEW LOCATION SECTION */}
+        <section className="create-custom-loc-section">
+          <h2>Add a new location!</h2>
+          {userCustomLocation ? (
+            <CustomLocForm userCustomLocation={userCustomLocation} />
+          ) : null}
+          {userCustomLocation ? null : (
+            <p>Pick a point on the map below to create a new location</p>
+          )}
+        </section>
+        <div className="map-container">
+          {defaultLocations.length ? (
+            <Map
+              defaultLocations={defaultLocations}
+              setUserCustomLocation={setUserCustomLocation}
+            />
+          ) : null}
+        </div>
+      </main>
+    );
+  }
 }

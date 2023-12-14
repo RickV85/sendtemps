@@ -34,14 +34,21 @@ export default function Home() {
   const [userInfo, setUserInfo] = useState<UserSessionInfo | undefined>();
 
   useEffect(() => {
+    // Might be better to set up context over session storage to preserve userInfo
+    // doing this to provide to custom-locations and any other pages besides /
+    sessionStorage.clear();
     if (!userInfo) {
       const getUserSessionInfo = async () => {
         const session = await getSession();
-        setUserInfo(session?.user);
+        if (session?.user) {
+          setUserInfo(session?.user);
+          sessionStorage.setItem("userInfo", JSON.stringify(session?.user));
+        }
       };
       getUserSessionInfo();
     }
-  }, [userInfo]);
+    //eslint-disable-next-line
+  }, []);
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
