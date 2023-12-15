@@ -29,7 +29,6 @@ export default function Session() {
                 alt={"User's Google profile picture"}
                 fill={true}
                 sizes="(max-width: 768px) 5vw, 2vw"
-                priority={true}
                 style={{ borderRadius: "5px" }}
               />
             ) : null}
