@@ -37,9 +37,9 @@ export default function Map({ mapLocations, setNewUserLocCoords }: Props) {
             map: map,
             label: {
               text: location.name,
-              fontFamily: "Tahoma",
+              fontFamily: "'Tahoma', sans-serif",
               fontSize: "12px",
-              fontWeight: "500",
+              fontWeight: "700",
             },
             clickable: false,
           });
@@ -58,9 +58,10 @@ export default function Map({ mapLocations, setNewUserLocCoords }: Props) {
           icon: undefined,
           label: {
             text: "Your new location!",
-            fontFamily: "Tahoma",
-            fontSize: "12px",
-            fontWeight: "500",
+            fontFamily: "'Tahoma', sans-serif",
+            fontSize: "16px",
+            fontWeight: "700",
+            color: "rgb(0 15 255)"
           },
         },
       });

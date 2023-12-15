@@ -19,6 +19,7 @@ import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayFor
 import TypeSelect from "./Components/TypeSelect/TypeSelect";
 import { SessionProvider, getSession } from "next-auth/react";
 import Session from "./Components/Session/Session";
+import { welcomeMessage } from "./home-welcome-msg";
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
@@ -36,7 +37,7 @@ export default function Home() {
   useEffect(() => {
     // Might be better to set up context over session storage to preserve userInfo
     // doing this to provide to custom-locations and any other pages besides /
-    sessionStorage.clear();
+    sessionStorage.setItem("userInfo", "");
     if (!userInfo) {
       const getUserSessionInfo = async () => {
         const session = await getSession();
@@ -122,31 +123,6 @@ export default function Home() {
     return forecast;
   };
 
-  const welcomeMessage = (
-    <div className="home-welcome-msg-div">
-      <h2 className="home-welcome-header">Welcome to SendTemps!</h2>
-      <p>
-        Choose from Climbing, Mountain Biking, or Skiing/Snowboarding above to
-        get highly-accurate, NOAA pinpoint forecasts for any of my favorite
-        destinations for the selected sport all around Colorado&apos;s Front
-        Range.
-        <br />
-        <br />
-        In my experience over the last decade, NOAA&apos;s pinpoint forecasts
-        have proven to be far more accurate for backcountry destinations when
-        compared to the average weather app. So I decided to build this
-        straight-forward, ad-free app for my fellow Front-Rangers to easily get
-        an accurate forecast for their own backcountry adventures!
-        <br />
-        <br />
-        New features are coming soon! Next up, I am building an &quot;Add your
-        own location&quot; feature so you can save your favorite locations and
-        hourly forecasts for a selected day. If you have feedback or feature
-        suggestions, please email to rickv85@gmail.com to give me!
-      </p>
-    </div>
-  );
-
   return (
     <main className="home-main">
       <header className="home-header">
@@ -180,7 +156,7 @@ export default function Home() {
           />
           {userInfo ? (
             <Link href={"/custom-locations"}>
-              <button className="add-location-btn">Your Locations</button>
+              <button className="add-location-btn">Create New Location</button>
             </Link>
           ) : null}
         </section>

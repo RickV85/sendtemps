@@ -166,6 +166,7 @@
   font-size: 1.3rem;
   width: max-content;
   padding: 0rem 2rem 0rem 2rem;
+  animation: fadeIn ease-in .5s ;
 }
 
 .type-select-div {
