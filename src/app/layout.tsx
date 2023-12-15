@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Fugaz_One, Hanuman } from "next/font/google";
 import "./globals.css";
+import { UserProvider } from "./Contexts/UserContext";
 
 export const metadata: Metadata = {
   title: "SendTemps",
@@ -35,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fugazOne.variable} ${hanuman.variable}`}>
       <body>
-        {children}
+        <UserProvider>{children}</UserProvider>
         <Analytics />
       </body>
     </html>

@@ -3,7 +3,7 @@
 import "./home.css";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   fetchDailyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
@@ -12,14 +12,14 @@ import {
   Coords,
   ForecastData,
   LocationDetails,
-  UserSessionInfo,
 } from "./Interfaces/interfaces";
 import LocationSelect from "./Components/LocationSelect/LocationSelect";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
 import TypeSelect from "./Components/TypeSelect/TypeSelect";
-import { SessionProvider, getSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import Session from "./Components/Session/Session";
 import { welcomeMessage } from "./home-welcome-msg";
+import { UserContext } from '../app/Contexts/UserContext';
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
@@ -32,24 +32,7 @@ export default function Home() {
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [userInfo, setUserInfo] = useState<UserSessionInfo | undefined>();
-
-  useEffect(() => {
-    // Might be better to set up context over session storage to preserve userInfo
-    // doing this to provide to custom-locations and any other pages besides /
-    sessionStorage.setItem("userInfo", "");
-    if (!userInfo) {
-      const getUserSessionInfo = async () => {
-        const session = await getSession();
-        if (session?.user) {
-          setUserInfo(session?.user);
-          sessionStorage.setItem("userInfo", JSON.stringify(session?.user));
-        }
-      };
-      getUserSessionInfo();
-    }
-    //eslint-disable-next-line
-  }, []);
+  const { userInfo, setUserInfo } = useContext(UserContext);
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
@@ -153,7 +136,7 @@ export default function Home() {
             selectedLocType={selectedLocType}
             setSelectedLocCoords={setSelectedLocCoords}
             setForecastData={setForecastData}
-            userInfo={userInfo}
+            // userInfo={userInfo}
             setError={setError}
           />
           {userInfo ? (

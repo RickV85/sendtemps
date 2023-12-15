@@ -2,12 +2,13 @@
 import "./custom-locations.css";
 import Map from "../Components/Map/Map";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { getAllDefaultLocations, getAllUserLocations } from "../Util/APICalls";
 import CustomLocForm from "../Components/CustomLocForm/CustomLocForm";
-import { UserSessionInfo, GoogleMapPoint } from "../Interfaces/interfaces";
+import { GoogleMapPoint } from "../Interfaces/interfaces";
 import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 import { createGoogleMapPoints } from "../Util/utils";
+import { UserContext } from "../Contexts/UserContext";
 
 export default function CustomLocations() {
   const [userLocations, setUserLocations] = useState([]);
@@ -16,21 +17,13 @@ export default function CustomLocations() {
     lat: number;
     lng: number;
   }>();
-  const [userInfo, setUserInfo] = useState<UserSessionInfo | undefined>();
   const [showReturnToLogin, setShowReturnToLogin] = useState(false);
   const [error, setError] = useState("");
+  const { userInfo, setUserInfo } = useContext(UserContext);
 
   useEffect(() => {
     if (!userInfo) {
-      const sesUserInfo = sessionStorage.getItem("userInfo");
-      if (sesUserInfo) {
-        setUserInfo(JSON.parse(sesUserInfo));
-      } else {
-        const timer = setTimeout(() => {
-          setShowReturnToLogin(true);
-        }, 2000);
-        return () => clearTimeout(timer);
-      }
+      setShowReturnToLogin(true);
     }
   }, [userInfo]);
 
