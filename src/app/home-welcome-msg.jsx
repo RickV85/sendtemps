@@ -5,7 +5,7 @@ export const welcomeMessage = (
       Choose from Climbing, Mountain Biking, or Skiing/Snowboarding above to
       get highly-accurate, NOAA pinpoint forecasts for any of my favorite
       destinations for the selected sport all around Colorado&apos;s Front
-      Range.
+      Range. Login with Google to add your own favorite locations!
       <br />
       <br />
       In my experience over the last decade, NOAA&apos;s pinpoint forecasts
@@ -16,7 +16,7 @@ export const welcomeMessage = (
       <br />
       <br />
       New features are coming soon! If you have feedback or feature
-      suggestions, please email to rickv85@gmail.com to give me!
+      suggestions, please email me at rickv85@gmail.com.
     </p>
   </div>
 );
