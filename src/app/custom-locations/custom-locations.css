@@ -66,6 +66,13 @@
   cursor: pointer;
 }
 
+.custom-loc-btn-div {
+  display: flex;
+  width: 95%;
+  max-width: 500px;
+  gap: 1rem;
+}
+
 #customLocNameInput {
   font-family: var(--font-hanuman);
   cursor: text;

@@ -95,21 +95,23 @@ export default function CustomLocForm({ newUserLocCoords, userInfo }: Props) {
         <option value="mtb">Mountain Biking</option>
         <option value="ski">Skiing / Snowboarding</option>
       </select>
-      <button
-        className="custom-loc-form-input"
-        onClick={(e) => {
-          e.preventDefault();
-          handleSubmit();
-        }}
-      >
-        Add location
-      </button>
-      <button
-        className="custom-loc-form-input"
-        onClick={() => window.location.reload()}
-      >
-        Discard location
-      </button>
+      <div className="custom-loc-btn-div">
+        <button
+          className="custom-loc-form-input"
+          onClick={() => window.location.reload()}
+        >
+          Delete
+        </button>
+        <button
+          className="custom-loc-form-input"
+          onClick={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+        >
+          Save
+        </button>
+      </div>
     </form>
   );
 }
