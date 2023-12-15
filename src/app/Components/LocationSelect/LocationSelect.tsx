@@ -38,7 +38,6 @@ export default function LocationSelect({
       if (locs) {
         setAllLocationOptions([...allLocationOptions, ...locs]);
       } else {
-        console.error("An error occurred while fetching default locations.");
         setError("An error occurred while fetching default locations.");
       }
     });
@@ -51,9 +50,6 @@ export default function LocationSelect({
         if (locs) {
           setAllLocationOptions([...allLocationOptions, ...locs]);
         } else {
-          console.error(
-            "An error occurred while fetching your custom locations."
-          );
           setError("An error occurred while fetching your custom locations.");
         }
       });
