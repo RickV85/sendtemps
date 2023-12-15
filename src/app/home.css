@@ -38,7 +38,7 @@
 
 .home-header {
   position: sticky;
-  top: 0;
+  top: -1;
   z-index: 0;
 }
 
@@ -47,7 +47,7 @@
   width: 100vw;
   max-width: 1600px;
   position: relative;
-  z-index: 0;
+  z-index: -1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -153,6 +153,7 @@
   font-weight: 400;
   font-size: 1.5rem;
   text-align: center;
+  text-align-last: center;
   color: #ffffff;
   cursor: pointer;
 }
@@ -175,7 +176,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: -1;
+  z-index: 0;
 }
 
 .detailed-day-forecast,
