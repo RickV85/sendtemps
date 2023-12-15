@@ -75,6 +75,14 @@
   font-weight: 700;
 }
 
+#errorMessage {
+  width: 90vw;
+  margin: auto;
+  color: #F18F01;
+  font-weight: 700;
+  text-align: center;
+}
+
 .map-container {
   width: 100vw;
   height: 100dvh;

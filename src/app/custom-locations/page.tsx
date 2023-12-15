@@ -5,10 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getAllDefaultLocations, getAllUserLocations } from "../Util/APICalls";
 import CustomLocForm from "../Components/CustomLocForm/CustomLocForm";
-import {
-  UserSessionInfo,
-  GoogleMapPoint,
-} from "../Interfaces/interfaces";
+import { UserSessionInfo, GoogleMapPoint } from "../Interfaces/interfaces";
 import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 import { createGoogleMapPoints } from "../Util/utils";
 
@@ -21,6 +18,7 @@ export default function CustomLocations() {
   }>();
   const [userInfo, setUserInfo] = useState<UserSessionInfo | undefined>();
   const [showReturnToLogin, setShowReturnToLogin] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!userInfo) {
@@ -45,12 +43,14 @@ export default function CustomLocations() {
             getAllUserLocations(userInfo.id),
           ]);
           if (userLocs) setUserLocations(userLocs);
-          const allLocs = [...(defaultLocs || []), ...(userLocs || [])];
+          const allLocs = [...defaultLocs, ...(userLocs || [])];
           const mapMarkers = createGoogleMapPoints(allLocs);
           setMapLocations(mapMarkers);
         } catch (error) {
-          console.error("Error fetching locations:", error);
-          // User Error message display
+          console.error(error);
+          setError(
+            "Oh, no! An error occurred while fetching locations. Please reload the page and try again."
+          );
         }
       };
       fetchLocations();
@@ -63,31 +63,35 @@ export default function CustomLocations() {
         <Link href={"/"}>
           <h1 className="site-title">SendTemps</h1>
         </Link>
-        {/* Here is where I'll load from the user's already created locations */}
-        {/* <section className="user-custom-loc-section">
-        <h2>Your Custom Locations</h2>
-      </section> */}
-        {/* CREATE NEW LOCATION SECTION */}
-        <section className="create-custom-loc-section">
-          <h2>Add a new location!</h2>
-          {newUserLocCoords ? (
-            <CustomLocForm
-              newUserLocCoords={newUserLocCoords}
-              userInfo={userInfo}
-            />
-          ) : null}
-          {newUserLocCoords ? null : (
-            <p>Pick a point on the map below to create a new location</p>
-          )}
-        </section>
-        <div className="map-container">
-          {mapLocations.length ? (
-            <Map
-              mapLocations={mapLocations}
-              setNewUserLocCoords={setNewUserLocCoords}
-            />
-          ) : null}
-        </div>
+        {error ? (
+          <p id="errorMessage">{error}</p>
+        ) : (
+          <>
+            {/* Add current user custom location display here?
+            Or create new page?
+            Give user ability to PATCH and DELETE */}
+            <section className="create-custom-loc-section">
+              <h2>Add a new location!</h2>
+              {newUserLocCoords ? (
+                <CustomLocForm
+                  newUserLocCoords={newUserLocCoords}
+                  userInfo={userInfo}
+                />
+              ) : null}
+              {newUserLocCoords ? null : (
+                <p>Pick a point on the map below to create a new location</p>
+              )}
+            </section>
+            <div className="map-container">
+              {mapLocations.length ? (
+                <Map
+                  mapLocations={mapLocations}
+                  setNewUserLocCoords={setNewUserLocCoords}
+                />
+              ) : null}
+            </div>
+          </>
+        )}
       </main>
     );
   } else if (showReturnToLogin) {

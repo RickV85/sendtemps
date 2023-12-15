@@ -82,7 +82,7 @@ export async function getAllDefaultLocations() {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error(`Get default locations request failed. ${error}`);
+    throw new Error(error?.toString());
   }
 }
 
@@ -94,7 +94,7 @@ export async function getAllUserLocations(userId: string) {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error(`Get user locations request failed. ${error}`);
+    throw new Error(error?.toString());
   }
 }
 
