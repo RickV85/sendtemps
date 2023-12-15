@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { getSession } from "next-auth/react";
 import { UserSessionInfo } from "../Interfaces/interfaces";
 
@@ -22,9 +22,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const getUserSessionInfo = async () => {
-      const session = await getSession();
-      if (session?.user) {
-        setUserInfo(session.user as UserSessionInfo);
+      try {
+        const session = await getSession();
+        if (session?.user) {
+          setUserInfo(session.user as UserSessionInfo);
+        }
+      } catch (error) {
+        console.error("Error fetching user session from UserContext:", error);
       }
     };
     getUserSessionInfo();
