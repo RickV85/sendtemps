@@ -5,11 +5,11 @@ import { useRef, useEffect, Dispatch } from "react";
 import { GoogleMapPoint } from "@/app/Interfaces/interfaces";
 
 interface Props {
-  defaultLocations: Array<GoogleMapPoint>,
+  mapLocations: Array<GoogleMapPoint>,
   setNewUserLocCoords: Dispatch<React.SetStateAction<{lat: number, lng: number} | undefined>>,
 }
 
-export default function Map({ defaultLocations, setNewUserLocCoords }: Props) {
+export default function Map({ mapLocations, setNewUserLocCoords }: Props) {
   const mapRef = useRef(null);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!;
 
@@ -30,7 +30,7 @@ export default function Map({ defaultLocations, setNewUserLocCoords }: Props) {
         });
       }
 
-      defaultLocations.forEach((location: GoogleMapPoint) => {
+      mapLocations.forEach((location: GoogleMapPoint) => {
         if (map !== null) {
           new google.maps.Marker({
             position: location.coords,

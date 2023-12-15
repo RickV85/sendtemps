@@ -82,7 +82,19 @@ export async function getAllDefaultLocations() {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error("Get default locations request failed.");
+    console.error(`Get default locations request failed. ${error}`);
+  }
+}
+
+export async function getAllUserLocations(userId: string) {
+  try {
+    const response = await fetch(`/api/user_locations?user_id=${userId}`, {
+      cache: "no-store",
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error(`Get user locations request failed. ${error}`);
   }
 }
 

@@ -42,7 +42,7 @@ h1, h2 {
 }
 
 :focus {
-  outline: 2px solid #F18F01;
+  outline: 1px solid #F18F01;
 }
 
 .hidden {

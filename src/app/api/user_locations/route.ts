@@ -10,7 +10,6 @@ export async function GET(request: NextRequest) {
     const userLocations =
       await sql`SELECT * FROM sendtemps.user_locations WHERE user_id = ${userId};`;
     const userLocRows = userLocations.rows;
-    console.log(userLocations);
     const response = NextResponse.json(userLocRows, { status: 200 });
     return response;
   } catch (error) {
