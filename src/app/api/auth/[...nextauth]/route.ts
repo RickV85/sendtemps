@@ -30,7 +30,8 @@ const authOptions: NextAuthOptions = {
       };
 
       const userPostReq = async () => {
-        const res = await fetch("http://localhost:3000/api/users", {
+        // CHANGE THIS TO USE BASE URL - NEXTAUTH_URL
+        const res = await fetch("https://sendtemps.vercel.app/api/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -51,7 +52,8 @@ const authOptions: NextAuthOptions = {
       };
 
       const userPatchReq = async () => {
-        const res = await fetch("http://localhost:3000/api/users", {
+        // CHANGE THIS TO USE BASE URL - NEXTAUTH_URL
+        const res = await fetch("https://sendtemps.vercel.app/api/users", {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
