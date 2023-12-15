@@ -170,13 +170,14 @@ export interface LocationSelectProps {
   setForecastData: Dispatch<SetStateAction<ForecastData | undefined>>;
   selectedLocType: string;
   userInfo?: UserSessionInfo;
+  setError: Dispatch<SetStateAction<string>>;
 }
 
 export interface UserSessionInfo {
-    id: string,
-    email: string,
-    name: string,
-    image: string
+  id: string;
+  email: string;
+  name: string;
+  image: string;
 }
 
 export interface GoogleMapPoint {

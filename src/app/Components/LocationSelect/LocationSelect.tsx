@@ -10,17 +10,23 @@ import {
   useCallback,
   ReactElement,
 } from "react";
-import { getAllDefaultLocations, getAllUserLocations } from "@/app/Util/APICalls";
+import {
+  getAllDefaultLocations,
+  getAllUserLocations,
+} from "@/app/Util/APICalls";
 import { filterAndSortLocationsAlphaByName } from "@/app/Util/utils";
 
 export default function LocationSelect({
   setSelectedLocCoords,
   selectedLocType,
   setForecastData,
-  userInfo
+  userInfo,
+  setError,
 }: LocationSelectProps) {
   const [selection, setSelection] = useState("");
-  const [allLocationOptions, setAllLocationOptions] = useState<LocationObject[] | []>([]);
+  const [allLocationOptions, setAllLocationOptions] = useState<
+    LocationObject[] | []
+  >([]);
   const [displayOptions, setDisplayOptions] = useState<ReactNode>();
 
   useEffect(() => {
@@ -28,33 +34,32 @@ export default function LocationSelect({
   }, [selectedLocType]);
 
   useEffect(() => {
-    getAllDefaultLocations()
-      .then((locs) => {
-        if (locs) {
-          setAllLocationOptions(locs);
-        }
-      })
-      .catch((error) => {
-        // need to pass setError
-        console.error(error);
-      });
+    getAllDefaultLocations().then((locs) => {
+      if (locs) {
+        setAllLocationOptions([...allLocationOptions, ...locs]);
+      } else {
+        console.error("An error occurred while fetching default locations.");
+        setError("An error occurred while fetching default locations.");
+      }
+    });
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (userInfo?.id) {
-      getAllUserLocations(userInfo.id)
-      .then((locs) => {
+      getAllUserLocations(userInfo.id).then((locs) => {
         if (locs) {
           setAllLocationOptions([...allLocationOptions, ...locs]);
+        } else {
+          console.error(
+            "An error occurred while fetching your custom locations."
+          );
+          setError("An error occurred while fetching your custom locations.");
         }
-      })
-      .catch((error) => {
-        // need to pass setError
-        console.error(error);
       });
     }
     // eslint-disable-next-line
-  }, [userInfo])
+  }, [userInfo]);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setForecastData(undefined);
@@ -101,7 +106,11 @@ export default function LocationSelect({
   const noDisplayLocTypes = ["Select Sport", "Current Location"];
 
   return (
-    <div className={`location-div ${noDisplayLocTypes.includes(selectedLocType) ? "hidden" : ""}`}>
+    <div
+      className={`location-div ${
+        noDisplayLocTypes.includes(selectedLocType) ? "hidden" : ""
+      }`}
+    >
       <select
         className="location-select"
         value={selection}

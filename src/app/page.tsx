@@ -154,6 +154,7 @@ export default function Home() {
             setSelectedLocCoords={setSelectedLocCoords}
             setForecastData={setForecastData}
             userInfo={userInfo}
+            setError={setError}
           />
           {userInfo ? (
             <Link href={"/custom-locations"}>
@@ -164,8 +165,7 @@ export default function Home() {
         {/* Error ? load: */}
         {error ? (
           <>
-            <p className="error-msg">{`An error occurred while fetching your forecast. 
-            Please reload the page and try your request again. ${error}`}</p>
+            <p className="error-msg">{`Oh, no! ${error} Please reload the page and try your request again.`}</p>
             <button
               className="reload-page-btn"
               onClick={() => window.location.reload()}
