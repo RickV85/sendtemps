@@ -169,4 +169,21 @@ export interface LocationSelectProps {
   setSelectedLocCoords: Dispatch<SetStateAction<string | undefined>>;
   setForecastData: Dispatch<SetStateAction<ForecastData | undefined>>;
   selectedLocType: string;
+  userInfo?: UserSessionInfo;
+  setError: Dispatch<SetStateAction<string>>;
+}
+
+export interface UserSessionInfo {
+  id: string;
+  email: string;
+  name: string;
+  image: string;
+}
+
+export interface GoogleMapPoint {
+  name: string;
+  coords: {
+    lat: number;
+    lng: number;
+  };
 }

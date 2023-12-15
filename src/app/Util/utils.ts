@@ -1,4 +1,5 @@
-import { LocationObject } from "../Interfaces/interfaces";
+import { LocationObject, GoogleMapPoint } from "../Interfaces/interfaces";
+import { UserLocation } from "../Classes/UserLocation";
 
 export function filterAndSortLocationsAlphaByName(locArr: Array<LocationObject>, selectedType: string): Array<LocationObject> {
   const filteredSortedLocations = locArr
@@ -14,3 +15,14 @@ export function filterAndSortLocationsAlphaByName(locArr: Array<LocationObject>,
   });
   return filteredSortedLocations;
 }
+
+export const createGoogleMapPoints = (locs: LocationObject[] | UserLocation[]) => {
+  const points = locs.map((location): GoogleMapPoint => {
+    const coords = {
+      lat: +location.latitude,
+      lng: +location.longitude,
+    };
+    return { name: location.name, coords: coords };
+  });
+  return points;
+};

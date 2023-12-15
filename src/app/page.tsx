@@ -2,15 +2,24 @@
 
 import "./home.css";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect, useState, useContext } from "react";
 import {
   fetchDailyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
 } from "./Util/APICalls";
-import { Coords, ForecastData, LocationDetails } from "./Interfaces/interfaces";
+import {
+  Coords,
+  ForecastData,
+  LocationDetails,
+} from "./Interfaces/interfaces";
 import LocationSelect from "./Components/LocationSelect/LocationSelect";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
 import TypeSelect from "./Components/TypeSelect/TypeSelect";
+import { SessionProvider } from "next-auth/react";
+import Session from "./Components/Session/Session";
+import { welcomeMessage } from "./home-welcome-msg";
+import { UserContext } from '../app/Contexts/UserContext';
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
@@ -23,6 +32,7 @@ export default function Home() {
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { userInfo, setUserInfo } = useContext(UserContext);
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
@@ -96,31 +106,6 @@ export default function Home() {
     return forecast;
   };
 
-  const welcomeMessage = (
-    <div className="home-welcome-msg-div">
-      <h2 className="home-welcome-header">Welcome to SendTemps!</h2>
-      <p>
-        Choose from Climbing, Mountain Biking, or Skiing/Snowboarding above to
-        get highly-accurate, NOAA pinpoint forecasts for any of my favorite
-        destinations for the selected sport all around Colorado&apos;s Front
-        Range.
-        <br />
-        <br />
-        In my experience over the last decade, NOAA&apos;s pinpoint forecasts
-        have proven to be far more accurate for backcountry destinations when
-        compared to the average weather app. So I decided to build this
-        straight-forward, ad-free app for my fellow Front-Rangers to easily get
-        an accurate forecast for their own backcountry adventures!
-        <br />
-        <br />
-        New features are coming soon! Next up, I am building an &quot;Add your
-        own location&quot; feature so you can save your favorite locations and
-        hourly forecasts for a selected day. If you have feedback or feature
-        suggestions, please email to rickv85@gmail.com to give me!
-      </p>
-    </div>
-  );
-
   return (
     <main className="home-main">
       <header className="home-header">
@@ -135,6 +120,9 @@ export default function Home() {
             sizes="100vw"
             className="header-bkgd-img"
           />
+          <SessionProvider>
+            <Session />
+          </SessionProvider>
         </div>
       </header>
       <section className="home-main-display">
@@ -148,13 +136,19 @@ export default function Home() {
             selectedLocType={selectedLocType}
             setSelectedLocCoords={setSelectedLocCoords}
             setForecastData={setForecastData}
+            // userInfo={userInfo}
+            setError={setError}
           />
+          {userInfo ? (
+            <Link href={"/custom-locations"}>
+              <button className="add-location-btn">Create New Location</button>
+            </Link>
+          ) : null}
         </section>
         {/* Error ? load: */}
         {error ? (
           <>
-            <p className="error-msg">{`An error occurred while fetching your forecast. 
-            Please reload the page and try your request again. ${error}`}</p>
+            <p className="error-msg">{`Oh, no! ${error} Please reload the page and try your request again.`}</p>
             <button
               className="reload-page-btn"
               onClick={() => window.location.reload()}

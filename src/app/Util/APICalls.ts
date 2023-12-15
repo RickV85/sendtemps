@@ -1,4 +1,6 @@
+import { Session } from "inspector";
 import { ForecastData } from "../Interfaces/interfaces";
+import { UserLocation } from "../Classes/UserLocation";
 
 // NOAA API CALLS
 
@@ -74,12 +76,54 @@ export async function getAllDefaultLocations() {
   try {
     const response = await fetch("/api/default_locations", {
       next: {
-        revalidate: 3600
-      }
+        revalidate: 3600,
+      },
     });
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error("Get default locations request failed.");
+    throw new Error(error?.toString());
+  }
+}
+
+export async function getAllUserLocations(userId: string) {
+  try {
+    const response = await fetch(`/api/user_locations?user_id=${userId}`, {
+      cache: "no-store",
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw new Error(error?.toString());
+  }
+}
+
+interface NewUserLoc {
+  name: string;
+  latitude: string;
+  longitude: string;
+  user_id: string;
+  poi_type: string;
+}
+
+export async function postNewUserLocation(userLoc: NewUserLoc) {
+  try {
+    const response = await fetch("/api/user_locations", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userLoc),
+      credentials: "include",
+    });
+
+    if (response.status === 201) {
+      return await response.json();
+    } else {
+      const errorData = await response.json();
+      throw new Error("Error response postNewUserLocation:", errorData);
+    }
+  } catch (error) {
+    throw error;
   }
 }

@@ -39,7 +39,7 @@
 .home-header {
   position: sticky;
   top: 0;
-  z-index: -1;
+  z-index: 0;
 }
 
 .hero-img-div {
@@ -55,9 +55,8 @@
 }
 
 .site-title {
-  font-family: var(--font-fugazOne);
   z-index: 1;
-  color: #ffffff00;
+  color: transparent;
   font-size: 11.5vw;
   font-style: normal;
   font-weight: 400;
@@ -69,15 +68,57 @@
   object-position: center;
 }
 
+.user-profile-div {
+  position: absolute;
+  top: 1vh;
+  right: 1vw;
+  z-index: 1;
+  background-color: transparent;
+}
+
+.user-profile-welcome-div {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+
+.user-profile-welcome {
+  color: #00b2ff;
+}
+
+#logoutProfileLink {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #9faf90;
+}
+
+.user-profile-login-button {
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  color: #00b2ff;
+  border-radius: 5px;
+  padding: 0.8rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+#userProfileImg {
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+
 .type-location-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   width: 100vw;
   max-width: 1600px;
   text-align: center;
-  padding: 1rem 0rem 1rem 0rem;
+  padding: 0.5rem 0rem 0.5rem 0rem;
   border-top: 1px solid #00b2ff;
   border-bottom: 1px solid #00b2ff;
   position: sticky;
@@ -99,25 +140,27 @@
 }
 
 .type-select,
-.location-select {
-  width: 90vw;
-  max-width: 600px;
-  height: 3rem;
+.location-select,
+.add-location-btn {
+  height: 2.5rem;
+  width: 85vw;
+  max-width: 400px;
   background-color: transparent;
   border: 1px solid #00b2ff;
   border-radius: 5px;
 
   font-family: var(--font-fugazOne);
   font-weight: 400;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   text-align: center;
-  text-align-last: center;
   color: #ffffff;
   cursor: pointer;
 }
 
-.location-select {
-  font-size: 1.5rem;
+.location-select,
+.add-location-btn {
+  font-size: 1.3rem;
+  animation: fadeIn ease-in 0.5s;
 }
 
 .type-select-div {
@@ -135,7 +178,8 @@
   z-index: -1;
 }
 
-.detailed-day-forecast, .home-welcome-msg-div {
+.detailed-day-forecast,
+.home-welcome-msg-div {
   animation: fadeIn 500ms ease-in-out;
   margin: 5px 0px 5px 0px;
   width: 100%;
@@ -157,9 +201,7 @@
 }
 
 .day-header-text {
-  font-family: var(--font-fugazOne);
   font-size: 1.5rem;
-  font-weight: 400;
 }
 
 .day-forecast-icon {
@@ -169,6 +211,7 @@
 .humidity-div {
   display: flex;
   align-items: center;
+  min-width: 55px;
 }
 
 .humidity-icon {
@@ -184,15 +227,13 @@
 }
 
 .home-welcome-header {
-  font-family: var(--font-fugazOne);
-  color: #EF8354;
-  font-weight: 400;
+  color: #ef8354;
   text-align: center;
 }
 
 .loading-msg {
   animation: fadeIn 250ms ease-in-out;
-  color: #EF8354;
+  color: #ef8354;
   font-size: 1.5rem;
   font-weight: 600;
   width: 80vw;
@@ -223,25 +264,31 @@
     font-size: clamp(0px, 13vw, 120px);
   }
 
+  #userProfileImg {
+    width: 50px;
+    height: 50px;
+  }
+
   .day-forecast-header {
     margin-bottom: 0.75rem;
   }
 
   .day-forecast-icon {
-    width: 60px;
-    height: 60px;
+    width: 55px;
+    height: 55px;
   }
 
   .day-header-text {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 
   .humidity-icon {
-    width: 36px;
-    height: 36px;
+    width: 25px;
+    height: 25px;
   }
 
-  .detailed-day-forecast, .home-welcome-msg-div {
+  .detailed-day-forecast,
+  .home-welcome-msg-div {
     max-width: 1000px;
     margin: 10px 0px 10px 0px;
     padding: 1rem;
