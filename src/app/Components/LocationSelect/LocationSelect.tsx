@@ -48,7 +48,6 @@ export default function LocationSelect({
     if (userInfo?.id) {
       getAllUserLocations(userInfo.id).then((locs) => {
         if (locs) {
-          console.log("Custom locations in LocSel", locs)
           setAllLocationOptions([...allLocationOptions, ...locs]);
         } else {
           setError("An error occurred while fetching your custom locations.");
