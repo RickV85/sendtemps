@@ -15,9 +15,7 @@ export const welcomeMessage = (
       an accurate forecast for their own backcountry adventures!
       <br />
       <br />
-      New features are coming soon! Next up, I am building an &quot;Add your
-      own location&quot; feature so you can save your favorite locations and
-      hourly forecasts for a selected day. If you have feedback or feature
+      New features are coming soon! If you have feedback or feature
       suggestions, please email to rickv85@gmail.com to give me!
     </p>
   </div>
