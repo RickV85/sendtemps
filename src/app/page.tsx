@@ -153,6 +153,7 @@ export default function Home() {
             selectedLocType={selectedLocType}
             setSelectedLocCoords={setSelectedLocCoords}
             setForecastData={setForecastData}
+            userInfo={userInfo}
           />
           {userInfo ? (
             <Link href={"/custom-locations"}>

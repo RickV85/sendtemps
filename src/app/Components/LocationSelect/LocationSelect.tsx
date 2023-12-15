@@ -10,16 +10,17 @@ import {
   useCallback,
   ReactElement,
 } from "react";
-import { getAllDefaultLocations } from "@/app/Util/APICalls";
+import { getAllDefaultLocations, getAllUserLocations } from "@/app/Util/APICalls";
 import { filterAndSortLocationsAlphaByName } from "@/app/Util/utils";
 
 export default function LocationSelect({
   setSelectedLocCoords,
   selectedLocType,
   setForecastData,
+  userInfo
 }: LocationSelectProps) {
   const [selection, setSelection] = useState("");
-  const [allLocationOptions, setAllLocationOptions] = useState([]);
+  const [allLocationOptions, setAllLocationOptions] = useState<LocationObject[] | []>([]);
   const [displayOptions, setDisplayOptions] = useState<ReactNode>();
 
   useEffect(() => {
@@ -28,9 +29,9 @@ export default function LocationSelect({
 
   useEffect(() => {
     getAllDefaultLocations()
-      .then((response) => {
-        if (response) {
-          setAllLocationOptions(response);
+      .then((locs) => {
+        if (locs) {
+          setAllLocationOptions(locs);
         }
       })
       .catch((error) => {
@@ -38,6 +39,22 @@ export default function LocationSelect({
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    if (userInfo?.id) {
+      getAllUserLocations(userInfo.id)
+      .then((locs) => {
+        if (locs) {
+          setAllLocationOptions([...allLocationOptions, ...locs]);
+        }
+      })
+      .catch((error) => {
+        // need to pass setError
+        console.error(error);
+      });
+    }
+    // eslint-disable-next-line
+  }, [userInfo])
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setForecastData(undefined);
