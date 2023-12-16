@@ -121,6 +121,7 @@
   padding: 0.5rem 0rem 0.5rem 0rem;
   border-top: 1px solid #00b2ff;
   border-bottom: 1px solid #00b2ff;
+  z-index: 2;
   position: sticky;
   top: 0;
   background-color: #2a3c43;
