@@ -112,7 +112,8 @@
 
 .type-location-section {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   gap: 0.5rem;
   width: 100vw;
@@ -144,7 +145,7 @@
 .location-select,
 .add-location-btn {
   height: 2.5rem;
-  width: 85vw;
+  /* width: 85vw; */
   max-width: 400px;
   background-color: transparent;
   border: 1px solid #00b2ff;

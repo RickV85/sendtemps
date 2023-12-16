@@ -162,7 +162,6 @@ export interface LocationObject {
 export interface TypeSelectProps {
   setSelectedLocType: Dispatch<SetStateAction<string>>;
   setForecastData: Dispatch<SetStateAction<ForecastData | undefined>>;
-  currentGPSCoords?: Coords;
 }
 
 export interface LocationSelectProps {

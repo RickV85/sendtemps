@@ -129,7 +129,6 @@ export default function Home() {
         <section className="type-location-section">
           <TypeSelect
             setSelectedLocType={setSelectedLocType}
-            currentGPSCoords={currentGPSCoords}
             setForecastData={setForecastData}
           />
           <LocationSelect
