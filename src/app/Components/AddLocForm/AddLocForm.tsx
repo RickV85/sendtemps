@@ -122,7 +122,6 @@ export default function AddLocForm({
         value={locName}
         onChange={(e) => setLocName(e.target.value)}
       />
-      {/* REFACTOR - Use TypeSelect? */}
       <select
         className="add-loc-form-input"
         value={locType}
