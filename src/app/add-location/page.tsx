@@ -1,16 +1,16 @@
 "use client";
-import "./custom-locations.css";
+import "./add-location.css";
 import Map from "../Components/Map/Map";
 import Link from "next/link";
 import { useEffect, useState, useContext } from "react";
 import { getAllDefaultLocations, getAllUserLocations } from "../Util/APICalls";
-import CustomLocForm from "../Components/CustomLocForm/CustomLocForm";
+import AddLocForm from "../Components/AddLocForm/AddLocForm";
 import { GoogleMapPoint } from "../Interfaces/interfaces";
 import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 import { createGoogleMapPoints } from "../Util/utils";
 import { UserContext } from "../Contexts/UserContext";
 
-export default function CustomLocations() {
+export default function AddLocation() {
   const [userLocations, setUserLocations] = useState([]);
   const [mapLocations, setMapLocations] = useState<GoogleMapPoint[] | []>([]);
   const [newUserLocCoords, setNewUserLocCoords] = useState<{
@@ -59,7 +59,7 @@ export default function CustomLocations() {
 
   if (userInfo) {
     return (
-      <main className="custom-loc-main">
+      <main className="add-loc-main">
         <Link href={"/"}>
           <h1 className="site-title">SendTemps</h1>
         </Link>
@@ -67,10 +67,10 @@ export default function CustomLocations() {
           <p id="errorMessage">{error}</p>
         ) : (
           <>
-            <section className="create-custom-loc-section">
+            <section className="add-loc-section">
               <h2>Add a new location!</h2>
               {newUserLocCoords ? (
-                <CustomLocForm
+                <AddLocForm
                   newUserLocCoords={newUserLocCoords}
                   setNewUserLocCoords={setNewUserLocCoords}
                   newUserLocMarker={newUserLocMarker}

@@ -139,7 +139,7 @@ export default function Home() {
             setError={setError}
           />
           {userInfo ? (
-            <Link href={"/custom-locations"}>
+            <Link href={"/add-location"}>
               <button className="add-location-btn">Create New Location</button>
             </Link>
           ) : null}

@@ -7,7 +7,7 @@
   }
 }
 
-.custom-loc-main {
+.add-loc-main {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,12 +21,12 @@
   -webkit-text-stroke: 1px #00b2ff;
 }
 
-.create-custom-loc-section {
+.add-loc-section {
   text-align: center;
   margin: 0.2rem 0.2rem 0.5rem 0.2rem;
 }
 
-.custom-loc-form {
+.add-loc-form {
   width: 98vw;
   max-width: 650px;
   display: flex;
@@ -38,10 +38,10 @@
   border: 1px solid #00b2ff;
   padding: 1rem;
   margin-bottom: 0.5rem;
-  animation: fadeIn .5s ease-in;
+  animation: fadeIn 0.5s ease-in;
 }
 
-.custom-loc-form-coords {
+.add-loc-form-coords {
   display: flex;
   justify-content: center;
   gap: 5vw;
@@ -49,7 +49,7 @@
   margin-bottom: 0.5rem;
 }
 
-.custom-loc-form-input {
+.add-loc-form-input {
   width: 95%;
   max-width: 500px;
 
@@ -66,27 +66,27 @@
   cursor: pointer;
 }
 
-.custom-loc-btn-div {
+.add-loc-btn-div {
   display: flex;
   width: 95%;
   max-width: 500px;
   gap: 1rem;
 }
 
-#customLocNameInput {
+#addLocNameInput {
   font-family: var(--font-hanuman);
   cursor: text;
 }
 
 #submitMessage {
-  color: #F18F01;
+  color: #f18f01;
   font-weight: 700;
 }
 
 #errorMessage {
   width: 90vw;
   margin: auto;
-  color: #F18F01;
+  color: #f18f01;
   font-weight: 700;
   text-align: center;
 }
