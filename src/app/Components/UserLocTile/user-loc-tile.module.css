@@ -1,0 +1,9 @@
+.tile-div {
+  background-color: #00b2ff;
+  width: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1vw;
+  margin-bottom: 1rem;
+}
