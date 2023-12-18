@@ -2,7 +2,7 @@
 
 import { UserSessionInfo, GoogleMapPoint } from "@/app/Interfaces/interfaces";
 import { postNewUserLocation } from "@/app/Util/APICalls";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, useState } from "react";
 
 interface Props {
   newUserLocCoords: {
@@ -73,6 +73,10 @@ export default function CustomLocForm({
         console.log(response);
         if (response.startsWith("Success")) {
           setSubmitMessage("New location saved!");
+          if (newUserLocMarker) {
+            newUserLocMarker.setMap(null);
+            setNewUserLocMarker(null);
+          }
           let newMapPoint: GoogleMapPoint = {
             name: locName,
             coords: {
@@ -85,8 +89,8 @@ export default function CustomLocForm({
             setLocName("");
             setLocType("Select Sport");
             setSubmitMessage("");
-            resetNewUserCoordsAndMarker();
-          }, 2000);
+            setNewUserLocCoords(null);
+          }, 1500);
         }
       })
       .catch((error: Error) => {
