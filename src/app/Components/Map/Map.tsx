@@ -1,17 +1,57 @@
 "use client";
 
 import { Loader } from "@googlemaps/js-api-loader";
-import { useRef, useEffect, Dispatch } from "react";
+import { useRef, useEffect, Dispatch, useState } from "react";
 import { GoogleMapPoint } from "@/app/Interfaces/interfaces";
 
 interface Props {
-  mapLocations: Array<GoogleMapPoint>,
-  setNewUserLocCoords: Dispatch<React.SetStateAction<{lat: number, lng: number} | undefined>>,
+  mapLocations: Array<GoogleMapPoint>;
+  setNewUserLocCoords: Dispatch<
+    React.SetStateAction<{ lat: number; lng: number } | null>
+  >;
+  newUserLocMarker: google.maps.Marker | null;
+  setNewUserLocMarker: Dispatch<
+    React.SetStateAction<google.maps.Marker | null>
+  >;
 }
 
-export default function Map({ mapLocations, setNewUserLocCoords }: Props) {
+export default function Map({
+  mapLocations,
+  setNewUserLocCoords,
+  newUserLocMarker,
+  setNewUserLocMarker,
+}: Props) {
+
+  const [displayLocations, setDisplayLocations] = useState<
+    GoogleMapPoint[] | []
+  >([]);
   const mapRef = useRef(null);
+  const drawingManagerRef = useRef<google.maps.drawing.DrawingManager | null>(
+    null
+  );
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!;
+
+  useEffect(() => {
+    if (mapLocations.length) {
+      setDisplayLocations(mapLocations);
+    }
+  }, [mapLocations]);
+
+  useEffect(() => {
+    // Enables and disables ability to add markers based on if there
+    // is a newUserLocMarker or not
+    if (newUserLocMarker !== null && drawingManagerRef.current) {
+      drawingManagerRef.current.setOptions({
+        drawingMode: null,
+        drawingControl: false,
+      });
+    } else if (newUserLocMarker === null && drawingManagerRef.current) {
+      drawingManagerRef.current.setOptions({
+        drawingMode: google.maps.drawing.OverlayType.MARKER,
+        drawingControl: true,
+      });
+    }
+  }, [newUserLocMarker]);
 
   useEffect(() => {
     const loader = new Loader({
@@ -30,7 +70,7 @@ export default function Map({ mapLocations, setNewUserLocCoords }: Props) {
         });
       }
 
-      mapLocations.forEach((location: GoogleMapPoint) => {
+      displayLocations.forEach((location: GoogleMapPoint) => {
         if (map !== null) {
           new google.maps.Marker({
             position: location.coords,
@@ -46,7 +86,7 @@ export default function Map({ mapLocations, setNewUserLocCoords }: Props) {
         }
       });
 
-      const drawingManager = new google.maps.drawing.DrawingManager({
+      drawingManagerRef.current = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.MARKER,
         drawingControl: true,
         drawingControlOptions: {
@@ -61,34 +101,33 @@ export default function Map({ mapLocations, setNewUserLocCoords }: Props) {
             fontFamily: "'Tahoma', sans-serif",
             fontSize: "16px",
             fontWeight: "700",
-            color: "rgb(0 15 255)"
+            color: "rgb(0 15 255)",
           },
         },
       });
 
-      drawingManager.setMap(map);
+      if (drawingManagerRef.current) {
+        drawingManagerRef.current.setMap(map);
+      }
 
       google.maps.event.addListener(
-        drawingManager,
+        drawingManagerRef.current,
         "overlaycomplete",
         function (event) {
-          if (event.type === google.maps.drawing.OverlayType.MARKER) {
+          if (
+            event.type === google.maps.drawing.OverlayType.MARKER &&
+            newUserLocMarker === null
+          ) {
+            setNewUserLocMarker(event.overlay);
+
             const markerPosition = event.overlay.getPosition();
 
-            const newUserMapPoint: {lat: number, lng: number} = {
+            const newUserMapPoint: { lat: number; lng: number } = {
               lat: markerPosition.lat().toFixed(6),
               lng: markerPosition.lng().toFixed(6),
             };
 
-            setNewUserLocCoords(() => {
-              if (newUserMapPoint) {
-                drawingManager.setOptions({
-                  drawingMode: null,
-                  drawingControl: false,
-                });
-              }
-              return newUserMapPoint;
-            });
+            setNewUserLocCoords(newUserMapPoint);
             window.scrollTo({
               top: 0,
               behavior: "smooth",
@@ -104,7 +143,16 @@ export default function Map({ mapLocations, setNewUserLocCoords }: Props) {
       }
     };
     //eslint-disable-next-line
-  }, []);
+  }, [displayLocations]);
 
-  return <div ref={mapRef} style={{ height: "100%", width: "100%" }} />;
+  return (
+    <>
+      <div
+        ref={mapRef}
+        role="application"
+        aria-label="Google map display of default and user created locations"
+        style={{ height: "100%", width: "100%" }}
+      />
+    </>
+  );
 }

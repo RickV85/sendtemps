@@ -16,14 +16,18 @@ export default function CustomLocations() {
   const [newUserLocCoords, setNewUserLocCoords] = useState<{
     lat: number;
     lng: number;
-  }>();
+  } | null>(null);
+  const [newUserLocMarker, setNewUserLocMarker] =
+    useState<google.maps.Marker | null>(null);
   const [showReturnToLogin, setShowReturnToLogin] = useState(false);
   const [error, setError] = useState("");
-  const { userInfo, setUserInfo } = useContext(UserContext);
+  const { userInfo } = useContext(UserContext);
 
   useEffect(() => {
     if (!userInfo) {
-      setShowReturnToLogin(true);
+      setTimeout(() => setShowReturnToLogin(true), 3000);
+    } else {
+      setShowReturnToLogin(false);
     }
   }, [userInfo]);
 
@@ -36,7 +40,10 @@ export default function CustomLocations() {
             getAllUserLocations(userInfo.id),
           ]);
           if (userLocs) setUserLocations(userLocs);
-          const allLocs = [...defaultLocs, ...(userLocs || [])];
+          const allLocs = [
+            ...defaultLocs,
+            ...(userLocs.length ? userLocs : []),
+          ];
           const mapMarkers = createGoogleMapPoints(allLocs);
           setMapLocations(mapMarkers);
         } catch (error) {
@@ -68,6 +75,9 @@ export default function CustomLocations() {
               {newUserLocCoords ? (
                 <CustomLocForm
                   newUserLocCoords={newUserLocCoords}
+                  setNewUserLocCoords={setNewUserLocCoords}
+                  newUserLocMarker={newUserLocMarker}
+                  setNewUserLocMarker={setNewUserLocMarker}
                   userInfo={userInfo}
                 />
               ) : null}
@@ -80,6 +90,8 @@ export default function CustomLocations() {
                 <Map
                   mapLocations={mapLocations}
                   setNewUserLocCoords={setNewUserLocCoords}
+                  newUserLocMarker={newUserLocMarker}
+                  setNewUserLocMarker={setNewUserLocMarker}
                 />
               ) : null}
             </div>

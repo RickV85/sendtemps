@@ -2,17 +2,31 @@
 
 import { UserSessionInfo } from "@/app/Interfaces/interfaces";
 import { postNewUserLocation } from "@/app/Util/APICalls";
-import { useState } from "react";
+import { NextResponse } from "next/server";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface Props {
   newUserLocCoords: {
     lat: number;
     lng: number;
   };
+  setNewUserLocCoords: Dispatch<
+    React.SetStateAction<{ lat: number; lng: number } | null>
+  >;
+  newUserLocMarker: google.maps.Marker | null;
+  setNewUserLocMarker: Dispatch<
+    React.SetStateAction<google.maps.Marker | null>
+  >;
   userInfo: UserSessionInfo;
 }
 
-export default function CustomLocForm({ newUserLocCoords, userInfo }: Props) {
+export default function CustomLocForm({
+  newUserLocCoords,
+  setNewUserLocCoords,
+  newUserLocMarker,
+  setNewUserLocMarker,
+  userInfo,
+}: Props) {
   const [locName, setLocName] = useState("");
   const [locType, setLocType] = useState("Select Sport");
   const [submitMessage, setSubmitMessage] = useState("");
@@ -22,6 +36,14 @@ export default function CustomLocForm({ newUserLocCoords, userInfo }: Props) {
     setTimeout(() => {
       setSubmitMessage("");
     }, 2500);
+  };
+
+  const resetNewUserCoordsAndMarker = () => {
+    if (newUserLocMarker && newUserLocCoords) {
+      newUserLocMarker.setMap(null);
+      setNewUserLocCoords(null);
+      setNewUserLocMarker(null);
+    }
   };
 
   const handleSubmit = async () => {
@@ -45,20 +67,27 @@ export default function CustomLocForm({ newUserLocCoords, userInfo }: Props) {
       user_id: userInfo.id,
       poi_type: locType,
     };
-    const postNewUserLocResponse = await postNewUserLocation(newUserLoc);
-    if (postNewUserLocResponse.startsWith("Success")) {
-      setSubmitMessage("New location saved!");
-    } else {
-      setSubmitMessage("Error saving location. Please try again.");
-    }
-    setTimeout(() => {
-      setLocName("");
-      setLocType("Select Sport");
-      setSubmitMessage("");
-      // Change if new reset map strategy is created
-      window.location.reload();
-      // Then get new locations for user and display on map
-    }, 2500);
+    postNewUserLocation(newUserLoc)
+      .then((response: string) => {
+        console.log(response);
+        if (response.startsWith("Success")) {
+          setSubmitMessage("New location saved!");
+          setTimeout(() => {
+            setLocName("");
+            setLocType("Select Sport");
+            setSubmitMessage("");
+            resetNewUserCoordsAndMarker();
+            // window.location.reload();
+          }, 2000);
+        }
+      })
+      .catch((error: Error) => {
+        setSubmitMessage("Error saving location. Please try again.");
+        console.error(error);
+        setTimeout(() => {
+          setSubmitMessage("");
+        }, 2000);
+      });
   };
 
   return (
@@ -98,7 +127,10 @@ export default function CustomLocForm({ newUserLocCoords, userInfo }: Props) {
       <div className="custom-loc-btn-div">
         <button
           className="custom-loc-form-input"
-          onClick={() => window.location.reload()}
+          onClick={(e) => {
+            e.preventDefault();
+            resetNewUserCoordsAndMarker();
+          }}
         >
           Delete
         </button>
