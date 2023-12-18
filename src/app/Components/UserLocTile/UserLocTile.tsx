@@ -7,14 +7,25 @@ interface Props {
 }
 
 export default function UserLocTile({ userLoc }: Props) {
+
+  const formatPOI = (poi: string): string => {
+    switch (poi) {
+      case "climb" : return "Climbing";
+      case "mtb" : return "Mountain Biking";
+      case "ski" : return "Skiing";
+      default : return "Unknown";
+    }
+  }
+
   return (
     <div className={styles["tile-div"]}>
       <h3>{userLoc.name}</h3>
-      <p>{userLoc.latitude}</p>
-      <p>{userLoc.longitude}</p>
-      <p>{userLoc.poi_type}</p>
-      <p>{new Date(userLoc.last_modified).toLocaleString()}</p>
-      <p>{new Date(userLoc.date_created).toLocaleDateString()}</p>
+      <p>Lat: {userLoc.latitude}</p>
+      <p>Lng: {userLoc.longitude}</p>
+      <p>POI Type: {formatPOI(userLoc.poi_type)}</p>
+      <p>Date created: {new Date(userLoc.date_created).toLocaleDateString()}</p>
+      <button>Rename</button>
+      <button>Delete</button>
     </div>
   );
 }

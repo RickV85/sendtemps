@@ -36,6 +36,10 @@ input, button, textarea, select {
   font: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
 h1, h2 {
   font-family: var(--font-fugazOne);
   font-weight: 400;

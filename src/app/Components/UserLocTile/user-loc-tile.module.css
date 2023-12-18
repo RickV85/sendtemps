@@ -1,9 +1,11 @@
 .tile-div {
   background-color: #00b2ff;
+  border-radius: 5px;
   width: 95%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1vw;
   margin-bottom: 1rem;
+  padding: 1rem;
 }
