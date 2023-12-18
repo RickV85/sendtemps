@@ -125,8 +125,8 @@ export default function Home() {
           </SessionProvider>
         </div>
       </header>
-      <section className="home-main-display">
-        <section className="type-location-section">
+      <section className="home-main-section">
+        <section className="home-control-section">
           <TypeSelect
             setSelectedLocType={setSelectedLocType}
             setForecastData={setForecastData}
