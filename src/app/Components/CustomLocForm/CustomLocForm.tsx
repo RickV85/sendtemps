@@ -70,7 +70,6 @@ export default function CustomLocForm({
     };
     postNewUserLocation(newUserLoc)
       .then((response: string) => {
-        console.log(response);
         if (response.startsWith("Success")) {
           setSubmitMessage("New location saved!");
           if (newUserLocMarker) {

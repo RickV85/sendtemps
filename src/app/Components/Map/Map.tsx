@@ -41,13 +41,11 @@ export default function Map({
 
     loader.importLibrary("maps").then(() => {
       if (mapRef.current) {
-        if (mapRef.current) {
-          mapInstanceRef.current = new google.maps.Map(mapRef.current, {
-            center: { lat: 40, lng: -105.5 },
-            zoom: 10,
-          });
-          setMapLoaded(true);
-        }
+        mapInstanceRef.current = new google.maps.Map(mapRef.current, {
+          center: { lat: 40, lng: -105.5 },
+          zoom: 10,
+        });
+        setMapLoaded(true);
       }
 
       drawingManagerRef.current = new google.maps.drawing.DrawingManager({
@@ -58,7 +56,6 @@ export default function Map({
           drawingModes: [google.maps.drawing.OverlayType.MARKER],
         },
         markerOptions: {
-          // Define this to use a specific image
           icon: undefined,
           label: {
             text: "Your new location!",
@@ -111,11 +108,9 @@ export default function Map({
 
   useEffect(() => {
     if (mapLocations.length && mapLoaded && mapRef.current) {
-      // Clear existing markers
       markersRef.current?.forEach((marker) => marker.setMap(null));
       markersRef.current = [];
 
-      // Create new markers
       mapLocations.forEach((location) => {
         const marker = new google.maps.Marker({
           position: location.coords,
@@ -144,7 +139,6 @@ export default function Map({
         drawingControl: false,
       });
     } else if (newUserLocMarker === null) {
-      console.log(drawingManagerRef);
       drawingManagerRef.current.setOptions({
         drawingMode: google.maps.drawing.OverlayType.MARKER,
         drawingControl: true,

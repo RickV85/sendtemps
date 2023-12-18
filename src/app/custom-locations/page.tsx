@@ -67,9 +67,6 @@ export default function CustomLocations() {
           <p id="errorMessage">{error}</p>
         ) : (
           <>
-            {/* Add current user custom location display here?
-            Or create new page?
-            Give user ability to PATCH and DELETE */}
             <section className="create-custom-loc-section">
               <h2>Add a new location!</h2>
               {newUserLocCoords ? (
