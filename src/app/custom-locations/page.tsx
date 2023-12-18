@@ -14,8 +14,8 @@ export default function CustomLocations() {
   const [userLocations, setUserLocations] = useState([]);
   const [mapLocations, setMapLocations] = useState<GoogleMapPoint[] | []>([]);
   const [newUserLocCoords, setNewUserLocCoords] = useState<{
-    lat: number;
-    lng: number;
+    lat: string;
+    lng: string;
   } | null>(null);
   const [newUserLocMarker, setNewUserLocMarker] =
     useState<google.maps.Marker | null>(null);
@@ -79,6 +79,7 @@ export default function CustomLocations() {
                   newUserLocMarker={newUserLocMarker}
                   setNewUserLocMarker={setNewUserLocMarker}
                   userInfo={userInfo}
+                  setMapLocations={setMapLocations}
                 />
               ) : null}
               {newUserLocCoords ? null : (

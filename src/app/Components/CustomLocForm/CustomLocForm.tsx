@@ -1,23 +1,23 @@
 "use client";
 
-import { UserSessionInfo } from "@/app/Interfaces/interfaces";
+import { UserSessionInfo, GoogleMapPoint } from "@/app/Interfaces/interfaces";
 import { postNewUserLocation } from "@/app/Util/APICalls";
-import { NextResponse } from "next/server";
 import { Dispatch, SetStateAction, useState } from "react";
 
 interface Props {
   newUserLocCoords: {
-    lat: number;
-    lng: number;
+    lat: string;
+    lng: string;
   };
   setNewUserLocCoords: Dispatch<
-    React.SetStateAction<{ lat: number; lng: number } | null>
+    React.SetStateAction<{ lat: string; lng: string } | null>
   >;
   newUserLocMarker: google.maps.Marker | null;
   setNewUserLocMarker: Dispatch<
     React.SetStateAction<google.maps.Marker | null>
   >;
   userInfo: UserSessionInfo;
+  setMapLocations: Dispatch<React.SetStateAction<GoogleMapPoint[] | []>>;
 }
 
 export default function CustomLocForm({
@@ -26,6 +26,7 @@ export default function CustomLocForm({
   newUserLocMarker,
   setNewUserLocMarker,
   userInfo,
+  setMapLocations,
 }: Props) {
   const [locName, setLocName] = useState("");
   const [locType, setLocType] = useState("Select Sport");
@@ -62,8 +63,8 @@ export default function CustomLocForm({
     }
     const newUserLoc = {
       name: locName,
-      latitude: newUserLocCoords.lat.toString(),
-      longitude: newUserLocCoords.lng.toString(),
+      latitude: newUserLocCoords.lat,
+      longitude: newUserLocCoords.lng,
       user_id: userInfo.id,
       poi_type: locType,
     };
@@ -72,12 +73,19 @@ export default function CustomLocForm({
         console.log(response);
         if (response.startsWith("Success")) {
           setSubmitMessage("New location saved!");
+          let newMapPoint: GoogleMapPoint = {
+            name: locName,
+            coords: {
+              lat: +newUserLocCoords.lat,
+              lng: +newUserLocCoords.lng,
+            },
+          };
+          setMapLocations((prevMapPoints) => [...prevMapPoints, newMapPoint]);
           setTimeout(() => {
             setLocName("");
             setLocType("Select Sport");
             setSubmitMessage("");
             resetNewUserCoordsAndMarker();
-            // window.location.reload();
           }, 2000);
         }
       })
@@ -111,6 +119,7 @@ export default function CustomLocForm({
         value={locName}
         onChange={(e) => setLocName(e.target.value)}
       />
+      {/* REFACTOR - Use TypeSelect? */}
       <select
         className="custom-loc-form-input"
         value={locType}

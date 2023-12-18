@@ -7,7 +7,7 @@ import { GoogleMapPoint } from "@/app/Interfaces/interfaces";
 interface Props {
   mapLocations: Array<GoogleMapPoint>;
   setNewUserLocCoords: Dispatch<
-    React.SetStateAction<{ lat: number; lng: number } | null>
+    React.SetStateAction<{ lat: string; lng: string } | null>
   >;
   newUserLocMarker: google.maps.Marker | null;
   setNewUserLocMarker: Dispatch<
@@ -122,7 +122,7 @@ export default function Map({
 
             const markerPosition = event.overlay.getPosition();
 
-            const newUserMapPoint: { lat: number; lng: number } = {
+            const newUserMapPoint: { lat: string; lng: string } = {
               lat: markerPosition.lat().toFixed(6),
               lng: markerPosition.lng().toFixed(6),
             };
