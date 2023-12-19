@@ -4,9 +4,10 @@ import { FetchedUserLoc } from "@/app/Interfaces/interfaces";
 
 interface Props {
   userLoc: FetchedUserLoc | undefined;
+  toggleUserLocModal: Function;
 }
 
-export default function UserLocTile({ userLoc }: Props) {
+export default function UserLocTile({ userLoc, toggleUserLocModal }: Props) {
   const formatPOI = (poi: string): string => {
     switch (poi) {
       case "climb":
@@ -43,9 +44,9 @@ export default function UserLocTile({ userLoc }: Props) {
             </div>
           </dl>
           <div className={styles["button-div"]}>
-            <button className={styles["button"]}>Rename</button>
-            <button className={styles["button"]}>Change Type</button>
-            <button className={styles["button"]}>Delete</button>
+            <button className={styles["button"]} onClick={() => toggleUserLocModal()}>Rename</button>
+            <button className={styles["button"]} onClick={() => toggleUserLocModal()}>Change Type</button>
+            <button className={styles["button"]} onClick={() => toggleUserLocModal()}>Delete</button>
           </div>
         </div>
       </article>

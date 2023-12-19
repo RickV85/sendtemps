@@ -1,11 +1,10 @@
 "use client";
 import "./edit-locations.css";
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../Contexts/UserContext";
 import { getAllUserLocations } from "../Util/APICalls";
 import UserLocTile from "../Components/UserLocTile/UserLocTile";
-import { UserLocation } from "../Classes/UserLocation";
 import { FetchedUserLoc } from "../Interfaces/interfaces";
 
 export default function EditLocations() {
@@ -14,6 +13,7 @@ export default function EditLocations() {
   );
   const [selectedUserLoc, setSelectedUserLoc] = useState("default");
   const { userInfo } = useContext(UserContext);
+  const userLocModalRef = useRef<HTMLDialogElement>(null)
 
   useEffect(() => {
     if (userInfo?.id) {
@@ -29,12 +29,20 @@ export default function EditLocations() {
     }
   }, [userInfo]);
 
+  const toggleUserLocModal = () => {
+    if (userLocModalRef.current?.open) {
+      userLocModalRef.current.close();
+    } else {
+      userLocModalRef.current?.showModal();
+    }
+  }
+
   return (
     <main className="edit-loc-main">
       <Link href={"/"}>
         <h1 className="site-title">SendTemps</h1>
       </Link>
-      <section className="edit-user-loc-section">
+      <section className="edit-loc-section">
         <h2 className="edit-user-loc-heading">Custom Locations</h2>
         {userLocations ? (
           <select
@@ -66,10 +74,20 @@ export default function EditLocations() {
               userLoc={userLocations?.find(
                 (loc) => loc.id.toString() === selectedUserLoc
               )}
+              toggleUserLocModal={toggleUserLocModal}
             />
           ) : null}
+          <dialog ref={userLocModalRef} className="edit-user-loc-modal">
+            <p>Hi</p>
+          </dialog>
         </div>
       </section>
+      {/* <section className="edit-loc-section">
+        <h2>Default Locations</h2>
+        <div className="edit-default-loc">
+
+        </div>
+      </section> */}
     </main>
   );
 }

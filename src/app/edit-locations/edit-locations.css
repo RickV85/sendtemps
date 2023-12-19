@@ -12,12 +12,13 @@
   -webkit-text-stroke: 1px #00b2ff;
 }
 
-.edit-user-loc-section {
+.edit-loc-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   border: 1px solid #9FAF90;
   border-radius: 5px;
+  margin-bottom: 1rem;
 }
 
 .edit-user-loc-heading {
@@ -48,3 +49,21 @@
   width: 98vw;
   padding-bottom: 1rem;
 }
+
+.edit-user-loc-modal {
+  height: 50vh;
+  width: 95vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* .edit-default-loc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 98vw;
+  padding-bottom: 1rem;
+} */
