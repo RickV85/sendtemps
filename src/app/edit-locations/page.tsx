@@ -1,7 +1,7 @@
 "use client";
 import "./edit-locations.css";
 import Link from "next/link";
-import { useContext, useEffect, useRef, useState } from "react";
+import { MouseEvent, useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../Contexts/UserContext";
 import { getAllUserLocations } from "../Util/APICalls";
 import UserLocTile from "../Components/UserLocTile/UserLocTile";
@@ -13,7 +13,8 @@ export default function EditLocations() {
   );
   const [selectedUserLoc, setSelectedUserLoc] = useState("default");
   const { userInfo } = useContext(UserContext);
-  const userLocModalRef = useRef<HTMLDialogElement>(null)
+  const userLocModalRef = useRef<HTMLDialogElement>(null);
+  const [userLocEditTrigger, setUserLocEditTrigger] = useState("");
 
   useEffect(() => {
     if (userInfo?.id) {
@@ -29,13 +30,68 @@ export default function EditLocations() {
     }
   }, [userInfo]);
 
-  const toggleUserLocModal = () => {
+  const toggleUserLocModal = (e: MouseEvent) => {
     if (userLocModalRef.current?.open) {
       userLocModalRef.current.close();
     } else {
       userLocModalRef.current?.showModal();
     }
-  }
+    setUserLocEditTrigger(e.currentTarget?.id);
+  };
+
+  const handleModalBackdropClick = (event: MouseEvent) => {
+    if (event.currentTarget === event.target && userLocModalRef.current?.open) {
+      userLocModalRef.current?.close();
+      setUserLocEditTrigger("");
+    }
+  };
+
+  const createUserLocModalContent = (triggerId: string) => {
+    // Refactor these to a component with props
+    // to dictate the content
+    const curLoc = userLocations?.find(
+      (loc) => loc.id.toString() === selectedUserLoc
+    );
+    switch (triggerId) {
+      case "userLocRenameBtn":
+        return (
+          <>
+            <h3>{`Rename ${curLoc?.name}?`}</h3>
+            <input
+              type="text"
+              placeholder="What would you like to rename to?"
+            />
+            <div className="modal-btn-div">
+              <button>Cancel</button>
+              <button>Confirm</button>
+            </div>
+          </>
+        );
+      case "userLocTypeBtn":
+        return (
+          <>
+            <h3>{`Change ${curLoc?.name} sport type?`}</h3>
+            <select>
+              <option disabled>Change sport type</option>
+            </select>
+            <div className="modal-btn-div">
+              <button>Cancel</button>
+              <button>Confirm</button>
+            </div>
+          </>
+        );
+      case "userLocDeleteBtn":
+        return (
+          <>
+            <h3>{`Delete ${curLoc?.name}?`}</h3>
+            <div className="modal-btn-div">
+              <button>Cancel</button>
+              <button>Confirm</button>
+            </div>
+          </>
+        );
+    }
+  };
 
   return (
     <main className="edit-loc-main">
@@ -46,9 +102,11 @@ export default function EditLocations() {
         <h2 className="edit-user-loc-heading">Custom Locations</h2>
         {userLocations ? (
           <select
+            id="editUserLocSelect"
             value={selectedUserLoc}
             onChange={(e) => setSelectedUserLoc(e.target.value)}
             className="edit-user-loc-select"
+            aria-label="Choose a custom location to edit"
           >
             <option value="default" disabled>
               Choose location
@@ -77,8 +135,15 @@ export default function EditLocations() {
               toggleUserLocModal={toggleUserLocModal}
             />
           ) : null}
-          <dialog ref={userLocModalRef} className="edit-user-loc-modal">
-            <p>Hi</p>
+          <dialog
+            id="userLocModal"
+            ref={userLocModalRef}
+            className="edit-user-loc-modal"
+            onClick={(e) => handleModalBackdropClick(e)}
+          >
+            <div className="modal-content">
+              {createUserLocModalContent(userLocEditTrigger)}
+            </div>
           </dialog>
         </div>
       </section>
