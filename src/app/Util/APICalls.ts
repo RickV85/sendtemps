@@ -85,7 +85,7 @@ export async function getAllDefaultLocations() {
     const result = await response.json();
     return result;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -100,7 +100,7 @@ export async function getAllUserLocations(userId: string) {
     const result = await response.json();
     return result;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
