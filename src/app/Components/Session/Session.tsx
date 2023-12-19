@@ -28,14 +28,16 @@ export default function Session() {
                 src={userProfileImgUrl}
                 alt={"User's Google profile picture"}
                 fill={true}
-                sizes="(max-width: 768px) 5vw, 2vw"
+                sizes="2vw"
                 style={{ borderRadius: "5px" }}
               />
             ) : null}
           </div>
         </div>
       ) : status === "loading" ? (
-        <p className="user-profile-login-button" style={{cursor: "default"}}>Loading...</p>
+        <p className="user-profile-login-button" style={{ cursor: "default" }}>
+          Loading...
+        </p>
       ) : (
         <Link href="/api/auth/signin">
           <button className="user-profile-login-button">Sign in!</button>
