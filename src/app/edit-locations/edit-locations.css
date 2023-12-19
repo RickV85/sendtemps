@@ -16,12 +16,35 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #00b2ff;
+  border: 1px solid #9FAF90;
+  border-radius: 5px;
 }
 
-.custom-loc-container {
+.edit-user-loc-heading {
+  padding: .75rem;
+  font-size: 1.75rem;
+}
+
+.edit-user-loc-select {
+  background-color: transparent;
+  border: 1px solid #00b2ff;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
+  font-size: 1.5rem;
+  text-align: center;
+  text-align-last: center;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.edit-user-loc {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90vw;
+  gap: 1rem;
+  width: 98vw;
+  padding-bottom: 1rem;
 }

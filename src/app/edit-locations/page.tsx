@@ -9,7 +9,10 @@ import { UserLocation } from "../Classes/UserLocation";
 import { FetchedUserLoc } from "../Interfaces/interfaces";
 
 export default function EditLocations() {
-  const [userLocations, setUserLocations] = useState<FetchedUserLoc[] | null>(null);
+  const [userLocations, setUserLocations] = useState<FetchedUserLoc[] | null>(
+    null
+  );
+  const [selectedUserLoc, setSelectedUserLoc] = useState("default");
   const { userInfo } = useContext(UserContext);
 
   useEffect(() => {
@@ -18,7 +21,6 @@ export default function EditLocations() {
         .then((response) => {
           if (response) {
             setUserLocations(response);
-            console.log(response);
           }
         })
         .catch((error: Error) => {
@@ -33,10 +35,39 @@ export default function EditLocations() {
         <h1 className="site-title">SendTemps</h1>
       </Link>
       <section className="edit-user-loc-section">
-        <h2>Your Custom Locations</h2>
-        <div className="custom-loc-container">
-          {userLocations ? userLocations.map((loc: any) => <UserLocTile userLoc={loc} key={loc.id} />) : <p>Loading your locations...</p>}
-          {userLocations && !userLocations.length ? <p>No locations created yet. Add some at LINK TO ADDLOCATIONS</p> : null}
+        <h2 className="edit-user-loc-heading">Custom Locations</h2>
+        {userLocations ? (
+          <select
+            value={selectedUserLoc}
+            onChange={(e) => setSelectedUserLoc(e.target.value)}
+            className="edit-user-loc-select"
+          >
+            <option value="default" disabled>
+              Choose location
+            </option>
+            {userLocations.length
+              ? userLocations.map((loc) => {
+                  return (
+                    <option value={loc.id} key={loc.id}>
+                      {loc.name}
+                    </option>
+                  );
+                })
+              : null}
+          </select>
+        ) : null}
+        <div className="edit-user-loc">
+          {userLocations ? null : <p>Loading your locations...</p>}
+          {userLocations && !userLocations.length ? (
+            <p>No locations created yet. Add some at LINK TO ADDLOCATIONS</p>
+          ) : null}
+          {selectedUserLoc !== "default" ? (
+            <UserLocTile
+              userLoc={userLocations?.find(
+                (loc) => loc.id.toString() === selectedUserLoc
+              )}
+            />
+          ) : null}
         </div>
       </section>
     </main>

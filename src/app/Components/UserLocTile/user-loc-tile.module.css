@@ -1,11 +1,58 @@
 .tile-div {
-  background-color: #00b2ff;
   border-radius: 5px;
+  border: 1px solid #00b2ff;
   width: 95%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1vh;
+  padding: 1rem;
+}
+
+.tile-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.detail-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: .5rem;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.detail-group {
+  display: flex;
+  white-space: break-spaces;
+}
+
+.dt {
+  font-weight: 700;
+}
+
+.button-div {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1vw;
-  margin-bottom: 1rem;
-  padding: 1rem;
+  gap: 1rem;
+  width: 100%;
+}
+
+.button {
+  width: 90%;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: 1px solid #00b2ff;
+  border-radius: 5px;
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
+  font-size: 1.5rem;
+  text-align: center;
+  text-align-last: center;
+  color: #ffffff;
 }
