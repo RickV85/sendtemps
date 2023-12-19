@@ -17,13 +17,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #9FAF90;
+  border: 1px solid #9faf90;
   border-radius: 5px;
   margin-bottom: 1rem;
 }
 
 .edit-user-loc-heading {
-  padding: .75rem;
+  padding: 0.75rem;
   font-size: 1.75rem;
 }
 
@@ -52,20 +52,20 @@
 }
 
 .edit-user-loc-modal {
-  height: 50vh;
+  height: 35vh;
   width: 98vw;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #2A3C43;
+  background-color: #2a3c43;
   border-radius: 5px;
   border: none;
   color: #ffffff;
 }
 
 .edit-user-loc-modal::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.62);
 }
 
 .modal-content {
@@ -74,13 +74,46 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+}
+
+.modal-heading {
+  font-size: 1.5rem;
 }
 
 .modal-btn-div {
   display: flex;
   gap: 1rem;
   padding: 1rem;
+}
+
+.edit-loc-input {
+  background-color: transparent;
+  border: 1px solid #00b2ff;
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 1.5rem;
+  text-align: center;
+  text-align-last: center;
+  color: #ffffff;
+}
+
+.edit-user-loc-button {
+  width: 30vw;
+  padding: 0.5rem;
+  max-width: 500px;
+
+  background-color: transparent;
+  border: 1px solid #00b2ff;
+  border-radius: 5px;
+
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
+  font-size: 1.5rem;
+  text-align: center;
+  text-align-last: center;
+  color: #ffffff;
 }
 
 /* .edit-default-loc {

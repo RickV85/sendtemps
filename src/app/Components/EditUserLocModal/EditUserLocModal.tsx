@@ -1,11 +1,11 @@
 import { FetchedUserLoc } from "@/app/Interfaces/interfaces";
 
 interface Props {
-  userLocModalRef: React.Ref<HTMLDialogElement>;
+  userLocModalRef: React.RefObject<HTMLDialogElement>;
   handleModalBackdropClick: Function;
   userLocEditTrigger: string;
-  userLocations: FetchedUserLoc[] | null,
-  selectedUserLoc: string
+  userLocations: FetchedUserLoc[] | null;
+  selectedUserLoc: string;
 }
 
 export default function EditUserLocModal({
@@ -13,48 +13,52 @@ export default function EditUserLocModal({
   handleModalBackdropClick,
   userLocEditTrigger,
   userLocations,
-  selectedUserLoc
+  selectedUserLoc,
 }: Props) {
   const createUserLocModalContent = (triggerId: string) => {
-    // Refactor these to a component with props
-    // to dictate the content
     const curLoc = userLocations?.find(
       (loc) => loc.id.toString() === selectedUserLoc
     );
     switch (triggerId) {
       case "userLocRenameBtn":
         return (
-          <div className="modal-content">
-            <h3>{`Rename ${curLoc?.name}?`}</h3>
-            <input type="text" placeholder="New name" />
+          <>
+            <h3 className="modal-heading">{`Rename ${curLoc?.name}?`}</h3>
+            <input
+              id="editUserLocNameInput"
+              className="edit-loc-input"
+              type="text"
+              placeholder="New name"
+              aria-label="Enter new name for your location"
+            />
             <div className="modal-btn-div">
-              <button>Cancel</button>
-              <button>Confirm</button>
+              <button className="edit-user-loc-button" onClick={() => userLocModalRef.current?.close()}>Cancel</button>
+              <button className="edit-user-loc-button">Confirm</button>
             </div>
-          </div>
+          </>
         );
       case "userLocTypeBtn":
         return (
-          <div className="modal-content">
+          <>
             <h3>{`Change ${curLoc?.name} sport type?`}</h3>
-            <select>
+            <select className="edit-loc-input">
               <option disabled>Change sport type</option>
             </select>
             <div className="modal-btn-div">
-              <button>Cancel</button>
-              <button>Confirm</button>
+              <button className="edit-user-loc-button" onClick={() => userLocModalRef.current?.close()}>Cancel</button>
+              <button className="edit-user-loc-button">Confirm</button>
             </div>
-          </div>
+          </>
         );
       case "userLocDeleteBtn":
         return (
-          <div className="modal-content">
+          <>
             <h3>{`Delete ${curLoc?.name}?`}</h3>
             <div className="modal-btn-div">
-              <button>Cancel</button>
-              <button>Confirm</button>
+              <button className="edit-user-loc-button" onClick={() => userLocModalRef.current?.close()}>Cancel</button>
+              <button className="edit-user-loc-button">Confirm</button>
             </div>
-          </div>
+          </>
         );
     }
   };
@@ -66,7 +70,9 @@ export default function EditUserLocModal({
       className="edit-user-loc-modal"
       onClick={(e) => handleModalBackdropClick(e)}
     >
-      {createUserLocModalContent(userLocEditTrigger)}
+      <div className="modal-content">
+        {createUserLocModalContent(userLocEditTrigger)}
+      </div>
     </dialog>
   );
 }
