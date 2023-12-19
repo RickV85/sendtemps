@@ -6,6 +6,7 @@ import { UserContext } from "../Contexts/UserContext";
 import { getAllUserLocations } from "../Util/APICalls";
 import UserLocTile from "../Components/UserLocTile/UserLocTile";
 import { FetchedUserLoc } from "../Interfaces/interfaces";
+import EditUserLocModal from "../Components/EditUserLocModal/EditUserLocModal";
 
 export default function EditLocations() {
   const [userLocations, setUserLocations] = useState<FetchedUserLoc[] | null>(
@@ -46,60 +47,13 @@ export default function EditLocations() {
     }
   };
 
-  const createUserLocModalContent = (triggerId: string) => {
-    // Refactor these to a component with props
-    // to dictate the content
-    const curLoc = userLocations?.find(
-      (loc) => loc.id.toString() === selectedUserLoc
-    );
-    switch (triggerId) {
-      case "userLocRenameBtn":
-        return (
-          <>
-            <h3>{`Rename ${curLoc?.name}?`}</h3>
-            <input
-              type="text"
-              placeholder="What would you like to rename to?"
-            />
-            <div className="modal-btn-div">
-              <button>Cancel</button>
-              <button>Confirm</button>
-            </div>
-          </>
-        );
-      case "userLocTypeBtn":
-        return (
-          <>
-            <h3>{`Change ${curLoc?.name} sport type?`}</h3>
-            <select>
-              <option disabled>Change sport type</option>
-            </select>
-            <div className="modal-btn-div">
-              <button>Cancel</button>
-              <button>Confirm</button>
-            </div>
-          </>
-        );
-      case "userLocDeleteBtn":
-        return (
-          <>
-            <h3>{`Delete ${curLoc?.name}?`}</h3>
-            <div className="modal-btn-div">
-              <button>Cancel</button>
-              <button>Confirm</button>
-            </div>
-          </>
-        );
-    }
-  };
-
   return (
     <main className="edit-loc-main">
       <Link href={"/"}>
         <h1 className="site-title">SendTemps</h1>
       </Link>
       <section className="edit-loc-section">
-        <h2 className="edit-user-loc-heading">Custom Locations</h2>
+        <h2 className="edit-user-loc-heading">Edit Custom Locations</h2>
         {userLocations ? (
           <select
             id="editUserLocSelect"
@@ -135,16 +89,13 @@ export default function EditLocations() {
               toggleUserLocModal={toggleUserLocModal}
             />
           ) : null}
-          <dialog
-            id="userLocModal"
-            ref={userLocModalRef}
-            className="edit-user-loc-modal"
-            onClick={(e) => handleModalBackdropClick(e)}
-          >
-            <div className="modal-content">
-              {createUserLocModalContent(userLocEditTrigger)}
-            </div>
-          </dialog>
+          <EditUserLocModal
+            userLocModalRef={userLocModalRef}
+            handleModalBackdropClick={handleModalBackdropClick}
+            userLocEditTrigger={userLocEditTrigger}
+            userLocations={userLocations}
+            selectedUserLoc={selectedUserLoc}
+          />
         </div>
       </section>
       {/* <section className="edit-loc-section">
