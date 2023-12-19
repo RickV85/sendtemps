@@ -37,9 +37,9 @@ export default function LocationSelect({
     getAllDefaultLocations().then((locs) => {
       if (locs) {
         setAllLocationOptions([...allLocationOptions, ...locs]);
-      } else {
-        setError("An error occurred while fetching default locations.");
       }
+    }).catch((error) => {
+      setError("An error occurred while fetching default locations.");
     });
     // eslint-disable-next-line
   }, []);
@@ -49,9 +49,9 @@ export default function LocationSelect({
       getAllUserLocations(userInfo.id).then((locs) => {
         if (locs) {
           setAllLocationOptions([...allLocationOptions, ...locs]);
-        } else {
-          setError("An error occurred while fetching your custom locations.");
-        }
+        } 
+      }).catch((error) => {
+        setError("An error occurred while fetching your custom locations.");
       });
     }
     // eslint-disable-next-line

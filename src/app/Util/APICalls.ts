@@ -79,10 +79,13 @@ export async function getAllDefaultLocations() {
         revalidate: 3600,
       },
     });
+    if (!response.ok) {
+      throw new Error(`Error in getAllDefaultLocations: ${response.status}`);
+    }
     const result = await response.json();
     return result;
   } catch (error) {
-    throw new Error(error?.toString());
+    return error;
   }
 }
 
@@ -91,10 +94,13 @@ export async function getAllUserLocations(userId: string) {
     const response = await fetch(`/api/user_locations?user_id=${userId}`, {
       cache: "no-store",
     });
+    if (!response.ok) {
+      throw new Error(`Error in getAllUserLocations: ${response.status}`);
+    }
     const result = await response.json();
     return result;
   } catch (error) {
-    throw new Error(error?.toString());
+    return error;
   }
 }
 
@@ -124,6 +130,6 @@ export async function postNewUserLocation(userLoc: NewUserLoc) {
       throw new Error("Error response postNewUserLocation:", errorData);
     }
   } catch (error) {
-    throw error;
+    return error;
   }
 }
