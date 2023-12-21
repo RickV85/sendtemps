@@ -117,6 +117,13 @@
   color: #ffffff;
 }
 
+.edit-user-loc-modal-error {
+  color: #ef8354;
+  font-size: 1.5rem;
+  text-align: center;
+  width: 90%;
+}
+
 /* .edit-default-loc {
   display: flex;
   flex-direction: column;

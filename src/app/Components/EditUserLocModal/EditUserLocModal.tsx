@@ -19,6 +19,34 @@ export default function EditUserLocModal({
 }: Props) {
   const [newName, setNewName] = useState("");
   const [newType, setNewType] = useState("");
+  const [error, setError] = useState("");
+
+  const resetError = () => {
+    setTimeout(() => {
+      setError("")
+    }, 1500);
+  }
+
+  const handleNameSubmit = () => {
+    if (!newName) {
+      setError("Please enter a name for your new location.");
+      resetError();
+      return;
+    } else if (newName.length > 50) {
+      setError("Location names cannot be longer than 50 characters.");
+      resetError();
+      return;
+    } else if (newName.toLowerCase().includes("script")) {
+      setError("NO XSS");
+      resetError();
+      return;
+    }
+    console.log("hi")
+    // Create new UserLoc instance
+    // Patch request for location
+    // if success, close modal, show msg
+    // if failure, setError
+  };
 
   const createUserLocModalContent = (triggerId: string) => {
     const curLoc = userLocations?.find(
@@ -28,7 +56,11 @@ export default function EditUserLocModal({
       case "userLocRenameBtn":
         return (
           <>
-            <h3 className="modal-heading">{`Rename ${curLoc?.name}?`}</h3>
+            {error ? (
+              <p className="edit-user-loc-modal-error">{error}</p>
+            ) : (
+              <h3 className="modal-heading">{`Rename ${curLoc?.name}?`}</h3>
+            )}
             <input
               id="editUserLocNameInput"
               className="edit-loc-input"
@@ -48,7 +80,12 @@ export default function EditUserLocModal({
               >
                 Cancel
               </button>
-              <button className="edit-user-loc-button">Confirm</button>
+              <button
+                className="edit-user-loc-button"
+                onClick={() => handleNameSubmit()}
+              >
+                Confirm
+              </button>
             </div>
           </>
         );
