@@ -120,6 +120,7 @@
 .edit-user-loc-modal-error {
   color: #ef8354;
   font-size: 1.5rem;
+  font-weight: 700;
   text-align: center;
   width: 90%;
 }

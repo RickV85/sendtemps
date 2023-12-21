@@ -23,17 +23,19 @@ export default function EditUserLocModal({
 
   const resetError = () => {
     setTimeout(() => {
-      setError("")
+      setError("");
     }, 1500);
-  }
+  };
+
+  const errorMsg = <p className="edit-user-loc-modal-error">{error}</p>;
 
   const handleNameSubmit = () => {
     if (!newName) {
-      setError("Please enter a name for your new location.");
+      setError("Please enter a name");
       resetError();
       return;
     } else if (newName.length > 50) {
-      setError("Location names cannot be longer than 50 characters.");
+      setError("Name cannot be longer than 50 characters");
       resetError();
       return;
     } else if (newName.toLowerCase().includes("script")) {
@@ -41,7 +43,18 @@ export default function EditUserLocModal({
       resetError();
       return;
     }
-    console.log("hi")
+    // Create new UserLoc instance
+    // Patch request for location
+    // if success, close modal, show msg
+    // if failure, setError
+  };
+
+  const handleTypeSubmit = () => {
+    if (!newType) {
+      setError("Please choose a type");
+      resetError();
+      return;
+    }
     // Create new UserLoc instance
     // Patch request for location
     // if success, close modal, show msg
@@ -57,7 +70,7 @@ export default function EditUserLocModal({
         return (
           <>
             {error ? (
-              <p className="edit-user-loc-modal-error">{error}</p>
+              errorMsg
             ) : (
               <h3 className="modal-heading">{`Rename ${curLoc?.name}?`}</h3>
             )}
@@ -92,7 +105,11 @@ export default function EditUserLocModal({
       case "userLocTypeBtn":
         return (
           <>
-            <h3>{`Change ${curLoc?.name} sport type?`}</h3>
+            {error ? (
+              errorMsg
+            ) : (
+              <h3 className="modal-heading">{`Change ${curLoc?.name} sport type?`}</h3>
+            )}
             <select
               value={newType}
               onChange={(e) => setNewType(e.target.value)}
@@ -115,14 +132,19 @@ export default function EditUserLocModal({
               >
                 Cancel
               </button>
-              <button className="edit-user-loc-button">Confirm</button>
+              <button
+                className="edit-user-loc-button"
+                onClick={() => handleTypeSubmit()}
+              >
+                Confirm
+              </button>
             </div>
           </>
         );
       case "userLocDeleteBtn":
         return (
           <>
-            <h3>{`Delete ${curLoc?.name}?`}</h3>
+            <h3 className="modal-heading">{`Delete ${curLoc?.name}?`}</h3>
             <div className="modal-btn-div">
               <button
                 className="edit-user-loc-button"
