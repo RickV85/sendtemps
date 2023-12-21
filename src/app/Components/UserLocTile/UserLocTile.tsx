@@ -42,6 +42,10 @@ export default function UserLocTile({ userLoc, toggleUserLocModal }: Props) {
               <dt className={styles["dt"]}>Created: </dt>
               <dd>{new Date(userLoc.date_created).toLocaleDateString()}</dd>
             </div>
+            <div className={styles["detail-group"]}>
+              <dt className={styles["dt"]}>Modified: </dt>
+              <dd>{new Date(userLoc.last_modified).toLocaleString()}</dd>
+            </div>
           </dl>
           <div className={styles["button-div"]}>
             <button id="userLocRenameBtn" className={styles["button"]} onClick={(e) => toggleUserLocModal(e)}>Rename</button>

@@ -93,6 +93,7 @@
   padding: 0.5rem;
   border-radius: 5px;
   font-weight: 400;
+  font-family: var(--font-fugazOne);
   font-size: 1.5rem;
   text-align: center;
   text-align-last: center;
