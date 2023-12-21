@@ -31,3 +31,16 @@ export const createGoogleMapPoints = (
   });
   return points;
 };
+
+export const formatPOIDataForDisplay = (poi: string): string => {
+  switch (poi) {
+    case "climb":
+      return "Climbing";
+    case "mtb":
+      return "Mountain Biking";
+    case "ski":
+      return "Skiing";
+    default:
+      return "Unknown";
+  }
+};
