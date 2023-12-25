@@ -25,7 +25,9 @@ export async function POST(request: NextRequest) {
       reqBody.latitude,
       reqBody.longitude,
       reqBody.user_id,
-      reqBody.poi_type
+      reqBody.poi_type,
+      null,
+      null
     );
     console.log(newUserLoc);
     let response;
@@ -37,6 +39,32 @@ export async function POST(request: NextRequest) {
       );
     }
     return response;
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+}
+
+export default async function PATCH(request: NextRequest) {
+  try {
+    const reqBody = await request.json();
+    // reqBody.loc will contain userLoc data
+    const userLoc = new UserLocation(
+      reqBody.loc.name,
+      reqBody.loc.latitude,
+      reqBody.loc.longitude,
+      reqBody.loc.user_id,
+      reqBody.loc.poi_type,
+      reqBody.loc.date_created,
+      reqBody.loc.last_modified
+      );
+      // reqBody.change will have { update: "change type here", data: "data to change to"}
+    const update = reqBody.change;
+    // Logic to interpret req
+    // Possible options: Change name or poi_type
+
+    userLoc.updateLastModified();
+    // return userLoc to FE to use immediately, update state
+    return NextResponse.json({ userLoc }, {status: 200})
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
