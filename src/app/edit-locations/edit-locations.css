@@ -17,6 +17,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 98%;
+  max-width: 1200px;
   border: 1px solid #9faf90;
   border-radius: 5px;
   margin-bottom: 1rem;
@@ -25,13 +27,14 @@
 .edit-user-loc-heading {
   padding: 0.75rem;
   font-size: 1.75rem;
+  text-align: center;
 }
 
 .edit-user-loc-select {
   background-color: transparent;
   border: 1px solid #00b2ff;
   margin-bottom: 1rem;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
   border-radius: 5px;
   font-family: var(--font-fugazOne);
   font-weight: 400;
@@ -47,13 +50,14 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  width: 98vw;
+  width: 98%;
   padding-bottom: 1rem;
 }
 
 .edit-user-loc-modal {
   height: 35vh;
-  width: 98vw;
+  width: 98%;
+  max-width: 1200px;
   position: fixed;
   top: 50%;
   left: 50%;
