@@ -104,6 +104,21 @@ export async function getAllUserLocations(userId: string) {
   }
 }
 
+export async function getUserLocationById(userId: string, id: string) {
+  try {
+    const response = await fetch(`/api/user_locations?user_id=${userId}?id=${id}`, {
+      cache: "no-store",
+    });
+    if (!response.ok) {
+      throw new Error(`Error in getUserLocationById: ${response.status}`);
+    }
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
 interface NewUserLoc {
   name: string;
   latitude: string;
