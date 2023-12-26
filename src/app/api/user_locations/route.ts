@@ -4,15 +4,21 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = await request.nextUrl.searchParams.get("user_id");
-    // Could provide another searchParam for id number
-    // then if that param, send an individual location
-    const userLocations =
-      await sql`SELECT * FROM sendtemps.user_locations WHERE user_id = ${userId};`;
-    const userLocRows = userLocations.rows;
-    const response = NextResponse.json(userLocRows, { status: 200 });
+    const userId = request.nextUrl.searchParams.get("user_id");
+    const locId = request.nextUrl.searchParams.get("locId");
+    let matchingLocs;
+    if (userId && locId) {
+      matchingLocs =
+        await sql`SELECT * FROM sendtemps.user_locations WHERE user_id = ${userId} AND id = ${locId};`;
+    } else if (userId && !locId) {
+      matchingLocs =
+        await sql`SELECT * FROM sendtemps.user_locations WHERE user_id = ${userId};`;
+    }
+    const foundEntries = matchingLocs?.rows;
+    const response = NextResponse.json(foundEntries, { status: 200 });
     return response;
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error }, { status: 500 });
   }
 }
@@ -44,7 +50,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export default async function PATCH(request: NextRequest) {
+export async function PATCH(request: NextRequest) {
   try {
     const reqBody = await request.json();
     // reqBody.loc will contain userLoc data
@@ -56,15 +62,13 @@ export default async function PATCH(request: NextRequest) {
       reqBody.loc.poi_type,
       reqBody.loc.date_created,
       reqBody.loc.last_modified
-      );
-      // reqBody.change will have { update: "change type here", data: "data to change to"}
+    );
+    // reqBody.change will have { type: "change type here", data: "data to change to"}
     const update = reqBody.change;
-    // Logic to interpret req
-    // Possible options: Change name or poi_type
 
     userLoc.updateLastModified();
     // return userLoc to FE to use immediately, update state
-    return NextResponse.json({ userLoc }, {status: 200})
+    return NextResponse.json({ userLoc }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
