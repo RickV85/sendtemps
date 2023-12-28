@@ -8,18 +8,14 @@ import {
   fetchDailyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
 } from "./Util/APICalls";
-import {
-  Coords,
-  ForecastData,
-  LocationDetails,
-} from "./Interfaces/interfaces";
+import { Coords, ForecastData, LocationDetails } from "./Interfaces/interfaces";
 import LocationSelect from "./Components/LocationSelect/LocationSelect";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
 import TypeSelect from "./Components/TypeSelect/TypeSelect";
 import { SessionProvider } from "next-auth/react";
 import Session from "./Components/Session/Session";
 import { welcomeMessage } from "./home-welcome-msg";
-import { UserContext } from '../app/Contexts/UserContext';
+import { UserContext } from "../app/Contexts/UserContext";
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
@@ -33,6 +29,12 @@ export default function Home() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { userInfo, setUserInfo } = useContext(UserContext);
+
+  useEffect(() => {
+    alert(
+      "Unfortunately, NOAA's forecasts are unavailable until Jan 1st, 2024. Due to this, this app will not load forecasts until they restore service. I'll get SendTemps running again as soon as they have restored service. Thanks for you patience!"
+    );
+  }, []);
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
