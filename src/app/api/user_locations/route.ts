@@ -81,7 +81,7 @@ export async function PATCH(request: NextRequest) {
       console.log(userLoc);
       return NextResponse.json({ userLoc }, { status: 200 });
     } else {
-      throw new Error("An error occurred while updating your location.");
+      throw new Error("user_locations PATCH req failed");
     }
   } catch (error) {
     console.error(error);

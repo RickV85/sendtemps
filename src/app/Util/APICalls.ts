@@ -106,9 +106,12 @@ export async function getAllUserLocations(userId: string) {
 
 export async function getUserLocationById(userId: string, id: string) {
   try {
-    const response = await fetch(`/api/user_locations?user_id=${userId}?id=${id}`, {
-      cache: "no-store",
-    });
+    const response = await fetch(
+      `/api/user_locations?user_id=${userId}?id=${id}`,
+      {
+        cache: "no-store",
+      }
+    );
     if (!response.ok) {
       throw new Error(`Error in getUserLocationById: ${response.status}`);
     }
@@ -142,7 +145,53 @@ export async function postNewUserLocation(userLoc: NewUserLoc) {
       return await response.json();
     } else {
       const errorData = await response.json();
-      throw new Error("Error response postNewUserLocation:", errorData);
+      throw new Error(
+        `Error response postNewUserLocation: ${JSON.stringify(errorData)}`
+      );
+    }
+  } catch (error) {
+    return error;
+  }
+}
+
+interface ExistingUserLoc {
+  id: number;
+  name: string;
+  latitude: string;
+  longitude: string;
+  user_id: string;
+  poi_type: string;
+  date_created: string;
+  last_modified: string;
+}
+
+export async function patchUserLocation(
+  userLoc: ExistingUserLoc,
+  changeCol: string,
+  data: string
+) {
+  const reqBody = {
+    id: userLoc.id,
+    userId: userLoc.user_id,
+    changeCol: changeCol,
+    data: data,
+  };
+  try {
+    const response = await fetch("/api/user_locations", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reqBody),
+      credentials: "include",
+    });
+    if (response.ok) {
+      return await response.json();
+    } else {
+      const errorData = await response.json();
+      throw new Error(
+        `Error response patchUserLocation: ${JSON.stringify(errorData)}`
+      );
     }
   } catch (error) {
     return error;
