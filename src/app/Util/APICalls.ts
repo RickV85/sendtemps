@@ -178,7 +178,7 @@ export async function patchUserLocation(
         "Content-Type": "application/json",
       },
       body: JSON.stringify(reqBody),
-      credentials: "include",
+      credentials: "include"
     });
     if (response.ok) {
       return await response.json();
@@ -186,6 +186,33 @@ export async function patchUserLocation(
       const errorData = await response.json();
       throw new Error(
         `Error response patchUserLocation: ${JSON.stringify(errorData)}`
+      );
+    }
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function deleteUserLocation(locId: number, userId: string) {
+  const reqBody = {
+    id: locId,
+    user_id: userId
+  }
+  try {
+    const response = await fetch("/api/user_locations", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reqBody),
+      credentials: "include"
+    })
+    if (response.ok) {
+      return await response.json();
+    } else {
+      const errorData = await response.json();
+      throw new Error(
+        `Error response deleteUserLocation: ${JSON.stringify(errorData)}`
       );
     }
   } catch (error) {

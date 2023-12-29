@@ -105,3 +105,18 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const deleteLoc = await request.json();
+    await sql`DELETE FROM sendtemps.user_locations 
+      WHERE id = ${deleteLoc.id} AND user_id = ${deleteLoc.user_id};`;
+    return NextResponse.json(
+      `Success: User Location id: ${deleteLoc.id} for user_id: ${deleteLoc.user_id} successfully deleted`,
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error }, { status: 500 });
+  }
+}

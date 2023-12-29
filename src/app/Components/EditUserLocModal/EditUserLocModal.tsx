@@ -1,7 +1,8 @@
 "use client";
 import { UserLocation } from "@/app/Classes/UserLocation";
-import { patchUserLocation } from "@/app/Util/APICalls";
+import { deleteUserLocation, patchUserLocation } from "@/app/Util/APICalls";
 import { findLocByIdInUserLocs, resetErrorMsg } from "@/app/Util/utils";
+import { error } from "console";
 import { useState } from "react";
 
 interface Props {
@@ -43,15 +44,17 @@ export default function EditUserLocModal({
             const newUserLocs = userLocations;
             const editLocIndex = newUserLocs?.indexOf(userLoc);
             if (editLocIndex && newUserLocs) {
-              const updatedLoc = res.patchLoc;
-              newUserLocs.splice(editLocIndex, 1, updatedLoc);
-              setUserLocations(newUserLocs);
               setSelectedUserLoc("default");
               userInputStateSet("");
               setSubmitMsg("");
               userLocModalRef?.current?.close();
+              const updatedLoc = res.patchLoc;
+              newUserLocs.splice(editLocIndex, 1, updatedLoc);
+              setUserLocations(newUserLocs);
             } else {
-              throw new Error("An error occurred while accessing locations.");
+              throw new Error(
+                "An error occurred while accessing locations. Please try again."
+              );
             }
           }
         });
@@ -89,6 +92,30 @@ export default function EditUserLocModal({
       return;
     }
     handlePatchRequest("poi_type", newType, setNewType);
+  };
+
+  const handleDeleteSubmit = () => {
+    setSubmitMsg("Deleting location...");
+    const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
+    if (userLoc && userLoc.id) {
+      deleteUserLocation(+userLoc.id, userLoc.user_id).then((res) => {
+        if (typeof res === "string" && res.startsWith("Success")) {
+          setSelectedUserLoc("default");
+          userLocModalRef?.current?.close();
+          setSubmitMsg("");
+          setUserLocations((prevState) => {
+            const newState = prevState?.filter((loc) => loc.id !== userLoc.id);
+            return newState ? newState : null;
+          });
+        } else {
+          console.error(res);
+          setSubmitMsg(
+            "An error occurred while deleting location. Please try again."
+          );
+          resetErrorMsg(setSubmitMsg);
+        }
+      });
+    }
   };
 
   const createUserLocModalContent = (triggerId: string) => {
@@ -174,7 +201,11 @@ export default function EditUserLocModal({
       case "userLocDeleteBtn":
         return (
           <>
-            <h3 className="modal-heading">{`Delete ${curLoc?.name}?`}</h3>
+            {submitMsg ? (
+              modalSubmitMsg
+            ) : (
+              <h3 className="modal-heading">{`Delete ${curLoc?.name}?`}</h3>
+            )}
             <div className="modal-btn-div">
               <button
                 className="edit-user-loc-button"
@@ -182,7 +213,12 @@ export default function EditUserLocModal({
               >
                 Cancel
               </button>
-              <button className="edit-user-loc-button">Confirm</button>
+              <button
+                className="edit-user-loc-button"
+                onClick={() => handleDeleteSubmit()}
+              >
+                Confirm
+              </button>
             </div>
           </>
         );
