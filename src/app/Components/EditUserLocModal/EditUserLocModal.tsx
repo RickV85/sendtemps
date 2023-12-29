@@ -29,26 +29,16 @@ export default function EditUserLocModal({
 
   const modalSubmitMsg = <p className="edit-user-loc-modal-msg">{submitMsg}</p>;
 
-  const handleNameSubmit = async () => {
-    if (!newName) {
-      setSubmitMsg("Please enter a name");
-      resetErrorMsg(setSubmitMsg);
-      return;
-    } else if (newName.length > 50) {
-      setSubmitMsg("Name cannot be longer than 50 characters");
-      resetErrorMsg(setSubmitMsg);
-      return;
-    } else if (newName.toLowerCase().includes("script")) {
-      setSubmitMsg("NO XSS");
-      resetErrorMsg(setSubmitMsg);
-      return;
-    }
-    // REFACTOR - combine func with handleTypeSubmit
+  const handlePatchRequest = async (
+    patchType: string,
+    userInput: string,
+    userInputStateSet: React.Dispatch<React.SetStateAction<string>>
+  ) => {
     setSubmitMsg("Submitting changes...");
     const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
     if (userLoc) {
       try {
-        patchUserLocation(userLoc, "name", newName).then((res) => {
+        patchUserLocation(userLoc, patchType, userInput).then((res) => {
           if (res) {
             const newUserLocs = userLocations;
             const editLocIndex = newUserLocs?.indexOf(userLoc);
@@ -57,7 +47,7 @@ export default function EditUserLocModal({
               newUserLocs.splice(editLocIndex, 1, updatedLoc);
               setUserLocations(newUserLocs);
               setSelectedUserLoc("default");
-              setNewName("");
+              userInputStateSet("");
               setSubmitMsg("");
               userLocModalRef?.current?.close();
             } else {
@@ -75,42 +65,30 @@ export default function EditUserLocModal({
     }
   };
 
-  const handleTypeSubmit = async () => {
+  const handleNameSubmit = () => {
+    if (!newName) {
+      setSubmitMsg("Please enter a name");
+      resetErrorMsg(setSubmitMsg);
+      return;
+    } else if (newName.length > 50) {
+      setSubmitMsg("Name cannot be longer than 50 characters");
+      resetErrorMsg(setSubmitMsg);
+      return;
+    } else if (newName.toLowerCase().includes("script")) {
+      setSubmitMsg("NO XSS");
+      resetErrorMsg(setSubmitMsg);
+      return;
+    }
+    handlePatchRequest("name", newName, setNewName);
+  };
+
+  const handleTypeSubmit = () => {
     if (!newType) {
       setSubmitMsg("Please choose a type");
       resetErrorMsg(setSubmitMsg);
       return;
     }
-    // REFACTOR - combine func with handleNameSubmit
-    setSubmitMsg("Submitting changes...");
-    const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
-    if (userLoc) {
-      try {
-        patchUserLocation(userLoc, "poi_type", newType).then((res) => {
-          if (res) {
-            const newUserLocs = userLocations;
-            const editLocIndex = newUserLocs?.indexOf(userLoc);
-            if (editLocIndex && newUserLocs) {
-              const updatedLoc = res.patchLoc;
-              newUserLocs.splice(editLocIndex, 1, updatedLoc);
-              setUserLocations(newUserLocs);
-              setSelectedUserLoc("default");
-              setNewType("");
-              setSubmitMsg("");
-              userLocModalRef?.current?.close();
-            } else {
-              throw new Error("An error occurred while accessing locations.");
-            }
-          }
-        });
-      } catch (error) {
-        console.error(error);
-        if (typeof error === "string") {
-          setSubmitMsg(error);
-          resetErrorMsg(setSubmitMsg);
-        }
-      }
-    }
+    handlePatchRequest("poi_type", newType, setNewType);
   };
 
   const createUserLocModalContent = (triggerId: string) => {
