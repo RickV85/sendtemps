@@ -1,5 +1,6 @@
 import { LocationObject, GoogleMapPoint } from "../Interfaces/interfaces";
 import { UserLocation } from "../Classes/UserLocation";
+import { Dispatch } from "react";
 
 export function filterAndSortLocationsAlphaByName(
   locArr: Array<LocationObject>,
@@ -55,4 +56,10 @@ export const findLocByIdInUserLocs = (
     console.log("Array of userLocations is empty")
     return undefined;
   }
+};
+
+export const resetErrorMsg = (errorMsgStateSet: React.Dispatch<React.SetStateAction<string>>) => {
+  setTimeout(() => {
+    errorMsgStateSet("");
+  }, 1500);
 };

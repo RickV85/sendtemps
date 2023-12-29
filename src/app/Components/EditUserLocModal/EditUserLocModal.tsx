@@ -1,7 +1,7 @@
 "use client";
 import { UserLocation } from "@/app/Classes/UserLocation";
 import { patchUserLocation } from "@/app/Util/APICalls";
-import { findLocByIdInUserLocs } from "@/app/Util/utils";
+import { findLocByIdInUserLocs, resetErrorMsg } from "@/app/Util/utils";
 import { useState } from "react";
 
 interface Props {
@@ -29,26 +29,22 @@ export default function EditUserLocModal({
   const [newType, setNewType] = useState("");
   const [error, setError] = useState("");
 
-  const resetError = () => {
-    setTimeout(() => {
-      setError("");
-    }, 1500);
-  };
+
 
   const errorMsg = <p className="edit-user-loc-modal-error">{error}</p>;
 
   const handleNameSubmit = async () => {
     if (!newName) {
       setError("Please enter a name");
-      resetError();
+      resetErrorMsg(setError);
       return;
     } else if (newName.length > 50) {
       setError("Name cannot be longer than 50 characters");
-      resetError();
+      resetErrorMsg(setError);
       return;
     } else if (newName.toLowerCase().includes("script")) {
       setError("NO XSS");
-      resetError();
+      resetErrorMsg(setError);
       return;
     }
 
@@ -83,12 +79,14 @@ export default function EditUserLocModal({
   const handleTypeSubmit = () => {
     if (!newType) {
       setError("Please choose a type");
-      resetError();
+      resetErrorMsg(setError);
       return;
     }
     // Patch request for location
     // if success, close modal, show msg
     // if failure, setError
+    // setNewType("")
+
   };
 
   const createUserLocModalContent = (triggerId: string) => {
