@@ -122,33 +122,6 @@ export default function Home() {
         </div>
       </header>
       <section className="home-main-section">
-        <section className="home-control-section">
-          <TypeSelect
-            setSelectedLocType={setSelectedLocType}
-            setForecastData={setForecastData}
-          />
-          <LocationSelect
-            selectedLocType={selectedLocType}
-            setSelectedLocCoords={setSelectedLocCoords}
-            setForecastData={setForecastData}
-            userInfo={userInfo}
-            setError={setError}
-          />
-          {userInfo ? (
-            <>
-              <Link href={"/add-location"}>
-                <button className="add-edit-location-btn">
-                  Create New Location
-                </button>
-              </Link>
-              <Link href={"/edit-locations"}>
-                <button className="add-edit-location-btn">
-                  Edit Locations
-                </button>
-              </Link>
-            </>
-          ) : null}
-        </section>
         {/* Error ? load: */}
         {error ? (
           <>
@@ -163,6 +136,33 @@ export default function Home() {
         ) : (
           <>
             {/* No error ? load: */}
+            <section className="home-control-section">
+              <TypeSelect
+                setSelectedLocType={setSelectedLocType}
+                setForecastData={setForecastData}
+              />
+              <LocationSelect
+                selectedLocType={selectedLocType}
+                setSelectedLocCoords={setSelectedLocCoords}
+                setForecastData={setForecastData}
+                userInfo={userInfo}
+                setError={setError}
+              />
+              {userInfo ? (
+                <>
+                  <Link href={"/add-location"}>
+                    <button className="add-edit-location-btn">
+                      Create New Location
+                    </button>
+                  </Link>
+                  <Link href={"/edit-locations"}>
+                    <button className="add-edit-location-btn">
+                      Edit Locations
+                    </button>
+                  </Link>
+                </>
+              ) : null}
+            </section>
             <section className="forecast-section">
               {isLoading ? (
                 <p className="loading-msg">Loading forecast...</p>

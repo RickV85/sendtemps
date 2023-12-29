@@ -33,25 +33,27 @@ export default function LocationSelect({
     setSelection("");
   }, [selectedLocType]);
 
+  // REFACTOR - combine with user location request with promise all
   useEffect(() => {
     getAllDefaultLocations().then((locs) => {
-      if (locs) {
+      if (locs.length) {
         setAllLocationOptions([...allLocationOptions, ...locs]);
+      } else {
+        setError("An error occurred while fetching default locations.");
       }
-    }).catch((error) => {
-      setError("An error occurred while fetching default locations.");
     });
     // eslint-disable-next-line
   }, []);
-
+  
+  // REFACTOR - combine with user location request with promise all
   useEffect(() => {
     if (userInfo?.id) {
       getAllUserLocations(userInfo.id).then((locs) => {
-        if (locs) {
+        if (locs.length) {
           setAllLocationOptions([...allLocationOptions, ...locs]);
-        } 
-      }).catch((error) => {
-        setError("An error occurred while fetching your custom locations.");
+        } else {
+          setError("An error occurred while fetching your custom locations.");
+        }
       });
     }
     // eslint-disable-next-line
