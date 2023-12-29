@@ -16,6 +16,7 @@ export default function EditLocations() {
   const { userInfo } = useContext(UserContext);
   const userLocModalRef = useRef<HTMLDialogElement>(null);
   const [userLocEditTrigger, setUserLocEditTrigger] = useState("");
+  const [editUserLocError, setEditUserLocError] = useState("");
 
   useEffect(() => {
     if (userInfo?.id) {
@@ -27,6 +28,7 @@ export default function EditLocations() {
         })
         .catch((error: Error) => {
           console.error(error);
+          setEditUserLocError("An error occurred while fetching your locations. Please reload the page.")
         });
     }
   }, [userInfo]);
@@ -77,9 +79,10 @@ export default function EditLocations() {
           </select>
         ) : null}
         <div className="edit-user-loc">
-          {userLocations ? null : <p>Loading your locations...</p>}
+          {editUserLocError ? <p className="edit-user-loc-error">{editUserLocError}</p> : null}
+          {!userLocations && !editUserLocError ? <p className="edit-user-loc-loading">Loading your locations...</p> : null}
           {userLocations && !userLocations.length ? (
-            <p>No locations created yet. Add some at LINK TO ADDLOCATIONS</p>
+            <p>No locations created yet. Add some at LINK TO ADD LOCATIONS</p>
           ) : null}
           {selectedUserLoc !== "default" ? (
             <UserLocTile

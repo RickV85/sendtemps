@@ -54,6 +54,18 @@
   padding-bottom: 1rem;
 }
 
+.edit-user-loc-error {
+  color: #f18f01;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.edit-user-loc-loading {
+  font-size: 1.3rem;
+  color: #ef8354;
+}
+
 .edit-user-loc-modal {
   height: 35vh;
   width: 98%;
@@ -123,7 +135,7 @@
 }
 
 .edit-user-loc-modal-msg {
-  color: #ef8354;
+  color: #f18f01;
   font-size: 1.5rem;
   font-weight: 700;
   text-align: center;

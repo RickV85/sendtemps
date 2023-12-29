@@ -30,7 +30,7 @@ export default function EditUserLocModal({
 
   const modalSubmitMsg = <p className="edit-user-loc-modal-msg">{submitMsg}</p>;
 
-  const handlePatchRequest = async (
+  const handlePatchRequest = (
     patchType: string,
     userInput: string,
     userInputStateSet: React.Dispatch<React.SetStateAction<string>>
@@ -38,33 +38,28 @@ export default function EditUserLocModal({
     setSubmitMsg("Submitting changes...");
     const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
     if (userLoc) {
-      try {
-        patchUserLocation(userLoc, patchType, userInput).then((res) => {
-          if (res) {
-            const newUserLocs = userLocations;
-            const editLocIndex = newUserLocs?.indexOf(userLoc);
-            if (editLocIndex && newUserLocs) {
-              setSelectedUserLoc("default");
-              userInputStateSet("");
-              setSubmitMsg("");
-              userLocModalRef?.current?.close();
-              const updatedLoc = res.patchLoc;
-              newUserLocs.splice(editLocIndex, 1, updatedLoc);
-              setUserLocations(newUserLocs);
-            } else {
-              throw new Error(
-                "An error occurred while accessing locations. Please try again."
-              );
-            }
+      patchUserLocation(userLoc, patchType, userInput).then((res) => {
+        console.log(res);
+        if (res.id && res.id === userLoc.id) {
+          const newUserLocs = userLocations;
+          const editLocIndex = newUserLocs?.indexOf(userLoc);
+          if (editLocIndex && newUserLocs) {
+            setSelectedUserLoc("default");
+            userInputStateSet("");
+            setSubmitMsg("");
+            userLocModalRef?.current?.close();
+            const updatedLoc = res.patchLoc;
+            newUserLocs.splice(editLocIndex, 1, updatedLoc);
+            setUserLocations(newUserLocs);
           }
-        });
-      } catch (error) {
-        console.error(error);
-        if (typeof error === "string") {
-          setSubmitMsg(error);
+        } else {
+          console.error(res);
+          setSubmitMsg(
+            "An error occurred while modifying location. Please try again."
+          );
           resetErrorMsg(setSubmitMsg);
         }
-      }
+      });
     }
   };
 
@@ -129,7 +124,7 @@ export default function EditUserLocModal({
             {submitMsg ? (
               modalSubmitMsg
             ) : (
-              <h3 className="modal-heading">{`Rename ${curLoc?.name}?`}</h3>
+              <h3 className="modal-heading">{`Rename "${curLoc?.name}"?`}</h3>
             )}
             <input
               id="editUserLocNameInput"
@@ -165,7 +160,7 @@ export default function EditUserLocModal({
             {submitMsg ? (
               modalSubmitMsg
             ) : (
-              <h3 className="modal-heading">{`Change ${curLoc?.name} sport type?`}</h3>
+              <h3 className="modal-heading">{`Change "${curLoc?.name}" sport type?`}</h3>
             )}
             <select
               value={newType}
@@ -204,7 +199,7 @@ export default function EditUserLocModal({
             {submitMsg ? (
               modalSubmitMsg
             ) : (
-              <h3 className="modal-heading">{`Delete ${curLoc?.name}?`}</h3>
+              <h3 className="modal-heading">{`Are you sure you want to delete "${curLoc?.name}"?`}</h3>
             )}
             <div className="modal-btn-div">
               <button
