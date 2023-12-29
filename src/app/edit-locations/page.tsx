@@ -94,7 +94,9 @@ export default function EditLocations() {
             handleModalBackdropClick={handleModalBackdropClick}
             userLocEditTrigger={userLocEditTrigger}
             userLocations={userLocations}
+            setUserLocations={setUserLocations}
             selectedUserLoc={selectedUserLoc}
+            setSelectedUserLoc={setSelectedUserLoc}
           />
         </div>
       </section>

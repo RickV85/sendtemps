@@ -1,5 +1,6 @@
 "use client";
 import { FetchedUserLoc } from "@/app/Interfaces/interfaces";
+import { patchUserLocation } from "@/app/Util/APICalls";
 import { useState } from "react";
 
 interface Props {
@@ -7,7 +8,11 @@ interface Props {
   handleModalBackdropClick: Function;
   userLocEditTrigger: string;
   userLocations: FetchedUserLoc[] | null;
+  setUserLocations: React.Dispatch<
+    React.SetStateAction<FetchedUserLoc[] | null>
+  >;
   selectedUserLoc: string;
+  setSelectedUserLoc: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function EditUserLocModal({
@@ -15,7 +20,9 @@ export default function EditUserLocModal({
   handleModalBackdropClick,
   userLocEditTrigger,
   userLocations,
+  setUserLocations,
   selectedUserLoc,
+  setSelectedUserLoc,
 }: Props) {
   const [newName, setNewName] = useState("");
   const [newType, setNewType] = useState("");
@@ -29,7 +36,7 @@ export default function EditUserLocModal({
 
   const errorMsg = <p className="edit-user-loc-modal-error">{error}</p>;
 
-  const handleNameSubmit = () => {
+  const handleNameSubmit = async () => {
     if (!newName) {
       setError("Please enter a name");
       resetError();
@@ -43,10 +50,37 @@ export default function EditUserLocModal({
       resetError();
       return;
     }
-    // Create new UserLoc instance
-    // Patch request for location
-    // if success, close modal, show msg
-    // if failure, setError
+
+    const userLoc = userLocations?.find((loc) => loc.id === +selectedUserLoc);
+    if (userLoc) {
+      try {
+        patchUserLocation(userLoc, "name", newName).then((res) => {
+          if (res) {
+            // setState
+            const newUserLocs = userLocations;
+            const editLocIndex = newUserLocs?.indexOf(userLoc);
+            if (editLocIndex && newUserLocs) {
+              const updatedLoc = res;
+              newUserLocs.splice(editLocIndex, 1, updatedLoc);
+              setUserLocations(newUserLocs);
+              setSelectedUserLoc("default");
+              userLocModalRef?.current?.close();
+            } else {
+              throw new Error(
+                "An error occurred while accessing and modifying your locations."
+              );
+            }
+          }
+        });
+      } catch (error) {
+        console.error(error);
+        if (typeof error === "string") {
+          setError(error);
+        }
+      }
+    } else {
+      // setError name not found?
+    }
   };
 
   const handleTypeSubmit = () => {

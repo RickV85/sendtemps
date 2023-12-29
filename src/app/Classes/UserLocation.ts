@@ -1,4 +1,5 @@
 export class UserLocation {
+  id: number | undefined;
   name: string;
   latitude: string;
   longitude: string;
@@ -8,6 +9,7 @@ export class UserLocation {
   last_modified: string;
 
   constructor(
+    id: number | undefined,
     name: string,
     latitude: string,
     longitude: string,
@@ -16,6 +18,7 @@ export class UserLocation {
     date_created: string | null,
     last_modified: string | null
   ) {
+    this.id = id || undefined;
     this.name = name;
     this.latitude = latitude;
     this.longitude = longitude;

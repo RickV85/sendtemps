@@ -1,5 +1,5 @@
 import { Session } from "inspector";
-import { ForecastData } from "../Interfaces/interfaces";
+import { FetchedUserLoc, ForecastData } from "../Interfaces/interfaces";
 import { UserLocation } from "../Classes/UserLocation";
 
 // NOAA API CALLS
@@ -105,9 +105,12 @@ export async function getAllUserLocations(userId: string) {
 }
 
 export async function getUserLocationById(userId: string, id: string) {
+  const baseUrl = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:3000'
+  : 'https://sendtemps.vercel.app';
   try {
     const response = await fetch(
-      `/api/user_locations?user_id=${userId}?id=${id}`,
+      `${baseUrl}/api/user_locations?user_id=${userId}&id=${id}`,
       {
         cache: "no-store",
       }
@@ -154,19 +157,8 @@ export async function postNewUserLocation(userLoc: NewUserLoc) {
   }
 }
 
-interface ExistingUserLoc {
-  id: number;
-  name: string;
-  latitude: string;
-  longitude: string;
-  user_id: string;
-  poi_type: string;
-  date_created: string;
-  last_modified: string;
-}
-
 export async function patchUserLocation(
-  userLoc: ExistingUserLoc,
+  userLoc: FetchedUserLoc,
   changeCol: string,
   data: string
 ) {
