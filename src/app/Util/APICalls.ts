@@ -71,6 +71,8 @@ export async function fetchDailyForecastWithRetry(
 // { next: { revalidate: 3600 } }
 // which validates data at maximum once an hour
 
+// default_locations
+
 export async function getAllDefaultLocations() {
   try {
     const response = await fetch("/api/default_locations", {
@@ -87,6 +89,8 @@ export async function getAllDefaultLocations() {
     throw error;
   }
 }
+
+// user_locations
 
 export async function getAllUserLocations(userId: string) {
   try {

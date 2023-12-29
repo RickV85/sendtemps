@@ -9,9 +9,7 @@ interface Props {
   handleModalBackdropClick: Function;
   userLocEditTrigger: string;
   userLocations: UserLocation[] | null;
-  setUserLocations: React.Dispatch<
-    React.SetStateAction<UserLocation[] | null>
-  >;
+  setUserLocations: React.Dispatch<React.SetStateAction<UserLocation[] | null>>;
   selectedUserLoc: string;
   setSelectedUserLoc: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -29,8 +27,6 @@ export default function EditUserLocModal({
   const [newType, setNewType] = useState("");
   const [error, setError] = useState("");
 
-
-
   const errorMsg = <p className="edit-user-loc-modal-error">{error}</p>;
 
   const handleNameSubmit = async () => {
@@ -47,7 +43,7 @@ export default function EditUserLocModal({
       resetErrorMsg(setError);
       return;
     }
-
+    // REFACTOR - combine func with handleTypeSubmit
     const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
     if (userLoc) {
       try {
@@ -76,17 +72,39 @@ export default function EditUserLocModal({
     }
   };
 
-  const handleTypeSubmit = () => {
+  const handleTypeSubmit = async () => {
     if (!newType) {
       setError("Please choose a type");
       resetErrorMsg(setError);
       return;
     }
-    // Patch request for location
-    // if success, close modal, show msg
-    // if failure, setError
-    // setNewType("")
-
+    // REFACTOR - combine func with handleNameSubmit
+    const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
+    if (userLoc) {
+      try {
+        patchUserLocation(userLoc, "poi_type", newType).then((res) => {
+          if (res) {
+            const newUserLocs = userLocations;
+            const editLocIndex = newUserLocs?.indexOf(userLoc);
+            if (editLocIndex && newUserLocs) {
+              const updatedLoc = res.patchLoc;
+              newUserLocs.splice(editLocIndex, 1, updatedLoc);
+              setUserLocations(newUserLocs);
+              setSelectedUserLoc("default");
+              setNewType("");
+              userLocModalRef?.current?.close();
+            } else {
+              throw new Error("An error occurred while accessing locations.");
+            }
+          }
+        });
+      } catch (error) {
+        console.error(error);
+        if (typeof error === "string") {
+          setError(error);
+        }
+      }
+    }
   };
 
   const createUserLocModalContent = (triggerId: string) => {
