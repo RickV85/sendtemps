@@ -95,6 +95,8 @@ export async function PATCH(request: NextRequest) {
         SET last_modified = ${patchLoc.last_modified} 
         WHERE id = ${patchLoc.id} AND user_id = ${patchLoc.user_id};`;
 
+      client.release();
+
       return NextResponse.json({ patchLoc }, { status: 200 });
     }
   } catch (error) {

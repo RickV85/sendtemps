@@ -63,6 +63,7 @@ export default function EditUserLocModal({
               newUserLocs.splice(editLocIndex, 1, updatedLoc);
               setUserLocations(newUserLocs);
               setSelectedUserLoc("default");
+              setNewName("");
               userLocModalRef?.current?.close();
             } else {
               throw new Error("An error occurred while accessing locations.");
@@ -91,7 +92,6 @@ export default function EditUserLocModal({
   };
 
   const createUserLocModalContent = (triggerId: string) => {
-    console.log(userLocations);
     const curLoc = userLocations?.find(
       (loc) => loc.id.toString() === selectedUserLoc
     );
