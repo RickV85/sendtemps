@@ -28,7 +28,9 @@ export default function EditLocations() {
         })
         .catch((error: Error) => {
           console.error(error);
-          setEditUserLocError("An error occurred while fetching your locations. Please reload the page.")
+          setEditUserLocError(
+            "An error occurred while fetching your locations. Please reload the page."
+          );
         });
     }
   }, [userInfo]);
@@ -55,53 +57,59 @@ export default function EditLocations() {
         <h1 className="site-title">SendTemps</h1>
       </Link>
       <section className="edit-loc-section">
-        <h2 className="edit-user-loc-heading">Edit Custom Locations</h2>
-        {userLocations ? (
-          <select
-            id="editUserLocSelect"
-            value={selectedUserLoc}
-            onChange={(e) => setSelectedUserLoc(e.target.value)}
-            className="edit-user-loc-select"
-            aria-label="Choose a custom location to edit"
-          >
-            <option value="default" disabled>
-              Choose location
-            </option>
-            {userLocations.length
-              ? userLocations.map((loc) => {
-                  return (
-                    <option value={loc.id} key={loc.id}>
-                      {loc.name}
-                    </option>
-                  );
-                })
-              : null}
-          </select>
-        ) : null}
-        <div className="edit-user-loc">
-          {editUserLocError ? <p className="edit-user-loc-error">{editUserLocError}</p> : null}
-          {!userLocations && !editUserLocError ? <p className="edit-user-loc-loading">Loading your locations...</p> : null}
-          {userLocations && !userLocations.length ? (
-            <p>No locations created yet. Add some at LINK TO ADD LOCATIONS</p>
+        <section className="edit-user-loc-section">
+          <h2 className="edit-user-loc-heading">Edit Custom Locations</h2>
+          {userLocations ? (
+            <select
+              id="editUserLocSelect"
+              value={selectedUserLoc}
+              onChange={(e) => setSelectedUserLoc(e.target.value)}
+              className="edit-user-loc-select"
+              aria-label="Choose a custom location to edit"
+            >
+              <option value="default" disabled>
+                Choose location
+              </option>
+              {userLocations.length
+                ? userLocations.map((loc) => {
+                    return (
+                      <option value={loc.id} key={loc.id}>
+                        {loc.name}
+                      </option>
+                    );
+                  })
+                : null}
+            </select>
           ) : null}
-          {selectedUserLoc !== "default" ? (
-            <UserLocTile
-              userLoc={userLocations?.find(
-                (loc) => loc?.id?.toString() === selectedUserLoc
-              )}
-              toggleUserLocModal={toggleUserLocModal}
+          <div className="edit-user-loc">
+            {editUserLocError ? (
+              <p className="edit-user-loc-error">{editUserLocError}</p>
+            ) : null}
+            {!userLocations && !editUserLocError ? (
+              <p className="edit-user-loc-loading">Loading your locations...</p>
+            ) : null}
+            {userLocations && !userLocations.length ? (
+              <p>No locations created yet. Add some at LINK TO ADD LOCATIONS</p>
+            ) : null}
+            {selectedUserLoc !== "default" ? (
+              <UserLocTile
+                userLoc={userLocations?.find(
+                  (loc) => loc?.id?.toString() === selectedUserLoc
+                )}
+                toggleUserLocModal={toggleUserLocModal}
+              />
+            ) : null}
+            <EditUserLocModal
+              userLocModalRef={userLocModalRef}
+              handleModalBackdropClick={handleModalBackdropClick}
+              userLocEditTrigger={userLocEditTrigger}
+              userLocations={userLocations}
+              setUserLocations={setUserLocations}
+              selectedUserLoc={selectedUserLoc}
+              setSelectedUserLoc={setSelectedUserLoc}
             />
-          ) : null}
-          <EditUserLocModal
-            userLocModalRef={userLocModalRef}
-            handleModalBackdropClick={handleModalBackdropClick}
-            userLocEditTrigger={userLocEditTrigger}
-            userLocations={userLocations}
-            setUserLocations={setUserLocations}
-            selectedUserLoc={selectedUserLoc}
-            setSelectedUserLoc={setSelectedUserLoc}
-          />
-        </div>
+          </div>
+        </section>
       </section>
       {/* <section className="edit-loc-section">
         <h2>Default Locations</h2>
