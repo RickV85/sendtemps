@@ -1,5 +1,4 @@
-import { Session } from "inspector";
-import { FetchedUserLoc, ForecastData } from "../Interfaces/interfaces";
+import { ForecastData } from "../Interfaces/interfaces";
 import { UserLocation } from "../Classes/UserLocation";
 
 // NOAA API CALLS
@@ -158,7 +157,7 @@ export async function postNewUserLocation(userLoc: NewUserLoc) {
 }
 
 export async function patchUserLocation(
-  userLoc: FetchedUserLoc,
+  userLoc: UserLocation,
   changeCol: string,
   data: string
 ) {

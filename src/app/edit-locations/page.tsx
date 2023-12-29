@@ -5,11 +5,11 @@ import { MouseEvent, useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../Contexts/UserContext";
 import { getAllUserLocations } from "../Util/APICalls";
 import UserLocTile from "../Components/UserLocTile/UserLocTile";
-import { FetchedUserLoc } from "../Interfaces/interfaces";
+import { UserLocation } from "../Classes/UserLocation";
 import EditUserLocModal from "../Components/EditUserLocModal/EditUserLocModal";
 
 export default function EditLocations() {
-  const [userLocations, setUserLocations] = useState<FetchedUserLoc[] | null>(
+  const [userLocations, setUserLocations] = useState<UserLocation[] | null>(
     null
   );
   const [selectedUserLoc, setSelectedUserLoc] = useState("default");
@@ -84,7 +84,7 @@ export default function EditLocations() {
           {selectedUserLoc !== "default" ? (
             <UserLocTile
               userLoc={userLocations?.find(
-                (loc) => loc.id.toString() === selectedUserLoc
+                (loc) => loc?.id?.toString() === selectedUserLoc
               )}
               toggleUserLocModal={toggleUserLocModal}
             />

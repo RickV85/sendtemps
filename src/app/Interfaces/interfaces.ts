@@ -186,14 +186,3 @@ export interface GoogleMapPoint {
     lng: number;
   };
 }
-
-export interface FetchedUserLoc {
-  date_created: string;
-  id: number;
-  last_modified: string;
-  latitude: string;
-  longitude: string;
-  name: string;
-  poi_type: string;
-  user_id: string;
-}

@@ -1,10 +1,9 @@
 import { UserLocation } from "@/app/Classes/UserLocation";
 import styles from "./user-loc-tile.module.css";
-import { FetchedUserLoc } from "@/app/Interfaces/interfaces";
 import { formatPOIDataForDisplay } from "@/app/Util/utils";
 
 interface Props {
-  userLoc: FetchedUserLoc | undefined;
+  userLoc: UserLocation | undefined;
   toggleUserLocModal: Function;
 }
 

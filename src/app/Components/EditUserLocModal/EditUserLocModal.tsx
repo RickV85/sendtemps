@@ -1,15 +1,16 @@
 "use client";
-import { FetchedUserLoc } from "@/app/Interfaces/interfaces";
+import { UserLocation } from "@/app/Classes/UserLocation";
 import { patchUserLocation } from "@/app/Util/APICalls";
+import { findLocByIdInUserLocs } from "@/app/Util/utils";
 import { useState } from "react";
 
 interface Props {
   userLocModalRef: React.RefObject<HTMLDialogElement>;
   handleModalBackdropClick: Function;
   userLocEditTrigger: string;
-  userLocations: FetchedUserLoc[] | null;
+  userLocations: UserLocation[] | null;
   setUserLocations: React.Dispatch<
-    React.SetStateAction<FetchedUserLoc[] | null>
+    React.SetStateAction<UserLocation[] | null>
   >;
   selectedUserLoc: string;
   setSelectedUserLoc: React.Dispatch<React.SetStateAction<string>>;
@@ -51,7 +52,7 @@ export default function EditUserLocModal({
       return;
     }
 
-    const userLoc = userLocations?.find((loc) => loc.id === +selectedUserLoc);
+    const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
     if (userLoc) {
       try {
         patchUserLocation(userLoc, "name", newName).then((res) => {
@@ -85,7 +86,6 @@ export default function EditUserLocModal({
       resetError();
       return;
     }
-    // Create new UserLoc instance
     // Patch request for location
     // if success, close modal, show msg
     // if failure, setError
@@ -93,7 +93,7 @@ export default function EditUserLocModal({
 
   const createUserLocModalContent = (triggerId: string) => {
     const curLoc = userLocations?.find(
-      (loc) => loc.id.toString() === selectedUserLoc
+      (loc) => loc?.id?.toString() === selectedUserLoc
     );
     switch (triggerId) {
       case "userLocRenameBtn":

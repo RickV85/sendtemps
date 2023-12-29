@@ -79,17 +79,18 @@ export async function PATCH(request: NextRequest) {
       }
       patchLoc.updateLastModified();
 
+      // Connect to DB and start SQl queries
       const client = await db.connect();
+
       if (reqBody.changeCol === "name") {
         await client.sql`UPDATE sendtemps.user_locations 
         SET name = ${reqBody.data} 
         WHERE id = ${patchLoc.id} AND user_id = ${patchLoc.user_id};`;
+      } else if (reqBody.changeCol === "poi_type") {
+        await client.sql`UPDATE sendtemps.user_locations 
+        SET poi_type = ${reqBody.data} 
+        WHERE id = ${patchLoc.id} AND user_id = ${patchLoc.user_id};`;
       }
-      // } else if (reqBody.changeCol === "poi_type") {
-      //   await client.sql`UPDATE sendtemps.user_locations 
-      //   SET poi_type = ${reqBody.data} 
-      //   WHERE id = ${patchLoc.id} AND user_id = ${patchLoc.user_id};`;
-      // }
 
       await client.sql`UPDATE sendtemps.user_locations 
         SET last_modified = ${patchLoc.last_modified} 

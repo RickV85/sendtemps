@@ -44,3 +44,15 @@ export const formatPOIDataForDisplay = (poi: string): string => {
       return "Unknown";
   }
 };
+
+export const findLocByIdInUserLocs = (
+  searchLocId: number,
+  userLocations: UserLocation[] | null
+): UserLocation | undefined =>  {
+  if (userLocations?.length) {
+    return userLocations?.find((loc) => loc.id === searchLocId);
+  } else {
+    console.log("Array of userLocations is empty")
+    return undefined;
+  }
+};
