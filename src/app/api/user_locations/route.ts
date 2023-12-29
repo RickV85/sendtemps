@@ -85,6 +85,11 @@ export async function PATCH(request: NextRequest) {
         SET name = ${reqBody.data} 
         WHERE id = ${patchLoc.id} AND user_id = ${patchLoc.user_id};`;
       }
+      // } else if (reqBody.changeCol === "poi_type") {
+      //   await client.sql`UPDATE sendtemps.user_locations 
+      //   SET poi_type = ${reqBody.data} 
+      //   WHERE id = ${patchLoc.id} AND user_id = ${patchLoc.user_id};`;
+      // }
 
       await client.sql`UPDATE sendtemps.user_locations 
         SET last_modified = ${patchLoc.last_modified} 

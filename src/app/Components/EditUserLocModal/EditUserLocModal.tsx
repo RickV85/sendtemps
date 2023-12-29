@@ -56,19 +56,16 @@ export default function EditUserLocModal({
       try {
         patchUserLocation(userLoc, "name", newName).then((res) => {
           if (res) {
-            // setState
             const newUserLocs = userLocations;
             const editLocIndex = newUserLocs?.indexOf(userLoc);
             if (editLocIndex && newUserLocs) {
-              const updatedLoc = res;
+              const updatedLoc = res.patchLoc;
               newUserLocs.splice(editLocIndex, 1, updatedLoc);
               setUserLocations(newUserLocs);
               setSelectedUserLoc("default");
               userLocModalRef?.current?.close();
             } else {
-              throw new Error(
-                "An error occurred while accessing and modifying your locations."
-              );
+              throw new Error("An error occurred while accessing locations.");
             }
           }
         });
@@ -78,8 +75,6 @@ export default function EditUserLocModal({
           setError(error);
         }
       }
-    } else {
-      // setError name not found?
     }
   };
 
@@ -96,6 +91,7 @@ export default function EditUserLocModal({
   };
 
   const createUserLocModalContent = (triggerId: string) => {
+    console.log(userLocations);
     const curLoc = userLocations?.find(
       (loc) => loc.id.toString() === selectedUserLoc
     );
