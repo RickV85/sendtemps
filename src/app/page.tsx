@@ -8,18 +8,14 @@ import {
   fetchDailyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
 } from "./Util/APICalls";
-import {
-  Coords,
-  ForecastData,
-  LocationDetails,
-} from "./Interfaces/interfaces";
+import { Coords, ForecastData, LocationDetails } from "./Interfaces/interfaces";
 import LocationSelect from "./Components/LocationSelect/LocationSelect";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
 import TypeSelect from "./Components/TypeSelect/TypeSelect";
 import { SessionProvider } from "next-auth/react";
 import Session from "./Components/Session/Session";
 import { welcomeMessage } from "./home-welcome-msg";
-import { UserContext } from '../app/Contexts/UserContext';
+import { UserContext } from "../app/Contexts/UserContext";
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
@@ -139,9 +135,18 @@ export default function Home() {
             setError={setError}
           />
           {userInfo ? (
-            <Link href={"/add-location"}>
-              <button className="add-location-btn">Create New Location</button>
-            </Link>
+            <>
+              <Link href={"/add-location"}>
+                <button className="add-edit-location-btn">
+                  Create New Location
+                </button>
+              </Link>
+              <Link href={"/edit-locations"}>
+                <button className="add-edit-location-btn">
+                  Edit Locations
+                </button>
+              </Link>
+            </>
           ) : null}
         </section>
         {/* Error ? load: */}
