@@ -25,25 +25,26 @@ export default function EditUserLocModal({
 }: Props) {
   const [newName, setNewName] = useState("");
   const [newType, setNewType] = useState("");
-  const [error, setError] = useState("");
+  const [submitMsg, setSubmitMsg] = useState("");
 
-  const errorMsg = <p className="edit-user-loc-modal-error">{error}</p>;
+  const modalSubmitMsg = <p className="edit-user-loc-modal-msg">{submitMsg}</p>;
 
   const handleNameSubmit = async () => {
     if (!newName) {
-      setError("Please enter a name");
-      resetErrorMsg(setError);
+      setSubmitMsg("Please enter a name");
+      resetErrorMsg(setSubmitMsg);
       return;
     } else if (newName.length > 50) {
-      setError("Name cannot be longer than 50 characters");
-      resetErrorMsg(setError);
+      setSubmitMsg("Name cannot be longer than 50 characters");
+      resetErrorMsg(setSubmitMsg);
       return;
     } else if (newName.toLowerCase().includes("script")) {
-      setError("NO XSS");
-      resetErrorMsg(setError);
+      setSubmitMsg("NO XSS");
+      resetErrorMsg(setSubmitMsg);
       return;
     }
     // REFACTOR - combine func with handleTypeSubmit
+    setSubmitMsg("Submitting changes...");
     const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
     if (userLoc) {
       try {
@@ -57,6 +58,7 @@ export default function EditUserLocModal({
               setUserLocations(newUserLocs);
               setSelectedUserLoc("default");
               setNewName("");
+              setSubmitMsg("");
               userLocModalRef?.current?.close();
             } else {
               throw new Error("An error occurred while accessing locations.");
@@ -66,7 +68,8 @@ export default function EditUserLocModal({
       } catch (error) {
         console.error(error);
         if (typeof error === "string") {
-          setError(error);
+          setSubmitMsg(error);
+          resetErrorMsg(setSubmitMsg);
         }
       }
     }
@@ -74,11 +77,12 @@ export default function EditUserLocModal({
 
   const handleTypeSubmit = async () => {
     if (!newType) {
-      setError("Please choose a type");
-      resetErrorMsg(setError);
+      setSubmitMsg("Please choose a type");
+      resetErrorMsg(setSubmitMsg);
       return;
     }
     // REFACTOR - combine func with handleNameSubmit
+    setSubmitMsg("Submitting changes...");
     const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
     if (userLoc) {
       try {
@@ -92,6 +96,7 @@ export default function EditUserLocModal({
               setUserLocations(newUserLocs);
               setSelectedUserLoc("default");
               setNewType("");
+              setSubmitMsg("");
               userLocModalRef?.current?.close();
             } else {
               throw new Error("An error occurred while accessing locations.");
@@ -101,7 +106,8 @@ export default function EditUserLocModal({
       } catch (error) {
         console.error(error);
         if (typeof error === "string") {
-          setError(error);
+          setSubmitMsg(error);
+          resetErrorMsg(setSubmitMsg);
         }
       }
     }
@@ -115,8 +121,8 @@ export default function EditUserLocModal({
       case "userLocRenameBtn":
         return (
           <>
-            {error ? (
-              errorMsg
+            {submitMsg ? (
+              modalSubmitMsg
             ) : (
               <h3 className="modal-heading">{`Rename ${curLoc?.name}?`}</h3>
             )}
@@ -151,8 +157,8 @@ export default function EditUserLocModal({
       case "userLocTypeBtn":
         return (
           <>
-            {error ? (
-              errorMsg
+            {submitMsg ? (
+              modalSubmitMsg
             ) : (
               <h3 className="modal-heading">{`Change ${curLoc?.name} sport type?`}</h3>
             )}
