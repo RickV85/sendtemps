@@ -151,15 +151,6 @@
   width: 90%;
 }
 
-/* .edit-default-loc {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  width: 98vw;
-  padding-bottom: 1rem;
-} */
-
 @media only screen and (min-width: 769px) {
   .edit-loc-section {
     height: 100%;

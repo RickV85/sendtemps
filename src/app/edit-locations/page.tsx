@@ -111,12 +111,6 @@ export default function EditLocations() {
           </div>
         </section>
       </section>
-      {/* <section className="edit-loc-section">
-        <h2>Default Locations</h2>
-        <div className="edit-default-loc">
-
-        </div>
-      </section> */}
     </main>
   );
 }
