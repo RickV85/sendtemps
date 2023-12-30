@@ -44,7 +44,7 @@ export default function LocationSelect({
     });
     // eslint-disable-next-line
   }, []);
-  
+
   // REFACTOR - combine with user location request with promise all
   useEffect(() => {
     if (userInfo?.id) {
@@ -64,6 +64,12 @@ export default function LocationSelect({
     setSelection(e.target.value);
     setSelectedLocCoords(e.target.value);
   };
+
+  const handleClick = () => {
+    if (selectedLocType === "Select Sport") {
+      alert("Please choose a sport/location type before selecting location.")
+    }
+  }
 
   const mapLocationOptions = useCallback(
     (locArr: Array<LocationObject>): Array<ReactElement> => {
@@ -101,18 +107,15 @@ export default function LocationSelect({
     setDisplayOptions(options);
   }, [selectedLocType, createDisplayOptions]);
 
-  const noDisplayLocTypes = ["Select Sport", "Current Location"];
-
   return (
     <div
-      className={`location-div ${
-        noDisplayLocTypes.includes(selectedLocType) ? "hidden" : ""
-      }`}
+      className="location-select-div"
     >
       <select
         className="location-select"
         value={selection}
         onChange={(e) => handleSelect(e)}
+        onClick={() => handleClick()}
         aria-label="Select location you would like a forecast for"
       >
         <option value="" disabled>
