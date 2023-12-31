@@ -69,6 +69,7 @@ export default function Home() {
   }, [selectedLocType, currentGPSCoords]);
 
   useEffect(() => {
+    // Fetch grid point details from NOAA with 5 retries
     if (selectedLocCoords) {
       setIsLoading(true);
       fetchNoaaGridLocationWithRetry(selectedLocCoords)
@@ -77,12 +78,14 @@ export default function Home() {
         })
         .catch((err) => {
           console.error(err);
-          setError(err);
+          setError(`${err.message} Please reload the page and try again.`);
+          setIsLoading(false);
         });
     }
   }, [selectedLocCoords]);
 
   useEffect(() => {
+    // Fetch forecast from NOAA with 5 retries
     if (locationDetails?.properties.forecast) {
       setIsLoading(true);
       fetchDailyForecastWithRetry(locationDetails.properties.forecast)
@@ -91,7 +94,7 @@ export default function Home() {
           setIsLoading(false);
         })
         .catch((err) => {
-          console.error(err.message);
+          console.error(err);
           setError(err.message);
           setIsLoading(false);
         });

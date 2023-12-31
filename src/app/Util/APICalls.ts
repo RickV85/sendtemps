@@ -4,11 +4,18 @@ import { UserLocation } from "../Classes/UserLocation";
 // NOAA API CALLS
 
 export async function fetchNoaaGridLocation(coords: string) {
-  const response = await fetch(`https://api.weather.gov/points/${coords}`);
-  if (!response.ok) {
-    throw new Error("Request to fetch location grid point failed.");
+  try {
+    const response = await fetch(`https://api.weather.gov/points/${coords}`);
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(
+      `Failed to fetch location grid point for coordinates: ${coords}`
+    );
+  } catch (err) {
+    console.error(`Error fetching NOAA grid location for ${coords}:`, err);
+    throw err;
   }
-  return response.json();
 }
 
 export async function fetchNoaaGridLocationWithRetry(
@@ -19,7 +26,7 @@ export async function fetchNoaaGridLocationWithRetry(
   for (let i = 1; i <= retries; i++) {
     try {
       return await fetchNoaaGridLocation(coords);
-    } catch (err) {
+    } catch {
       console.error(
         `Fetch NOAA grid location attempt ${i} failed for coordinates: ${coords}`
       );
@@ -31,15 +38,20 @@ export async function fetchNoaaGridLocationWithRetry(
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
-  throw new Error();
+  throw new Error("Unknown error in fetchNoaaGridLocationWithRetry");
 }
 
 export async function fetchDailyForecast(url: string): Promise<ForecastData> {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error("Request to fetch daily forecast failed.");
+  try {
+    const response = await fetch(url);
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(`Failed to fetch NOAA Forecast.`);
+  } catch (err) {
+    console.error(`Error fetching NOAA forecast:`, err);
+    throw err;
   }
-  return response.json();
 }
 
 export async function fetchDailyForecastWithRetry(
@@ -60,7 +72,7 @@ export async function fetchDailyForecastWithRetry(
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
-  throw new Error();
+  throw new Error("Unknown error in fetchDailyForecastWithRetry");
 }
 
 // VERCEL POSTGRES DB CALLS
@@ -108,9 +120,10 @@ export async function getAllUserLocations(userId: string) {
 }
 
 export async function getUserLocationById(userId: string, id: string) {
-  const baseUrl = process.env.NODE_ENV === 'development'
-  ? 'http://localhost:3000'
-  : 'https://sendtemps.vercel.app';
+  const baseUrl =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : "https://sendtemps.vercel.app";
   try {
     const response = await fetch(
       `${baseUrl}/api/user_locations?user_id=${userId}&id=${id}`,
@@ -178,7 +191,7 @@ export async function patchUserLocation(
         "Content-Type": "application/json",
       },
       body: JSON.stringify(reqBody),
-      credentials: "include"
+      credentials: "include",
     });
     if (response.ok) {
       return await response.json();
@@ -196,8 +209,8 @@ export async function patchUserLocation(
 export async function deleteUserLocation(locId: number, userId: string) {
   const reqBody = {
     id: locId,
-    user_id: userId
-  }
+    user_id: userId,
+  };
   try {
     const response = await fetch("/api/user_locations", {
       method: "DELETE",
@@ -205,8 +218,8 @@ export async function deleteUserLocation(locId: number, userId: string) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(reqBody),
-      credentials: "include"
-    })
+      credentials: "include",
+    });
     if (response.ok) {
       return await response.json();
     } else {
