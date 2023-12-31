@@ -115,7 +115,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
   width: 100vw;
   max-width: 1600px;
   text-align: center;
@@ -128,6 +127,20 @@
   background-color: #2a3c43;
 }
 
+.home-control-section.logged-in {
+  gap: 0.5rem;
+}
+
+.home-forecast-select-div,
+.home-add-edit-loc-div,
+.home-add-edit-loc-div > a {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .home-main-section {
   z-index: 3;
   background-color: #2a3c43;
@@ -136,39 +149,34 @@
   align-items: center;
 }
 
-.location-div {
-  display: flex;
-  align-items: center;
-}
-
 .type-select,
 .location-select,
-.add-location-btn {
+.add-edit-location-btn,
+.reload-page-btn {
+  width: 95%;
+  max-width: 495px;
   height: 2.5rem;
-  width: 85vw;
-  max-width: 400px;
   background-color: transparent;
   border: 1px solid #00b2ff;
   border-radius: 5px;
 
   font-family: var(--font-fugazOne);
   font-weight: 400;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-align: center;
   text-align-last: center;
   color: #ffffff;
   cursor: pointer;
 }
 
+.reload-page-btn {
+  max-width: 150px;
+}
+
 .location-select,
 .add-location-btn {
   font-size: 1.3rem;
   animation: fadeIn ease-in 0.5s;
-}
-
-.type-select-div {
-  display: flex;
-  align-items: center;
 }
 
 .forecast-section {
@@ -236,7 +244,7 @@
 
 .loading-msg {
   animation: fadeIn 250ms ease-in-out;
-  color: #ef8354;
+  color: #f18f01;
   font-size: 1.5rem;
   font-weight: 600;
   width: 80vw;
@@ -245,17 +253,31 @@
 }
 
 .error-msg {
+  font-size: 1.3rem;
+  color: #f18f01;
   text-align: center;
-  width: 80vw;
-  margin: 1rem;
+  width: 100%;
+  padding: 1rem;
 }
 
-.reload-page-btn {
-  padding: clamp(2px, 1vw, 12px);
-  border-radius: 5px;
+/* Tablet */
+
+@media only screen and (min-width: 500px) {
+  .home-control-section.logged-in {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .home-forecast-select-div.logged-in {
+    align-items: flex-end;
+  }
+
+  .home-add-edit-loc-div.logged-in > a {
+    align-items: flex-start;
+  }
 }
 
-/* Desktop breakpoints */
+/* Desktop */
 
 @media screen and (min-width: 769px) {
   .hero-img-div {
@@ -270,6 +292,12 @@
   #userProfileImg {
     width: 50px;
     height: 50px;
+  }
+
+  .type-select,
+  .location-select,
+  .add-edit-location-btn {
+    min-width: 350px;
   }
 
   .day-forecast-header {

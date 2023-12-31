@@ -3,7 +3,7 @@
 import "./home.css";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import {
   fetchDailyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
@@ -29,6 +29,9 @@ export default function Home() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { userInfo, setUserInfo } = useContext(UserContext);
+  const homeControlSection = useRef<HTMLDivElement | null>(null);
+  const homeForecastSelectDiv = useRef<HTMLDivElement | null>(null);
+  const homeAddEditLocDiv = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     alert(
@@ -72,6 +75,7 @@ export default function Home() {
   }, [selectedLocType, currentGPSCoords]);
 
   useEffect(() => {
+    // Fetch grid point details from NOAA with 5 retries
     if (selectedLocCoords) {
       setIsLoading(true);
       fetchNoaaGridLocationWithRetry(selectedLocCoords)
@@ -80,12 +84,14 @@ export default function Home() {
         })
         .catch((err) => {
           console.error(err);
-          setError(err);
+          setError(`${err.message} Please reload the page and try again.`);
+          setIsLoading(false);
         });
     }
   }, [selectedLocCoords]);
 
   useEffect(() => {
+    // Fetch forecast from NOAA with 5 retries
     if (locationDetails?.properties.forecast) {
       setIsLoading(true);
       fetchDailyForecastWithRetry(locationDetails.properties.forecast)
@@ -94,18 +100,42 @@ export default function Home() {
           setIsLoading(false);
         })
         .catch((err) => {
-          console.error(err.message);
+          console.error(err);
           setError(err.message);
           setIsLoading(false);
         });
     }
   }, [locationDetails]);
 
+  useEffect(() => {
+    // Change control section styling to fit 4 buttons
+    if (userInfo) {
+      const elements = [
+        homeControlSection,
+        homeForecastSelectDiv,
+        homeAddEditLocDiv,
+      ];
+      elements.forEach((e) => {
+        e.current?.classList.add("logged-in");
+      });
+    }
+  }, [userInfo]);
+
   const createDetailedForecast = () => {
     const forecast = forecastData?.properties.periods.map((data, i) => {
       return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
     });
     return forecast;
+  };
+
+  const retryDailyForecastFetch = () => {
+    if (locationDetails) {
+      const failedLocDetails = locationDetails;
+      setLocationDetails(undefined);
+      setTimeout(() => {
+        setLocationDetails(failedLocDetails);
+      }, 100);
+    }
   };
 
   return (
@@ -128,47 +158,57 @@ export default function Home() {
         </div>
       </header>
       <section className="home-main-section">
-        <section className="home-control-section">
-          <TypeSelect
-            setSelectedLocType={setSelectedLocType}
-            setForecastData={setForecastData}
-          />
-          <LocationSelect
-            selectedLocType={selectedLocType}
-            setSelectedLocCoords={setSelectedLocCoords}
-            setForecastData={setForecastData}
-            userInfo={userInfo}
-            setError={setError}
-          />
-          {userInfo ? (
-            <Link href={"/custom-locations"}>
-              <button className="add-location-btn">Create New Location</button>
-            </Link>
-          ) : null}
+        <section className="home-control-section" ref={homeControlSection}>
+          <div className="home-forecast-select-div" ref={homeForecastSelectDiv}>
+            <TypeSelect
+              setSelectedLocType={setSelectedLocType}
+              setForecastData={setForecastData}
+            />
+            <LocationSelect
+              selectedLocType={selectedLocType}
+              setSelectedLocCoords={setSelectedLocCoords}
+              setForecastData={setForecastData}
+              userInfo={userInfo}
+              setError={setError}
+            />
+          </div>
+          <div className="home-add-edit-loc-div" ref={homeAddEditLocDiv}>
+            {userInfo ? (
+              <>
+                <Link href={"/add-location"}>
+                  <button className="add-edit-location-btn">
+                    Create New Location
+                  </button>
+                </Link>
+                <Link href={"/edit-locations"}>
+                  <button className="add-edit-location-btn">
+                    Edit Locations
+                  </button>
+                </Link>
+              </>
+            ) : null}
+          </div>
         </section>
-        {/* Error ? load: */}
-        {error ? (
-          <>
-            <p className="error-msg">{`Oh, no! ${error} Please reload the page and try your request again.`}</p>
-            <button
-              className="reload-page-btn"
-              onClick={() => window.location.reload()}
-            >
-              Reload page
-            </button>
-          </>
-        ) : (
-          <>
-            {/* No error ? load: */}
-            <section className="forecast-section">
-              {isLoading ? (
-                <p className="loading-msg">Loading forecast...</p>
+        <section className="forecast-section">
+          {isLoading ? (
+            <p className="loading-msg">Loading forecast...</p>
+          ) : null}
+          {error && !isLoading ? (
+            <>
+              <p className="error-msg">{`Oh, no! ${error}`}</p>
+              {error === "All fetch Daily Forecast attempts failed." ? (
+                <button
+                  className="reload-page-btn"
+                  onClick={() => retryDailyForecastFetch()}
+                >
+                  Retry
+                </button>
               ) : null}
-              {selectedLocType === "Select Sport" ? welcomeMessage : null}
-              {createDetailedForecast()}
-            </section>
-          </>
-        )}
+            </>
+          ) : null}
+          {!forecastData && !isLoading && !error ? welcomeMessage : null}
+          {createDetailedForecast()}
+        </section>
       </section>
     </main>
   );

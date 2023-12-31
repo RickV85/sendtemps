@@ -33,25 +33,27 @@ export default function LocationSelect({
     setSelection("");
   }, [selectedLocType]);
 
+  // REFACTOR - combine with user location request with promise all
   useEffect(() => {
     getAllDefaultLocations().then((locs) => {
-      if (locs) {
+      if (locs.length) {
         setAllLocationOptions([...allLocationOptions, ...locs]);
+      } else {
+        setError("An error occurred while fetching default locations.");
       }
-    }).catch((error) => {
-      setError("An error occurred while fetching default locations.");
     });
     // eslint-disable-next-line
   }, []);
 
+  // REFACTOR - combine with user location request with promise all
   useEffect(() => {
     if (userInfo?.id) {
       getAllUserLocations(userInfo.id).then((locs) => {
-        if (locs) {
+        if (locs.length) {
           setAllLocationOptions([...allLocationOptions, ...locs]);
-        } 
-      }).catch((error) => {
-        setError("An error occurred while fetching your custom locations.");
+        } else {
+          setError("An error occurred while fetching your custom locations.");
+        }
       });
     }
     // eslint-disable-next-line
@@ -99,14 +101,8 @@ export default function LocationSelect({
     setDisplayOptions(options);
   }, [selectedLocType, createDisplayOptions]);
 
-  const noDisplayLocTypes = ["Select Sport", "Current Location"];
-
-  return (
-    <div
-      className={`location-div ${
-        noDisplayLocTypes.includes(selectedLocType) ? "hidden" : ""
-      }`}
-    >
+  if (selectedLocType !== "Select Sport") {
+    return (
       <select
         className="location-select"
         value={selection}
@@ -118,6 +114,8 @@ export default function LocationSelect({
         </option>
         {displayOptions}
       </select>
-    </div>
-  );
+    );
+  } else {
+    return null;
+  }
 }

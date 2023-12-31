@@ -1,0 +1,158 @@
+.edit-loc-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.site-title {
+  color: transparent;
+  font-size: clamp(48px, 10vw, 96px);
+  font-style: normal;
+  font-weight: 400;
+  -webkit-text-stroke: 1px #00b2ff;
+}
+
+.edit-loc-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 98%;
+  max-width: 1200px;
+  height: 85vh;
+}
+
+.edit-user-loc-section{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #9faf90;
+  border-radius: 5px;
+}
+
+.edit-user-loc-heading {
+  padding: 0.75rem;
+  font-size: 1.75rem;
+  text-align: center;
+}
+
+.edit-user-loc-select {
+  width: max-content;
+  background-color: transparent;
+  border: 1px solid #00b2ff;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 5px;
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
+  font-size: 1.5rem;
+  text-align: center;
+  text-align-last: center;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.edit-user-loc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 98%;
+  padding-bottom: 1rem;
+}
+
+.edit-user-loc-error {
+  color: #f18f01;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.edit-user-loc-loading {
+  font-size: 1.3rem;
+  color: #ef8354;
+}
+
+.edit-user-loc-modal {
+  height: 35vh;
+  width: 98%;
+  max-width: 1200px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #2a3c43;
+  border-radius: 5px;
+  border: none;
+  color: #ffffff;
+}
+
+.edit-user-loc-modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.62);
+}
+
+.modal-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.modal-heading {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.modal-btn-div {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.edit-loc-input {
+  background-color: transparent;
+  border: 1px solid #00b2ff;
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-weight: 400;
+  font-family: var(--font-fugazOne);
+  font-size: 1.5rem;
+  text-align: center;
+  text-align-last: center;
+  color: #ffffff;
+}
+
+.edit-user-loc-button {
+  width: 30vw;
+  padding: 0.5rem;
+  max-width: 500px;
+
+  background-color: transparent;
+  border: 1px solid #00b2ff;
+  border-radius: 5px;
+
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
+  font-size: 1.5rem;
+  text-align: center;
+  text-align-last: center;
+  color: #ffffff;
+}
+
+.edit-user-loc-modal-msg {
+  color: #f18f01;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  width: 90%;
+}
+
+@media only screen and (min-width: 769px) {
+  .edit-loc-section {
+    height: 100%;
+  }
+}

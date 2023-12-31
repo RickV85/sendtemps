@@ -20,7 +20,7 @@ interface Props {
   setMapLocations: Dispatch<React.SetStateAction<GoogleMapPoint[] | []>>;
 }
 
-export default function CustomLocForm({
+export default function AddLocForm({
   newUserLocCoords,
   setNewUserLocCoords,
   newUserLocMarker,
@@ -102,8 +102,8 @@ export default function CustomLocForm({
   };
 
   return (
-    <form className="custom-loc-form">
-      <div className="custom-loc-form-coords">
+    <form className="add-loc-form">
+      <div className="add-loc-form-coords">
         {submitMessage ? (
           <p id="submitMessage">{submitMessage}</p>
         ) : (
@@ -114,17 +114,16 @@ export default function CustomLocForm({
         )}
       </div>
       <input
-        id="customLocNameInput"
-        className="custom-loc-form-input"
+        id="addLocNameInput"
+        className="add-loc-form-input"
         type="text"
         placeholder="Name your new location"
         aria-label="Enter the name of your new custom location"
         value={locName}
         onChange={(e) => setLocName(e.target.value)}
       />
-      {/* REFACTOR - Use TypeSelect? */}
       <select
-        className="custom-loc-form-input"
+        className="add-loc-form-input"
         value={locType}
         onChange={(e) => setLocType(e.target.value)}
         aria-label="Select sport type for your new custom location"
@@ -136,9 +135,9 @@ export default function CustomLocForm({
         <option value="mtb">Mountain Biking</option>
         <option value="ski">Skiing / Snowboarding</option>
       </select>
-      <div className="custom-loc-btn-div">
+      <div className="add-loc-btn-div">
         <button
-          className="custom-loc-form-input"
+          className="add-loc-form-input"
           onClick={(e) => {
             e.preventDefault();
             resetNewUserCoordsAndMarker();
@@ -147,7 +146,7 @@ export default function CustomLocForm({
           Delete
         </button>
         <button
-          className="custom-loc-form-input"
+          className="add-loc-form-input"
           onClick={(e) => {
             e.preventDefault();
             handleSubmit();
