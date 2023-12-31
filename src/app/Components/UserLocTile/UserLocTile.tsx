@@ -45,6 +45,13 @@ export default function UserLocTile({ userLoc, toggleUserLocModal }: Props) {
           </dl>
           <div className={styles["button-div"]}>
             <button
+              id="userLocDeleteBtn"
+              className={styles["button"]}
+              onClick={(e) => toggleUserLocModal(e)}
+            >
+              Delete
+            </button>
+            <button
               id="userLocRenameBtn"
               className={styles["button"]}
               onClick={(e) => toggleUserLocModal(e)}
@@ -57,13 +64,6 @@ export default function UserLocTile({ userLoc, toggleUserLocModal }: Props) {
               onClick={(e) => toggleUserLocModal(e)}
             >
               Change Type
-            </button>
-            <button
-              id="userLocDeleteBtn"
-              className={styles["button"]}
-              onClick={(e) => toggleUserLocModal(e)}
-            >
-              Delete
             </button>
           </div>
         </div>

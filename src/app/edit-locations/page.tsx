@@ -59,7 +59,7 @@ export default function EditLocations() {
       <section className="edit-loc-section">
         <section className="edit-user-loc-section">
           <h2 className="edit-user-loc-heading">Edit Custom Locations</h2>
-          {userLocations ? (
+          {userLocations?.length ? (
             <select
               id="editUserLocSelect"
               value={selectedUserLoc}
@@ -89,7 +89,9 @@ export default function EditLocations() {
               <p className="edit-user-loc-loading">Loading your locations...</p>
             ) : null}
             {userLocations && !userLocations.length ? (
-              <p>No locations created yet. Add some at LINK TO ADD LOCATIONS</p>
+              <Link href={"/add-location"}>
+                <p id="linkToAddLoc">No locations created yet.<br/>Click here to add some!</p>
+              </Link>
             ) : null}
             {selectedUserLoc !== "default" ? (
               <UserLocTile
