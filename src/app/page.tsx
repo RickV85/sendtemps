@@ -95,6 +95,13 @@ export default function Home() {
     }
   }, [locationDetails]);
 
+  useEffect(() => {
+    // Change control section styling to fit 4 buttons
+    if (userInfo) {
+      // Add classes to change style for logged in user
+    }
+  }, [userInfo])
+
   const createDetailedForecast = () => {
     const forecast = forecastData?.properties.periods.map((data, i) => {
       return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;

@@ -129,9 +129,12 @@
 }
 
 .home-forecast-selects,
-.home-add-edit-loc-div {
+.home-add-edit-loc-div,
+.home-add-edit-loc-div > a {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -143,24 +146,19 @@
   align-items: center;
 }
 
-.location-select-div {
-  display: flex;
-  align-items: center;
-}
-
 .type-select,
 .location-select,
 .add-edit-location-btn {
+  width: 95%;
+  max-width: 500px;
   height: 2.5rem;
-  width: 85vw;
-  max-width: 400px;
   background-color: transparent;
   border: 1px solid #00b2ff;
   border-radius: 5px;
 
   font-family: var(--font-fugazOne);
   font-weight: 400;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-align: center;
   text-align-last: center;
   color: #ffffff;
@@ -171,11 +169,6 @@
 .add-location-btn {
   font-size: 1.3rem;
   animation: fadeIn ease-in 0.5s;
-}
-
-.type-select-div {
-  display: flex;
-  align-items: center;
 }
 
 .forecast-section {
@@ -264,7 +257,18 @@
   border-radius: 5px;
 }
 
-/* Desktop breakpoints */
+/* Tablet */
+
+@media only screen and (min-width: 500px) {
+  /* .home-control-section {
+    flex-direction: var(--home-control-panel-flex-direction);
+    gap: 0rem;
+  } */
+
+
+}
+
+/* Desktop */
 
 @media screen and (min-width: 769px) {
   .hero-img-div {
@@ -281,14 +285,10 @@
     height: 50px;
   }
 
-  .home-control-section {
-    flex-direction: row;
-  }
-
   .type-select,
   .location-select,
   .add-edit-location-btn {
-    width: 350px;
+    min-width: 350px;
   }
 
   .day-forecast-header {

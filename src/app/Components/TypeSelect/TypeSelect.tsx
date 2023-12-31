@@ -13,25 +13,23 @@ const TypeSelect: React.FC<TypeSelectProps> = ({
   }, [selection, setSelectedLocType]);
 
   return (
-    <div className="type-select-div">
-      <select
-        className="type-select"
-        value={selection}
-        onChange={(e) => {
-          setForecastData(undefined);
-          setSelection(e.target.value);
-        }}
-        aria-label="Select sport for locations or current location forecast"
-      >
-        <option disabled value="Select Sport">
-          Select Sport
-        </option>
-        <option value="climb">Climbing</option>
-        <option value="mtb">Mountain Biking</option>
-        <option value="ski">Skiing</option>
-        <option value="Current Location">Current Location</option>
-      </select>
-    </div>
+    <select
+      className="type-select"
+      value={selection}
+      onChange={(e) => {
+        setForecastData(undefined);
+        setSelection(e.target.value);
+      }}
+      aria-label="Select sport for locations or current location forecast"
+    >
+      <option disabled value="Select Sport">
+        Select Sport
+      </option>
+      <option value="climb">Climbing</option>
+      <option value="mtb">Mountain Biking</option>
+      <option value="ski">Skiing</option>
+      <option value="Current Location">Current Location</option>
+    </select>
   );
 };
 

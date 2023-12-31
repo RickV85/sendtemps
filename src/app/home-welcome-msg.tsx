@@ -3,8 +3,8 @@ export const welcomeMessage = (
     <h2 className="home-welcome-header">Welcome to SendTemps!</h2>
     <p>
       Choose from Climbing, Mountain Biking, or Skiing/Snowboarding above to
-      get highly-accurate, NOAA pinpoint forecasts for any of my favorite
-      destinations for the selected sport all around Colorado&apos;s Front
+      get highly-accurate, NOAA pinpoint forecasts for my favorite
+      destinations all around Colorado&apos;s Front
       Range. Login with Google to add your own favorite locations!
       <br />
       <br />

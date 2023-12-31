@@ -67,9 +67,9 @@ export default function LocationSelect({
 
   const handleClick = () => {
     if (selectedLocType === "Select Sport") {
-      alert("Please choose a sport/location type before selecting location.")
+      alert("Please choose a sport/location type before selecting location.");
     }
-  }
+  };
 
   const mapLocationOptions = useCallback(
     (locArr: Array<LocationObject>): Array<ReactElement> => {
@@ -108,21 +108,17 @@ export default function LocationSelect({
   }, [selectedLocType, createDisplayOptions]);
 
   return (
-    <div
-      className="location-select-div"
+    <select
+      className="location-select"
+      value={selection}
+      onChange={(e) => handleSelect(e)}
+      onClick={() => handleClick()}
+      aria-label="Select location you would like a forecast for"
     >
-      <select
-        className="location-select"
-        value={selection}
-        onChange={(e) => handleSelect(e)}
-        onClick={() => handleClick()}
-        aria-label="Select location you would like a forecast for"
-      >
-        <option value="" disabled>
-          Select location
-        </option>
-        {displayOptions}
-      </select>
-    </div>
+      <option value="" disabled>
+        Select location
+      </option>
+      {displayOptions}
+    </select>
   );
 }
