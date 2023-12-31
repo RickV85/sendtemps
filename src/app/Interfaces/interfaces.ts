@@ -168,7 +168,6 @@ export interface LocationSelectProps {
   setSelectedLocCoords: Dispatch<SetStateAction<string | undefined>>;
   setForecastData: Dispatch<SetStateAction<ForecastData | undefined>>;
   selectedLocType: string;
-  userInfo: UserSessionInfo | null;
   setError: Dispatch<SetStateAction<string>>;
 }
 

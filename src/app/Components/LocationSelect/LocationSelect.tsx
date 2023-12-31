@@ -14,13 +14,16 @@ import {
   getAllDefaultLocations,
   getAllUserLocations,
 } from "@/app/Util/APICalls";
-import { filterAndSortLocationsAlphaByName } from "@/app/Util/utils";
+import {
+  checkError,
+  filterAndSortLocationsAlphaByName,
+} from "@/app/Util/utils";
+import { useSession } from "next-auth/react";
 
 export default function LocationSelect({
   setSelectedLocCoords,
   selectedLocType,
   setForecastData,
-  userInfo,
   setError,
 }: LocationSelectProps) {
   const [selection, setSelection] = useState("");
@@ -28,36 +31,45 @@ export default function LocationSelect({
     LocationObject[] | []
   >([]);
   const [displayOptions, setDisplayOptions] = useState<ReactNode>();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     setSelection("");
   }, [selectedLocType]);
 
-  // REFACTOR - combine with user location request with promise all
-  useEffect(() => {
-    getAllDefaultLocations().then((locs) => {
-      if (locs.length) {
-        setAllLocationOptions([...allLocationOptions, ...locs]);
-      } else {
-        setError("An error occurred while fetching default locations.");
-      }
-    });
-    // eslint-disable-next-line
-  }, []);
+  const fetchAndCheckDefaultLocations = async () => {
+    const defaultLocs = await getAllDefaultLocations();
+    checkError(defaultLocs);
+    return defaultLocs;
+  };
 
-  // REFACTOR - combine with user location request with promise all
   useEffect(() => {
-    if (userInfo?.id) {
-      getAllUserLocations(userInfo.id).then((locs) => {
-        if (locs.length) {
-          setAllLocationOptions([...allLocationOptions, ...locs]);
-        } else {
-          setError("An error occurred while fetching your custom locations.");
+    console.log(session);
+    if (status !== "loading") {
+      const fetchLocations = async () => {
+        try {
+          let allLocs;
+          if (status === "authenticated" && session.user.id) {
+            const userLocs = await getAllUserLocations(session.user.id);
+            checkError(userLocs);
+            const defaultLocs = await fetchAndCheckDefaultLocations();
+            allLocs = [...userLocs, ...defaultLocs];
+          } else if (status === "unauthenticated") {
+            allLocs = await fetchAndCheckDefaultLocations();
+          }
+
+          setAllLocationOptions(allLocs);
+        } catch (err) {
+          console.error(err);
+          setError(
+            "An error occurred while fetching locations. Please reload the page and try again."
+          );
         }
-      });
+      };
+
+      fetchLocations();
     }
-    // eslint-disable-next-line
-  }, [userInfo]);
+  }, [session, status, setError]);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setForecastData(undefined);
@@ -71,7 +83,7 @@ export default function LocationSelect({
         const optElement: ReactElement = (
           <option
             value={`${loc.latitude},${loc.longitude}`}
-            key={`locId-${loc.id}`}
+            key={`${loc.name}-${loc.id}`}
           >
             {loc.name}
           </option>

@@ -164,13 +164,14 @@ export default function Home() {
               setSelectedLocType={setSelectedLocType}
               setForecastData={setForecastData}
             />
-            <LocationSelect
-              selectedLocType={selectedLocType}
-              setSelectedLocCoords={setSelectedLocCoords}
-              setForecastData={setForecastData}
-              userInfo={userInfo}
-              setError={setError}
-            />
+            <SessionProvider>
+              <LocationSelect
+                selectedLocType={selectedLocType}
+                setSelectedLocCoords={setSelectedLocCoords}
+                setForecastData={setForecastData}
+                setError={setError}
+              />
+            </SessionProvider>
           </div>
           <div className="home-add-edit-loc-div" ref={homeAddEditLocDiv}>
             {userInfo ? (

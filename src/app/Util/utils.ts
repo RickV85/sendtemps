@@ -63,3 +63,9 @@ export const resetErrorMsg = (errorMsgStateSet: React.Dispatch<React.SetStateAct
     errorMsgStateSet("");
   }, 1500);
 };
+
+export const checkError = (x: any) => {
+  if (x instanceof Error) {
+    throw x;
+  }
+}
