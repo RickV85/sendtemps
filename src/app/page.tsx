@@ -3,7 +3,7 @@
 import "./home.css";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import {
   fetchDailyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
@@ -29,6 +29,9 @@ export default function Home() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { userInfo, setUserInfo } = useContext(UserContext);
+  const homeControlSection = useRef<HTMLDivElement | null>(null);
+  const homeForecastSelectDiv = useRef<HTMLDivElement | null>(null);
+  const homeAddEditLocDiv = useRef<HTMLDivElement | null>(null);
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
@@ -98,9 +101,16 @@ export default function Home() {
   useEffect(() => {
     // Change control section styling to fit 4 buttons
     if (userInfo) {
-      // Add classes to change style for logged in user
+      const elements = [
+        homeControlSection,
+        homeForecastSelectDiv,
+        homeAddEditLocDiv,
+      ];
+      elements.forEach((e) => {
+        e.current?.classList.add("logged-in");
+      });
     }
-  }, [userInfo])
+  }, [userInfo]);
 
   const createDetailedForecast = () => {
     const forecast = forecastData?.properties.periods.map((data, i) => {
@@ -143,8 +153,11 @@ export default function Home() {
         ) : (
           <>
             {/* No error ? load: */}
-            <section className="home-control-section">
-              <div className="home-forecast-selects">
+            <section className="home-control-section" ref={homeControlSection}>
+              <div
+                className="home-forecast-select-div"
+                ref={homeForecastSelectDiv}
+              >
                 <TypeSelect
                   setSelectedLocType={setSelectedLocType}
                   setForecastData={setForecastData}
@@ -157,7 +170,7 @@ export default function Home() {
                   setError={setError}
                 />
               </div>
-              <div className="home-add-edit-loc-div">
+              <div className="home-add-edit-loc-div" ref={homeAddEditLocDiv}>
                 {userInfo ? (
                   <>
                     <Link href={"/add-location"}>
@@ -178,7 +191,7 @@ export default function Home() {
               {isLoading ? (
                 <p className="loading-msg">Loading forecast...</p>
               ) : null}
-              {selectedLocType === "Select Sport" ? welcomeMessage : null}
+              {!forecastData && !isLoading ? welcomeMessage : null}
               {createDetailedForecast()}
             </section>
           </>

@@ -115,7 +115,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
   width: 100vw;
   max-width: 1600px;
   text-align: center;
@@ -128,7 +127,11 @@
   background-color: #2a3c43;
 }
 
-.home-forecast-selects,
+.home-control-section.logged-in {
+  gap: 0.5rem;
+}
+
+.home-forecast-select-div,
 .home-add-edit-loc-div,
 .home-add-edit-loc-div > a {
   width: 100%;
@@ -148,9 +151,10 @@
 
 .type-select,
 .location-select,
-.add-edit-location-btn {
+.add-edit-location-btn,
+.reload-page-btn {
   width: 95%;
-  max-width: 500px;
+  max-width: 495px;
   height: 2.5rem;
   background-color: transparent;
   border: 1px solid #00b2ff;
@@ -236,7 +240,7 @@
 
 .loading-msg {
   animation: fadeIn 250ms ease-in-out;
-  color: #ef8354;
+  color: #f18f01;
   font-size: 1.5rem;
   font-weight: 600;
   width: 80vw;
@@ -248,24 +252,25 @@
   font-size: 1.3rem;
   color: #f18f01;
   text-align: center;
-  width: 80vw;
-  margin: 1rem;
-}
-
-.reload-page-btn {
-  padding: clamp(2px, 1vw, 12px);
-  border-radius: 5px;
+  width: 100%;
+  padding: 1rem;
 }
 
 /* Tablet */
 
 @media only screen and (min-width: 500px) {
-  /* .home-control-section {
-    flex-direction: var(--home-control-panel-flex-direction);
-    gap: 0rem;
-  } */
+  .home-control-section.logged-in {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
 
+  .home-forecast-select-div.logged-in {
+    align-items: flex-end;
+  }
 
+  .home-add-edit-loc-div.logged-in > a {
+    align-items: flex-start;
+  }
 }
 
 /* Desktop */
