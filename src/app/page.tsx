@@ -139,63 +139,55 @@ export default function Home() {
         </div>
       </header>
       <section className="home-main-section">
-        {/* Error ? load: */}
-        {error ? (
-          <>
-            <p className="error-msg">{`Oh, no! ${error} Please reload the page and try your request again.`}</p>
-            <button
-              className="reload-page-btn"
-              onClick={() => window.location.reload()}
-            >
-              Reload page
-            </button>
-          </>
-        ) : (
-          <>
-            {/* No error ? load: */}
-            <section className="home-control-section" ref={homeControlSection}>
-              <div
-                className="home-forecast-select-div"
-                ref={homeForecastSelectDiv}
+        <section className="home-control-section" ref={homeControlSection}>
+          <div className="home-forecast-select-div" ref={homeForecastSelectDiv}>
+            <TypeSelect
+              setSelectedLocType={setSelectedLocType}
+              setForecastData={setForecastData}
+            />
+            <LocationSelect
+              selectedLocType={selectedLocType}
+              setSelectedLocCoords={setSelectedLocCoords}
+              setForecastData={setForecastData}
+              userInfo={userInfo}
+              setError={setError}
+            />
+          </div>
+          <div className="home-add-edit-loc-div" ref={homeAddEditLocDiv}>
+            {userInfo ? (
+              <>
+                <Link href={"/add-location"}>
+                  <button className="add-edit-location-btn">
+                    Create New Location
+                  </button>
+                </Link>
+                <Link href={"/edit-locations"}>
+                  <button className="add-edit-location-btn">
+                    Edit Locations
+                  </button>
+                </Link>
+              </>
+            ) : null}
+          </div>
+        </section>
+        <section className="forecast-section">
+          {isLoading ? (
+            <p className="loading-msg">Loading forecast...</p>
+          ) : null}
+          {error ? (
+            <>
+              <p className="error-msg">{`Oh, no! ${error} Please reload the page and try your request again.`}</p>
+              <button
+                className="reload-page-btn"
+                onClick={() => window.location.reload()}
               >
-                <TypeSelect
-                  setSelectedLocType={setSelectedLocType}
-                  setForecastData={setForecastData}
-                />
-                <LocationSelect
-                  selectedLocType={selectedLocType}
-                  setSelectedLocCoords={setSelectedLocCoords}
-                  setForecastData={setForecastData}
-                  userInfo={userInfo}
-                  setError={setError}
-                />
-              </div>
-              <div className="home-add-edit-loc-div" ref={homeAddEditLocDiv}>
-                {userInfo ? (
-                  <>
-                    <Link href={"/add-location"}>
-                      <button className="add-edit-location-btn">
-                        Create New Location
-                      </button>
-                    </Link>
-                    <Link href={"/edit-locations"}>
-                      <button className="add-edit-location-btn">
-                        Edit Locations
-                      </button>
-                    </Link>
-                  </>
-                ) : null}
-              </div>
-            </section>
-            <section className="forecast-section">
-              {isLoading ? (
-                <p className="loading-msg">Loading forecast...</p>
-              ) : null}
-              {!forecastData && !isLoading ? welcomeMessage : null}
-              {createDetailedForecast()}
-            </section>
-          </>
-        )}
+                Reload page
+              </button>
+            </>
+          ) : null}
+          {!forecastData && !isLoading && !error ? welcomeMessage : null}
+          {createDetailedForecast()}
+        </section>
       </section>
     </main>
   );
