@@ -119,6 +119,16 @@ export default function Home() {
     return forecast;
   };
 
+  const retryDailyForecastFetch = () => {
+    if (locationDetails) {
+      const failedLocDetails = locationDetails;
+      setLocationDetails(undefined);
+      setTimeout(() => {
+        setLocationDetails(failedLocDetails);
+      }, 100);
+    }
+  };
+
   return (
     <main className="home-main">
       <header className="home-header">
@@ -174,15 +184,17 @@ export default function Home() {
           {isLoading ? (
             <p className="loading-msg">Loading forecast...</p>
           ) : null}
-          {error ? (
+          {error && !isLoading ? (
             <>
-              <p className="error-msg">{`Oh, no! ${error} Please reload the page and try your request again.`}</p>
-              <button
-                className="reload-page-btn"
-                onClick={() => window.location.reload()}
-              >
-                Reload page
-              </button>
+              <p className="error-msg">{`Oh, no! ${error}`}</p>
+              {error === "All fetch Daily Forecast attempts failed." ? (
+                <button
+                  className="reload-page-btn"
+                  onClick={() => retryDailyForecastFetch()}
+                >
+                  Retry
+                </button>
+              ) : null}
             </>
           ) : null}
           {!forecastData && !isLoading && !error ? welcomeMessage : null}

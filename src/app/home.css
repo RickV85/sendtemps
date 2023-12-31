@@ -169,6 +169,10 @@
   cursor: pointer;
 }
 
+.reload-page-btn {
+  max-width: 150px;
+}
+
 .location-select,
 .add-location-btn {
   font-size: 1.3rem;
