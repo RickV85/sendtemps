@@ -44,7 +44,6 @@ export default function LocationSelect({
   };
 
   useEffect(() => {
-    console.log(session);
     if (status !== "loading") {
       const fetchLocations = async () => {
         try {
