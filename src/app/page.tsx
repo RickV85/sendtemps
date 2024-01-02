@@ -33,23 +33,6 @@ export default function Home() {
   const homeForecastSelectDiv = useRef<HTMLDivElement | null>(null);
   const homeAddEditLocDiv = useRef<HTMLDivElement | null>(null);
 
-  const locationFetchSuccess = (position: GeolocationPosition) => {
-    setCurrentGPSCoords({
-      latitude: `${position.coords.latitude}`,
-      longitude: `${position.coords.longitude}`,
-    });
-    setSelectedLocCoords(
-      `${position.coords.latitude},${position.coords.longitude}`
-    );
-  };
-
-  const locationFetchFailure = () => {
-    setIsLoading(false);
-    alert(
-      "Please allow this app to use your location if you would like a display of your current location's forecast."
-    );
-  };
-
   useEffect(() => {
     if (selectedLocType === "Current Location") {
       setIsLoading(true);
@@ -131,6 +114,32 @@ export default function Home() {
       }, 100);
     }
   };
+
+  const locationFetchSuccess = (position: GeolocationPosition) => {
+    setCurrentGPSCoords({
+      latitude: `${position.coords.latitude}`,
+      longitude: `${position.coords.longitude}`,
+    });
+    setSelectedLocCoords(
+      `${position.coords.latitude},${position.coords.longitude}`
+    );
+  };
+
+  const locationFetchFailure = () => {
+    setIsLoading(false);
+    alert(
+      "Please allow this app to use your location if you would like a display of your current location's forecast."
+    );
+  };
+
+  // Detects if device is on iOS
+  // const isIos = () => {
+  //   const userAgent = window.navigator.userAgent.toLowerCase();
+  //   return /iphone|ipad|ipod/.test(userAgent);
+  // };
+  // // Detects if device is in standalone mode
+  // const isInStandaloneMode = () =>
+  //   "standalone" in window.navigator && window.navigator.standalone;
 
   return (
     <main className="home-main">
