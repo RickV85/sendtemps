@@ -28,16 +28,10 @@ export default function Home() {
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { userInfo, setUserInfo } = useContext(UserContext);
+  const { userInfo } = useContext(UserContext);
   const homeControlSection = useRef<HTMLDivElement | null>(null);
   const homeForecastSelectDiv = useRef<HTMLDivElement | null>(null);
   const homeAddEditLocDiv = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    alert(
-      "Unfortunately, NOAA's forecasts are unavailable until Jan 1st, 2024. Due to this, this app will not load forecasts until they restore service. I'll get SendTemps running again as soon as they have restored service. Thanks for you patience!"
-    );
-  }, []);
 
   const locationFetchSuccess = (position: GeolocationPosition) => {
     setCurrentGPSCoords({
