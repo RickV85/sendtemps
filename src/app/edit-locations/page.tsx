@@ -7,6 +7,7 @@ import { getAllUserLocations } from "../Util/APICalls";
 import UserLocTile from "../Components/UserLocTile/UserLocTile";
 import { UserLocation } from "../Classes/UserLocation";
 import EditUserLocModal from "../Components/EditUserLocModal/EditUserLocModal";
+import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 
 export default function EditLocations() {
   const [userLocations, setUserLocations] = useState<UserLocation[] | null>(
@@ -17,6 +18,15 @@ export default function EditLocations() {
   const userLocModalRef = useRef<HTMLDialogElement>(null);
   const [userLocEditTrigger, setUserLocEditTrigger] = useState("");
   const [editUserLocError, setEditUserLocError] = useState("");
+  const [showReturnToLogin, setShowReturnToLogin] = useState(false);
+
+  useEffect(() => {
+    if (!userInfo) {
+      setTimeout(() => setShowReturnToLogin(true), 3000);
+    } else {
+      setShowReturnToLogin(false);
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     if (userInfo?.id) {
@@ -51,68 +61,78 @@ export default function EditLocations() {
     }
   };
 
-  return (
-    <main className="edit-loc-main">
-      <Link href={"/"}>
-        <h1 className="site-title">SendTemps</h1>
-      </Link>
-      <section className="edit-loc-section">
-        <section className="edit-user-loc-section">
-          <h2 className="edit-user-loc-heading">Edit Custom Locations</h2>
-          {userLocations?.length ? (
-            <select
-              id="editUserLocSelect"
-              value={selectedUserLoc}
-              onChange={(e) => setSelectedUserLoc(e.target.value)}
-              className="edit-user-loc-select"
-              aria-label="Choose a custom location to edit"
-            >
-              <option value="default" disabled>
-                Choose location
-              </option>
-              {userLocations.length
-                ? userLocations.map((loc) => {
-                    return (
-                      <option value={loc.id} key={loc.id}>
-                        {loc.name}
-                      </option>
-                    );
-                  })
-                : null}
-            </select>
-          ) : null}
-          <div className="edit-user-loc">
-            {editUserLocError ? (
-              <p className="edit-user-loc-error">{editUserLocError}</p>
+  if (userInfo) {
+    return (
+      <main className="edit-loc-main">
+        <Link href={"/"}>
+          <h1 className="site-title">SendTemps</h1>
+        </Link>
+        <section className="edit-loc-section">
+          <section className="edit-user-loc-section">
+            <h2 className="edit-user-loc-heading">Edit Custom Locations</h2>
+            {userLocations?.length ? (
+              <select
+                id="editUserLocSelect"
+                value={selectedUserLoc}
+                onChange={(e) => setSelectedUserLoc(e.target.value)}
+                className="edit-user-loc-select"
+                aria-label="Choose a custom location to edit"
+              >
+                <option value="default" disabled>
+                  Choose location
+                </option>
+                {userLocations.length
+                  ? userLocations.map((loc) => {
+                      return (
+                        <option value={loc.id} key={loc.id}>
+                          {loc.name}
+                        </option>
+                      );
+                    })
+                  : null}
+              </select>
             ) : null}
-            {!userLocations && !editUserLocError ? (
-              <p className="edit-user-loc-loading">Loading your locations...</p>
-            ) : null}
-            {userLocations && !userLocations.length ? (
-              <Link href={"/add-location"}>
-                <p id="linkToAddLoc">No locations created yet.<br/>Click here to add some!</p>
-              </Link>
-            ) : null}
-            {selectedUserLoc !== "default" ? (
-              <UserLocTile
-                userLoc={userLocations?.find(
-                  (loc) => loc?.id?.toString() === selectedUserLoc
-                )}
-                toggleUserLocModal={toggleUserLocModal}
+            <div className="edit-user-loc">
+              {editUserLocError ? (
+                <p className="edit-user-loc-error">{editUserLocError}</p>
+              ) : null}
+              {!userLocations && !editUserLocError ? (
+                <p className="edit-user-loc-loading">
+                  Loading your locations...
+                </p>
+              ) : null}
+              {userLocations && !userLocations.length ? (
+                <Link href={"/add-location"}>
+                  <p id="linkToAddLoc">
+                    No locations created yet.
+                    <br />
+                    Click here to add some!
+                  </p>
+                </Link>
+              ) : null}
+              {selectedUserLoc !== "default" ? (
+                <UserLocTile
+                  userLoc={userLocations?.find(
+                    (loc) => loc?.id?.toString() === selectedUserLoc
+                  )}
+                  toggleUserLocModal={toggleUserLocModal}
+                />
+              ) : null}
+              <EditUserLocModal
+                userLocModalRef={userLocModalRef}
+                handleModalBackdropClick={handleModalBackdropClick}
+                userLocEditTrigger={userLocEditTrigger}
+                userLocations={userLocations}
+                setUserLocations={setUserLocations}
+                selectedUserLoc={selectedUserLoc}
+                setSelectedUserLoc={setSelectedUserLoc}
               />
-            ) : null}
-            <EditUserLocModal
-              userLocModalRef={userLocModalRef}
-              handleModalBackdropClick={handleModalBackdropClick}
-              userLocEditTrigger={userLocEditTrigger}
-              userLocations={userLocations}
-              setUserLocations={setUserLocations}
-              selectedUserLoc={selectedUserLoc}
-              setSelectedUserLoc={setSelectedUserLoc}
-            />
-          </div>
+            </div>
+          </section>
         </section>
-      </section>
-    </main>
-  );
+      </main>
+    );
+  } else if (showReturnToLogin) {
+    return <ReturnToLogin />;
+  }
 }
