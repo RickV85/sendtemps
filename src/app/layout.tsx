@@ -1,13 +1,37 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Fugaz_One, Hanuman } from "next/font/google";
 import "./globals.css";
 import { UserProvider } from "./Contexts/UserContext";
 
 export const metadata: Metadata = {
-  title: "SendTemps",
+  title: "SendTemps - Backcountry Forecasts for the Colorado Front Range",
   description:
     "A simple, personalized, pinpoint weather app for your outdoor adventures in the Colorado Front Range.",
+  manifest: "/manifest.json",
+  icons: {
+    apple: "/icon.png",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    url: "https://sendtemps.vercel.app",
+    title: "SendTemps - Backcountry Forecasts for the Colorado Front Range",
+    description: "A simple, personalized, pinpoint weather app for your outdoor adventures in the Colorado Front Range.",
+    siteName: "SendTemps",
+    images: [
+      {
+        url: "/icon-512x512.png",
+      },
+    ],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#2A3C43",
 };
 
 const fugazOne = Fugaz_One({
