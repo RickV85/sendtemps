@@ -33,13 +33,13 @@
   "screenshots": [
     {
       "src": "/pwa-screenshots/sendtemps.vercel.app_(iPhone 12 Pro).jpeg",
-      "sizes": "844x390",
+      "sizes": "390x844",
       "type": "image/jpg",
       "form_factor": "phone"
     },
     {
       "src": "/pwa-screenshots/sendtemps.vercel.app_(iPad).jpeg",
-      "sizes": "1024x768",
+      "sizes": "768x1024",
       "type": "image/jpg",
       "form_factor": "tablet"
     },
