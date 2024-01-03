@@ -41,7 +41,7 @@
       "src": "/pwa-screenshots/sendtemps.vercel.app_.jpeg",
       "sizes": "1469x1050",
       "type": "image/jpg",
-      "form_factor": "wide"
+      "form_factor": "desktop"
     }
   ]
 }
