@@ -1,7 +1,7 @@
 {
   "theme_color": "#2A3C43",
   "background_color": "#2A3C43",
-  "display": "standalone",
+  "display": "minimal-ui",
   "scope": "/",
   "start_url": "/",
   "orientation": "portrait",
@@ -36,6 +36,12 @@
       "sizes": "1437x1050",
       "type": "image/jpg",
       "form_factor": "wide"
+    },
+    {
+      "src": "/mobile_pwa.jpeg",
+      "sizes": "1437x1050",
+      "type": "image/jpg",
+      "form_factor": "narrow"
     }
   ]
 }
