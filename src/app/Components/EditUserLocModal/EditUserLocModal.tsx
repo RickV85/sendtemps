@@ -221,6 +221,20 @@ export default function EditUserLocModal({
             </div>
           </>
         );
+      default:
+        return (
+          <>
+            <h3 className="modal-heading">Please select a location before editing.</h3>
+            <div className="modal-btn-div">
+              <button
+                className="edit-user-loc-button"
+                onClick={() => userLocModalRef.current?.close()}
+              >
+                Back
+              </button>
+            </div>
+          </>
+        );
     }
   };
 

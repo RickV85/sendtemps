@@ -52,7 +52,11 @@ export default function EditLocations() {
     } else {
       userLocModalRef.current?.showModal();
     }
-    setUserLocEditTrigger(e.currentTarget?.id);
+    if (selectedUserLoc !== "default") {
+      setUserLocEditTrigger(e.currentTarget?.id);
+    } else {
+      setUserLocEditTrigger("default");
+    }
   };
 
   const handleModalBackdropClick = (event: MouseEvent) => {
@@ -112,12 +116,12 @@ export default function EditLocations() {
                   </p>
                 </Link>
               ) : null}
-                <UserLocTile
-                  userLoc={userLocations?.find(
-                    (loc) => loc?.id?.toString() === selectedUserLoc
-                  )}
-                  toggleUserLocModal={toggleUserLocModal}
-                />
+              <UserLocTile
+                userLoc={userLocations?.find(
+                  (loc) => loc?.id?.toString() === selectedUserLoc
+                )}
+                toggleUserLocModal={toggleUserLocModal}
+              />
               <EditUserLocModal
                 userLocModalRef={userLocModalRef}
                 handleModalBackdropClick={handleModalBackdropClick}
