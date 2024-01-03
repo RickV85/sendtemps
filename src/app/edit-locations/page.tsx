@@ -112,14 +112,12 @@ export default function EditLocations() {
                   </p>
                 </Link>
               ) : null}
-              {selectedUserLoc !== "default" ? (
                 <UserLocTile
                   userLoc={userLocations?.find(
                     (loc) => loc?.id?.toString() === selectedUserLoc
                   )}
                   toggleUserLocModal={toggleUserLocModal}
                 />
-              ) : null}
               <EditUserLocModal
                 userLocModalRef={userLocModalRef}
                 handleModalBackdropClick={handleModalBackdropClick}
