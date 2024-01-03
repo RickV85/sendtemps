@@ -52,22 +52,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const beforeInstallPromptHandler = (e: any) => {
-      e.preventDefault(); // Prevent the mini-infobar from appearing on mobile
-      console.log(e)
-    };
-
-    window.addEventListener("beforeinstallprompt", beforeInstallPromptHandler);
-
-    return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        beforeInstallPromptHandler
-      );
-    };
-  }, []);
-
-  useEffect(() => {
     if (selectedLocType === "Current Location") {
       setIsLoading(true);
       navigator.geolocation.getCurrentPosition(
