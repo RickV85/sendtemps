@@ -8,6 +8,7 @@ import UserLocTile from "../Components/UserLocTile/UserLocTile";
 import { UserLocation } from "../Classes/UserLocation";
 import EditUserLocModal from "../Components/EditUserLocModal/EditUserLocModal";
 import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
+import BackBtn from "../Components/BackBtn/BackBtn";
 
 export default function EditLocations() {
   const [userLocations, setUserLocations] = useState<UserLocation[] | null>(
@@ -64,6 +65,7 @@ export default function EditLocations() {
   if (userInfo) {
     return (
       <main className="edit-loc-main">
+        <BackBtn id="editLocBackBtn" />
         <Link href={"/"}>
           <h1 className="site-title">SendTemps</h1>
         </Link>

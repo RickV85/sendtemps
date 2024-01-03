@@ -5,6 +5,12 @@
   min-height: 100vh;
 }
 
+#editLocBackBtn {
+  position: absolute;
+  top: .5rem;
+  left: .5rem;
+}
+
 .site-title {
   color: transparent;
   font-size: clamp(48px, 10vw, 96px);
@@ -152,6 +158,12 @@
   font-weight: 700;
   text-align: center;
   width: 90%;
+}
+
+@media only screen and (max-width: 459px) {
+  .site-title {
+    padding-top: 2.5rem;
+  }
 }
 
 @media only screen and (min-width: 769px) {
