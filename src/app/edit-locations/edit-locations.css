@@ -23,7 +23,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: 98%;
   max-width: 1200px;
   height: 85vh;
@@ -161,13 +160,7 @@
 }
 
 @media only screen and (max-width: 459px) {
-  .site-title {
-    padding-top: 2.5rem;
-  }
-}
-
-@media only screen and (min-width: 769px) {
-  .edit-loc-section {
-    height: 100%;
+  .edit-loc-main {
+    margin-top: 2.5rem;
   }
 }
