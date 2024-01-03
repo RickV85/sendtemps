@@ -34,18 +34,38 @@ export default function Home() {
   const homeAddEditLocDiv = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(registration => {
-            console.log('Service Worker registered with scope:', registration.scope);
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then((registration) => {
+            console.log(
+              "Service Worker registered with scope:",
+              registration.scope
+            );
           })
-          .catch(error => {
-            console.error('Service Worker registration failed:', error);
+          .catch((error) => {
+            console.error("Service Worker registration failed:", error);
           });
       });
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    const beforeInstallPromptHandler = (e: any) => {
+      e.preventDefault(); // Prevent the mini-infobar from appearing on mobile
+      console.log(e)
+    };
+
+    window.addEventListener("beforeinstallprompt", beforeInstallPromptHandler);
+
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        beforeInstallPromptHandler
+      );
+    };
+  }, []);
 
   useEffect(() => {
     if (selectedLocType === "Current Location") {
