@@ -38,13 +38,13 @@
       "form_factor": "phone"
     },
     {
-      "src": "public/pwa-screenshots/sendtemps.vercel.app_(iPad).jpeg",
+      "src": "/pwa-screenshots/sendtemps.vercel.app_(iPad).jpeg",
       "sizes": "1024x768",
       "type": "image/jpg",
       "form_factor": "tablet"
     },
     {
-      "src": "public/pwa-screenshots/sendtemps.vercel.app_.jpeg",
+      "src": "/pwa-screenshots/sendtemps.vercel.app_.jpeg",
       "sizes": "1469x923",
       "type": "image/jpg",
       "form_factor": "desktop"
