@@ -13,6 +13,12 @@
   align-items: center;
 }
 
+#addLocBackBtn {
+  position: absolute;
+  top: .5rem;
+  left: .5rem;
+}
+
 .site-title {
   color: transparent;
   font-size: clamp(48px, 10vw, 96px);
@@ -94,4 +100,10 @@
 .map-container {
   width: 100vw;
   height: 100dvh;
+}
+
+@media only screen and (max-width: 459px) {
+  .add-loc-main {
+    margin-top: 2.5rem;
+  }
 }

@@ -9,6 +9,7 @@ import { GoogleMapPoint } from "../Interfaces/interfaces";
 import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 import { createGoogleMapPoints } from "../Util/utils";
 import { UserContext } from "../Contexts/UserContext";
+import BackBtn from "../Components/BackBtn/BackBtn";
 
 export default function AddLocation() {
   const [userLocations, setUserLocations] = useState([]);
@@ -60,6 +61,7 @@ export default function AddLocation() {
   if (userInfo) {
     return (
       <main className="add-loc-main">
+        <BackBtn id="addLocBackBtn" />
         <Link href={"/"}>
           <h1 className="site-title">SendTemps</h1>
         </Link>
