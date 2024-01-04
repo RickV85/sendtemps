@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="https://github.com/RickV85/sendtemps/blob/main/public/icon-192x192.png?raw=true" alt="SendTemps logo">
-</p>
+<img src="https://github.com/RickV85/sendtemps/blob/main/public/icon-192x192.png?raw=true" alt="SendTemps logo">
 
 # SendTemps
 
@@ -36,7 +34,7 @@ SendTemps is a full-stack Next.js 14 application designed for Colorado Front Ran
 - TypeScript
   - I chose TypeScript over JavaScript to continue refining my skills as I understand that most enterprise level applications use it over JavaScript for maintainability. This project is my largest TypeScript project to date, so I encountered many new issues that I had not yet before, learning as I worked through TS errors. I now feel much more comfortable with TypeScript and this experience will help me write more robust code moving forward.
 - Full-stack Development
-  - My vision of this application absolutely required backend development which I was not formally taught in my time at the Turing School of Software & Design. I have created a number of Next.js frontend's but I had yet to take advantage of its API features and was very excited to do so. This was challenging in many ways, including the lack of documentation on this proprietary system, but I became much more familiar with Next's unique API features, creating PostgreSQL queries, and other Node.js development basics. Through this experience, I feel that I have gained skills to make me a much more versatile developer and I feel more prepared for a full-stack developer position.
+  - My vision of this application absolutely required backend development which I was not formally taught in my time at the Turing School of Software & Design. I have created a number of Next.js frontend's but I had yet to take advantage of its API features and was very excited to do so. This was challenging in many ways, including the lack of documentation on this proprietary system, but I became much more familiar with Next's unique API features, creating PostgreSQL queries, and other Node.js development skills. Through this experience, I feel that I have become a much more versatile developer and I feel more prepared for a full-stack developer position.
 
 ## Tech Stack
 - Next.js
