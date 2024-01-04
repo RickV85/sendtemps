@@ -42,7 +42,6 @@ export default function EditUserLocModal({
         if (res.patchLoc.id && res.patchLoc.id === userLoc.id) {
           const newUserLocs = userLocations;
           const editLocIndex = newUserLocs?.indexOf(userLoc);
-          console.log({ newUserLocs }, { editLocIndex });
           if (
             editLocIndex !== -1 &&
             editLocIndex !== undefined &&
