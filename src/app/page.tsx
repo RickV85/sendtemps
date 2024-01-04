@@ -16,6 +16,7 @@ import { SessionProvider } from "next-auth/react";
 import Session from "./Components/Session/Session";
 import { welcomeMessage } from "./home-welcome-msg";
 import { UserContext } from "../app/Contexts/UserContext";
+import ReloadBtn from "./Components/ReloadBtn/ReloadBtn";
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
@@ -93,6 +94,7 @@ export default function Home() {
         .then((result) => {
           setForecastData(result);
           setIsLoading(false);
+          setError("");
         })
         .catch((err) => {
           console.error(err);
@@ -211,12 +213,14 @@ export default function Home() {
               <p className="error-msg">{`Oh, no! ${error}`}</p>
               {error === "All fetch Daily Forecast attempts failed." ? (
                 <button
-                  className="reload-page-btn"
+                  className="retry-fetch-btn"
                   onClick={() => retryDailyForecastFetch()}
                 >
                   Retry
                 </button>
-              ) : null}
+              ) : (
+                <ReloadBtn id="homeReloadBtn" />
+              )}
             </>
           ) : null}
           {!forecastData && !isLoading && !error ? welcomeMessage : null}

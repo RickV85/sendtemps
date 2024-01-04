@@ -18,7 +18,7 @@ html {
 }
 
 body {
-  background-color: #2A3C43;
+  background-color: #2a3c43;
   font-family: var(--font-hanuman);
   color: #ffffff;
   line-height: 1.5;
@@ -32,7 +32,10 @@ a {
   text-decoration: none;
 }
 
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 
@@ -40,20 +43,22 @@ button {
   cursor: pointer;
 }
 
-h1, h2 {
+h1,
+h2 {
   font-family: var(--font-fugazOne);
   font-weight: 400;
 }
 
 :focus {
-  outline: 1px solid #F18F01;
+  outline: 1px solid #f18f01;
 }
 
 .hidden {
   display: none !important;
 }
 
-.back-btn {
+.back-btn,
+.reload-btn {
   width: 5rem;
   height: 2.5rem;
   background-color: transparent;

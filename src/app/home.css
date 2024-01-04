@@ -153,7 +153,7 @@
 .type-select,
 .location-select,
 .add-edit-location-btn,
-.reload-page-btn {
+.retry-fetch-btn {
   width: 95%;
   max-width: 495px;
   height: 2.5rem;
@@ -170,7 +170,7 @@
   cursor: pointer;
 }
 
-.reload-page-btn {
+.retry-fetch-btn {
   max-width: 150px;
 }
 
@@ -259,6 +259,12 @@
   text-align: center;
   width: 100%;
   padding: 1rem;
+}
+
+#homeReloadBtn {
+  width: max-content;
+  margin: 1rem;
+  padding: 0rem 1rem 0rem 1rem;
 }
 
 /* Tablet */
