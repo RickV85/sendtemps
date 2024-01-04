@@ -74,6 +74,12 @@ h2 {
   cursor: pointer;
 }
 
+.reload-btn {
+  width: max-content;
+  margin: 1rem;
+  padding: 0rem 1rem 0rem 1rem;
+}
+
 @media screen and (min-width: 769px) {
   html {
     font-size: 16px;

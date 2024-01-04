@@ -219,7 +219,7 @@ export default function Home() {
                   Retry
                 </button>
               ) : (
-                <ReloadBtn id="homeReloadBtn" />
+                <ReloadBtn />
               )}
             </>
           ) : null}
