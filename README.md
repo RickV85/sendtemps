@@ -1,5 +1,8 @@
+<p align="center">
+  <img src="https://github.com/RickV85/sendtemps/blob/main/public/icon-192x192.png?raw=true" alt="SendTemps logo">
+</p>
 
-# SendTemps ![SendTemps logo](https://github.com/RickV85/sendtemps/blob/main/public/icon-192x192.png?raw=true)
+# SendTemps
 
 ## Overview
 SendTemps is a full-stack Next.js 14 application designed for Colorado Front Range outdoor sport enthusiasts. It delivers precise NOAA forecasts for both popular and user-created backcountry locations. This project integrates Google OAuth and NextAuth for seamless user account creation and authentication, Google Maps API for user-friendly custom location creation, and a robust Node.js-PostgreSQL backend with comprehensive CRUD operations, complemented by user-focused error handling.
