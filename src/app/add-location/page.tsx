@@ -10,6 +10,7 @@ import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 import { createGoogleMapPoints } from "../Util/utils";
 import { UserContext } from "../Contexts/UserContext";
 import BackBtn from "../Components/BackBtn/BackBtn";
+import ReloadBtn from "../Components/ReloadBtn/ReloadBtn";
 
 export default function AddLocation() {
   const [userLocations, setUserLocations] = useState([]);
@@ -66,7 +67,10 @@ export default function AddLocation() {
           <h1 className="site-title">SendTemps</h1>
         </Link>
         {error ? (
-          <p id="errorMessage">{error}</p>
+          <>
+            <p id="errorMessage">{error}</p>
+            <ReloadBtn />
+          </>
         ) : (
           <>
             <section className="add-loc-section">
