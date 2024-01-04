@@ -9,6 +9,8 @@ import { UserLocation } from "../Classes/UserLocation";
 import EditUserLocModal from "../Components/EditUserLocModal/EditUserLocModal";
 import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 import BackBtn from "../Components/BackBtn/BackBtn";
+import { checkError } from "../Util/utils";
+import ReloadBtn from "../Components/ReloadBtn/ReloadBtn";
 
 export default function EditLocations() {
   const [userLocations, setUserLocations] = useState<UserLocation[] | null>(
@@ -33,6 +35,7 @@ export default function EditLocations() {
     if (userInfo?.id) {
       getAllUserLocations(userInfo.id)
         .then((response) => {
+          checkError(response);
           if (response) {
             setUserLocations(response);
           }
@@ -100,7 +103,10 @@ export default function EditLocations() {
             ) : null}
             <div className="edit-user-loc">
               {editUserLocError ? (
-                <p className="edit-user-loc-error">{editUserLocError}</p>
+                <>
+                  <p className="edit-user-loc-error">{editUserLocError}</p>
+                  <ReloadBtn />
+                </>
               ) : null}
               {!userLocations && !editUserLocError ? (
                 <p className="edit-user-loc-loading">
@@ -116,12 +122,14 @@ export default function EditLocations() {
                   </p>
                 </Link>
               ) : null}
-              <UserLocTile
-                userLoc={userLocations?.find(
-                  (loc) => loc?.id?.toString() === selectedUserLoc
-                )}
-                toggleUserLocModal={toggleUserLocModal}
-              />
+              {userLocations && userLocations.length ? (
+                <UserLocTile
+                  userLoc={userLocations.find(
+                    (loc) => loc?.id?.toString() === selectedUserLoc
+                  )}
+                  toggleUserLocModal={toggleUserLocModal}
+                />
+              ) : null}
               <EditUserLocModal
                 userLocModalRef={userLocModalRef}
                 handleModalBackdropClick={handleModalBackdropClick}

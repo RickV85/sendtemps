@@ -118,9 +118,12 @@ export default function EditUserLocModal({
   };
 
   const createUserLocModalContent = (triggerId: string) => {
-    const curLoc = userLocations?.find(
-      (loc) => loc?.id?.toString() === selectedUserLoc
-    );
+    let curLoc;
+    if (userLocations && userLocations.length) {
+      curLoc = userLocations?.find(
+        (loc) => loc?.id?.toString() === selectedUserLoc
+      );
+    }
     switch (triggerId) {
       case "userLocRenameBtn":
         return (
@@ -224,7 +227,9 @@ export default function EditUserLocModal({
       default:
         return (
           <>
-            <h3 className="modal-heading">Please select a location before editing.</h3>
+            <h3 className="modal-heading">
+              Please select a location before editing.
+            </h3>
             <div className="modal-btn-div">
               <button
                 className="edit-user-loc-button"
