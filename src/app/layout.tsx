@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://sendtemps.vercel.app",
-    title: "SendTemps - Backcountry Forecasts for the Colorado Front Range",
+    title: "SendTemps",
     description: "A simple, personalized, pinpoint weather app for your outdoor adventures in the Colorado Front Range.",
     siteName: "SendTemps",
     images: [
