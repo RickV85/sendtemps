@@ -5,7 +5,7 @@
   "scope": "/",
   "start_url": "/",
   "orientation": "portrait",
-  "name": "SendTemps - Backcountry Forecasts for the Colorado Front Range",
+  "name": "SendTemps",
   "short_name": "SendTemps",
   "description": "A simple, personalized, pinpoint weather app for your outdoor adventures in the Colorado Front Range",
   "icons": [
