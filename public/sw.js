@@ -98,4 +98,9 @@ define(['./workbox-e43f5367'], (function (workbox) { 'use strict';
   }), 'GET');
 
 }));
+// Added to trigger browser add to home screen pop-up
+self.addEventListener("fetch", e => {
+console.log("SW fetch event", e)
+})
+
 //# sourceMappingURL=sw.js.map
