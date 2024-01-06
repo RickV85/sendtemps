@@ -28,14 +28,14 @@ export default function Session() {
                 src={userProfileImgUrl}
                 alt={"User's Google profile picture"}
                 fill={true}
-                sizes="2vw"
+                sizes="10vw"
                 style={{ borderRadius: "5px" }}
               />
             ) : null}
           </div>
         </div>
       ) : status === "loading" ? (
-        <p className="user-profile-login-button" style={{ cursor: "default" }}>
+        <p className="user-profile-loading" style={{ cursor: "default" }}>
           Loading...
         </p>
       ) : (

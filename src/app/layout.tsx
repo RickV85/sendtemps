@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "A simple, personalized, pinpoint weather app for your outdoor adventures in the Colorado Front Range.",
   manifest: "/manifest.json",
   icons: {
-    apple: "/icon.png",
+    apple: "/icon-192x192.png",
   },
   robots: {
     index: true,
