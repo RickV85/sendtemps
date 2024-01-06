@@ -224,9 +224,7 @@ export default function Home() {
             </>
           ) : null}
           {!forecastData && !isLoading && !error ? (
-            <SessionProvider>
               <WelcomeHomeMsg />
-            </SessionProvider>
           ) : null}
           {createDetailedForecast()}
         </section>

@@ -1,11 +1,12 @@
-import { useSession } from "next-auth/react";
+import { UserContext } from "@/app/Contexts/UserContext";
+import { useContext } from "react";
 
 export const WelcomeHomeMsg = () => {
-  const { data: session, status } = useSession();
+  const { userInfo } = useContext(UserContext);
   return (
     <div className="home-welcome-msg-div">
       <h2 className="home-welcome-header">Welcome to SendTemps!</h2>
-      {status === "authenticated" ? null : (
+      {!userInfo ? (
         <>
           <p>
             <strong>
@@ -15,7 +16,7 @@ export const WelcomeHomeMsg = () => {
           </p>
           <br />
         </>
-      )}
+      ) : null}
       <p>
         Select Climbing, Mountain Biking, or Skiing/Snowboarding above, then
         choose a location to get highly-accurate, NOAA pinpoint forecasts.
