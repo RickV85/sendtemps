@@ -49,6 +49,9 @@ export default function Home() {
             console.error("Service Worker registration failed:", error);
           });
       });
+      window.addEventListener('appinstalled', (event) => {
+        console.log('appinstalled', event);
+      });
     }
   }, []);
 
@@ -223,9 +226,7 @@ export default function Home() {
               )}
             </>
           ) : null}
-          {!forecastData && !isLoading && !error ? (
-              <WelcomeHomeMsg />
-          ) : null}
+          {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}
           {createDetailedForecast()}
         </section>
       </section>
