@@ -33,6 +33,8 @@ export default function Home() {
   const homeControlSection = useRef<HTMLDivElement | null>(null);
   const homeForecastSelectDiv = useRef<HTMLDivElement | null>(null);
   const homeAddEditLocDiv = useRef<HTMLDivElement | null>(null);
+  const [showInstall, setShowInstall] = useState(false);
+  const promptEvent = useRef<null | Event>(null)
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -49,11 +51,25 @@ export default function Home() {
             console.error("Service Worker registration failed:", error);
           });
       });
-      window.addEventListener('appinstalled', (event) => {
-        console.log('appinstalled', event);
-      });
     }
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      console.log("beforeinstallprompt", event);
+      promptEvent.current = event;
+      console.log(promptEvent.current)
+      setShowInstall(true)
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   const handleShowInstall = () => {
+  //     if (!promptEvent.current) return;
+
+  //   }
+  // }, [showInstall])
 
   useEffect(() => {
     if (selectedLocType === "Current Location") {

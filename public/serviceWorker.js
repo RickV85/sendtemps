@@ -8,5 +8,5 @@ self.addEventListener("activate", () => {
 
 // Added to trigger browser add to home screen pop-up
 self.addEventListener("fetch", (e) => {
-  console.log("sw fetch event", e);
+  // console.log("sw fetch event", e);
 });
