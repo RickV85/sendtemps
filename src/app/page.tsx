@@ -14,9 +14,9 @@ import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayFor
 import TypeSelect from "./Components/TypeSelect/TypeSelect";
 import { SessionProvider } from "next-auth/react";
 import Session from "./Components/Session/Session";
-import { welcomeMessage } from "./home-welcome-msg";
 import { UserContext } from "../app/Contexts/UserContext";
 import ReloadBtn from "./Components/ReloadBtn/ReloadBtn";
+import { WelcomeHomeMsg } from "./Components/WelcomeHomeMsg/WelcomeHomeMsg";
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
@@ -223,7 +223,11 @@ export default function Home() {
               )}
             </>
           ) : null}
-          {!forecastData && !isLoading && !error ? welcomeMessage : null}
+          {!forecastData && !isLoading && !error ? (
+            <SessionProvider>
+              <WelcomeHomeMsg />
+            </SessionProvider>
+          ) : null}
           {createDetailedForecast()}
         </section>
       </section>

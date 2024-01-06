@@ -35,7 +35,7 @@ export default function Session() {
           </div>
         </div>
       ) : status === "loading" ? (
-        <p className="user-profile-loading" style={{ cursor: "default" }}>
+        <p className="user-profile-loading">
           Loading...
         </p>
       ) : (

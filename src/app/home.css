@@ -209,6 +209,10 @@
   padding: 0.5rem;
 }
 
+.home-welcome-msg-div {
+  
+}
+
 .day-forecast-header {
   display: flex;
   align-items: center;
