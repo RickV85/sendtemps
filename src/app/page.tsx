@@ -55,23 +55,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("beforeinstallprompt", (event) => {
-      event.preventDefault();
-      console.log("beforeinstallprompt", event);
-      promptEvent.current = event;
-      console.log(promptEvent.current)
-      setShowInstall(true)
-    });
-  }, []);
-
-  // useEffect(() => {
-  //   const handleShowInstall = () => {
-  //     if (!promptEvent.current) return;
-
-  //   }
-  // }, [showInstall])
-
-  useEffect(() => {
     if (selectedLocType === "Current Location") {
       setIsLoading(true);
       navigator.geolocation.getCurrentPosition(
