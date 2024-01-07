@@ -33,8 +33,6 @@ export default function Home() {
   const homeControlSection = useRef<HTMLDivElement | null>(null);
   const homeForecastSelectDiv = useRef<HTMLDivElement | null>(null);
   const homeAddEditLocDiv = useRef<HTMLDivElement | null>(null);
-  const [showInstall, setShowInstall] = useState(false);
-  const promptEvent = useRef<null | Event>(null)
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
