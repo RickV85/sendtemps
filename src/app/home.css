@@ -301,6 +301,11 @@
     font-size: clamp(0px, 13vw, 120px);
   }
 
+  .user-profile-login-button {
+    padding: .75rem 1.5rem;
+    font-size: 1.25rem;
+  }
+
   #userProfileImg {
     width: 50px;
     height: 50px;
