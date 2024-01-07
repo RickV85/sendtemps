@@ -276,6 +276,7 @@
 @media only screen and (min-width: 500px) {
   .home-control-section.logged-in {
     flex-direction: row;
+    align-items: flex-start;
     gap: 0.5rem;
   }
 

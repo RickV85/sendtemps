@@ -27,7 +27,7 @@ const TypeSelect: React.FC<TypeSelectProps> = ({
       </option>
       <option value="climb">Climbing</option>
       <option value="mtb">Mountain Biking</option>
-      <option value="ski">Skiing</option>
+      <option value="ski">Skiing/Snowboarding</option>
       <option value="Current Location">Current Location</option>
     </select>
   );
