@@ -160,7 +160,7 @@ export default function Home() {
             <div className="nav-edit-locations">
               {userInfo ? (
                 <Link href={"/edit-locations"}>
-                  <button>Edit Locations</button>
+                  <button id="navLocationBtn">Edit Locations</button>
                 </Link>
               ) : null}
             </div>
