@@ -215,6 +215,11 @@ button, select {
   z-index: 0;
 }
 
+/* Prevents layout shift when loading new location */
+.forecast-section.loading {
+  height: calc(100vh - 93px);
+}
+
 .detailed-day-forecast,
 .home-welcome-msg-div {
   animation: fadeIn 500ms ease-in-out;
@@ -271,7 +276,7 @@ button, select {
 .loading-msg {
   animation: fadeIn 250ms ease-in-out;
   color: #f18f01;
-  font-size: 1.5rem;
+  font-size: 1.85rem;
   font-weight: 600;
   width: 80vw;
   text-align: center;
@@ -318,6 +323,7 @@ button, select {
     width: 36rem;
   }
 
+  /* Prevents layout shift when loading new location */
   .forecast-section.loading {
     height: calc(100vh - 106px);
   }
@@ -364,5 +370,19 @@ button, select {
 @media only screen and (min-width: 1400px) {
   .detailed-day-forecast {
     text-align: center;
+  }
+}
+
+@media only screen and (min-width: 1600px) {
+    /* Prevents layout shift when loading new location */
+    .forecast-section.loading {
+      height: calc(100vh - 119px);
+    }
+}
+
+@media only screen and (min-width: 2400px) {
+  /* Prevents layout shift when loading new location */
+  .forecast-section.loading {
+    height: calc(100vh - 132px);
   }
 }
