@@ -16,6 +16,21 @@
   }
 }
 
+button, select {
+  background-color: transparent;
+  border: 1px solid #00b2ff;
+  border-radius: 5px;
+
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.3rem;
+  text-align: center;
+  text-align-last: center;
+  color: #ffffff;
+  cursor: pointer;
+}
+
 .fade-out {
   animation: fadeOut 0.5s forwards;
 }
@@ -71,15 +86,7 @@
   background-color: transparent;
   border: 1px solid #00b2ff;
   border-radius: 5px;
-  padding: 0.5rem 0.75rem;
-
-  font-family: var(--font-fugazOne);
-  font-weight: 400;
-  font-size: 1.3rem;
-  line-height: 1.3rem;
-  text-align: center;
-  text-align-last: center;
-  color: #ffffff;
+  padding: 0.5rem;
 }
 
 .site-title {
@@ -187,17 +194,6 @@
   width: 95%;
   max-width: 30rem;
   height: 2.5rem;
-  background-color: transparent;
-  border: 1px solid #00b2ff;
-  border-radius: 5px;
-
-  font-family: var(--font-fugazOne);
-  font-weight: 400;
-  font-size: 1.3rem;
-  text-align: center;
-  text-align-last: center;
-  color: #ffffff;
-  cursor: pointer;
 }
 
 .retry-fetch-btn {
@@ -293,6 +289,11 @@
 /* Desktop */
 
 @media screen and (min-width: 769px) {
+
+  #navLocationBtn {
+    padding: .75rem 1rem;
+  }
+
   .hero-img-div {
     height: 62vw;
     max-height: 70vh;
