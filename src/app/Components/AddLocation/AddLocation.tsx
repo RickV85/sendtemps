@@ -15,12 +15,12 @@ import { UserLocation } from "@/app/Classes/UserLocation";
 
 interface Props {
   userLocations: UserLocation[] | null;
-  setUserLocations: React.Dispatch<React.SetStateAction<UserLocation[] | null>>;
+  setEditLocOptionsStale: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function AddLocation({
   userLocations,
-  setUserLocations,
+  setEditLocOptionsStale
 }: Props) {
   const [mapLocations, setMapLocations] = useState<GoogleMapPoint[] | []>([]);
   const [newUserLocCoords, setNewUserLocCoords] = useState<{
@@ -74,6 +74,7 @@ export default function AddLocation({
                   setNewUserLocMarker={setNewUserLocMarker}
                   userInfo={userInfo}
                   setMapLocations={setMapLocations}
+                  setEditLocOptionsStale={setEditLocOptionsStale}
                 />
               ) : null}
               {newUserLocCoords ? null : (

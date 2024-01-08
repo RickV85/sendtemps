@@ -23,6 +23,7 @@ export default function EditLocations() {
   const [userLocEditTrigger, setUserLocEditTrigger] = useState("");
   const [editUserLocError, setEditUserLocError] = useState("");
   const [showReturnToLogin, setShowReturnToLogin] = useState(false);
+  const [editLocOptionsStale, setEditLocOptionsStale] = useState(true);
 
   useEffect(() => {
     if (!userInfo) {
@@ -33,12 +34,13 @@ export default function EditLocations() {
   }, [userInfo]);
 
   useEffect(() => {
-    if (userInfo?.id) {
+    if (userInfo?.id && editLocOptionsStale) {
       getAllUserLocations(userInfo.id)
         .then((response) => {
           checkError(response);
           if (response) {
             setUserLocations(response);
+            setEditLocOptionsStale(false);
           }
         })
         .catch((error: Error) => {
@@ -48,7 +50,7 @@ export default function EditLocations() {
           );
         });
     }
-  }, [userInfo]);
+  }, [userInfo, editLocOptionsStale]);
 
   const toggleUserLocModal = (e: MouseEvent) => {
     if (userLocModalRef.current?.open) {
@@ -145,7 +147,7 @@ export default function EditLocations() {
         </section>
         <AddLocation
           userLocations={userLocations}
-          setUserLocations={setUserLocations}
+          setEditLocOptionsStale={setEditLocOptionsStale}
         />
       </main>
     );
