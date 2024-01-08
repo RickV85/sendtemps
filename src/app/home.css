@@ -162,7 +162,7 @@
 .add-edit-location-btn,
 .retry-fetch-btn {
   width: 95%;
-  max-width: 495px;
+  max-width: 30rem;
   height: 2.5rem;
   background-color: transparent;
   border: 1px solid #00b2ff;
@@ -309,8 +309,8 @@
 
   .type-select,
   .location-select,
-  .add-edit-location-btn {
-    min-width: 350px;
+  .retry-fetch-btn {
+    width: 36rem;
   }
 
   .day-forecast-header {
