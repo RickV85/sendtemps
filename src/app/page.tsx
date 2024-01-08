@@ -156,6 +156,18 @@ export default function Home() {
     <main className="home-main">
       <header className="home-header">
         <div className="hero-img-div">
+          <nav className="home-nav">
+            <div className="nav-edit-locations">
+              {userInfo ? (
+                <Link href={"/edit-locations"}>
+                  <button>Edit Locations</button>
+                </Link>
+              ) : null}
+            </div>
+            <SessionProvider>
+              <Session />
+            </SessionProvider>
+          </nav>
           <h1 className="site-title">SendTemps</h1>
           <Image
             src={"/images/sendtemps_header_2.webp"}
@@ -166,9 +178,6 @@ export default function Home() {
             sizes="100vw"
             className="header-bkgd-img"
           />
-          <SessionProvider>
-            <Session />
-          </SessionProvider>
         </div>
       </header>
       <section className="home-main-section">

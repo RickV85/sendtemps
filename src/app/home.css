@@ -52,6 +52,19 @@
   justify-content: center;
 }
 
+.home-nav {
+  position: absolute;
+  top: 0.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-edit-locations {
+  position: relative;
+  z-index: 1;
+}
+
 .site-title {
   z-index: 1;
   color: transparent;
@@ -67,11 +80,9 @@
 }
 
 .user-profile-div {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+  position: relative;
+  right: .8rem;
   z-index: 1;
-  background-color: transparent;
 }
 
 .user-profile-welcome-div {
