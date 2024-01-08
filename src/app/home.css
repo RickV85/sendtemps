@@ -289,7 +289,6 @@ button, select {
 /* Desktop */
 
 @media screen and (min-width: 769px) {
-
   #navLocationBtn {
     padding: .75rem 1rem;
   }
