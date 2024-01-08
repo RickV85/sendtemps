@@ -143,7 +143,10 @@ export default function EditLocations() {
             </div>
           </section>
         </section>
-        <AddLocation />
+        <AddLocation
+          userLocations={userLocations}
+          setUserLocations={setUserLocations}
+        />
       </main>
     );
   } else if (showReturnToLogin) {

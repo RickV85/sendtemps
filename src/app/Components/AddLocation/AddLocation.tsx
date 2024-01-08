@@ -1,19 +1,27 @@
 "use client";
-import "./add-location.css";
+import "./AddLocation.css";
 import Map from "../Map/Map";
-import Link from "next/link";
 import { useEffect, useState, useContext } from "react";
-import { getAllDefaultLocations, getAllUserLocations } from "../../Util/APICalls";
+import {
+  getAllDefaultLocations,
+  getAllUserLocations,
+} from "../../Util/APICalls";
 import AddLocForm from "../AddLocForm/AddLocForm";
 import { GoogleMapPoint } from "../../Interfaces/interfaces";
-import ReturnToLogin from "../ReturnToLogin/ReturnToLogin";
 import { createGoogleMapPoints } from "../../Util/utils";
 import { UserContext } from "../../Contexts/UserContext";
-import BackBtn from "../BackBtn/BackBtn";
 import ReloadBtn from "../ReloadBtn/ReloadBtn";
+import { UserLocation } from "@/app/Classes/UserLocation";
 
-export default function AddLocation() {
-  const [userLocations, setUserLocations] = useState([]);
+interface Props {
+  userLocations: UserLocation[] | null;
+  setUserLocations: React.Dispatch<React.SetStateAction<UserLocation[] | null>>;
+}
+
+export default function AddLocation({
+  userLocations,
+  setUserLocations,
+}: Props) {
   const [mapLocations, setMapLocations] = useState<GoogleMapPoint[] | []>([]);
   const [newUserLocCoords, setNewUserLocCoords] = useState<{
     lat: string;
@@ -25,17 +33,13 @@ export default function AddLocation() {
   const { userInfo } = useContext(UserContext);
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && userLocations) {
       const fetchLocations = async () => {
         try {
-          const [defaultLocs, userLocs] = await Promise.all([
-            getAllDefaultLocations(),
-            getAllUserLocations(userInfo.id),
-          ]);
-          if (userLocs) setUserLocations(userLocs);
+          const defaultLocs = await getAllDefaultLocations();
           const allLocs = [
             ...defaultLocs,
-            ...(userLocs.length ? userLocs : []),
+            ...(userLocations.length ? userLocations : []),
           ];
           const mapMarkers = createGoogleMapPoints(allLocs);
           setMapLocations(mapMarkers);
@@ -48,7 +52,7 @@ export default function AddLocation() {
       };
       fetchLocations();
     }
-  }, [userInfo]);
+  }, [userInfo, userLocations]);
 
   if (userInfo) {
     return (
