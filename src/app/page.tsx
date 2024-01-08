@@ -30,6 +30,15 @@ export default function Home() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { userInfo } = useContext(UserContext);
+  const [initialScreenWidth, setInitialScreenWidth] = useState<null | number>(
+    null
+  );
+
+  useEffect(() => {
+    if (window.screen.availWidth) {
+      setInitialScreenWidth(window.screen.availWidth);
+    }
+  }, []);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -157,7 +166,7 @@ export default function Home() {
             alt="Boulder Flatirons background with rock climber silhouette in foreground"
             fill={true}
             priority={true}
-            quality={window.screen.availWidth > 768 ? 100 : 60}
+            quality={initialScreenWidth && initialScreenWidth > 768 ? 100 : 60}
             sizes="100vw"
             className="header-bkgd-img"
           />
