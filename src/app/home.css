@@ -109,7 +109,7 @@
   background: transparent;
   color: #00b2ff;
   font-size: 1.2rem;
-  padding: .25rem;
+  padding: 0.25rem;
 }
 
 #userProfileImg {
@@ -298,7 +298,7 @@
   }
 
   .user-profile-login-button {
-    padding: .75rem 1.5rem;
+    padding: 0.75rem 1.5rem;
     font-size: 1.25rem;
   }
 
@@ -333,8 +333,27 @@
 
   .detailed-day-forecast,
   .home-welcome-msg-div {
-    max-width: 1000px;
     margin: 10px 0px 10px 0px;
     padding: 1rem;
+  }
+
+  .detailed-day-forecast {
+    max-width: 1400px;
+  }
+
+  .home-welcome-msg-div {
+    max-width: 2000px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .home-welcome-msg-div {
+    text-align: center;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .detailed-day-forecast {
+    text-align: center;
   }
 }
