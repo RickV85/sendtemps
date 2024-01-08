@@ -33,6 +33,8 @@ export default function Home() {
   const [initialScreenWidth, setInitialScreenWidth] = useState<null | number>(
     null
   );
+  const forecastSection = useRef<null | HTMLElement>(null);
+  const controlSection = useRef<null | HTMLElement>(null);
 
   useEffect(() => {
     if (window.screen.availWidth) {
@@ -110,6 +112,14 @@ export default function Home() {
     }
   }, [locationDetails]);
 
+  useEffect(() => {
+    if (!forecastData && selectedLocCoords) {
+      forecastSection.current?.classList.add("loading");
+    } else {
+      forecastSection.current?.classList.remove("loading");
+    }
+  }, [forecastData, selectedLocCoords]);
+
   const createDetailedForecast = () => {
     const forecast = forecastData?.properties.periods.map((data, i) => {
       return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
@@ -173,7 +183,7 @@ export default function Home() {
         </div>
       </header>
       <section className="home-main-section">
-        <section className="home-control-section">
+        <section className="home-control-section" ref={controlSection}>
           <div className="home-forecast-select-div">
             <TypeSelect
               setSelectedLocType={setSelectedLocType}
@@ -189,7 +199,7 @@ export default function Home() {
             </SessionProvider>
           </div>
         </section>
-        <section className="forecast-section">
+        <section className="forecast-section" ref={forecastSection}>
           {isLoading ? (
             <p className="loading-msg">Loading forecast...</p>
           ) : null}

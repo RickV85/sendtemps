@@ -318,6 +318,10 @@ button, select {
     width: 36rem;
   }
 
+  .forecast-section.loading {
+    height: calc(100vh - 106px);
+  }
+
   .day-forecast-header {
     margin-bottom: 0.75rem;
   }
