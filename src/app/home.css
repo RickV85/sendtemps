@@ -161,10 +161,6 @@
   background-color: #2a3c43;
 }
 
-.home-control-section.logged-in {
-  gap: 0.5rem;
-}
-
 .home-forecast-select-div,
 .home-add-edit-loc-div,
 .home-add-edit-loc-div > a {
@@ -292,24 +288,6 @@
   text-align: center;
   width: 100%;
   padding: 1rem;
-}
-
-/* Tablet */
-
-@media only screen and (min-width: 500px) {
-  .home-control-section.logged-in {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .home-forecast-select-div.logged-in {
-    align-items: flex-end;
-  }
-
-  .home-add-edit-loc-div.logged-in > a {
-    align-items: flex-start;
-  }
 }
 
 /* Desktop */

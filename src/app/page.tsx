@@ -30,9 +30,6 @@ export default function Home() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { userInfo } = useContext(UserContext);
-  const homeControlSection = useRef<HTMLDivElement | null>(null);
-  const homeForecastSelectDiv = useRef<HTMLDivElement | null>(null);
-  const homeAddEditLocDiv = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -104,20 +101,6 @@ export default function Home() {
     }
   }, [locationDetails]);
 
-  useEffect(() => {
-    // Change control section styling to fit 4 buttons
-    if (userInfo) {
-      const elements = [
-        homeControlSection,
-        homeForecastSelectDiv,
-        homeAddEditLocDiv,
-      ];
-      elements.forEach((e) => {
-        e.current?.classList.add("logged-in");
-      });
-    }
-  }, [userInfo]);
-
   const createDetailedForecast = () => {
     const forecast = forecastData?.properties.periods.map((data, i) => {
       return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
@@ -181,8 +164,8 @@ export default function Home() {
         </div>
       </header>
       <section className="home-main-section">
-        <section className="home-control-section" ref={homeControlSection}>
-          <div className="home-forecast-select-div" ref={homeForecastSelectDiv}>
+        <section className="home-control-section">
+          <div className="home-forecast-select-div">
             <TypeSelect
               setSelectedLocType={setSelectedLocType}
               setForecastData={setForecastData}
@@ -195,22 +178,6 @@ export default function Home() {
                 setError={setError}
               />
             </SessionProvider>
-          </div>
-          <div className="home-add-edit-loc-div" ref={homeAddEditLocDiv}>
-            {userInfo ? (
-              <>
-                <Link href={"/add-location"}>
-                  <button className="add-edit-location-btn">
-                    Create New Location
-                  </button>
-                </Link>
-                <Link href={"/edit-locations"}>
-                  <button className="add-edit-location-btn">
-                    Edit Locations
-                  </button>
-                </Link>
-              </>
-            ) : null}
           </div>
         </section>
         <section className="forecast-section">
