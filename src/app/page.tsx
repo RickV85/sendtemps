@@ -157,7 +157,7 @@ export default function Home() {
             alt="Boulder Flatirons background with rock climber silhouette in foreground"
             fill={true}
             priority={true}
-            quality={100}
+            quality={window.screen.availWidth > 768 ? 100 : 60}
             sizes="100vw"
             className="header-bkgd-img"
           />
