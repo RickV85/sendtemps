@@ -11,6 +11,7 @@ import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 import BackBtn from "../Components/BackBtn/BackBtn";
 import { checkError } from "../Util/utils";
 import ReloadBtn from "../Components/ReloadBtn/ReloadBtn";
+import AddLocation from "../Components/AddLocation/AddLocation";
 
 export default function EditLocations() {
   const [userLocations, setUserLocations] = useState<UserLocation[] | null>(
@@ -142,6 +143,7 @@ export default function EditLocations() {
             </div>
           </section>
         </section>
+        <AddLocation />
       </main>
     );
   } else if (showReturnToLogin) {

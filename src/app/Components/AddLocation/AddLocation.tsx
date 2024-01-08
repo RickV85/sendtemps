@@ -1,16 +1,16 @@
 "use client";
 import "./add-location.css";
-import Map from "../Components/Map/Map";
+import Map from "../Map/Map";
 import Link from "next/link";
 import { useEffect, useState, useContext } from "react";
-import { getAllDefaultLocations, getAllUserLocations } from "../Util/APICalls";
-import AddLocForm from "../Components/AddLocForm/AddLocForm";
-import { GoogleMapPoint } from "../Interfaces/interfaces";
-import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
-import { createGoogleMapPoints } from "../Util/utils";
-import { UserContext } from "../Contexts/UserContext";
-import BackBtn from "../Components/BackBtn/BackBtn";
-import ReloadBtn from "../Components/ReloadBtn/ReloadBtn";
+import { getAllDefaultLocations, getAllUserLocations } from "../../Util/APICalls";
+import AddLocForm from "../AddLocForm/AddLocForm";
+import { GoogleMapPoint } from "../../Interfaces/interfaces";
+import ReturnToLogin from "../ReturnToLogin/ReturnToLogin";
+import { createGoogleMapPoints } from "../../Util/utils";
+import { UserContext } from "../../Contexts/UserContext";
+import BackBtn from "../BackBtn/BackBtn";
+import ReloadBtn from "../ReloadBtn/ReloadBtn";
 
 export default function AddLocation() {
   const [userLocations, setUserLocations] = useState([]);
@@ -21,17 +21,8 @@ export default function AddLocation() {
   } | null>(null);
   const [newUserLocMarker, setNewUserLocMarker] =
     useState<google.maps.Marker | null>(null);
-  const [showReturnToLogin, setShowReturnToLogin] = useState(false);
   const [error, setError] = useState("");
   const { userInfo } = useContext(UserContext);
-
-  useEffect(() => {
-    if (!userInfo) {
-      setTimeout(() => setShowReturnToLogin(true), 3000);
-    } else {
-      setShowReturnToLogin(false);
-    }
-  }, [userInfo]);
 
   useEffect(() => {
     if (userInfo) {
@@ -62,10 +53,6 @@ export default function AddLocation() {
   if (userInfo) {
     return (
       <main className="add-loc-main">
-        <BackBtn id="addLocBackBtn" />
-        <Link href={"/"}>
-          <h1 className="site-title">SendTemps</h1>
-        </Link>
         {error ? (
           <>
             <p id="errorMessage">{error}</p>
@@ -103,7 +90,5 @@ export default function AddLocation() {
         )}
       </main>
     );
-  } else if (showReturnToLogin) {
-    return <ReturnToLogin />;
   }
 }
