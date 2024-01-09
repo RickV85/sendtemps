@@ -9,16 +9,16 @@ import {
   ReactNode,
   useCallback,
   ReactElement,
+  useContext,
+  useRef,
 } from "react";
-import {
-  getAllDefaultLocations,
-  getAllUserLocations,
-} from "@/app/Util/APICalls";
+import { getAllDefaultLocations } from "@/app/Util/APICalls";
 import {
   checkError,
   filterAndSortLocationsAlphaByName,
 } from "@/app/Util/utils";
 import { useSession } from "next-auth/react";
+import { UserContext } from "@/app/Contexts/UserContext";
 
 export default function LocationSelect({
   setSelectedLocCoords,
@@ -32,6 +32,7 @@ export default function LocationSelect({
   >([]);
   const [displayOptions, setDisplayOptions] = useState<ReactNode>();
   const { data: session, status } = useSession();
+  const { userLocations } = useContext(UserContext);
 
   useEffect(() => {
     setSelection("");
@@ -44,20 +45,22 @@ export default function LocationSelect({
   };
 
   useEffect(() => {
-    if (status !== "loading") {
+    // Waits for userInfo to be defined before running -
+    // If user is not signed in, userLocations is assigned
+    // to a truthy empty array.
+    if (status !== "loading" && !allLocationOptions.length && userLocations) {
       const fetchLocations = async () => {
         try {
           let allLocs;
-          if (status === "authenticated" && session.user.id) {
-            const userLocs = await getAllUserLocations(session.user.id);
-            checkError(userLocs);
-            const defaultLocs = await fetchAndCheckDefaultLocations();
-            allLocs = [...userLocs, ...defaultLocs];
-          } else if (status === "unauthenticated") {
-            allLocs = await fetchAndCheckDefaultLocations();
+          const defaultLocs = await fetchAndCheckDefaultLocations();
+          if (defaultLocs.length) {
+            if (userLocations.length) {
+              allLocs = [...userLocations, ...defaultLocs];
+            } else {
+              allLocs = defaultLocs;
+            }
+            setAllLocationOptions(allLocs);
           }
-
-          setAllLocationOptions(allLocs);
         } catch (err) {
           console.error(err);
           setError(
@@ -68,7 +71,7 @@ export default function LocationSelect({
 
       fetchLocations();
     }
-  }, [session, status, setError]);
+  }, [setError, userLocations, allLocationOptions]);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setForecastData(undefined);
@@ -96,13 +99,14 @@ export default function LocationSelect({
 
   const createDisplayOptions = useCallback(
     (locType: string) => {
-      if (allLocationOptions.length <= 0) return;
-      const options = filterAndSortLocationsAlphaByName(
-        allLocationOptions,
-        locType
-      );
-      const optionElements = mapLocationOptions(options);
-      return optionElements;
+      if (allLocationOptions.length) {
+        const options = filterAndSortLocationsAlphaByName(
+          allLocationOptions,
+          locType
+        );
+        const optionElements = mapLocationOptions(options);
+        return optionElements;
+      }
     },
     [allLocationOptions, mapLocationOptions]
   );
