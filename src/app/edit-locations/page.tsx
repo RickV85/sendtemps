@@ -14,9 +14,6 @@ import ReloadBtn from "../Components/ReloadBtn/ReloadBtn";
 import AddLocation from "../Components/AddLocation/AddLocation";
 
 export default function EditLocations() {
-  // const [userLocations, setUserLocations] = useState<UserLocation[] | null>(
-  //   null
-  // );
   const [selectedUserLoc, setSelectedUserLoc] = useState("default");
   const { userInfo, userLocations, setUserLocations } = useContext(UserContext);
   const userLocModalRef = useRef<HTMLDialogElement>(null);
@@ -146,7 +143,7 @@ export default function EditLocations() {
           </section>
         </section>
         <AddLocation
-          userLocations={userLocations}
+          // userLocations={userLocations}
           setEditLocOptionsStale={setEditLocOptionsStale}
         />
       </main>

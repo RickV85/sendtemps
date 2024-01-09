@@ -2,25 +2,19 @@
 import "./AddLocation.css";
 import Map from "../Map/Map";
 import { useEffect, useState, useContext } from "react";
-import {
-  getAllDefaultLocations,
-  getAllUserLocations,
-} from "../../Util/APICalls";
+import { getAllDefaultLocations } from "../../Util/APICalls";
 import AddLocForm from "../AddLocForm/AddLocForm";
 import { GoogleMapPoint } from "../../Interfaces/interfaces";
 import { createGoogleMapPoints } from "../../Util/utils";
 import { UserContext } from "../../Contexts/UserContext";
 import ReloadBtn from "../ReloadBtn/ReloadBtn";
-import { UserLocation } from "@/app/Classes/UserLocation";
 
 interface Props {
-  userLocations: UserLocation[] | null;
   setEditLocOptionsStale: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function AddLocation({
-  userLocations,
-  setEditLocOptionsStale
+  setEditLocOptionsStale,
 }: Props) {
   const [mapLocations, setMapLocations] = useState<GoogleMapPoint[] | []>([]);
   const [newUserLocCoords, setNewUserLocCoords] = useState<{
@@ -30,11 +24,11 @@ export default function AddLocation({
   const [newUserLocMarker, setNewUserLocMarker] =
     useState<google.maps.Marker | null>(null);
   const [error, setError] = useState("");
-  const { userInfo } = useContext(UserContext);
+  const { userInfo, userLocations} = useContext(UserContext);
 
   useEffect(() => {
     if (userInfo && userLocations) {
-      const fetchLocations = async () => {
+      const fetchAndCreateMapPoints = async () => {
         try {
           const defaultLocs = await getAllDefaultLocations();
           const allLocs = [
@@ -50,7 +44,7 @@ export default function AddLocation({
           );
         }
       };
-      fetchLocations();
+      fetchAndCreateMapPoints();
     }
   }, [userInfo, userLocations]);
 

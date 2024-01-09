@@ -19,7 +19,6 @@ interface Props {
   userInfo: UserSessionInfo;
   setMapLocations: Dispatch<React.SetStateAction<GoogleMapPoint[] | []>>;
   setEditLocOptionsStale: React.Dispatch<React.SetStateAction<boolean>>;
-
 }
 
 export default function AddLocForm({
@@ -29,7 +28,7 @@ export default function AddLocForm({
   setNewUserLocMarker,
   userInfo,
   setMapLocations,
-  setEditLocOptionsStale
+  setEditLocOptionsStale,
 }: Props) {
   const [locName, setLocName] = useState("");
   const [locType, setLocType] = useState("Select Sport");

@@ -35,14 +35,14 @@ export default function EditUserLocModal({
     const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
     if (userLoc) {
       patchUserLocation(userLoc, patchType, userInput).then((res) => {
-        if (res.patchLoc.id && res.patchLoc.id === userLoc.id) {
-          const newUserLocs = userLocations;
+        if (
+          res.patchLoc.id &&
+          res.patchLoc.id === userLoc.id &&
+          userLocations
+        ) {
+          const newUserLocs = [...userLocations];
           const editLocIndex = newUserLocs?.indexOf(userLoc);
-          if (
-            editLocIndex !== -1 &&
-            editLocIndex !== undefined &&
-            newUserLocs?.length
-          ) {
+          if (editLocIndex !== -1) {
             setSelectedUserLoc("default");
             userInputStateSet("");
             setSubmitMsg("");
