@@ -2,15 +2,21 @@
 import React, { createContext, useState, useEffect } from "react";
 import { getSession } from "next-auth/react";
 import { UserSessionInfo } from "../Interfaces/interfaces";
+import { UserLocation } from "../Classes/UserLocation";
+import { getAllUserLocations } from "../Util/APICalls";
 
 interface UserContextType {
   userInfo: UserSessionInfo | null;
   setUserInfo: React.Dispatch<React.SetStateAction<UserSessionInfo | null>>;
+  userLocations: UserLocation[] | null;
+  setUserLocations: React.Dispatch<React.SetStateAction<UserLocation[] | null>>;
 }
 
 export const UserContext = createContext<UserContextType>({
   userInfo: null,
   setUserInfo: () => {},
+  userLocations: null,
+  setUserLocations: () => {},
 });
 
 interface UserProviderProps {
@@ -19,6 +25,9 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [userInfo, setUserInfo] = useState<UserSessionInfo | null>(null);
+  const [userLocations, setUserLocations] = useState<UserLocation[] | null>(
+    null
+  );
 
   useEffect(() => {
     const getUserSessionInfo = async () => {
@@ -34,8 +43,27 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     getUserSessionInfo();
   }, []);
 
+  useEffect(() => {
+    if (userInfo && userInfo.id) {
+      const fetchUserLocations = async () => {
+        try {
+          const fetchedUserLocs = await getAllUserLocations(userInfo.id);
+          if (fetchedUserLocs) {
+            setUserLocations(fetchedUserLocs);
+            console.log("UserContext fetch", fetchedUserLocs)
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchUserLocations();
+    }
+  }, [userInfo]);
+
   return (
-    <UserContext.Provider value={{ userInfo, setUserInfo }}>
+    <UserContext.Provider
+      value={{ userInfo, setUserInfo, userLocations, setUserLocations }}
+    >
       {children}
     </UserContext.Provider>
   );

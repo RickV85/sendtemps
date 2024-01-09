@@ -14,11 +14,11 @@ import ReloadBtn from "../Components/ReloadBtn/ReloadBtn";
 import AddLocation from "../Components/AddLocation/AddLocation";
 
 export default function EditLocations() {
-  const [userLocations, setUserLocations] = useState<UserLocation[] | null>(
-    null
-  );
+  // const [userLocations, setUserLocations] = useState<UserLocation[] | null>(
+  //   null
+  // );
   const [selectedUserLoc, setSelectedUserLoc] = useState("default");
-  const { userInfo } = useContext(UserContext);
+  const { userInfo, userLocations, setUserLocations } = useContext(UserContext);
   const userLocModalRef = useRef<HTMLDialogElement>(null);
   const [userLocEditTrigger, setUserLocEditTrigger] = useState("");
   const [editUserLocError, setEditUserLocError] = useState("");
@@ -33,24 +33,26 @@ export default function EditLocations() {
     }
   }, [userInfo]);
 
-  useEffect(() => {
-    if (userInfo?.id && editLocOptionsStale) {
-      getAllUserLocations(userInfo.id)
-        .then((response) => {
-          checkError(response);
-          if (response) {
-            setUserLocations(response);
-            setEditLocOptionsStale(false);
-          }
-        })
-        .catch((error: Error) => {
-          console.error(error);
-          setEditUserLocError(
-            "An error occurred while fetching your locations. Please reload the page."
-          );
-        });
-    }
-  }, [userInfo, editLocOptionsStale]);
+  // Need to replace below error handling when global state userLocations fails
+
+  // useEffect(() => {
+  //   if (userInfo?.id && editLocOptionsStale) {
+  //     getAllUserLocations(userInfo.id)
+  //       .then((response) => {
+  //         checkError(response);
+  //         if (response) {
+  //           setUserLocations(response);
+  //           setEditLocOptionsStale(false);
+  //         }
+  //       })
+  //       .catch((error: Error) => {
+  //         console.error(error);
+  //         setEditUserLocError(
+  //           "An error occurred while fetching your locations. Please reload the page."
+  //         );
+  //       });
+  //   }
+  // }, [userInfo, editLocOptionsStale]);
 
   const toggleUserLocModal = (e: MouseEvent) => {
     if (userLocModalRef.current?.open) {
@@ -137,8 +139,6 @@ export default function EditLocations() {
                 userLocModalRef={userLocModalRef}
                 handleModalBackdropClick={handleModalBackdropClick}
                 userLocEditTrigger={userLocEditTrigger}
-                userLocations={userLocations}
-                setUserLocations={setUserLocations}
                 selectedUserLoc={selectedUserLoc}
                 setSelectedUserLoc={setSelectedUserLoc}
               />
