@@ -1,19 +1,20 @@
 "use client";
-import "./add-location.css";
-import Map from "../Components/Map/Map";
-import Link from "next/link";
+import Map from "../Map/Map";
 import { useEffect, useState, useContext } from "react";
-import { getAllDefaultLocations, getAllUserLocations } from "../Util/APICalls";
-import AddLocForm from "../Components/AddLocForm/AddLocForm";
-import { GoogleMapPoint } from "../Interfaces/interfaces";
-import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
-import { createGoogleMapPoints } from "../Util/utils";
-import { UserContext } from "../Contexts/UserContext";
-import BackBtn from "../Components/BackBtn/BackBtn";
-import ReloadBtn from "../Components/ReloadBtn/ReloadBtn";
+import { getAllDefaultLocations } from "../../Util/APICalls";
+import AddLocForm from "../AddLocForm/AddLocForm";
+import { GoogleMapPoint } from "../../Interfaces/interfaces";
+import { createGoogleMapPoints } from "../../Util/utils";
+import { UserContext } from "../../Contexts/UserContext";
+import ReloadBtn from "../ReloadBtn/ReloadBtn";
 
-export default function AddLocation() {
-  const [userLocations, setUserLocations] = useState([]);
+interface Props {
+  setEditLocOptionsStale: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function AddLocation({
+  setEditLocOptionsStale,
+}: Props) {
   const [mapLocations, setMapLocations] = useState<GoogleMapPoint[] | []>([]);
   const [newUserLocCoords, setNewUserLocCoords] = useState<{
     lat: string;
@@ -21,30 +22,17 @@ export default function AddLocation() {
   } | null>(null);
   const [newUserLocMarker, setNewUserLocMarker] =
     useState<google.maps.Marker | null>(null);
-  const [showReturnToLogin, setShowReturnToLogin] = useState(false);
   const [error, setError] = useState("");
-  const { userInfo } = useContext(UserContext);
+  const { userInfo, userLocations} = useContext(UserContext);
 
   useEffect(() => {
-    if (!userInfo) {
-      setTimeout(() => setShowReturnToLogin(true), 3000);
-    } else {
-      setShowReturnToLogin(false);
-    }
-  }, [userInfo]);
-
-  useEffect(() => {
-    if (userInfo) {
-      const fetchLocations = async () => {
+    if (userInfo && userLocations) {
+      const fetchAndCreateMapPoints = async () => {
         try {
-          const [defaultLocs, userLocs] = await Promise.all([
-            getAllDefaultLocations(),
-            getAllUserLocations(userInfo.id),
-          ]);
-          if (userLocs) setUserLocations(userLocs);
+          const defaultLocs = await getAllDefaultLocations();
           const allLocs = [
             ...defaultLocs,
-            ...(userLocs.length ? userLocs : []),
+            ...(userLocations.length ? userLocations : []),
           ];
           const mapMarkers = createGoogleMapPoints(allLocs);
           setMapLocations(mapMarkers);
@@ -55,17 +43,13 @@ export default function AddLocation() {
           );
         }
       };
-      fetchLocations();
+      fetchAndCreateMapPoints();
     }
-  }, [userInfo]);
+  }, [userInfo, userLocations]);
 
   if (userInfo) {
     return (
-      <main className="add-loc-main">
-        <BackBtn id="addLocBackBtn" />
-        <Link href={"/"}>
-          <h1 className="site-title">SendTemps</h1>
-        </Link>
+      <section className="add-loc-main">
         {error ? (
           <>
             <p id="errorMessage">{error}</p>
@@ -74,7 +58,7 @@ export default function AddLocation() {
         ) : (
           <>
             <section className="add-loc-section">
-              <h2>Add a new location!</h2>
+              <h2 id="addLocTitle">Add New Location</h2>
               {newUserLocCoords ? (
                 <AddLocForm
                   newUserLocCoords={newUserLocCoords}
@@ -83,6 +67,7 @@ export default function AddLocation() {
                   setNewUserLocMarker={setNewUserLocMarker}
                   userInfo={userInfo}
                   setMapLocations={setMapLocations}
+                  setEditLocOptionsStale={setEditLocOptionsStale}
                 />
               ) : null}
               {newUserLocCoords ? null : (
@@ -101,9 +86,7 @@ export default function AddLocation() {
             </div>
           </>
         )}
-      </main>
+      </section>
     );
-  } else if (showReturnToLogin) {
-    return <ReturnToLogin />;
   }
 }

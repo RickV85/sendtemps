@@ -1,16 +1,13 @@
 "use client";
-import { UserLocation } from "@/app/Classes/UserLocation";
+import { UserContext } from "@/app/Contexts/UserContext";
 import { deleteUserLocation, patchUserLocation } from "@/app/Util/APICalls";
 import { findLocByIdInUserLocs, resetErrorMsg } from "@/app/Util/utils";
-import { error } from "console";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 interface Props {
   userLocModalRef: React.RefObject<HTMLDialogElement>;
   handleModalBackdropClick: Function;
   userLocEditTrigger: string;
-  userLocations: UserLocation[] | null;
-  setUserLocations: React.Dispatch<React.SetStateAction<UserLocation[] | null>>;
   selectedUserLoc: string;
   setSelectedUserLoc: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -19,14 +16,13 @@ export default function EditUserLocModal({
   userLocModalRef,
   handleModalBackdropClick,
   userLocEditTrigger,
-  userLocations,
-  setUserLocations,
   selectedUserLoc,
   setSelectedUserLoc,
 }: Props) {
   const [newName, setNewName] = useState("");
   const [newType, setNewType] = useState("");
   const [submitMsg, setSubmitMsg] = useState("");
+  const { userLocations, setUserLocations } = useContext(UserContext);
 
   const modalSubmitMsg = <p className="edit-user-loc-modal-msg">{submitMsg}</p>;
 
@@ -39,14 +35,14 @@ export default function EditUserLocModal({
     const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
     if (userLoc) {
       patchUserLocation(userLoc, patchType, userInput).then((res) => {
-        if (res.patchLoc.id && res.patchLoc.id === userLoc.id) {
-          const newUserLocs = userLocations;
+        if (
+          res.patchLoc.id &&
+          res.patchLoc.id === userLoc.id &&
+          userLocations
+        ) {
+          const newUserLocs = [...userLocations];
           const editLocIndex = newUserLocs?.indexOf(userLoc);
-          if (
-            editLocIndex !== -1 &&
-            editLocIndex !== undefined &&
-            newUserLocs?.length
-          ) {
+          if (editLocIndex !== -1) {
             setSelectedUserLoc("default");
             userInputStateSet("");
             setSubmitMsg("");

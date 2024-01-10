@@ -22,6 +22,15 @@ export const WelcomeHomeMsg = () => {
         choose a location to get highly-accurate, NOAA pinpoint forecasts.
         <br />
         <br />
+        {userInfo ? (
+          <>
+            Click the &ldquo;Edit Locations&rdquo; button in the upper left
+            corner to add a new custom location or edit an existing custom
+            location.
+            <br />
+            <br />
+          </>
+        ) : null}
         In my experience over the last decade, NOAA&apos;s pinpoint forecasts
         have proven to be far more accurate for backcountry destinations when
         compared to the average weather app. So I decided to build this

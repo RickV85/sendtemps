@@ -16,6 +16,21 @@
   }
 }
 
+button, select {
+  background-color: transparent;
+  border: 1px solid #00b2ff;
+  border-radius: 5px;
+
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.3rem;
+  text-align: center;
+  text-align-last: center;
+  color: #ffffff;
+  cursor: pointer;
+}
+
 .fade-out {
   animation: fadeOut 0.5s forwards;
 }
@@ -44,13 +59,34 @@
 .hero-img-div {
   height: 50vw;
   width: 100vw;
-  max-width: 1600px;
   position: relative;
   z-index: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.home-nav {
+  position: absolute;
+  z-index: 1;
+  top: 0rem;
+  width: 100%;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-edit-locations {
+  position: relative;
+  z-index: 2;
+}
+
+#navLocationBtn {
+  background-color: transparent;
+  border: 1px solid #00b2ff;
+  border-radius: 5px;
+  padding: 0.5rem;
 }
 
 .site-title {
@@ -68,11 +104,8 @@
 }
 
 .user-profile-div {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  z-index: 1;
-  background-color: transparent;
+  position: relative;
+  z-index: 2;
 }
 
 .user-profile-welcome-div {
@@ -110,7 +143,7 @@
   background: transparent;
   color: #00b2ff;
   font-size: 1.2rem;
-  padding: .25rem;
+  padding: 0.25rem;
 }
 
 #userProfileImg {
@@ -125,7 +158,6 @@
   justify-content: center;
   align-items: center;
   width: 100vw;
-  max-width: 1600px;
   text-align: center;
   padding: 0.5rem 0rem 0.5rem 0rem;
   border-top: 1px solid #00b2ff;
@@ -134,10 +166,6 @@
   position: sticky;
   top: 0;
   background-color: #2a3c43;
-}
-
-.home-control-section.logged-in {
-  gap: 0.5rem;
 }
 
 .home-forecast-select-div,
@@ -164,19 +192,8 @@
 .add-edit-location-btn,
 .retry-fetch-btn {
   width: 95%;
-  max-width: 495px;
+  max-width: 30rem;
   height: 2.5rem;
-  background-color: transparent;
-  border: 1px solid #00b2ff;
-  border-radius: 5px;
-
-  font-family: var(--font-fugazOne);
-  font-weight: 400;
-  font-size: 1.3rem;
-  text-align: center;
-  text-align-last: center;
-  color: #ffffff;
-  cursor: pointer;
 }
 
 .retry-fetch-btn {
@@ -192,11 +209,15 @@
 .forecast-section {
   padding: 8px;
   width: 100vw;
-  max-width: 1600px;
   display: flex;
   flex-direction: column;
   align-items: center;
   z-index: 0;
+}
+
+/* Prevents layout shift when loading new location */
+.forecast-section.loading {
+  height: calc(100vh - 93px);
 }
 
 .detailed-day-forecast,
@@ -255,7 +276,7 @@
 .loading-msg {
   animation: fadeIn 250ms ease-in-out;
   color: #f18f01;
-  font-size: 1.5rem;
+  font-size: 1.85rem;
   font-weight: 600;
   width: 80vw;
   text-align: center;
@@ -270,27 +291,13 @@
   padding: 1rem;
 }
 
-/* Tablet */
-
-@media only screen and (min-width: 500px) {
-  .home-control-section.logged-in {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .home-forecast-select-div.logged-in {
-    align-items: flex-end;
-  }
-
-  .home-add-edit-loc-div.logged-in > a {
-    align-items: flex-start;
-  }
-}
-
 /* Desktop */
 
 @media screen and (min-width: 769px) {
+  #navLocationBtn {
+    padding: .75rem 1rem;
+  }
+
   .hero-img-div {
     height: 62vw;
     max-height: 70vh;
@@ -301,7 +308,7 @@
   }
 
   .user-profile-login-button {
-    padding: .75rem 1.5rem;
+    padding: 0.75rem 1.5rem;
     font-size: 1.25rem;
   }
 
@@ -312,8 +319,13 @@
 
   .type-select,
   .location-select,
-  .add-edit-location-btn {
-    min-width: 350px;
+  .retry-fetch-btn {
+    width: 36rem;
+  }
+
+  /* Prevents layout shift when loading new location */
+  .forecast-section.loading {
+    height: calc(100vh - 106px);
   }
 
   .day-forecast-header {
@@ -336,8 +348,41 @@
 
   .detailed-day-forecast,
   .home-welcome-msg-div {
-    max-width: 1000px;
     margin: 10px 0px 10px 0px;
     padding: 1rem;
+  }
+
+  .detailed-day-forecast {
+    max-width: 1400px;
+  }
+
+  .home-welcome-msg-div {
+    max-width: 2000px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .home-welcome-msg-div {
+    text-align: center;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .detailed-day-forecast {
+    text-align: center;
+  }
+}
+
+@media only screen and (min-width: 1600px) {
+    /* Prevents layout shift when loading new location */
+    .forecast-section.loading {
+      height: calc(100vh - 119px);
+    }
+}
+
+@media only screen and (min-width: 2400px) {
+  /* Prevents layout shift when loading new location */
+  .forecast-section.loading {
+    height: calc(100vh - 132px);
   }
 }

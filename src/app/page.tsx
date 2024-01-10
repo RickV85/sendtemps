@@ -30,11 +30,17 @@ export default function Home() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { userInfo } = useContext(UserContext);
-  const homeControlSection = useRef<HTMLDivElement | null>(null);
-  const homeForecastSelectDiv = useRef<HTMLDivElement | null>(null);
-  const homeAddEditLocDiv = useRef<HTMLDivElement | null>(null);
-  const [showInstall, setShowInstall] = useState(false);
-  const promptEvent = useRef<null | Event>(null)
+  const [initialScreenWidth, setInitialScreenWidth] = useState<null | number>(
+    null
+  );
+  const forecastSection = useRef<null | HTMLElement>(null);
+  const controlSection = useRef<null | HTMLElement>(null);
+
+  useEffect(() => {
+    if (window.innerWidth) {
+      setInitialScreenWidth(window.innerWidth);
+    }
+  }, []);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -107,18 +113,12 @@ export default function Home() {
   }, [locationDetails]);
 
   useEffect(() => {
-    // Change control section styling to fit 4 buttons
-    if (userInfo) {
-      const elements = [
-        homeControlSection,
-        homeForecastSelectDiv,
-        homeAddEditLocDiv,
-      ];
-      elements.forEach((e) => {
-        e.current?.classList.add("logged-in");
-      });
+    if (!forecastData && selectedLocCoords) {
+      forecastSection.current?.classList.add("loading");
+    } else {
+      forecastSection.current?.classList.remove("loading");
     }
-  }, [userInfo]);
+  }, [forecastData, selectedLocCoords]);
 
   const createDetailedForecast = () => {
     const forecast = forecastData?.properties.periods.map((data, i) => {
@@ -158,24 +158,33 @@ export default function Home() {
     <main className="home-main">
       <header className="home-header">
         <div className="hero-img-div">
+          <nav className="home-nav">
+            <div className="nav-edit-locations">
+              {userInfo ? (
+                <Link href={"/edit-locations"}>
+                  <button id="navLocationBtn">Edit Locations</button>
+                </Link>
+              ) : null}
+            </div>
+            <SessionProvider>
+              <Session />
+            </SessionProvider>
+          </nav>
           <h1 className="site-title">SendTemps</h1>
           <Image
             src={"/images/sendtemps_header_2.webp"}
             alt="Boulder Flatirons background with rock climber silhouette in foreground"
             fill={true}
             priority={true}
-            quality={100}
+            quality={initialScreenWidth && initialScreenWidth > 768 ? 100 : 60}
             sizes="100vw"
             className="header-bkgd-img"
           />
-          <SessionProvider>
-            <Session />
-          </SessionProvider>
         </div>
       </header>
       <section className="home-main-section">
-        <section className="home-control-section" ref={homeControlSection}>
-          <div className="home-forecast-select-div" ref={homeForecastSelectDiv}>
+        <section className="home-control-section" ref={controlSection}>
+          <div className="home-forecast-select-div">
             <TypeSelect
               setSelectedLocType={setSelectedLocType}
               setForecastData={setForecastData}
@@ -189,24 +198,8 @@ export default function Home() {
               />
             </SessionProvider>
           </div>
-          <div className="home-add-edit-loc-div" ref={homeAddEditLocDiv}>
-            {userInfo ? (
-              <>
-                <Link href={"/add-location"}>
-                  <button className="add-edit-location-btn">
-                    Create New Location
-                  </button>
-                </Link>
-                <Link href={"/edit-locations"}>
-                  <button className="add-edit-location-btn">
-                    Edit Locations
-                  </button>
-                </Link>
-              </>
-            ) : null}
-          </div>
         </section>
-        <section className="forecast-section">
+        <section className="forecast-section" ref={forecastSection}>
           {isLoading ? (
             <p className="loading-msg">Loading forecast...</p>
           ) : null}

@@ -11,17 +11,16 @@ import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 import BackBtn from "../Components/BackBtn/BackBtn";
 import { checkError } from "../Util/utils";
 import ReloadBtn from "../Components/ReloadBtn/ReloadBtn";
+import AddLocation from "../Components/AddLocation/AddLocation";
 
 export default function EditLocations() {
-  const [userLocations, setUserLocations] = useState<UserLocation[] | null>(
-    null
-  );
   const [selectedUserLoc, setSelectedUserLoc] = useState("default");
-  const { userInfo } = useContext(UserContext);
+  const { userInfo, userLocations, setUserLocations } = useContext(UserContext);
   const userLocModalRef = useRef<HTMLDialogElement>(null);
   const [userLocEditTrigger, setUserLocEditTrigger] = useState("");
   const [editUserLocError, setEditUserLocError] = useState("");
   const [showReturnToLogin, setShowReturnToLogin] = useState(false);
+  const [editLocOptionsStale, setEditLocOptionsStale] = useState(true);
 
   useEffect(() => {
     if (!userInfo) {
@@ -32,22 +31,16 @@ export default function EditLocations() {
   }, [userInfo]);
 
   useEffect(() => {
-    if (userInfo?.id) {
-      getAllUserLocations(userInfo.id)
-        .then((response) => {
-          checkError(response);
-          if (response) {
-            setUserLocations(response);
-          }
-        })
-        .catch((error: Error) => {
-          console.error(error);
-          setEditUserLocError(
-            "An error occurred while fetching your locations. Please reload the page."
-          );
-        });
+    if (userLocations) {
+      try {
+        checkError(userLocations);
+      } catch {
+        setEditUserLocError(
+          "An error occurred while fetching locations. Please reload the page and try again."
+        );
+      }
     }
-  }, [userInfo]);
+  }, [userLocations]);
 
   const toggleUserLocModal = (e: MouseEvent) => {
     if (userLocModalRef.current?.open) {
@@ -113,14 +106,12 @@ export default function EditLocations() {
                   Loading your locations...
                 </p>
               ) : null}
-              {userLocations && !userLocations.length ? (
-                <Link href={"/add-location"}>
-                  <p id="linkToAddLoc">
-                    No locations created yet.
-                    <br />
-                    Click here to add some!
-                  </p>
-                </Link>
+              {userLocations && !userLocations.length && !editUserLocError ? (
+                <p id="linkToAddLoc">
+                  No locations created yet.
+                  <br />
+                  Add some below!
+                </p>
               ) : null}
               {userLocations && userLocations.length ? (
                 <UserLocTile
@@ -134,14 +125,17 @@ export default function EditLocations() {
                 userLocModalRef={userLocModalRef}
                 handleModalBackdropClick={handleModalBackdropClick}
                 userLocEditTrigger={userLocEditTrigger}
-                userLocations={userLocations}
-                setUserLocations={setUserLocations}
                 selectedUserLoc={selectedUserLoc}
                 setSelectedUserLoc={setSelectedUserLoc}
               />
             </div>
           </section>
         </section>
+        {userLocations && !editUserLocError ? (
+          <AddLocation
+            setEditLocOptionsStale={setEditLocOptionsStale}
+          />
+        ) : null}
       </main>
     );
   } else if (showReturnToLogin) {
