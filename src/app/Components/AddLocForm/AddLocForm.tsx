@@ -147,7 +147,7 @@ export default function AddLocForm({
             resetNewUserCoordsAndMarker();
           }}
         >
-          Delete
+          Cancel
         </button>
         <button
           className="add-loc-form-input"

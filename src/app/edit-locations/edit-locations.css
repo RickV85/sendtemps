@@ -24,7 +24,7 @@
   flex-direction: column;
   align-items: center;
   width: 98%;
-  max-width: 1200px;
+  max-width: 1600px;
 }
 
 .edit-user-loc-section {
@@ -44,10 +44,11 @@
 
 .edit-user-loc-select {
   width: max-content;
+  height: 3rem;
   background-color: transparent;
   border: 1px solid #00b2ff;
   margin-bottom: 1rem;
-  padding: 0.5rem 1rem 0.5rem 1rem;
+  padding: 0rem 1rem;
   border-radius: 5px;
   font-family: var(--font-fugazOne);
   font-weight: 400;
@@ -63,7 +64,7 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  width: 98%;
+  width: 100%;
   padding-bottom: 1rem;
 }
 

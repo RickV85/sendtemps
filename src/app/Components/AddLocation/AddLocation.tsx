@@ -59,7 +59,7 @@ export default function AddLocation({
         ) : (
           <>
             <section className="add-loc-section">
-              <h2>Add a new location!</h2>
+              <h2 id="addLocTitle">Add New Location</h2>
               {newUserLocCoords ? (
                 <AddLocForm
                   newUserLocCoords={newUserLocCoords}

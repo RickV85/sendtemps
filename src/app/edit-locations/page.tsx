@@ -116,13 +116,11 @@ export default function EditLocations() {
                 </p>
               ) : null}
               {userLocations && !userLocations.length ? (
-                <Link href={"/add-location"}>
-                  <p id="linkToAddLoc">
-                    No locations created yet.
-                    <br />
-                    Click here to add some!
-                  </p>
-                </Link>
+                <p id="linkToAddLoc">
+                  No locations created yet.
+                  <br />
+                  Add some below!
+                </p>
               ) : null}
               {userLocations && userLocations.length ? (
                 <UserLocTile
