@@ -44,13 +44,15 @@ export default function LocationSelect({
   };
 
   useEffect(() => {
-    // Waits for userInfo to be defined before fetching 
+    // Waits for userInfo to be defined before fetching
     // default locations to prevent multiple calls
     if (!allLocationOptions.length && userLocations) {
       const fetchLocations = async () => {
         try {
           let allLocs;
           const defaultLocs = await fetchAndCheckDefaultLocations();
+          checkError(defaultLocs);
+          checkError(userLocations);
           if (defaultLocs.length) {
             if (userLocations.length) {
               allLocs = [...userLocations, ...defaultLocs];

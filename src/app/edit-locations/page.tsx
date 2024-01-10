@@ -30,26 +30,17 @@ export default function EditLocations() {
     }
   }, [userInfo]);
 
-  // Need to replace below error handling when global state userLocations fails
-
-  // useEffect(() => {
-  //   if (userInfo?.id && editLocOptionsStale) {
-  //     getAllUserLocations(userInfo.id)
-  //       .then((response) => {
-  //         checkError(response);
-  //         if (response) {
-  //           setUserLocations(response);
-  //           setEditLocOptionsStale(false);
-  //         }
-  //       })
-  //       .catch((error: Error) => {
-  //         console.error(error);
-  //         setEditUserLocError(
-  //           "An error occurred while fetching your locations. Please reload the page."
-  //         );
-  //       });
-  //   }
-  // }, [userInfo, editLocOptionsStale]);
+  useEffect(() => {
+    if (userLocations) {
+      try {
+        checkError(userLocations);
+      } catch {
+        setEditUserLocError(
+          "An error occurred while fetching locations. Please reload the page and try again."
+        );
+      }
+    }
+  }, [userLocations]);
 
   const toggleUserLocModal = (e: MouseEvent) => {
     if (userLocModalRef.current?.open) {
@@ -115,7 +106,7 @@ export default function EditLocations() {
                   Loading your locations...
                 </p>
               ) : null}
-              {userLocations && !userLocations.length ? (
+              {userLocations && !userLocations.length && !editUserLocError ? (
                 <p id="linkToAddLoc">
                   No locations created yet.
                   <br />
@@ -140,10 +131,11 @@ export default function EditLocations() {
             </div>
           </section>
         </section>
-        <AddLocation
-          // userLocations={userLocations}
-          setEditLocOptionsStale={setEditLocOptionsStale}
-        />
+        {!editUserLocError ? (
+          <AddLocation
+            setEditLocOptionsStale={setEditLocOptionsStale}
+          />
+        ) : null}
       </main>
     );
   } else if (showReturnToLogin) {
