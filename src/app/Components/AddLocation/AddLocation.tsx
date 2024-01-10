@@ -1,5 +1,4 @@
 "use client";
-import "./AddLocation.css";
 import Map from "../Map/Map";
 import { useEffect, useState, useContext } from "react";
 import { getAllDefaultLocations } from "../../Util/APICalls";
