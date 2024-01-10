@@ -50,7 +50,7 @@ export default function AddLocation({
 
   if (userInfo) {
     return (
-      <main className="add-loc-main">
+      <section className="add-loc-main">
         {error ? (
           <>
             <p id="errorMessage">{error}</p>
@@ -87,7 +87,7 @@ export default function AddLocation({
             </div>
           </>
         )}
-      </main>
+      </section>
     );
   }
 }
