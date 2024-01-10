@@ -8,13 +8,14 @@
 }
 
 .add-loc-main {
+  width: 98%;
+  max-width: 1600px;
+  height: 97vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   border: 1px solid #9faf90;
   margin: 1rem 0rem;
-  width: 98%;
-  max-width: 1600px;
   border-radius: 5px;
 }
 
@@ -116,11 +117,26 @@
 
 .map-container {
   width: 100%;
-  height: 80dvh;
+  height: 100%;
 }
 
-@media only screen and (max-width: 459px) {
+/* @media only screen and (max-width: 459px) {
   .add-loc-main {
     margin-top: 1.5rem;
+  }
+} */
+
+@media only screen and (min-width: 769px) {
+  .add-loc-main {
+    height: 97vh;
+  }
+
+  .map-container {
+    padding: 1rem;
+  }
+
+  .map-container > div {
+    border-radius: 5px;
+    outline: 2px solid #00b2ff;
   }
 }
