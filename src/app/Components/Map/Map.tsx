@@ -89,10 +89,6 @@ export default function Map({
             };
 
             setNewUserLocCoords(newUserMapPoint);
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth",
-            });
           }
         }
       );

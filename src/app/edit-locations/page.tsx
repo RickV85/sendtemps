@@ -131,7 +131,7 @@ export default function EditLocations() {
             </div>
           </section>
         </section>
-        {!editUserLocError ? (
+        {userLocations && !editUserLocError ? (
           <AddLocation
             setEditLocOptionsStale={setEditLocOptionsStale}
           />
