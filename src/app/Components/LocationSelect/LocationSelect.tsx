@@ -31,7 +31,6 @@ export default function LocationSelect({
     LocationObject[] | []
   >([]);
   const [displayOptions, setDisplayOptions] = useState<ReactNode>();
-  const { data: session, status } = useSession();
   const { userLocations } = useContext(UserContext);
 
   useEffect(() => {
@@ -45,10 +44,9 @@ export default function LocationSelect({
   };
 
   useEffect(() => {
-    // Waits for userInfo to be defined before running -
-    // If user is not signed in, userLocations is assigned
-    // to a truthy empty array.
-    if (status !== "loading" && !allLocationOptions.length && userLocations) {
+    // Waits for userInfo to be defined before fetching 
+    // default locations to prevent multiple calls
+    if (!allLocationOptions.length && userLocations) {
       const fetchLocations = async () => {
         try {
           let allLocs;
@@ -79,10 +77,11 @@ export default function LocationSelect({
     setSelectedLocCoords(e.target.value);
   };
 
+  // Creates option elements
   const mapLocationOptions = useCallback(
     (locArr: Array<LocationObject>): Array<ReactElement> => {
       const mappedOptions = locArr.map((loc: LocationObject) => {
-        const optElement: ReactElement = (
+        const optionElement: ReactElement = (
           <option
             value={`${loc.latitude},${loc.longitude}`}
             key={`${loc.name}-${loc.id}`}
@@ -90,13 +89,15 @@ export default function LocationSelect({
             {loc.name}
           </option>
         );
-        return optElement;
+        return optionElement;
       });
       return mappedOptions;
     },
     []
   );
 
+  // Filters allLocations by poi_type selected in TypeSelect,
+  // sorts them A-Z and returns them as option elements
   const createDisplayOptions = useCallback(
     (locType: string) => {
       if (allLocationOptions.length) {

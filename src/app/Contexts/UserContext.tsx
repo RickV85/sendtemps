@@ -50,13 +50,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    // userInfo starts as undefined, then moved to null if not signed in
     if (userInfo !== undefined && userInfo?.id) {
       const fetchUserLocations = async () => {
         try {
           const fetchedUserLocs = await getAllUserLocations(userInfo.id);
           if (fetchedUserLocs) {
             setUserLocations(fetchedUserLocs);
-            console.log("UserContext fetch", fetchedUserLocs);
           }
         } catch (error) {
           console.error(error);
