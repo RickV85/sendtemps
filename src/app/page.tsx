@@ -37,8 +37,8 @@ export default function Home() {
   const controlSection = useRef<null | HTMLElement>(null);
 
   useEffect(() => {
-    if (window.screen.availWidth) {
-      setInitialScreenWidth(window.screen.availWidth);
+    if (window.innerWidth) {
+      setInitialScreenWidth(window.innerWidth);
     }
   }, []);
 
