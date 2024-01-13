@@ -119,7 +119,10 @@ export default function LocationSelect({
     setDisplayOptions(options);
   }, [selectedLocType, createDisplayOptions]);
 
-  if (selectedLocType !== "Select Sport") {
+  if (
+    selectedLocType !== "Select Sport" &&
+    selectedLocType !== "Current Location"
+  ) {
     return (
       <select
         className="location-select"
