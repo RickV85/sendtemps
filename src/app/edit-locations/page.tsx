@@ -3,7 +3,7 @@ import "./edit-locations.css";
 import Link from "next/link";
 import { MouseEvent, useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../Contexts/UserContext";
-import { getAllUserLocations } from "../Util/APICalls";
+import { getAllUserLocations, getUserLocationById } from "../Util/APICalls";
 import UserLocTile from "../Components/UserLocTile/UserLocTile";
 import { UserLocation } from "../Classes/UserLocation";
 import EditUserLocModal from "../Components/EditUserLocModal/EditUserLocModal";
@@ -22,13 +22,14 @@ export default function EditLocations() {
   const [showReturnToLogin, setShowReturnToLogin] = useState(false);
   const [editLocOptionsStale, setEditLocOptionsStale] = useState(true);
 
-  useEffect(() => {
-    if (!userInfo) {
-      setTimeout(() => setShowReturnToLogin(true), 3000);
-    } else {
-      setShowReturnToLogin(false);
-    }
-  }, [userInfo]);
+  // useEffect(() => {
+  //   if (!userInfo && !showReturnToLogin) {
+  //     setTimeout(() => setShowReturnToLogin(true), 3000);
+  //   } else {
+  //     clearTimeout(() => setShowReturnToLogin(true))
+  //     setShowReturnToLogin(false);
+  //   }
+  // }, [userInfo, showReturnToLogin]);
 
   useEffect(() => {
     if (userLocations) {
@@ -41,6 +42,24 @@ export default function EditLocations() {
       }
     }
   }, [userLocations]);
+
+  useEffect(() => {
+    if (editLocOptionsStale && userInfo?.id && !editUserLocError) {
+      const refetchUserLocations = async () => {
+        try {
+          const newUserLocs = await getAllUserLocations(userInfo.id);
+          checkError(newUserLocs);
+          setUserLocations(newUserLocs);
+          setEditLocOptionsStale(false);
+        } catch {
+          setEditUserLocError(
+            "An error occurred while fetching locations. Please reload the page and try again."
+          );
+        }
+      };
+      refetchUserLocations();
+    }
+  }, [editLocOptionsStale, userInfo, editUserLocError, setUserLocations]);
 
   const toggleUserLocModal = (e: MouseEvent) => {
     if (userLocModalRef.current?.open) {
@@ -62,7 +81,7 @@ export default function EditLocations() {
     }
   };
 
-  if (userInfo) {
+  if (userInfo && !showReturnToLogin) {
     return (
       <main className="edit-loc-main">
         <BackBtn id="editLocBackBtn" />
@@ -132,9 +151,7 @@ export default function EditLocations() {
           </section>
         </section>
         {userLocations && !editUserLocError ? (
-          <AddLocation
-            setEditLocOptionsStale={setEditLocOptionsStale}
-          />
+          <AddLocation setEditLocOptionsStale={setEditLocOptionsStale} />
         ) : null}
       </main>
     );
