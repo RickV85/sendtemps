@@ -3,9 +3,8 @@ import "./edit-locations.css";
 import Link from "next/link";
 import { MouseEvent, useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../Contexts/UserContext";
-import { getAllUserLocations, getUserLocationById } from "../Util/APICalls";
+import { getAllUserLocations } from "../Util/APICalls";
 import UserLocTile from "../Components/UserLocTile/UserLocTile";
-import { UserLocation } from "../Classes/UserLocation";
 import EditUserLocModal from "../Components/EditUserLocModal/EditUserLocModal";
 import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 import BackBtn from "../Components/BackBtn/BackBtn";
@@ -19,20 +18,10 @@ export default function EditLocations() {
   const userLocModalRef = useRef<HTMLDialogElement>(null);
   const [userLocEditTrigger, setUserLocEditTrigger] = useState("");
   const [editUserLocError, setEditUserLocError] = useState("");
-  const [showReturnToLogin, setShowReturnToLogin] = useState(false);
   const [editLocOptionsStale, setEditLocOptionsStale] = useState(true);
 
-  // useEffect(() => {
-  //   if (!userInfo && !showReturnToLogin) {
-  //     setTimeout(() => setShowReturnToLogin(true), 3000);
-  //   } else {
-  //     clearTimeout(() => setShowReturnToLogin(true))
-  //     setShowReturnToLogin(false);
-  //   }
-  // }, [userInfo, showReturnToLogin]);
-
   useEffect(() => {
-    if (userLocations) {
+    if (userInfo && userLocations) {
       try {
         checkError(userLocations);
       } catch {
@@ -41,7 +30,7 @@ export default function EditLocations() {
         );
       }
     }
-  }, [userLocations]);
+  }, [userLocations, userInfo]);
 
   useEffect(() => {
     if (editLocOptionsStale && userInfo?.id && !editUserLocError) {
@@ -81,7 +70,7 @@ export default function EditLocations() {
     }
   };
 
-  if (userInfo && !showReturnToLogin) {
+  if (userInfo) {
     return (
       <main className="edit-loc-main">
         <BackBtn id="editLocBackBtn" />
@@ -155,7 +144,7 @@ export default function EditLocations() {
         ) : null}
       </main>
     );
-  } else if (showReturnToLogin) {
+  } else if (userInfo === null) {
     return <ReturnToLogin />;
   }
 }
