@@ -71,14 +71,16 @@ export default function AddLocation({ setEditLocOptionsStale }: Props) {
                 <p>Pick a point on the map below to create a new location</p>
               )}
             </section>
-            {mapLocations.length ? (
-              <Map
-                mapLocations={mapLocations}
-                setNewUserLocCoords={setNewUserLocCoords}
-                newUserLocMarker={newUserLocMarker}
-                setNewUserLocMarker={setNewUserLocMarker}
-              />
-            ) : null}
+            <div className="map-container">
+              {mapLocations.length ? (
+                <Map
+                  mapLocations={mapLocations}
+                  setNewUserLocCoords={setNewUserLocCoords}
+                  newUserLocMarker={newUserLocMarker}
+                  setNewUserLocMarker={setNewUserLocMarker}
+                />
+              ) : null}
+            </div>
           </>
         )}
       </section>

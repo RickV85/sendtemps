@@ -80,7 +80,7 @@ export default function Map({
             newUserLocMarker === null
           ) {
             const markerPosition = event.overlay.getPosition();
-            
+
             const newUserMapPoint: { lat: string; lng: string } = {
               lat: markerPosition.lat().toFixed(6),
               lng: markerPosition.lng().toFixed(6),
@@ -142,13 +142,11 @@ export default function Map({
   }, [newUserLocMarker, mapLoaded]);
 
   return (
-    <div className="map-container">
-      <div
-        ref={mapRef}
-        role="application"
-        aria-label="Google map display of default and user created locations"
-        style={{ height: "100%", width: "100%" }}
-      />
-    </div>
+    <div
+      ref={mapRef}
+      role="application"
+      aria-label="Google map display of default and user created locations"
+      style={{ height: "100%", width: "100%" }}
+    />
   );
 }
