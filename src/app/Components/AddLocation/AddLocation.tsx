@@ -12,9 +12,7 @@ interface Props {
   setEditLocOptionsStale: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AddLocation({
-  setEditLocOptionsStale,
-}: Props) {
+export default function AddLocation({ setEditLocOptionsStale }: Props) {
   const [mapLocations, setMapLocations] = useState<GoogleMapPoint[] | []>([]);
   const [newUserLocCoords, setNewUserLocCoords] = useState<{
     lat: string;
@@ -23,7 +21,7 @@ export default function AddLocation({
   const [newUserLocMarker, setNewUserLocMarker] =
     useState<google.maps.Marker | null>(null);
   const [error, setError] = useState("");
-  const { userInfo, userLocations} = useContext(UserContext);
+  const { userInfo, userLocations } = useContext(UserContext);
 
   useEffect(() => {
     if (userInfo && userLocations) {
@@ -69,18 +67,18 @@ export default function AddLocation({
                   setMapLocations={setMapLocations}
                   setEditLocOptionsStale={setEditLocOptionsStale}
                 />
-              ) : <p>Pick a point on the map below to create a new location</p>}
+              ) : (
+                <p>Pick a point on the map below to create a new location</p>
+              )}
             </section>
-            <div className="map-container">
-              {mapLocations.length ? (
-                <Map
-                  mapLocations={mapLocations}
-                  setNewUserLocCoords={setNewUserLocCoords}
-                  newUserLocMarker={newUserLocMarker}
-                  setNewUserLocMarker={setNewUserLocMarker}
-                />
-              ) : null}
-            </div>
+            {mapLocations.length ? (
+              <Map
+                mapLocations={mapLocations}
+                setNewUserLocCoords={setNewUserLocCoords}
+                newUserLocMarker={newUserLocMarker}
+                setNewUserLocMarker={setNewUserLocMarker}
+              />
+            ) : null}
           </>
         )}
       </section>

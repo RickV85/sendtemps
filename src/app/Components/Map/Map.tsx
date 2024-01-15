@@ -79,15 +79,14 @@ export default function Map({
             event.type === google.maps.drawing.OverlayType.MARKER &&
             newUserLocMarker === null
           ) {
-            setNewUserLocMarker(event.overlay);
-
             const markerPosition = event.overlay.getPosition();
-
+            
             const newUserMapPoint: { lat: string; lng: string } = {
               lat: markerPosition.lat().toFixed(6),
               lng: markerPosition.lng().toFixed(6),
             };
 
+            setNewUserLocMarker(event.overlay);
             setNewUserLocCoords(newUserMapPoint);
           }
         }
@@ -143,13 +142,13 @@ export default function Map({
   }, [newUserLocMarker, mapLoaded]);
 
   return (
-    <>
+    <div className="map-container">
       <div
         ref={mapRef}
         role="application"
         aria-label="Google map display of default and user created locations"
         style={{ height: "100%", width: "100%" }}
       />
-    </>
+    </div>
   );
 }
