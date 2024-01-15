@@ -69,10 +69,7 @@ export default function AddLocation({
                   setMapLocations={setMapLocations}
                   setEditLocOptionsStale={setEditLocOptionsStale}
                 />
-              ) : null}
-              {newUserLocCoords ? null : (
-                <p>Pick a point on the map below to create a new location</p>
-              )}
+              ) : <p>Pick a point on the map below to create a new location</p>}
             </section>
             <div className="map-container">
               {mapLocations.length ? (

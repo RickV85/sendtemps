@@ -172,7 +172,7 @@
 .add-loc-main {
   width: 98%;
   max-width: 1600px;
-  height: 97vh;
+  min-height: 97vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -279,7 +279,7 @@
 
 .map-container {
   width: 100%;
-  height: 100%;
+  height: 86vh;
 }
 
 /* Makes space for back button */
@@ -290,10 +290,6 @@
 }
 
 @media only screen and (min-width: 769px) {
-  .add-loc-main {
-    height: 97vh;
-  }
-
   .map-container {
     padding: 1rem;
   }
