@@ -1,6 +1,6 @@
 "use client";
 import Map from "../Map/Map";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { getAllDefaultLocations } from "../../Util/APICalls";
 import AddLocForm from "../AddLocForm/AddLocForm";
 import { GoogleMapPoint } from "../../Interfaces/interfaces";
@@ -10,9 +10,15 @@ import ReloadBtn from "../ReloadBtn/ReloadBtn";
 
 interface Props {
   setEditLocOptionsStale: React.Dispatch<React.SetStateAction<boolean>>;
+  isMapInView: boolean;
+  setIsMapInView: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AddLocation({ setEditLocOptionsStale }: Props) {
+export default function AddLocation({
+  setEditLocOptionsStale,
+  isMapInView,
+  setIsMapInView,
+}: Props) {
   const [mapLocations, setMapLocations] = useState<GoogleMapPoint[] | []>([]);
   const [newUserLocCoords, setNewUserLocCoords] = useState<{
     lat: string;
@@ -22,6 +28,7 @@ export default function AddLocation({ setEditLocOptionsStale }: Props) {
     useState<google.maps.Marker | null>(null);
   const [error, setError] = useState("");
   const { userInfo, userLocations } = useContext(UserContext);
+  const mapContainerRef = useRef(null);
 
   useEffect(() => {
     if (userInfo && userLocations) {
@@ -44,6 +51,37 @@ export default function AddLocation({ setEditLocOptionsStale }: Props) {
       fetchAndCreateMapPoints();
     }
   }, [userInfo, userLocations]);
+
+  useEffect(() => {
+    // Checks to make use map is in full view
+    // This prevents issues with marker being placed
+    // incorrectly by Google Maps causing scroll event
+    // prior to click position being captured
+    if (mapContainerRef) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const [entry] = entries;
+          setIsMapInView(entry.isIntersecting);
+        },
+        {
+          root: null,
+          threshold: 1,
+        }
+      );
+
+      let map: React.RefObject<Element> | null;
+      if (mapContainerRef.current) {
+        map = mapContainerRef.current;
+        observer.observe(map);
+      }
+
+      return () => {
+        if (map instanceof Element) {
+          observer.unobserve(map);
+        }
+      };
+    }
+  }, [mapContainerRef, setIsMapInView]);
 
   if (userInfo) {
     return (
@@ -71,7 +109,7 @@ export default function AddLocation({ setEditLocOptionsStale }: Props) {
                 <p>Pick a point on the map below to create a new location</p>
               )}
             </section>
-            <div className="map-container">
+            <div className="map-container" ref={mapContainerRef}>
               {mapLocations.length ? (
                 <Map
                   mapLocations={mapLocations}

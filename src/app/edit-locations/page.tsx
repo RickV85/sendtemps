@@ -19,6 +19,7 @@ export default function EditLocations() {
   const [userLocEditTrigger, setUserLocEditTrigger] = useState("");
   const [editUserLocError, setEditUserLocError] = useState("");
   const [editLocOptionsStale, setEditLocOptionsStale] = useState(true);
+  const [isMapInView, setIsMapInView] = useState(false);
 
   useEffect(() => {
     if (userInfo && userLocations) {
@@ -140,7 +141,10 @@ export default function EditLocations() {
           </section>
         </section>
         {userLocations && !editUserLocError ? (
-          <AddLocation setEditLocOptionsStale={setEditLocOptionsStale} />
+          <AddLocation setEditLocOptionsStale={setEditLocOptionsStale} 
+          isMapInView={isMapInView}
+          setIsMapInView={setIsMapInView}
+          />
         ) : null}
       </main>
     );
