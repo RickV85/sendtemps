@@ -354,6 +354,7 @@ button, select {
 
   .detailed-day-forecast {
     max-width: 1400px;
+    text-align: center;
   }
 
   .home-welcome-msg-div {
@@ -363,12 +364,6 @@ button, select {
 
 @media only screen and (min-width: 1200px) {
   .home-welcome-msg-div {
-    text-align: center;
-  }
-}
-
-@media only screen and (min-width: 1400px) {
-  .detailed-day-forecast {
     text-align: center;
   }
 }

@@ -69,28 +69,29 @@ export default function Map({
 
       if (drawingManagerRef.current) {
         drawingManagerRef.current.setMap(mapInstanceRef.current);
-      }
 
-      google.maps.event.addListener(
-        drawingManagerRef.current,
-        "overlaycomplete",
-        function (event) {
-          if (
-            event.type === google.maps.drawing.OverlayType.MARKER &&
-            newUserLocMarker === null
-          ) {
-            const markerPosition = event.overlay.getPosition();
+        google.maps.event.addListener(
+          drawingManagerRef.current,
+          "overlaycomplete",
+          function (event) {
+            
+            if (
+              event.type === google.maps.drawing.OverlayType.MARKER &&
+              newUserLocMarker === null
+            ) {
+              const marker = event.overlay;
 
-            const newUserMapPoint: { lat: string; lng: string } = {
-              lat: markerPosition.lat().toFixed(6),
-              lng: markerPosition.lng().toFixed(6),
-            };
+              const newUserMapPoint: { lat: string; lng: string } = {
+                lat: marker.position.lat().toFixed(6),
+                lng: marker.position.lng().toFixed(6),
+              };
 
-            setNewUserLocMarker(event.overlay);
-            setNewUserLocCoords(newUserMapPoint);
+              setNewUserLocMarker(marker);
+              setNewUserLocCoords(newUserMapPoint);
+            }
           }
-        }
-      );
+        );
+      }
     });
 
     return () => {
