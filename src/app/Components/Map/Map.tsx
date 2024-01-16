@@ -42,6 +42,8 @@ export default function Map({
         mapInstanceRef.current = new google.maps.Map(mapRef.current, {
           center: { lat: 40, lng: -105.5 },
           zoom: 10,
+          fullscreenControl: false,
+          streetViewControl: false
         });
         setMapLoaded(true);
       }
