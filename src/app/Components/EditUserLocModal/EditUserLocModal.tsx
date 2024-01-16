@@ -219,6 +219,23 @@ export default function EditUserLocModal({
             </div>
           </>
         );
+      case "mapNotInView":
+        return (
+          <>
+            <h3 className="modal-heading">
+              Please scroll down to view entire map before adding a new
+              location.
+            </h3>
+            <div className="modal-btn-div">
+              <button
+                className="edit-user-loc-button"
+                onClick={() => userLocModalRef.current?.close()}
+              >
+                Back
+              </button>
+            </div>
+          </>
+        );
       default:
         return (
           <>

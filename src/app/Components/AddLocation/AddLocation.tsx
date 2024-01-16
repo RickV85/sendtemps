@@ -10,14 +10,14 @@ import ReloadBtn from "../ReloadBtn/ReloadBtn";
 
 interface Props {
   setEditLocOptionsStale: React.Dispatch<React.SetStateAction<boolean>>;
-  isMapInView: boolean;
-  setIsMapInView: React.Dispatch<React.SetStateAction<boolean>>;
+  setUserLocEditTrigger: React.Dispatch<React.SetStateAction<string>>;
+  userLocModalRef: React.RefObject<HTMLDialogElement> | null;
 }
 
 export default function AddLocation({
   setEditLocOptionsStale,
-  isMapInView,
-  setIsMapInView,
+  setUserLocEditTrigger,
+  userLocModalRef,
 }: Props) {
   const [mapLocations, setMapLocations] = useState<GoogleMapPoint[] | []>([]);
   const [newUserLocCoords, setNewUserLocCoords] = useState<{
@@ -28,7 +28,8 @@ export default function AddLocation({
     useState<google.maps.Marker | null>(null);
   const [error, setError] = useState("");
   const { userInfo, userLocations } = useContext(UserContext);
-  const mapContainerRef = useRef(null);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const [isMapInView, setIsMapInView] = useState(false);
 
   useEffect(() => {
     if (userInfo && userLocations) {
@@ -53,35 +54,66 @@ export default function AddLocation({
   }, [userInfo, userLocations]);
 
   useEffect(() => {
-    // Checks to make use map is in full view
-    // This prevents issues with marker being placed
+    // Checks to make use map is in full view.
+    // Prevents issues with marker being placed
     // incorrectly by Google Maps causing scroll event
-    // prior to click position being captured
-    if (mapContainerRef) {
+    // prior to click position being captured. This
+    // did not happen with a touch event for some reason.
+    if (mapContainerRef.current) {
+      const mapContainer = mapContainerRef.current;
       const observer = new IntersectionObserver(
         (entries) => {
           const [entry] = entries;
           setIsMapInView(entry.isIntersecting);
         },
         {
-          root: null,
-          threshold: 1,
+          // .99 accounts for 2px border and
+          // default scroll that Google Map fires
+          threshold: 0.99,
         }
       );
-
-      let map: React.RefObject<Element> | null;
-      if (mapContainerRef.current) {
-        map = mapContainerRef.current;
-        observer.observe(map);
+      if (mapContainer) {
+        observer.observe(mapContainer);
       }
 
       return () => {
-        if (map instanceof Element) {
-          observer.unobserve(map);
+        if (mapContainer) {
+          observer.unobserve(mapContainer);
         }
       };
     }
   }, [mapContainerRef, setIsMapInView]);
+
+  useEffect(() => {
+    // Creates an event listener for a click on the map.
+    // Checks to make sure the full map is in view,
+    // if not opens a modal to tell user to scroll down
+    // else allows normal click behavior and event propagation.
+    if (mapContainerRef.current && userLocModalRef?.current) {
+      const mapContainer = mapContainerRef.current;
+
+      const handleMapClick = (e: Event) => {
+        if (!isMapInView && !newUserLocMarker) {
+          e.preventDefault();
+          e.stopPropagation();
+          setUserLocEditTrigger("mapNotInView");
+          userLocModalRef.current?.showModal();
+        }
+      };
+      // True in options sets listener to capturing phase
+      mapContainer.addEventListener("click", handleMapClick, true);
+
+      return () => {
+        mapContainer.removeEventListener("click", handleMapClick, true);
+      };
+    }
+  }, [
+    mapContainerRef,
+    isMapInView,
+    setUserLocEditTrigger,
+    userLocModalRef,
+    newUserLocMarker,
+  ]);
 
   if (userInfo) {
     return (
@@ -106,7 +138,10 @@ export default function AddLocation({
                   setEditLocOptionsStale={setEditLocOptionsStale}
                 />
               ) : (
-                <p>Pick a point on the map below to create a new location</p>
+                <p>
+                  Scroll down to view entire map below, then click on the map
+                  where you would like to create a new location.
+                </p>
               )}
             </section>
             <div className="map-container" ref={mapContainerRef}>

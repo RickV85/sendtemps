@@ -19,7 +19,6 @@ export default function EditLocations() {
   const [userLocEditTrigger, setUserLocEditTrigger] = useState("");
   const [editUserLocError, setEditUserLocError] = useState("");
   const [editLocOptionsStale, setEditLocOptionsStale] = useState(true);
-  const [isMapInView, setIsMapInView] = useState(false);
 
   useEffect(() => {
     if (userInfo && userLocations) {
@@ -119,7 +118,7 @@ export default function EditLocations() {
                 <p id="linkToAddLoc">
                   No locations created yet.
                   <br />
-                  Add some below!
+                  Add your own custom location below!
                 </p>
               ) : null}
               {userLocations && userLocations.length ? (
@@ -141,9 +140,10 @@ export default function EditLocations() {
           </section>
         </section>
         {userLocations && !editUserLocError ? (
-          <AddLocation setEditLocOptionsStale={setEditLocOptionsStale} 
-          isMapInView={isMapInView}
-          setIsMapInView={setIsMapInView}
+          <AddLocation
+            setEditLocOptionsStale={setEditLocOptionsStale}
+            setUserLocEditTrigger={setUserLocEditTrigger}
+            userLocModalRef={userLocModalRef}
           />
         ) : null}
       </main>
