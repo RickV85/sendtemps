@@ -37,8 +37,6 @@ export default function Map({
       libraries: ["drawing"],
     });
 
-    let map: google.maps.Map | null = null;
-
     loader.importLibrary("maps").then(() => {
       if (mapRef.current) {
         mapInstanceRef.current = new google.maps.Map(mapRef.current, {
@@ -93,12 +91,6 @@ export default function Map({
         );
       }
     });
-
-    return () => {
-      if (map) {
-        map = null;
-      }
-    };
     //eslint-disable-next-line
   }, []);
 
