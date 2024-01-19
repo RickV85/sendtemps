@@ -10,7 +10,7 @@ export const WelcomeHomeMsg = () => {
     <div className="home-welcome-msg-div">
       <h2 className="home-welcome-header">Welcome to SendTemps!</h2>
       {status === "loading" ? null : (
-        <>
+        <div className="home-welcome-content">
           {!userInfo ? (
             <>
               <p>
@@ -48,7 +48,7 @@ export const WelcomeHomeMsg = () => {
             New features are coming soon! If you have feedback or feature
             suggestions, please email me at rickv85@gmail.com.
           </p>
-        </>
+        </div>
       )}
     </div>
   );
