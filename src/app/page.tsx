@@ -33,6 +33,7 @@ export default function Home() {
   const [initialScreenWidth, setInitialScreenWidth] = useState<null | number>(
     null
   );
+  const [pageLoaded, setPageLoaded] = useState<boolean>(false);
   const forecastSection = useRef<null | HTMLElement>(null);
   const controlSection = useRef<null | HTMLElement>(null);
 
@@ -40,6 +41,18 @@ export default function Home() {
     if (window.innerWidth) {
       setInitialScreenWidth(window.innerWidth);
     }
+  }, []);
+
+  useEffect(() => {
+    if (document.readyState === 'complete') {
+      setPageLoaded(true);
+    } else {
+      window.addEventListener('load', () => setPageLoaded(true));
+    }
+  
+    return () => {
+      window.removeEventListener('load', () => setPageLoaded(true));
+    };
   }, []);
 
   useEffect(() => {
@@ -185,10 +198,14 @@ export default function Home() {
       <section className="home-main-section">
         <section className="home-control-section" ref={controlSection}>
           <div className="home-forecast-select-div">
-            <TypeSelect
-              setSelectedLocType={setSelectedLocType}
-              setForecastData={setForecastData}
-            />
+            {pageLoaded ? (
+              <TypeSelect
+                setSelectedLocType={setSelectedLocType}
+                setForecastData={setForecastData}
+              />
+            ) : (
+              <p className="error-msg">Loading...</p>
+            )}
             <SessionProvider>
               <LocationSelect
                 selectedLocType={selectedLocType}
