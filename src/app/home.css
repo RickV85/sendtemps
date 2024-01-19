@@ -189,7 +189,6 @@ button, select {
 
 .type-select,
 .location-select,
-.add-edit-location-btn,
 .retry-fetch-btn {
   width: 95%;
   max-width: 30rem;
@@ -200,9 +199,9 @@ button, select {
   max-width: 150px;
 }
 
+.type-select,
 .location-select,
-.add-location-btn {
-  font-size: 1.3rem;
+.home-welcome-msg-div {
   animation: fadeIn ease-in 0.5s;
 }
 
@@ -289,6 +288,21 @@ button, select {
   text-align: center;
   width: 100%;
   padding: 1rem;
+}
+
+.home-loading-msg {
+  height: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-loading-msg > p {
+  font-size: 1.3rem;
+  color: #00b2ff;
+  font-weight: 700;
+  line-height: normal;
 }
 
 /* Desktop */

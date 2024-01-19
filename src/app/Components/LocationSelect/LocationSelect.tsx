@@ -117,13 +117,7 @@ export default function LocationSelect({
     setDisplayOptions(options);
   }, [selectedLocType, createDisplayOptions]);
 
-  if (displayOptions === null && selectedLocType !== "Select Sport") {
-    return (
-      <div>
-        <p className="error-msg">Loading... please wait</p>
-      </div>
-    );
-  } else if (
+  if (
     displayOptions &&
     selectedLocType !== "Select Sport" &&
     selectedLocType !== "Current Location"

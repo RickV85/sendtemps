@@ -44,14 +44,14 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (document.readyState === 'complete') {
+    if (document.readyState === "complete") {
       setPageLoaded(true);
     } else {
-      window.addEventListener('load', () => setPageLoaded(true));
+      window.addEventListener("load", () => setPageLoaded(true));
     }
-  
+
     return () => {
-      window.removeEventListener('load', () => setPageLoaded(true));
+      window.removeEventListener("load", () => setPageLoaded(true));
     };
   }, []);
 
@@ -199,21 +199,23 @@ export default function Home() {
         <section className="home-control-section" ref={controlSection}>
           <div className="home-forecast-select-div">
             {pageLoaded ? (
-              <TypeSelect
-                setSelectedLocType={setSelectedLocType}
-                setForecastData={setForecastData}
-              />
+              <>
+                <TypeSelect
+                  setSelectedLocType={setSelectedLocType}
+                  setForecastData={setForecastData}
+                />
+                <LocationSelect
+                  selectedLocType={selectedLocType}
+                  setSelectedLocCoords={setSelectedLocCoords}
+                  setForecastData={setForecastData}
+                  setError={setError}
+                />
+              </>
             ) : (
-              <p className="error-msg">Loading...</p>
+              <div className="home-loading-msg">
+                <p>Please wait, loading...</p>
+              </div>
             )}
-            <SessionProvider>
-              <LocationSelect
-                selectedLocType={selectedLocType}
-                setSelectedLocCoords={setSelectedLocCoords}
-                setForecastData={setForecastData}
-                setError={setError}
-              />
-            </SessionProvider>
           </div>
         </section>
         <section className="forecast-section" ref={forecastSection}>
@@ -235,7 +237,11 @@ export default function Home() {
               )}
             </>
           ) : null}
-          {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}
+          {!forecastData && !isLoading && !error ? (
+            <SessionProvider>
+              <WelcomeHomeMsg />
+            </SessionProvider>
+          ) : null}
           {createDetailedForecast()}
         </section>
       </section>
