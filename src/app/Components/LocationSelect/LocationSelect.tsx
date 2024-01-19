@@ -10,14 +10,12 @@ import {
   useCallback,
   ReactElement,
   useContext,
-  useRef,
 } from "react";
 import { getAllDefaultLocations } from "@/app/Util/APICalls";
 import {
   checkError,
   filterAndSortLocationsAlphaByName,
 } from "@/app/Util/utils";
-import { useSession } from "next-auth/react";
 import { UserContext } from "@/app/Contexts/UserContext";
 
 export default function LocationSelect({
@@ -30,7 +28,7 @@ export default function LocationSelect({
   const [allLocationOptions, setAllLocationOptions] = useState<
     LocationObject[] | []
   >([]);
-  const [displayOptions, setDisplayOptions] = useState<ReactNode>();
+  const [displayOptions, setDisplayOptions] = useState<ReactNode>(null);
   const { userLocations } = useContext(UserContext);
 
   useEffect(() => {
@@ -119,7 +117,14 @@ export default function LocationSelect({
     setDisplayOptions(options);
   }, [selectedLocType, createDisplayOptions]);
 
-  if (
+  if (displayOptions === null && selectedLocType !== "Select Sport") {
+    return (
+      <div>
+        <p className="error-msg">Loading... please wait</p>
+      </div>
+    );
+  } else if (
+    displayOptions &&
     selectedLocType !== "Select Sport" &&
     selectedLocType !== "Current Location"
   ) {
