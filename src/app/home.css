@@ -15,7 +15,7 @@ select {
   font-family: var(--font-fugazOne);
   font-weight: 400;
   font-size: 1.3rem;
-  line-height: 1.3rem;
+  line-height: normal;
   text-align: center;
   text-align-last: center;
   color: #ffffff;
