@@ -5,10 +5,7 @@ import Session from "../Session/Session";
 import { UserContext } from "@/app/Contexts/UserContext";
 import { HomeContext } from "@/app/Contexts/HomeContext";
 import { useContext, useEffect } from "react";
-
-// interface Props {
-//   initialScreenWidth: number | null;
-// }
+import HomeControl from "../HomeControl/HomeControl";
 
 export default function HomeHeader() {
   const { userInfo } = useContext(UserContext);
@@ -29,7 +26,16 @@ export default function HomeHeader() {
             <Session />
           </SessionProvider>
         </nav>
-        <h1 className="site-title">SendTemps</h1>
+        {screenWidth > 768 ? (
+          <div className="desktop-title-controls">
+            <h1 className="site-title">SendTemps</h1>
+            <HomeControl />
+          </div>
+        ) : (
+          <div className="desktop-title-controls">
+            <h1 className="site-title">SendTemps</h1>
+          </div>
+        )}
         <Image
           src={"/images/sendtemps_header_2.webp"}
           alt="Boulder Flatirons background with rock climber silhouette in foreground"

@@ -18,6 +18,7 @@ export default function HomeControl() {
     locationDetails,
     setLocationDetails,
     setForecastData,
+    screenWidth,
     setIsLoading,
     pageLoaded,
     setError,
@@ -113,6 +114,7 @@ export default function HomeControl() {
               selectedLocType={selectedLocType}
               setSelectedLocCoords={setSelectedLocCoords}
               setForecastData={setForecastData}
+              screenWidth={screenWidth}
               setError={setError}
             />
           </>
