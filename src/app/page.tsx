@@ -1,14 +1,11 @@
 "use client";
-
 import "./home.css";
-import { useEffect, useRef, useContext } from "react";
+import { useEffect, useRef, useContext, useCallback } from "react";
 import {
   fetchDailyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
 } from "./Util/APICalls";
-import LocationSelect from "./Components/LocationSelect/LocationSelect";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
-import TypeSelect from "./Components/TypeSelect/TypeSelect";
 import { SessionProvider } from "next-auth/react";
 import ReloadBtn from "./Components/ReloadBtn/ReloadBtn";
 import { WelcomeHomeMsg } from "./Components/WelcomeHomeMsg/WelcomeHomeMsg";
@@ -23,7 +20,6 @@ export default function Home() {
     selectedLocCoords,
     setSelectedLocCoords,
     selectedLocType,
-    setSelectedLocType,
     locationDetails,
     setLocationDetails,
     forecastData,
@@ -32,12 +28,48 @@ export default function Home() {
     setScreenWidth,
     isLoading,
     setIsLoading,
-    pageLoaded,
     setPageLoaded,
     error,
     setError,
   } = useContext(HomeContext);
   const forecastSection = useRef<null | HTMLElement>(null);
+
+  const createDetailedForecast = () => {
+    const forecast = forecastData?.properties.periods.map((data, i) => {
+      return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
+    });
+    return forecast;
+  };
+
+  const retryDailyForecastFetch = () => {
+    if (locationDetails) {
+      const failedLocDetails = locationDetails;
+      setLocationDetails(undefined);
+      setTimeout(() => {
+        setLocationDetails(failedLocDetails);
+      }, 100);
+    }
+  };
+
+  const locationFetchSuccess = useCallback(
+    (position: GeolocationPosition) => {
+      setCurrentGPSCoords({
+        latitude: `${position.coords.latitude}`,
+        longitude: `${position.coords.longitude}`,
+      });
+      setSelectedLocCoords(
+        `${position.coords.latitude},${position.coords.longitude}`
+      );
+    },
+    [setCurrentGPSCoords, setSelectedLocCoords]
+  );
+
+  const locationFetchFailure = useCallback(() => {
+    setIsLoading(false);
+    alert(
+      "Please allow this app to use your location if you would like a display of your current location's forecast."
+    );
+  }, [setIsLoading]);
 
   useEffect(() => {
     if (window.innerWidth) {
@@ -90,7 +122,12 @@ export default function Home() {
         locationFetchFailure
       );
     }
-  }, [selectedLocType]);
+  }, [
+    selectedLocType,
+    setIsLoading,
+    locationFetchSuccess,
+    locationFetchFailure,
+  ]);
 
   useEffect(() => {
     if (selectedLocType === "Current Location" && currentGPSCoords) {
@@ -98,7 +135,7 @@ export default function Home() {
         `${currentGPSCoords.latitude},${currentGPSCoords.longitude}`
       );
     }
-  }, [selectedLocType, currentGPSCoords]);
+  }, [selectedLocType, currentGPSCoords, setSelectedLocCoords]);
 
   useEffect(() => {
     // Fetch grid point details from NOAA with 5 retries
@@ -114,7 +151,7 @@ export default function Home() {
           setIsLoading(false);
         });
     }
-  }, [selectedLocCoords]);
+  }, [selectedLocCoords, setError, setIsLoading, setLocationDetails]);
 
   useEffect(() => {
     // Fetch forecast from NOAA with 5 retries
@@ -132,7 +169,7 @@ export default function Home() {
           setIsLoading(false);
         });
     }
-  }, [locationDetails]);
+  }, [locationDetails, setError, setIsLoading, setForecastData]);
 
   useEffect(() => {
     if (!forecastData && selectedLocCoords) {
@@ -142,67 +179,13 @@ export default function Home() {
     }
   }, [forecastData, selectedLocCoords]);
 
-  const createDetailedForecast = () => {
-    const forecast = forecastData?.properties.periods.map((data, i) => {
-      return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
-    });
-    return forecast;
-  };
-
-  const retryDailyForecastFetch = () => {
-    if (locationDetails) {
-      const failedLocDetails = locationDetails;
-      setLocationDetails(undefined);
-      setTimeout(() => {
-        setLocationDetails(failedLocDetails);
-      }, 100);
-    }
-  };
-
-  const locationFetchSuccess = (position: GeolocationPosition) => {
-    setCurrentGPSCoords({
-      latitude: `${position.coords.latitude}`,
-      longitude: `${position.coords.longitude}`,
-    });
-    setSelectedLocCoords(
-      `${position.coords.latitude},${position.coords.longitude}`
-    );
-  };
-
-  const locationFetchFailure = () => {
-    setIsLoading(false);
-    alert(
-      "Please allow this app to use your location if you would like a display of your current location's forecast."
-    );
-  };
-
   return (
     <main className="home-main">
       <HomeHeader />
       <section className="home-main-section">
-        {screenWidth && screenWidth <= 768 ? <HomeControl /> : null}
-        {/* <section className="home-control-section">
-          <div className="home-forecast-select-div">
-            {pageLoaded ? (
-              <>
-                <TypeSelect
-                  setSelectedLocType={setSelectedLocType}
-                  setForecastData={setForecastData}
-                />
-                <LocationSelect
-                  selectedLocType={selectedLocType}
-                  setSelectedLocCoords={setSelectedLocCoords}
-                  setForecastData={setForecastData}
-                  setError={setError}
-                />
-              </>
-            ) : (
-              <div className="home-loading-msg">
-                <p>Please wait, loading...</p>
-              </div>
-            )}
-          </div>
-        </section> */}
+        {screenWidth <= 768 ? (
+          <HomeControl />
+        ) : null}
         <section className="forecast-section" ref={forecastSection}>
           {isLoading ? (
             <p className="loading-msg">Loading forecast...</p>

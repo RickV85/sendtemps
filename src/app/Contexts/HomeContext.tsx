@@ -23,9 +23,9 @@ interface HomeContextType {
   setForecastData: React.Dispatch<
     React.SetStateAction<ForecastData | undefined>
   >;
-  screenWidth: number | undefined;
+  screenWidth: number;
   setScreenWidth: React.Dispatch<
-    React.SetStateAction<number | undefined>
+    React.SetStateAction<number>
   >;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -46,7 +46,7 @@ export const HomeContext = createContext<HomeContextType>({
   setLocationDetails: () => {},
   forecastData: undefined,
   setForecastData: () => {},
-  screenWidth: undefined,
+  screenWidth: 0,
   setScreenWidth: () => {},
   isLoading: false,
   setIsLoading: () => {},
@@ -67,7 +67,7 @@ export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
     useState<string>("Select Sport");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
   const [forecastData, setForecastData] = useState<ForecastData>();
-  const [screenWidth, setScreenWidth] = useState<number>();
+  const [screenWidth, setScreenWidth] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [pageLoaded, setPageLoaded] = useState<boolean>(false);
   const [error, setError] = useState("");
