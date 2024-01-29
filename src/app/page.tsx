@@ -12,6 +12,7 @@ import { WelcomeHomeMsg } from "./Components/WelcomeHomeMsg/WelcomeHomeMsg";
 import HomeHeader from "./Components/HomeHeader/HomeHeader";
 import { HomeContext } from "./Contexts/HomeContext";
 import HomeControl from "./Components/HomeControl/HomeControl";
+import { throttle } from "lodash";
 
 export default function Home() {
   const {
@@ -72,16 +73,14 @@ export default function Home() {
   }, [setIsLoading]);
 
   useEffect(() => {
-    if (window.innerWidth) {
+    const setWindowWidthState = throttle(() => {
       setScreenWidth(window.innerWidth);
+    }, 100);
 
-      window.addEventListener("resize", () => {
-        setScreenWidth(window.innerWidth);
-      });
-    }
-    return window.removeEventListener("resize", () => {
-      setScreenWidth(window.innerWidth);
-    });
+    setWindowWidthState();
+    window.addEventListener("resize", setWindowWidthState);
+
+    return () => window.removeEventListener("resize", setWindowWidthState);
   }, [setScreenWidth]);
 
   useEffect(() => {
@@ -183,9 +182,7 @@ export default function Home() {
     <main className="home-main">
       <HomeHeader />
       <section className="home-main-section">
-        {screenWidth <= 768 ? (
-          <HomeControl />
-        ) : null}
+        {screenWidth <= 768 ? <HomeControl /> : null}
         <section className="forecast-section" ref={forecastSection}>
           {isLoading ? (
             <p className="loading-msg">Loading forecast...</p>
