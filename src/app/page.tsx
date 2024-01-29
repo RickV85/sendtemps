@@ -13,7 +13,7 @@ import TypeSelect from "./Components/TypeSelect/TypeSelect";
 import { SessionProvider } from "next-auth/react";
 import ReloadBtn from "./Components/ReloadBtn/ReloadBtn";
 import { WelcomeHomeMsg } from "./Components/WelcomeHomeMsg/WelcomeHomeMsg";
-import Header from "./Components/Header/Header";
+import HomeHeader from "./Components/HomeHeader/HomeHeader";
 
 export default function Home() {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
@@ -165,7 +165,7 @@ export default function Home() {
 
   return (
     <main className="home-main">
-      <Header initialScreenWidth={initialScreenWidth} />
+      <HomeHeader initialScreenWidth={initialScreenWidth} />
       <section className="home-main-section">
         <section className="home-control-section" ref={controlSection}>
           <div className="home-forecast-select-div">

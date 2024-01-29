@@ -9,7 +9,7 @@ interface Props {
   initialScreenWidth: number | null;
 }
 
-export default function Header({ initialScreenWidth }: Props) {
+export default function HomeHeader({ initialScreenWidth }: Props) {
   const { userInfo } = useContext(UserContext);
 
   return (
