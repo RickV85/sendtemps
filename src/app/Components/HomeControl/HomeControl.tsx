@@ -1,13 +1,17 @@
 import TypeSelect from "../TypeSelect/TypeSelect";
 import LocationSelect from "../LocationSelect/LocationSelect";
-import { useState, useEffect, useContext } from "react";
-import { ForecastData } from "@/app/Interfaces/interfaces";
+import { useContext } from "react";
 import { HomeContext } from "@/app/Contexts/HomeContext";
 
-interface Props {}
-
 export default function HomeControl() {
-  const { pageLoaded, setPageLoaded } = useContext(HomeContext);
+  const {
+    setSelectedLocCoords,
+    selectedLocType,
+    setSelectedLocType,
+    setForecastData,
+    pageLoaded,
+    setError,
+  } = useContext(HomeContext);
 
   return (
     <section className="home-control-section">

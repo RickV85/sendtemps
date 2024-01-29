@@ -14,23 +14,9 @@ import ReloadBtn from "./Components/ReloadBtn/ReloadBtn";
 import { WelcomeHomeMsg } from "./Components/WelcomeHomeMsg/WelcomeHomeMsg";
 import HomeHeader from "./Components/HomeHeader/HomeHeader";
 import { HomeContext } from "./Contexts/HomeContext";
+import HomeControl from "./Components/HomeControl/HomeControl";
 
 export default function Home() {
-  // const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
-  // const [selectedLocCoords, setSelectedLocCoords] = useState<
-  //   string | undefined
-  // >();
-  // const [selectedLocType, setSelectedLocType] =
-  //   useState<string>("Select Sport");
-  // const [locationDetails, setLocationDetails] = useState<LocationDetails>();
-  // const [forecastData, setForecastData] = useState<ForecastData>();
-  // const [error, setError] = useState("");
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [initialScreenWidth, setInitialScreenWidth] = useState<null | number>(
-  //   null
-  // );
-  // const [pageLoaded, setPageLoaded] = useState<boolean>(false);
-
   const {
     currentGPSCoords,
     setCurrentGPSCoords,
@@ -55,6 +41,8 @@ export default function Home() {
 
   useEffect(() => {
     if (window.innerWidth) {
+      setScreenWidth(window.innerWidth);
+
       window.addEventListener("resize", () => {
         setScreenWidth(window.innerWidth);
       });
@@ -192,7 +180,8 @@ export default function Home() {
     <main className="home-main">
       <HomeHeader />
       <section className="home-main-section">
-        <section className="home-control-section">
+        {screenWidth && screenWidth <= 768 ? <HomeControl /> : null}
+        {/* <section className="home-control-section">
           <div className="home-forecast-select-div">
             {pageLoaded ? (
               <>
@@ -213,7 +202,7 @@ export default function Home() {
               </div>
             )}
           </div>
-        </section>
+        </section> */}
         <section className="forecast-section" ref={forecastSection}>
           {isLoading ? (
             <p className="loading-msg">Loading forecast...</p>
