@@ -1,6 +1,5 @@
 import { LocationObject, GoogleMapPoint } from "../Interfaces/interfaces";
 import { UserLocation } from "../Classes/UserLocation";
-import { Dispatch } from "react";
 
 export function filterAndSortLocationsAlphaByName(
   locArr: Array<LocationObject>,
