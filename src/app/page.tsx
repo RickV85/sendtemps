@@ -31,7 +31,6 @@ export default function Home() {
   );
   const [pageLoaded, setPageLoaded] = useState<boolean>(false);
   const forecastSection = useRef<null | HTMLElement>(null);
-  const controlSection = useRef<null | HTMLElement>(null);
 
   useEffect(() => {
     if (window.innerWidth) {
@@ -167,7 +166,7 @@ export default function Home() {
     <main className="home-main">
       <HomeHeader initialScreenWidth={initialScreenWidth} />
       <section className="home-main-section">
-        <section className="home-control-section" ref={controlSection}>
+        <section className="home-control-section">
           <div className="home-forecast-select-div">
             {pageLoaded ? (
               <>

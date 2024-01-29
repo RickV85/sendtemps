@@ -1,18 +1,13 @@
 import TypeSelect from "../TypeSelect/TypeSelect";
 import LocationSelect from "../LocationSelect/LocationSelect";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ForecastData } from "@/app/Interfaces/interfaces";
+import { HomeContext } from "@/app/Contexts/HomeContext";
 
 interface Props {}
 
 export default function HomeControl() {
-  const [pageLoaded, setPageLoaded] = useState<boolean>(false);
-  const [selectedLocType, setSelectedLocType] =
-    useState<string>("Select Sport");
-  const [selectedLocCoords, setSelectedLocCoords] = useState<
-    string | undefined
-  >();
-  const [forecastData, setForecastData] = useState<ForecastData>();
+  const { pageLoaded, setPageLoaded } = useContext(HomeContext);
 
   useEffect(() => {
     if (document.readyState === "complete") {
@@ -24,9 +19,8 @@ export default function HomeControl() {
     return () => {
       window.removeEventListener("load", () => setPageLoaded(true));
     };
-  }, []);
+  }, [setPageLoaded]);
 
-  
   return (
     <section className="home-control-section">
       <div className="home-forecast-select-div">
