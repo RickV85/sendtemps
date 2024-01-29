@@ -1,12 +1,11 @@
 "use client";
 
 import "./home.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useContext } from "react";
 import {
   fetchDailyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
 } from "./Util/APICalls";
-import { Coords, ForecastData, LocationDetails } from "./Interfaces/interfaces";
 import LocationSelect from "./Components/LocationSelect/LocationSelect";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
 import TypeSelect from "./Components/TypeSelect/TypeSelect";
@@ -14,29 +13,56 @@ import { SessionProvider } from "next-auth/react";
 import ReloadBtn from "./Components/ReloadBtn/ReloadBtn";
 import { WelcomeHomeMsg } from "./Components/WelcomeHomeMsg/WelcomeHomeMsg";
 import HomeHeader from "./Components/HomeHeader/HomeHeader";
+import { HomeContext } from "./Contexts/HomeContext";
 
 export default function Home() {
-  const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
-  const [selectedLocCoords, setSelectedLocCoords] = useState<
-    string | undefined
-  >();
-  const [selectedLocType, setSelectedLocType] =
-    useState<string>("Select Sport");
-  const [locationDetails, setLocationDetails] = useState<LocationDetails>();
-  const [forecastData, setForecastData] = useState<ForecastData>();
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [initialScreenWidth, setInitialScreenWidth] = useState<null | number>(
-    null
-  );
-  const [pageLoaded, setPageLoaded] = useState<boolean>(false);
+  // const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
+  // const [selectedLocCoords, setSelectedLocCoords] = useState<
+  //   string | undefined
+  // >();
+  // const [selectedLocType, setSelectedLocType] =
+  //   useState<string>("Select Sport");
+  // const [locationDetails, setLocationDetails] = useState<LocationDetails>();
+  // const [forecastData, setForecastData] = useState<ForecastData>();
+  // const [error, setError] = useState("");
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [initialScreenWidth, setInitialScreenWidth] = useState<null | number>(
+  //   null
+  // );
+  // const [pageLoaded, setPageLoaded] = useState<boolean>(false);
+
+  const {
+    currentGPSCoords,
+    setCurrentGPSCoords,
+    selectedLocCoords,
+    setSelectedLocCoords,
+    selectedLocType,
+    setSelectedLocType,
+    locationDetails,
+    setLocationDetails,
+    forecastData,
+    setForecastData,
+    screenWidth,
+    setScreenWidth,
+    isLoading,
+    setIsLoading,
+    pageLoaded,
+    setPageLoaded,
+    error,
+    setError,
+  } = useContext(HomeContext);
   const forecastSection = useRef<null | HTMLElement>(null);
 
   useEffect(() => {
     if (window.innerWidth) {
-      setInitialScreenWidth(window.innerWidth);
+      window.addEventListener("resize", () => {
+        setScreenWidth(window.innerWidth);
+      });
     }
-  }, []);
+    return window.removeEventListener("resize", () => {
+      setScreenWidth(window.innerWidth);
+    });
+  }, [setScreenWidth]);
 
   useEffect(() => {
     if (document.readyState === "complete") {
@@ -48,7 +74,7 @@ export default function Home() {
     return () => {
       window.removeEventListener("load", () => setPageLoaded(true));
     };
-  }, []);
+  }, [setPageLoaded]);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -164,7 +190,7 @@ export default function Home() {
 
   return (
     <main className="home-main">
-      <HomeHeader initialScreenWidth={initialScreenWidth} />
+      <HomeHeader />
       <section className="home-main-section">
         <section className="home-control-section">
           <div className="home-forecast-select-div">

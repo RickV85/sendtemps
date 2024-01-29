@@ -1,3 +1,4 @@
+"use client"
 import { createContext, useState } from "react";
 import {
   Coords,
@@ -22,8 +23,8 @@ interface HomeContextType {
   setForecastData: React.Dispatch<
     React.SetStateAction<ForecastData | undefined>
   >;
-  initialScreenWidth: number | undefined;
-  setInitialScreenWidth: React.Dispatch<
+  screenWidth: number | undefined;
+  setScreenWidth: React.Dispatch<
     React.SetStateAction<number | undefined>
   >;
   isLoading: boolean;
@@ -45,8 +46,8 @@ export const HomeContext = createContext<HomeContextType>({
   setLocationDetails: () => {},
   forecastData: undefined,
   setForecastData: () => {},
-  initialScreenWidth: undefined,
-  setInitialScreenWidth: () => {},
+  screenWidth: undefined,
+  setScreenWidth: () => {},
   isLoading: false,
   setIsLoading: () => {},
   pageLoaded: false,
@@ -66,7 +67,7 @@ export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
     useState<string>("Select Sport");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
   const [forecastData, setForecastData] = useState<ForecastData>();
-  const [initialScreenWidth, setInitialScreenWidth] = useState<number>();
+  const [screenWidth, setScreenWidth] = useState<number>();
   const [isLoading, setIsLoading] = useState(false);
   const [pageLoaded, setPageLoaded] = useState<boolean>(false);
   const [error, setError] = useState("");
@@ -83,8 +84,8 @@ export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
         setLocationDetails,
         forecastData,
         setForecastData,
-        initialScreenWidth,
-        setInitialScreenWidth,
+        screenWidth,
+        setScreenWidth,
         isLoading,
         setIsLoading,
         pageLoaded,

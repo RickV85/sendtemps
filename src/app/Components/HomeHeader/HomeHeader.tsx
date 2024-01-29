@@ -3,14 +3,16 @@ import Link from "next/link";
 import { SessionProvider } from "next-auth/react";
 import Session from "../Session/Session";
 import { UserContext } from "@/app/Contexts/UserContext";
-import { useContext } from "react";
+import { HomeContext } from "@/app/Contexts/HomeContext";
+import { useContext, useEffect } from "react";
 
-interface Props {
-  initialScreenWidth: number | null;
-}
+// interface Props {
+//   initialScreenWidth: number | null;
+// }
 
-export default function HomeHeader({ initialScreenWidth }: Props) {
+export default function HomeHeader() {
   const { userInfo } = useContext(UserContext);
+  const { screenWidth } = useContext(HomeContext);
 
   return (
     <header className="home-header">
@@ -33,7 +35,7 @@ export default function HomeHeader({ initialScreenWidth }: Props) {
           alt="Boulder Flatirons background with rock climber silhouette in foreground"
           fill={true}
           priority={true}
-          quality={initialScreenWidth && initialScreenWidth > 768 ? 100 : 60}
+          quality={screenWidth && screenWidth > 768 ? 100 : 60}
           sizes="100vw"
           className="header-bkgd-img"
         />

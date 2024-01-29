@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Fugaz_One, Hanuman } from "next/font/google";
 import "./globals.css";
 import { UserProvider } from "./Contexts/UserContext";
+import { HomeProvider } from "./Contexts/HomeContext";
 
 export const metadata: Metadata = {
   title: "SendTemps - Backcountry Forecasts for the Colorado Front Range",
@@ -20,7 +21,8 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://sendtemps.vercel.app",
     title: "SendTemps",
-    description: "A simple, personalized, pinpoint weather app for your outdoor adventures in the Colorado Front Range.",
+    description:
+      "A simple, personalized, pinpoint weather app for your outdoor adventures in the Colorado Front Range.",
     siteName: "SendTemps",
     images: [
       {
@@ -60,7 +62,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fugazOne.variable} ${hanuman.variable}`}>
       <body>
-        <UserProvider>{children}</UserProvider>
+        <UserProvider>
+          <HomeProvider>{children}</HomeProvider>
+        </UserProvider>
         <Analytics />
       </body>
     </html>

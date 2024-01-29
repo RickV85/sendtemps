@@ -9,18 +9,6 @@ interface Props {}
 export default function HomeControl() {
   const { pageLoaded, setPageLoaded } = useContext(HomeContext);
 
-  useEffect(() => {
-    if (document.readyState === "complete") {
-      setPageLoaded(true);
-    } else {
-      window.addEventListener("load", () => setPageLoaded(true));
-    }
-
-    return () => {
-      window.removeEventListener("load", () => setPageLoaded(true));
-    };
-  }, [setPageLoaded]);
-
   return (
     <section className="home-control-section">
       <div className="home-forecast-select-div">
