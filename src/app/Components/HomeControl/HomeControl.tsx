@@ -14,13 +14,10 @@ export default function HomeControl() {
     selectedLocCoords,
     setSelectedLocCoords,
     selectedLocType,
-    setSelectedLocType,
     locationDetails,
     setLocationDetails,
     setForecastData,
-    screenWidth,
     setIsLoading,
-    pageLoaded,
     setError,
   } = useContext(HomeContext);
 
@@ -104,10 +101,7 @@ export default function HomeControl() {
   return (
     <section className="home-control-section">
       <div className="home-forecast-select-div">
-        <TypeSelect
-          setSelectedLocType={setSelectedLocType}
-          setForecastData={setForecastData}
-        />
+        <TypeSelect/>
         <LocationSelect
           selectedLocType={selectedLocType}
           setSelectedLocCoords={setSelectedLocCoords}
