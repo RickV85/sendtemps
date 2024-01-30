@@ -369,13 +369,34 @@ select {
     padding: 1rem;
   }
 
-  .detailed-day-forecast {
-    max-width: 1400px;
-    text-align: center;
-  }
-
   .home-welcome-msg-div {
     max-width: 2000px;
+  }
+}
+
+@media only screen and (min-width: 975px) {
+  .forecast-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0rem 1rem;
+    max-width: 1500px;
+  }
+
+  .forecast-section.loading {
+    align-items: flex-start;
+  }
+
+  .detailed-day-forecast {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 11rem;
+    width: 48vw;
+    max-width: 700px;
+    text-align: center;
   }
 }
 
