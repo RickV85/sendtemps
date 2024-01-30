@@ -18,8 +18,7 @@ export default function Session() {
 
       const updateUserLastLogin = async () => {
         try {
-          const updateUserRes = await updateUserInfo(userInfo);
-          console.log(updateUserRes);
+          updateUserInfo(userInfo);
         } catch (error) {
           // No need for user to know if failed,
           // just updating their last login date/time
