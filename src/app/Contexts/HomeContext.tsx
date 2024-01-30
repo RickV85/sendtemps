@@ -9,9 +9,9 @@ import {
 interface HomeContextType {
   currentGPSCoords: Coords | undefined;
   setCurrentGPSCoords: React.Dispatch<React.SetStateAction<Coords | undefined>>;
-  selectedLocCoords: string | undefined;
+  selectedLocCoords: string;
   setSelectedLocCoords: React.Dispatch<
-    React.SetStateAction<string | undefined>
+    React.SetStateAction<string>
   >;
   selectedLocType: string;
   setSelectedLocType: React.Dispatch<React.SetStateAction<string>>;
@@ -38,7 +38,7 @@ interface HomeContextType {
 export const HomeContext = createContext<HomeContextType>({
   currentGPSCoords: undefined,
   setCurrentGPSCoords: () => {},
-  selectedLocCoords: undefined,
+  selectedLocCoords: "",
   setSelectedLocCoords: () => {},
   selectedLocType: "Select Sport",
   setSelectedLocType: () => {},
@@ -62,7 +62,7 @@ interface HomeProviderProps {
 
 export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
-  const [selectedLocCoords, setSelectedLocCoords] = useState<string>();
+  const [selectedLocCoords, setSelectedLocCoords] = useState<string>("");
   const [selectedLocType, setSelectedLocType] =
     useState<string>("Select Sport");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();

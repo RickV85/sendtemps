@@ -101,13 +101,8 @@ export default function HomeControl() {
   return (
     <section className="home-control-section">
       <div className="home-forecast-select-div">
-        <TypeSelect/>
-        <LocationSelect
-          selectedLocType={selectedLocType}
-          setSelectedLocCoords={setSelectedLocCoords}
-          setForecastData={setForecastData}
-          setError={setError}
-        />
+        <TypeSelect />
+        <LocationSelect />
       </div>
     </section>
   );

@@ -159,13 +159,6 @@ export interface LocationObject {
   poi_type: string;
 }
 
-export interface LocationSelectProps {
-  setSelectedLocCoords: Dispatch<SetStateAction<string | undefined>>;
-  setForecastData: Dispatch<SetStateAction<ForecastData | undefined>>;
-  selectedLocType: string;
-  setError: Dispatch<SetStateAction<string>>;
-}
-
 export interface UserSessionInfo {
   id: string;
   email: string;

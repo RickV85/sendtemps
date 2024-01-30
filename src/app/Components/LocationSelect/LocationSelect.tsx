@@ -1,8 +1,5 @@
 "use client";
-import {
-  LocationSelectProps,
-  LocationObject,
-} from "../../Interfaces/interfaces";
+import { LocationObject } from "../../Interfaces/interfaces";
 import {
   useState,
   useEffect,
@@ -17,23 +14,25 @@ import {
   filterAndSortLocationsAlphaByName,
 } from "@/app/Util/utils";
 import { UserContext } from "@/app/Contexts/UserContext";
+import { HomeContext } from "@/app/Contexts/HomeContext";
 
-export default function LocationSelect({
-  setSelectedLocCoords,
-  selectedLocType,
-  setForecastData,
-  setError,
-}: LocationSelectProps) {
-  const [selection, setSelection] = useState("");
+export default function LocationSelect() {
   const [allLocationOptions, setAllLocationOptions] = useState<
     LocationObject[] | []
   >([]);
   const [displayOptions, setDisplayOptions] = useState<ReactNode>(null);
   const { userLocations } = useContext(UserContext);
+  const {
+    selectedLocCoords,
+    setSelectedLocCoords,
+    selectedLocType,
+    setForecastData,
+    setError,
+  } = useContext(HomeContext);
 
   useEffect(() => {
-    setSelection("");
-  }, [selectedLocType]);
+    setSelectedLocCoords("");
+  }, [selectedLocType, setSelectedLocCoords]);
 
   const fetchAndCheckDefaultLocations = async () => {
     const defaultLocs = await getAllDefaultLocations();
@@ -73,7 +72,6 @@ export default function LocationSelect({
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setForecastData(undefined);
-    setSelection(e.target.value);
     setSelectedLocCoords(e.target.value);
   };
 
@@ -125,7 +123,7 @@ export default function LocationSelect({
     return (
       <select
         className="location-select"
-        value={selection}
+        value={selectedLocCoords}
         onChange={(e) => handleSelect(e)}
         aria-label="Select location you would like a forecast for"
       >
