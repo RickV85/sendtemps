@@ -104,25 +104,16 @@ export default function HomeControl() {
   return (
     <section className="home-control-section">
       <div className="home-forecast-select-div">
-        {pageLoaded ? (
-          <>
-            <TypeSelect
-              setSelectedLocType={setSelectedLocType}
-              setForecastData={setForecastData}
-            />
-            <LocationSelect
-              selectedLocType={selectedLocType}
-              setSelectedLocCoords={setSelectedLocCoords}
-              setForecastData={setForecastData}
-              screenWidth={screenWidth}
-              setError={setError}
-            />
-          </>
-        ) : (
-          <div className="home-loading-msg">
-            <p>Please wait, loading...</p>
-          </div>
-        )}
+        <TypeSelect
+          setSelectedLocType={setSelectedLocType}
+          setForecastData={setForecastData}
+        />
+        <LocationSelect
+          selectedLocType={selectedLocType}
+          setSelectedLocCoords={setSelectedLocCoords}
+          setForecastData={setForecastData}
+          setError={setError}
+        />
       </div>
     </section>
   );

@@ -1,14 +1,22 @@
 import { UserContext } from "@/app/Contexts/UserContext";
 import { useContext } from "react";
 import { useSession } from "next-auth/react";
+import { HomeContext } from "@/app/Contexts/HomeContext";
 
 export const WelcomeHomeMsg = () => {
   const { userInfo } = useContext(UserContext);
+  const { pageLoaded } = useContext(HomeContext);
   const { data: session, status } = useSession();
 
   return (
     <div className="home-welcome-msg-div">
-      <h2 className="home-welcome-header">Welcome to SendTemps!</h2>
+      {status === "loading" ? (
+        <div className="home-loading-msg">
+          <p>Please wait, loading...</p>
+        </div>
+      ) : (
+        <h2 className="home-welcome-header">Welcome to SendTemps!</h2>
+      )}
       {status === "loading" ? null : (
         <div className="home-welcome-content">
           {!userInfo ? (

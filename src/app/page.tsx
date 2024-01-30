@@ -19,6 +19,7 @@ export default function Home() {
     screenWidth,
     setScreenWidth,
     isLoading,
+    pageLoaded,
     setPageLoaded,
     error,
   } = useContext(HomeContext);
@@ -94,7 +95,7 @@ export default function Home() {
     <main className="home-main">
       <HomeHeader />
       <section className="home-main-section">
-        {screenWidth <= 768 ? <HomeControl /> : null}
+        {pageLoaded && screenWidth <= 768 ? <HomeControl /> : null}
         <section className="forecast-section" ref={forecastSection}>
           {isLoading ? (
             <p className="loading-msg">Loading forecast...</p>

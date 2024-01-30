@@ -311,11 +311,11 @@ select {
   .hero-img-div {
     height: 62vw;
     max-height: 70vh;
-    min-height: 40vw;
+    min-height: 38vw;
   }
 
   .site-title {
-    font-size: clamp(0px, 12vw, 160px);
+    font-size: clamp(0px, 12vw, 260px);
   }
 
   .user-profile-login-button {
