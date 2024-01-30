@@ -7,7 +7,7 @@ export function filterAndSortLocationsAlphaByName(
 ): Array<LocationObject> {
   const filteredSortedLocations = locArr
     .filter((loc) => loc.poi_type === selectedType)
-    .sort((a, b) => {
+    .toSorted((a, b) => {
       if (a.name < b.name) {
         return -1;
       }
