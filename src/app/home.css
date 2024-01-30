@@ -41,6 +41,7 @@ select {
 .home-header {
   position: relative;
   z-index: 0;
+  border-bottom: 1px solid #00b2ff;
 }
 
 .hero-img-div {
@@ -76,12 +77,20 @@ select {
   padding: 0.5rem;
 }
 
+.desktop-title-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
 .site-title {
   z-index: 1;
   color: transparent;
   font-size: 11.5vw;
   font-style: normal;
   font-weight: 400;
+  line-height: normal;
   -webkit-text-stroke: 1px #00b2ff;
 }
 
@@ -147,7 +156,6 @@ select {
   width: 100vw;
   text-align: center;
   padding: 0.5rem 0rem 0.5rem 0rem;
-  border-top: 1px solid #00b2ff;
   border-bottom: 1px solid #00b2ff;
   z-index: 2;
   position: sticky;
@@ -237,22 +245,12 @@ select {
   border-radius: 5px;
 }
 
-.humidity-div {
+.day-header-details {
   display: flex;
   align-items: center;
-  min-width: 55px;
-}
-
-.humidity-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.humidity-div p {
   font-weight: 600;
   font-size: 1.2rem;
   position: relative;
-  top: 3px;
 }
 
 .home-welcome-header {
@@ -303,10 +301,11 @@ select {
   .hero-img-div {
     height: 62vw;
     max-height: 70vh;
+    min-height: 38vw;
   }
 
   .site-title {
-    font-size: clamp(0px, 13vw, 120px);
+    font-size: clamp(0px, 12vw, 260px);
   }
 
   .user-profile-login-button {
@@ -319,10 +318,26 @@ select {
     height: 50px;
   }
 
+  .desktop-title-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 4rem;
+  }
+
+  .home-control-section {
+    justify-content: flex-start;
+    background-color: transparent;
+    border-bottom: none;
+    padding: 0px;
+    min-height: 5.6rem;
+  }
+
   .type-select,
   .location-select,
   .retry-fetch-btn {
-    width: 36rem;
+    width: 24rem;
   }
 
   /* Prevents layout shift when loading new location */
@@ -352,15 +367,37 @@ select {
   .home-welcome-msg-div {
     margin: 10px 0px 10px 0px;
     padding: 1rem;
-  }
-
-  .detailed-day-forecast {
-    max-width: 1400px;
     text-align: center;
   }
 
   .home-welcome-msg-div {
     max-width: 2000px;
+  }
+}
+
+@media only screen and (min-width: 975px) {
+  .forecast-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0rem 1rem;
+    max-width: 1500px;
+  }
+
+  .forecast-section.loading {
+    align-items: flex-start;
+  }
+
+  .detailed-day-forecast {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 11rem;
+    width: 48vw;
+    max-width: 700px;
+    text-align: center;
   }
 }
 

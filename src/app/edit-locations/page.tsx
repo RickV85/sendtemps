@@ -75,7 +75,7 @@ export default function EditLocations() {
       <main className="edit-loc-main">
         <BackBtn id="editLocBackBtn" />
         <Link href={"/"}>
-          <h1 className="site-title">SendTemps</h1>
+          <h1 className="edit-loc-site-title">SendTemps</h1>
         </Link>
         <section className="edit-loc-section">
           <section className="edit-user-loc-section">

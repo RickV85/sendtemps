@@ -8,7 +8,13 @@ export const WelcomeHomeMsg = () => {
 
   return (
     <div className="home-welcome-msg-div">
-      <h2 className="home-welcome-header">Welcome to SendTemps!</h2>
+      {status === "loading" ? (
+        <div className="home-loading-msg">
+          <p>Please wait, loading...</p>
+        </div>
+      ) : (
+        <h2 className="home-welcome-header">Welcome to SendTemps!</h2>
+      )}
       {status === "loading" ? null : (
         <div className="home-welcome-content">
           {!userInfo ? (

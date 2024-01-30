@@ -22,7 +22,7 @@
   left: 0.5rem;
 }
 
-.site-title {
+.edit-loc-site-title {
   color: transparent;
   font-size: clamp(48px, 10vw, 96px);
   font-style: normal;
@@ -188,14 +188,6 @@
   position: absolute;
   top: 0.5rem;
   left: 0.5rem;
-}
-
-.site-title {
-  color: transparent;
-  font-size: clamp(48px, 10vw, 96px);
-  font-style: normal;
-  font-weight: 400;
-  -webkit-text-stroke: 1px #00b2ff;
 }
 
 .add-loc-section {

@@ -1,25 +1,21 @@
 "use client";
-import { useEffect, useState } from "react";
-import { TypeSelectProps } from "../../Interfaces/interfaces";
+import { useContext } from "react";
+import { HomeContext } from "@/app/Contexts/HomeContext";
 
-const TypeSelect: React.FC<TypeSelectProps> = ({
-  setSelectedLocType,
-  setForecastData,
-}) => {
-  const [selection, setSelection] = useState("Select Sport");
+export default function TypeSelect() {
+  const { selectedLocType, setSelectedLocType, setForecastData } =
+    useContext(HomeContext);
 
-  useEffect(() => {
-    setSelectedLocType(selection);
-  }, [selection, setSelectedLocType]);
+  const handleSelect = (e: any) => {
+    setForecastData(undefined);
+    setSelectedLocType(e.target.value);
+  };
 
   return (
     <select
       className="type-select"
-      value={selection}
-      onChange={(e) => {
-        setForecastData(undefined);
-        setSelection(e.target.value);
-      }}
+      value={selectedLocType}
+      onChange={handleSelect}
       aria-label="Select sport for locations or current location forecast"
     >
       <option disabled value="Select Sport">
@@ -31,6 +27,4 @@ const TypeSelect: React.FC<TypeSelectProps> = ({
       <option value="Current Location">Current Location</option>
     </select>
   );
-};
-
-export default TypeSelect;
+}
