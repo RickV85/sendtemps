@@ -1,7 +1,5 @@
 import { ForecastData } from "../Interfaces/interfaces";
 import { UserLocation } from "../Classes/UserLocation";
-import { User } from "../Classes/User";
-import { use } from "react";
 
 // NOAA API CALLS
 
@@ -100,7 +98,7 @@ export async function getAllDefaultLocations() {
     const result = await response.json();
     return result;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -117,7 +115,7 @@ export async function getAllUserLocations(userId: string) {
     const result = await response.json();
     return result;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -139,7 +137,7 @@ export async function getUserLocationById(userId: string, id: string) {
     const result = await response.json();
     return result;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -169,7 +167,7 @@ export async function postNewUserLocation(userLoc: NewUserLoc) {
       throw new Error(`Error response postNewUserLocation: ${errorData}`);
     }
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -200,7 +198,7 @@ export async function patchUserLocation(
       throw new Error(`Error response patchUserLocation: ${errorData}`);
     }
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -225,7 +223,7 @@ export async function deleteUserLocation(locId: number, userId: string) {
       throw new Error(`Error response deleteUserLocation: ${errorData}`);
     }
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -234,27 +232,30 @@ export async function deleteUserLocation(locId: number, userId: string) {
 export const getUserInfoById = async (userId: string) => {
   try {
     const userInfoRes = await fetch(`/api/users?user_id=${userId}`);
-    console.log(userInfoRes)
 
+    const userInfo = await userInfoRes.json();
     if (userInfoRes.ok) {
-      console.log(userInfoRes.json())
-      return await userInfoRes.json();
+      return userInfo;
     } else {
-      throw new Error(`Error response getUserInfoById: ${userInfoRes.json()}`);
+      throw new Error(`Error response getUserInfoById: ${userInfo}`);
     }
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
-export const updateUserInfo = async (userIdToUpdate: string) => {
+export const updateUserInfo = async (userInfoToUpdate: {
+  id: string;
+  email: string;
+  name: string;
+}) => {
   try {
     const response = await fetch("/api/users", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: "?",
+      body: JSON.stringify(userInfoToUpdate),
       credentials: "include",
     });
     if (response.ok) {
@@ -264,6 +265,6 @@ export const updateUserInfo = async (userIdToUpdate: string) => {
       throw new Error(`Error response updateUserInfo: ${errorData}`);
     }
   } catch (error) {
-    return error;
+    throw error;
   }
 };
