@@ -1,5 +1,6 @@
 import { ForecastData } from "../Interfaces/interfaces";
 import { UserLocation } from "../Classes/UserLocation";
+import { User } from "../Classes/User";
 
 // NOAA API CALLS
 
@@ -164,9 +165,7 @@ export async function postNewUserLocation(userLoc: NewUserLoc) {
       return await response.json();
     } else {
       const errorData = await response.json();
-      throw new Error(
-        `Error response postNewUserLocation: ${JSON.stringify(errorData)}`
-      );
+      throw new Error(`Error response postNewUserLocation: ${errorData}`);
     }
   } catch (error) {
     return error;
@@ -197,9 +196,7 @@ export async function patchUserLocation(
       return await response.json();
     } else {
       const errorData = await response.json();
-      throw new Error(
-        `Error response patchUserLocation: ${JSON.stringify(errorData)}`
-      );
+      throw new Error(`Error response patchUserLocation: ${errorData}`);
     }
   } catch (error) {
     return error;
@@ -224,11 +221,32 @@ export async function deleteUserLocation(locId: number, userId: string) {
       return await response.json();
     } else {
       const errorData = await response.json();
-      throw new Error(
-        `Error response deleteUserLocation: ${JSON.stringify(errorData)}`
-      );
+      throw new Error(`Error response deleteUserLocation: ${errorData}`);
     }
   } catch (error) {
     return error;
   }
 }
+
+// users
+
+export const updateUserInfo = async (userInfoToUpdate: User) => {
+  try {
+    const response = await fetch("/api/users", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: "?",
+      credentials: "include",
+    });
+    if (response.ok) {
+      return await response.json();
+    } else {
+      const errorData = await response.json();
+      throw new Error(`Error response updateUserInfo: ${errorData}`);
+    }
+  } catch (error) {
+    return error;
+  }
+};
