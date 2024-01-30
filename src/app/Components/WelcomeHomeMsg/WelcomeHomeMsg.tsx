@@ -1,11 +1,9 @@
 import { UserContext } from "@/app/Contexts/UserContext";
 import { useContext } from "react";
 import { useSession } from "next-auth/react";
-import { HomeContext } from "@/app/Contexts/HomeContext";
 
 export const WelcomeHomeMsg = () => {
   const { userInfo } = useContext(UserContext);
-  const { pageLoaded } = useContext(HomeContext);
   const { data: session, status } = useSession();
 
   return (

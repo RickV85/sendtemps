@@ -245,22 +245,12 @@ select {
   border-radius: 5px;
 }
 
-.humidity-div {
+.day-header-details {
   display: flex;
   align-items: center;
-  min-width: 55px;
-}
-
-.humidity-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.humidity-div p {
   font-weight: 600;
   font-size: 1.2rem;
   position: relative;
-  top: 3px;
 }
 
 .home-welcome-header {
