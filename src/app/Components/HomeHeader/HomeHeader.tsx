@@ -4,7 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import Session from "../Session/Session";
 import { UserContext } from "@/app/Contexts/UserContext";
 import { HomeContext } from "@/app/Contexts/HomeContext";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import HomeControl from "../HomeControl/HomeControl";
 
 export default function HomeHeader() {
