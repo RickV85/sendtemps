@@ -1,6 +1,7 @@
 import { ForecastData } from "../Interfaces/interfaces";
 import { UserLocation } from "../Classes/UserLocation";
 import { User } from "../Classes/User";
+import { use } from "react";
 
 // NOAA API CALLS
 
@@ -230,7 +231,23 @@ export async function deleteUserLocation(locId: number, userId: string) {
 
 // users
 
-export const updateUserInfo = async (userInfoToUpdate: User) => {
+export const getUserInfoById = async (userId: string) => {
+  try {
+    const userInfoRes = await fetch(`/api/users?user_id=${userId}`);
+    console.log(userInfoRes)
+
+    if (userInfoRes.ok) {
+      console.log(userInfoRes.json())
+      return await userInfoRes.json();
+    } else {
+      throw new Error(`Error response getUserInfoById: ${userInfoRes.json()}`);
+    }
+  } catch (error) {
+    return error;
+  }
+};
+
+export const updateUserInfo = async (userIdToUpdate: string) => {
   try {
     const response = await fetch("/api/users", {
       method: "PATCH",
