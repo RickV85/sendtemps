@@ -98,7 +98,7 @@ export async function getAllDefaultLocations() {
     const result = await response.json();
     return result;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -115,7 +115,7 @@ export async function getAllUserLocations(userId: string) {
     const result = await response.json();
     return result;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -137,7 +137,7 @@ export async function getUserLocationById(userId: string, id: string) {
     const result = await response.json();
     return result;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -164,12 +164,10 @@ export async function postNewUserLocation(userLoc: NewUserLoc) {
       return await response.json();
     } else {
       const errorData = await response.json();
-      throw new Error(
-        `Error response postNewUserLocation: ${JSON.stringify(errorData)}`
-      );
+      throw new Error(`Error response postNewUserLocation: ${errorData}`);
     }
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -197,12 +195,10 @@ export async function patchUserLocation(
       return await response.json();
     } else {
       const errorData = await response.json();
-      throw new Error(
-        `Error response patchUserLocation: ${JSON.stringify(errorData)}`
-      );
+      throw new Error(`Error response patchUserLocation: ${errorData}`);
     }
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -224,11 +220,51 @@ export async function deleteUserLocation(locId: number, userId: string) {
       return await response.json();
     } else {
       const errorData = await response.json();
-      throw new Error(
-        `Error response deleteUserLocation: ${JSON.stringify(errorData)}`
-      );
+      throw new Error(`Error response deleteUserLocation: ${errorData}`);
     }
   } catch (error) {
-    return error;
+    throw error;
   }
 }
+
+// users
+
+export const getUserInfoById = async (userId: string) => {
+  try {
+    const userInfoRes = await fetch(`/api/users?user_id=${userId}`);
+
+    const userInfo = await userInfoRes.json();
+    if (userInfoRes.ok) {
+      return userInfo;
+    } else {
+      throw new Error(`Error response getUserInfoById: ${userInfo}`);
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserInfo = async (userInfoToUpdate: {
+  id: string;
+  email: string;
+  name: string;
+}) => {
+  try {
+    const response = await fetch("/api/users", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userInfoToUpdate),
+      credentials: "include",
+    });
+    if (response.ok) {
+      return await response.json();
+    } else {
+      const errorData = await response.json();
+      throw new Error(`Error response updateUserInfo: ${errorData}`);
+    }
+  } catch (error) {
+    throw error;
+  }
+};

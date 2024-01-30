@@ -65,6 +65,7 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
+    // Req must include user: {id, email, name} - all props = strings
     const userInfoToUpdate = await request.json();
     const previousUserData = await findUserById(userInfoToUpdate.id);
 

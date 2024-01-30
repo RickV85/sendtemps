@@ -393,11 +393,10 @@ select {
   .detailed-day-forecast {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 11rem;
     width: 48vw;
     max-width: 700px;
-    text-align: center;
   }
 }
 
