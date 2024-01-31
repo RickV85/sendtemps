@@ -2,7 +2,6 @@
 import "./home.css";
 import { useEffect, useRef, useContext, useCallback } from "react";
 import { HomeContext } from "./Contexts/HomeContext";
-import { SessionProvider } from "next-auth/react";
 import { throttle } from "lodash";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
 import HomeHeader from "./Components/HomeHeader/HomeHeader";
@@ -66,7 +65,7 @@ export default function Home() {
   }, [setPageLoaded]);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+    if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker
           .register("/serviceWorker.js")
@@ -115,11 +114,7 @@ export default function Home() {
               )}
             </>
           ) : null}
-          {!forecastData && !isLoading && !error ? (
-            <SessionProvider>
-              <WelcomeHomeMsg />
-            </SessionProvider>
-          ) : null}
+          {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}
           {createDetailedForecast()}
         </section>
       </section>
