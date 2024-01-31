@@ -9,7 +9,7 @@ import HomeControl from "../HomeControl/HomeControl";
 
 export default function HomeHeader() {
   const { userInfo } = useContext(UserContext);
-  const { screenWidth } = useContext(HomeContext);
+  const { screenWidth, pageLoaded } = useContext(HomeContext);
 
   return (
     <header className="home-header">
@@ -26,16 +26,18 @@ export default function HomeHeader() {
             <Session />
           </SessionProvider>
         </nav>
-        {screenWidth > 768 ? (
-          <div className="desktop-title-controls">
-            <h1 className="site-title">SendTemps</h1>
-            <HomeControl />
-          </div>
-        ) : (
-          <div className="desktop-title-controls">
-            <h1 className="site-title">SendTemps</h1>
-          </div>
-        )}
+        {pageLoaded ? (
+          screenWidth > 768 ? (
+            <div className="desktop-title-controls">
+              <h1 className="site-title">SendTemps</h1>
+              <HomeControl />
+            </div>
+          ) : (
+            <div className="desktop-title-controls">
+              <h1 className="site-title">SendTemps</h1>
+            </div>
+          )
+        ) : null}
         <Image
           src={"/images/sendtemps_header_2.webp"}
           alt="Boulder Flatirons background with rock climber silhouette in foreground"
