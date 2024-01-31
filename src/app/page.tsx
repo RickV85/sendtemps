@@ -66,7 +66,7 @@ export default function Home() {
   }, [setPageLoaded]);
 
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
+    if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker
           .register("/serviceWorker.js")
