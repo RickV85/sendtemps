@@ -75,6 +75,7 @@ select {
   border: 1px solid #00b2ff;
   border-radius: 5px;
   padding: 0.5rem;
+  animation: fadeIn ease-in 0.5s;
 }
 
 .desktop-title-controls {
@@ -92,6 +93,7 @@ select {
   font-weight: 400;
   line-height: normal;
   -webkit-text-stroke: 1px #00b2ff;
+  animation: fadeIn ease-in 0.5s;
 }
 
 .header-bkgd-img {
@@ -108,6 +110,7 @@ select {
   display: flex;
   align-items: center;
   gap: 1vw;
+  animation: fadeIn ease-in 0.5s;
 }
 
 .user-profile-welcome {
@@ -256,6 +259,7 @@ select {
 .home-welcome-header {
   color: #ef8354;
   text-align: center;
+  margin-bottom: 1rem;
 }
 
 .loading-msg {
