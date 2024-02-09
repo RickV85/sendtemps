@@ -41,7 +41,6 @@ const fugazOne = Fugaz_One({
   display: "swap",
   style: "normal",
   weight: "400",
-  preload: true,
   variable: "--font-fugazOne",
 });
 
@@ -50,7 +49,6 @@ const hanuman = Hanuman({
   display: "swap",
   weight: ["300", "400", "700", "900"],
   style: "normal",
-  preload: true,
   variable: "--font-hanuman",
 });
 
