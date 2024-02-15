@@ -17,7 +17,10 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  openGraph: {
+};
+
+if (process.env.NODE_ENV !== "development") {
+  metadata["openGraph"] = {
     type: "website",
     url: "https://sendtemps.vercel.app",
     title: "SendTemps",
@@ -29,8 +32,8 @@ export const metadata: Metadata = {
         url: "/icon-512x512.png",
       },
     ],
-  },
-};
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#2A3C43",
