@@ -1,0 +1,226 @@
+[
+  {
+      "id": 1,
+      "name": "Boulder Canyon - Lower",
+      "latitude": "40.004482",
+      "longitude": "-105.355800",
+      "poi_type": "climb"
+  },
+  {
+      "id": 2,
+      "name": "Boulder Canyon - Middle",
+      "latitude": "40.005935",
+      "longitude": "-105.409445",
+      "poi_type": "climb"
+  },
+  {
+      "id": 3,
+      "name": "Boulder Canyon - Upper",
+      "latitude": "39.977033",
+      "longitude": "-105.458431",
+      "poi_type": "climb"
+  },
+  {
+      "id": 4,
+      "name": "Flagstaff Mountain",
+      "latitude": "40.002601",
+      "longitude": "-105.297147",
+      "poi_type": "climb"
+  },
+  {
+      "id": 5,
+      "name": "Flatirons - North",
+      "latitude": "39.988320",
+      "longitude": "-105.295849",
+      "poi_type": "climb"
+  },
+  {
+      "id": 6,
+      "name": "Flatirons - Central",
+      "latitude": "39.975220",
+      "longitude": "-105.289938",
+      "poi_type": "climb"
+  },
+  {
+      "id": 7,
+      "name": "Flatirons - South",
+      "latitude": "39.954652",
+      "longitude": "-105.288482",
+      "poi_type": "climb"
+  },
+  {
+      "id": 8,
+      "name": "Eldorado Canyon",
+      "latitude": "39.933210",
+      "longitude": "-105.289359",
+      "poi_type": "climb"
+  },
+  {
+      "id": 9,
+      "name": "Clear Creek Canyon - Lower",
+      "latitude": "39.737546",
+      "longitude": "-105.315475",
+      "poi_type": "climb"
+  },
+  {
+      "id": 10,
+      "name": "Clear Creek Canyon - Upper",
+      "latitude": "39.745357",
+      "longitude": "-105.405145",
+      "poi_type": "climb"
+  },
+  {
+      "id": 11,
+      "name": "Lefthand Canyon",
+      "latitude": "40.115889",
+      "longitude": "-105.340316",
+      "poi_type": "mtb"
+  },
+  {
+      "id": 12,
+      "name": "Maryland Mountain",
+      "latitude": "39.812038",
+      "longitude": "-105.505537",
+      "poi_type": "mtb"
+  },
+  {
+      "id": 13,
+      "name": "Hall Ranch",
+      "latitude": "40.222930",
+      "longitude": "-105.316413",
+      "poi_type": "mtb"
+  },
+  {
+      "id": 14,
+      "name": "Walker Ranch",
+      "latitude": "39.945650",
+      "longitude": "-105.333367",
+      "poi_type": "mtb"
+  },
+  {
+      "id": 15,
+      "name": "White Ranch",
+      "latitude": "39.825545",
+      "longitude": "-105.289157",
+      "poi_type": "mtb"
+  },
+  {
+      "id": 16,
+      "name": "Golden Gate",
+      "latitude": "39.864848",
+      "longitude": "-105.382098",
+      "poi_type": "mtb"
+  },
+  {
+      "id": 17,
+      "name": "Heil Ranch",
+      "latitude": "40.175244",
+      "longitude": "-105.295887",
+      "poi_type": "mtb"
+  },
+  {
+      "id": 18,
+      "name": "Betasso",
+      "latitude": "40.023368",
+      "longitude": "-105.343958",
+      "poi_type": "mtb"
+  },
+  {
+      "id": 19,
+      "name": "Trestle Bike Park",
+      "latitude": "39.877602",
+      "longitude": "-105.780414",
+      "poi_type": "mtb"
+  },
+  {
+      "id": 20,
+      "name": "Keystone Bike Park",
+      "latitude": "39.586667",
+      "longitude": "-105.943588",
+      "poi_type": "mtb"
+  },
+  {
+      "id": 23,
+      "name": "Caribou",
+      "latitude": "39.993214",
+      "longitude": "-105.601209",
+      "poi_type": "ski"
+  },
+  {
+      "id": 24,
+      "name": "Ski Road",
+      "latitude": "40.156363",
+      "longitude": "-105.562989",
+      "poi_type": "ski"
+  },
+  {
+      "id": 25,
+      "name": "RMNP - Hidden Valley",
+      "latitude": "40.387399",
+      "longitude": "-105.683303",
+      "poi_type": "ski"
+  },
+  {
+      "id": 26,
+      "name": "RMNP - Banana Bowls",
+      "latitude": "40.316364",
+      "longitude": "-105.673054",
+      "poi_type": "ski"
+  },
+  {
+      "id": 27,
+      "name": "RMNP - Dream Lake",
+      "latitude": "40.307805",
+      "longitude": "-105.661388",
+      "poi_type": "ski"
+  },
+  {
+      "id": 28,
+      "name": "RMNP - Loch Vale",
+      "latitude": "40.299334",
+      "longitude": "-105.650599",
+      "poi_type": "ski"
+  },
+  {
+      "id": 29,
+      "name": "Jones Pass",
+      "latitude": "39.779767",
+      "longitude": "-105.877111",
+      "poi_type": "ski"
+  },
+  {
+      "id": 30,
+      "name": "Berthoud Pass",
+      "latitude": "39.803279",
+      "longitude": "-105.782617",
+      "poi_type": "ski"
+  },
+  {
+      "id": 31,
+      "name": "Forest Lakes",
+      "latitude": "39.917321",
+      "longitude": "-105.674652",
+      "poi_type": "ski"
+  },
+  {
+      "id": 32,
+      "name": "Crater Lakes",
+      "latitude": "39.898601",
+      "longitude": "-105.681150",
+      "poi_type": "ski"
+  },
+  {
+      "id": 33,
+      "name": "Mt. Audubon",
+      "latitude": "40.095546",
+      "longitude": "-105.611594",
+      "poi_type": "ski"
+  },
+  {
+      "id": 34,
+      "name": "Shelf Road",
+      "latitude": "38.627536",
+      "longitude": "-105.226624",
+      "poi_type": "climb"
+  }
+]
