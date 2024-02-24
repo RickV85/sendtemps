@@ -149,6 +149,61 @@ export interface ForecastData {
   };
 }
 
+export interface HourlyForecastData {
+  "@context": Array<string | {
+    "@version": string,
+    "wx": string,
+    "geo": string,
+    "unit": string,
+    "@vocab": string
+  }>;
+  type: string;
+  geometry: {
+    type: string;
+    coordinates: number[][][];
+  };
+  properties: {
+    updated: string;
+    units: string;
+    forecastGenerator: string;
+    generatedAt: string;
+    updateTime: string;
+    validTimes: string;
+    elevation: {
+      unitCode: string;
+      value: number;
+    };
+    periods: Array<{
+      number: number;
+      name: string;
+      startTime: string;
+      endTime: string;
+      isDaytime: boolean;
+      temperature: number;
+      temperatureUnit: string;
+      temperatureTrend: null;
+      probabilityOfPrecipitation: {
+        unitCode: string;
+        value: number;
+      };
+      dewpoint: {
+        unitCode: string;
+        value: number;
+      };
+      relativeHumidity: {
+        unitCode: string;
+        value: number;
+      };
+      windSpeed: string;
+      windDirection: string;
+      icon: string;
+      shortForecast: string;
+      detailedForecast: string;
+    }>;
+  };
+}
+
+
 export interface LocationObject {
   id: number;
   latitude: string;

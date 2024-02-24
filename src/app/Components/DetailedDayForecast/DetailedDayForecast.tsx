@@ -1,4 +1,3 @@
-import Image from "next/image";
 interface Props {
   data: {
     name: string;
@@ -13,7 +12,7 @@ interface Props {
 const DetailedDayForecast: React.FC<Props> = ({ data }) => {
   if (data) {
     return (
-      <article className="detailed-day-forecast">
+      <article className="detailed-day-forecast" onClick={() => console.log(data)}>
         <div className="day-forecast-header">
           {/* Using img here, had issues with loading using Image component */}
           {/* eslint-disable-next-line */}

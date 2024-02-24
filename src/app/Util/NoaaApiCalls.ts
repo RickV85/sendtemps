@@ -94,16 +94,16 @@ export async function fetchHourlyForecastWithRetry(
 ): Promise<ForecastData> {
   for (let i = 1; i <= retries; i++) {
     try {
-      return await fetchDailyForecast(url);
+      return await fetchHourlyForecast(url);
     } catch (err) {
       console.error(
-        `Fetch Daily Forecast attempt ${i} failed for forecastUrl: ${url}`
+        `Fetch hourly forecast attempt ${i} failed for forecastUrl: ${url}`
       );
       if (i === retries) {
-        throw new Error("All fetch Daily Forecast attempts failed.");
+        throw new Error("All fetch hourly Forecast attempts failed.");
       }
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
-  throw new Error("Unknown error in fetchDailyForecastWithRetry");
+  throw new Error("Unknown error in fetchHourlyForecastWithRetry");
 }
