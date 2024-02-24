@@ -5,7 +5,7 @@ import LocationSelect from "../LocationSelect/LocationSelect";
 import {
   fetchDailyForecastWithRetry,
   fetchHourlyForecastWithRetry,
-  fetchNoaaGridLocationWithRetry
+  fetchNoaaGridLocationWithRetry,
 } from "../../Util/NoaaApiCalls";
 
 export default function HomeControl() {
@@ -71,30 +71,28 @@ export default function HomeControl() {
     // Fetch daily and hourly forecasts from NOAA with 5 retries
     if (locationDetails?.properties.forecast) {
       setIsLoading(true);
-      fetchDailyForecastWithRetry(locationDetails.properties.forecast)
-        .then((result) => {
-          setForecastData(result);
-          setIsLoading(false);
-          setError("");
-        })
+      const forecastUrl = locationDetails.properties.forecast;
+
+      Promise.all([
+        fetchDailyForecastWithRetry(forecastUrl).then(setForecastData),
+        fetchHourlyForecastWithRetry(`${forecastUrl}/hourly`).then(
+          setHourlyForecastData
+        ),
+      ])
+        .then(() => setError(""))
         .catch((err) => {
           console.error(err);
           setError(err.message);
-          setIsLoading(false);
-        });
-      fetchHourlyForecastWithRetry(`${locationDetails.properties.forecast}/hourly`)
-        .then((response) => {
-          setHourlyForecastData(response);
-          setIsLoading(false);
-          setError("");
         })
-        .catch((err) => {
-          console.error(err);
-          setError(err.message);
-          setIsLoading(false);
-        })
+        .finally(() => setIsLoading(false));
     }
-  }, [locationDetails, setError, setIsLoading, setForecastData, setHourlyForecastData]);
+  }, [
+    locationDetails,
+    setError,
+    setIsLoading,
+    setForecastData,
+    setHourlyForecastData,
+  ]);
 
   useEffect(() => {
     if (selectedLocType === "Current Location") {
