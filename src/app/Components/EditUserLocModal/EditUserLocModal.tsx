@@ -1,6 +1,6 @@
 "use client";
 import { UserContext } from "@/app/Contexts/UserContext";
-import { deleteUserLocation, patchUserLocation } from "@/app/Util/APICalls";
+import { deleteUserLocation, patchUserLocation } from "@/app/Util/DatabaseApiCalls";
 import { findLocByIdInUserLocs, resetErrorMsg } from "@/app/Util/utils";
 import { useContext, useState } from "react";
 

@@ -8,7 +8,7 @@ import {
   ReactElement,
   useContext,
 } from "react";
-import { getAllDefaultLocations } from "@/app/Util/APICalls";
+import { getAllDefaultLocations } from "@/app/Util/DatabaseApiCalls";
 import {
   checkError,
   filterAndSortLocationsAlphaByName,

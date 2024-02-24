@@ -1,7 +1,7 @@
 "use client";
 
 import { UserSessionInfo, GoogleMapPoint } from "@/app/Interfaces/interfaces";
-import { postNewUserLocation } from "@/app/Util/APICalls";
+import { postNewUserLocation } from "@/app/Util/DatabaseApiCalls";
 import { Dispatch, useState } from "react";
 
 interface Props {

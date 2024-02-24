@@ -1,7 +1,7 @@
 "use client";
 import Map from "../Map/Map";
 import { useEffect, useState, useContext, useRef } from "react";
-import { getAllDefaultLocations } from "../../Util/APICalls";
+import { getAllDefaultLocations } from "../../Util/DatabaseApiCalls";
 import AddLocForm from "../AddLocForm/AddLocForm";
 import { GoogleMapPoint } from "../../Interfaces/interfaces";
 import { createGoogleMapPoints } from "../../Util/utils";

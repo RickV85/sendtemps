@@ -4,8 +4,8 @@ import TypeSelect from "../TypeSelect/TypeSelect";
 import LocationSelect from "../LocationSelect/LocationSelect";
 import {
   fetchDailyForecastWithRetry,
-  fetchNoaaGridLocationWithRetry,
-} from "../../Util/APICalls";
+  fetchNoaaGridLocationWithRetry
+} from "../../Util/NoaaApiCalls";
 
 export default function HomeControl() {
   const {
