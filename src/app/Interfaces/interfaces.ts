@@ -184,7 +184,7 @@ export interface HourlyForecastData {
       temperatureTrend: null;
       probabilityOfPrecipitation: {
         unitCode: string;
-        value: number;
+        value: number | null;
       };
       dewpoint: {
         unitCode: string;
