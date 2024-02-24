@@ -3,11 +3,13 @@ import { useContext } from "react";
 import { HomeContext } from "@/app/Contexts/HomeContext";
 
 export default function TypeSelect() {
-  const { selectedLocType, setSelectedLocType, setForecastData } =
+  const { selectedLocType, setSelectedLocType, setLocationDetails, setForecastData, setHourlyForecastData } =
     useContext(HomeContext);
 
-  const handleSelect = (e: any) => {
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLocationDetails(undefined);
     setForecastData(undefined);
+    setHourlyForecastData(undefined);
     setSelectedLocType(e.target.value);
   };
 
