@@ -1,0 +1,8 @@
+.article {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 98%;
+  border: 1px solid #9FAF90;
+  border-radius: 3px;
+}

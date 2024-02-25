@@ -6,7 +6,6 @@ import {
   ForecastData,
   HourlyForecastData,
 } from "../Interfaces/interfaces";
-import { use } from "chai";
 
 interface HomeContextType {
   currentGPSCoords: Coords | undefined;

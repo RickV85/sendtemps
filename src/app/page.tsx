@@ -8,6 +8,7 @@ import HomeHeader from "./Components/HomeHeader/HomeHeader";
 import HomeControl from "./Components/HomeControl/HomeControl";
 import ReloadBtn from "./Components/ReloadBtn/ReloadBtn";
 import { WelcomeHomeMsg } from "./Components/WelcomeHomeMsg/WelcomeHomeMsg";
+import HourlyForecastContainer from "./Components/HourlyForecastContainer/HourlyForecastContainer";
 
 export default function Home() {
   const {
@@ -115,7 +116,8 @@ export default function Home() {
             </>
           ) : null}
           {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}
-          {createDetailedForecast()}
+          {/* {createDetailedForecast()} */}
+          <HourlyForecastContainer />
         </section>
       </section>
     </main>

@@ -213,6 +213,14 @@ select {
   z-index: 0;
 }
 
+.hourly-forecast-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
 /* Prevents layout shift when loading new location */
 .forecast-section.loading {
   height: calc(100vh - 93px);
