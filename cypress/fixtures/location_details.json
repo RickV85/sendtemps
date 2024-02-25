@@ -1,0 +1,94 @@
+{
+  "@context": [
+      "https://geojson.org/geojson-ld/geojson-context.jsonld",
+      {
+          "@version": "1.1",
+          "wx": "https://api.weather.gov/ontology#",
+          "s": "https://schema.org/",
+          "geo": "http://www.opengis.net/ont/geosparql#",
+          "unit": "http://codes.wmo.int/common/unit/",
+          "@vocab": "https://api.weather.gov/ontology#",
+          "geometry": {
+              "@id": "s:GeoCoordinates",
+              "@type": "geo:wktLiteral"
+          },
+          "city": "s:addressLocality",
+          "state": "s:addressRegion",
+          "distance": {
+              "@id": "s:Distance",
+              "@type": "s:QuantitativeValue"
+          },
+          "bearing": {
+              "@type": "s:QuantitativeValue"
+          },
+          "value": {
+              "@id": "s:value"
+          },
+          "unitCode": {
+              "@id": "s:unitCode",
+              "@type": "@id"
+          },
+          "forecastOffice": {
+              "@type": "@id"
+          },
+          "forecastGridData": {
+              "@type": "@id"
+          },
+          "publicZone": {
+              "@type": "@id"
+          },
+          "county": {
+              "@type": "@id"
+          }
+      }
+  ],
+  "id": "https://api.weather.gov/points/40.0045,-105.3558",
+  "type": "Feature",
+  "geometry": {
+      "type": "Point",
+      "coordinates": [
+          -105.3558,
+          40.0045
+      ]
+  },
+  "properties": {
+      "@id": "https://api.weather.gov/points/40.0045,-105.3558",
+      "@type": "wx:Point",
+      "cwa": "BOU",
+      "forecastOffice": "https://api.weather.gov/offices/BOU",
+      "gridId": "BOU",
+      "gridX": 51,
+      "gridY": 74,
+      "forecast": "https://api.weather.gov/gridpoints/BOU/51,74/forecast",
+      "forecastHourly": "https://api.weather.gov/gridpoints/BOU/51,74/forecast/hourly",
+      "forecastGridData": "https://api.weather.gov/gridpoints/BOU/51,74",
+      "observationStations": "https://api.weather.gov/gridpoints/BOU/51,74/stations",
+      "relativeLocation": {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -105.349822,
+                  40.015149999999998
+              ]
+          },
+          "properties": {
+              "city": "Tall Timber",
+              "state": "CO",
+              "distance": {
+                  "unitCode": "wmoUnit:m",
+                  "value": 1289.0359051216001
+              },
+              "bearing": {
+                  "unitCode": "wmoUnit:degree_(angle)",
+                  "value": 203
+              }
+          }
+      },
+      "forecastZone": "https://api.weather.gov/zones/forecast/COZ035",
+      "county": "https://api.weather.gov/zones/county/COC013",
+      "fireWeatherZone": "https://api.weather.gov/zones/fire/COZ215",
+      "timeZone": "America/Denver",
+      "radarStation": "KFTG"
+  }
+}

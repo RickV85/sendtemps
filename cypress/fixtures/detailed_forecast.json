@@ -1,0 +1,432 @@
+{
+  "@context": [
+      "https://geojson.org/geojson-ld/geojson-context.jsonld",
+      {
+          "@version": "1.1",
+          "wx": "https://api.weather.gov/ontology#",
+          "geo": "http://www.opengis.net/ont/geosparql#",
+          "unit": "http://codes.wmo.int/common/unit/",
+          "@vocab": "https://api.weather.gov/ontology#"
+      }
+  ],
+  "type": "Feature",
+  "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+          [
+              [
+                  -105.6010223,
+                  39.946634400000001
+              ],
+              [
+                  -105.59877709999999,
+                  39.924660600000003
+              ],
+              [
+                  -105.57016119999999,
+                  39.9263774
+              ],
+              [
+                  -105.57240039999999,
+                  39.9483514
+              ],
+              [
+                  -105.6010223,
+                  39.946634400000001
+              ]
+          ]
+      ]
+  },
+  "properties": {
+      "updated": "2024-02-25T11:01:52+00:00",
+      "units": "us",
+      "forecastGenerator": "BaselineForecastGenerator",
+      "generatedAt": "2024-02-25T16:41:33+00:00",
+      "updateTime": "2024-02-25T11:01:52+00:00",
+      "validTimes": "2024-02-25T05:00:00+00:00/P7DT20H",
+      "elevation": {
+          "unitCode": "wmoUnit:m",
+          "value": 2902.0007999999998
+      },
+      "periods": [
+          {
+              "number": 1,
+              "name": "Today",
+              "startTime": "2024-02-25T09:00:00-07:00",
+              "endTime": "2024-02-25T18:00:00-07:00",
+              "isDaytime": true,
+              "temperature": 42,
+              "temperatureUnit": "F",
+              "temperatureTrend": "falling",
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": null
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -12.222222222222221
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 32
+              },
+              "windSpeed": "28 to 39 mph",
+              "windDirection": "W",
+              "icon": "https://api.weather.gov/icons/land/day/wind_few?size=medium",
+              "shortForecast": "Sunny",
+              "detailedForecast": "Sunny. High near 42, with temperatures falling to around 36 in the afternoon. West wind 28 to 39 mph, with gusts as high as 59 mph."
+          },
+          {
+              "number": 2,
+              "name": "Tonight",
+              "startTime": "2024-02-25T18:00:00-07:00",
+              "endTime": "2024-02-26T06:00:00-07:00",
+              "isDaytime": false,
+              "temperature": 24,
+              "temperatureUnit": "F",
+              "temperatureTrend": "rising",
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 40
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -7.2222222222222223
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 74
+              },
+              "windSpeed": "23 to 32 mph",
+              "windDirection": "W",
+              "icon": "https://api.weather.gov/icons/land/night/snow,30/blizzard,40?size=medium",
+              "shortForecast": "Chance Light Snow",
+              "detailedForecast": "A chance of snow between 11pm and 5am, then a chance of snow and patchy blowing snow. Partly cloudy. Low around 24, with temperatures rising to around 26 overnight. West wind 23 to 32 mph, with gusts as high as 48 mph. Chance of precipitation is 40%. New snow accumulation of around one inch possible."
+          },
+          {
+              "number": 3,
+              "name": "Monday",
+              "startTime": "2024-02-26T06:00:00-07:00",
+              "endTime": "2024-02-26T18:00:00-07:00",
+              "isDaytime": true,
+              "temperature": 41,
+              "temperatureUnit": "F",
+              "temperatureTrend": "falling",
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 60
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -6.1111111111111107
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 72
+              },
+              "windSpeed": "22 to 29 mph",
+              "windDirection": "WSW",
+              "icon": "https://api.weather.gov/icons/land/day/blizzard,60?size=medium",
+              "shortForecast": "Light Snow Likely And Patchy Blowing Snow",
+              "detailedForecast": "Snow likely and patchy blowing snow. Mostly cloudy. High near 41, with temperatures falling to around 31 in the afternoon. West southwest wind 22 to 29 mph, with gusts as high as 48 mph. Chance of precipitation is 60%. New snow accumulation of 1 to 3 inches possible."
+          },
+          {
+              "number": 4,
+              "name": "Monday Night",
+              "startTime": "2024-02-26T18:00:00-07:00",
+              "endTime": "2024-02-27T06:00:00-07:00",
+              "isDaytime": false,
+              "temperature": 22,
+              "temperatureUnit": "F",
+              "temperatureTrend": null,
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 100
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -7.7777777777777777
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 71
+              },
+              "windSpeed": "26 mph",
+              "windDirection": "WSW",
+              "icon": "https://api.weather.gov/icons/land/night/blizzard,60/blizzard,100?size=medium",
+              "shortForecast": "Snow And Areas Of Blowing Snow",
+              "detailedForecast": "Snow and areas of blowing snow. Cloudy, with a low around 22. West southwest wind around 26 mph, with gusts as high as 49 mph. Chance of precipitation is 100%. New snow accumulation of 3 to 7 inches possible."
+          },
+          {
+              "number": 5,
+              "name": "Tuesday",
+              "startTime": "2024-02-27T06:00:00-07:00",
+              "endTime": "2024-02-27T18:00:00-07:00",
+              "isDaytime": true,
+              "temperature": 28,
+              "temperatureUnit": "F",
+              "temperatureTrend": null,
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 100
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -7.7777777777777777
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 74
+              },
+              "windSpeed": "21 to 29 mph",
+              "windDirection": "W",
+              "icon": "https://api.weather.gov/icons/land/day/blizzard,100/blizzard,90?size=medium",
+              "shortForecast": "Heavy Snow And Areas Of Blowing Snow",
+              "detailedForecast": "Snow and areas of blowing snow. Cloudy, with a high near 28. West wind 21 to 29 mph, with gusts as high as 46 mph. Chance of precipitation is 100%. New snow accumulation of 5 to 9 inches possible."
+          },
+          {
+              "number": 6,
+              "name": "Tuesday Night",
+              "startTime": "2024-02-27T18:00:00-07:00",
+              "endTime": "2024-02-28T06:00:00-07:00",
+              "isDaytime": false,
+              "temperature": 0,
+              "temperatureUnit": "F",
+              "temperatureTrend": null,
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 60
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -17.222222222222221
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 72
+              },
+              "windSpeed": "23 to 37 mph",
+              "windDirection": "WNW",
+              "icon": "https://api.weather.gov/icons/land/night/blizzard,60/blizzard,20?size=medium",
+              "shortForecast": "Light Snow Likely And Areas Of Blowing Snow then Blowing Snow",
+              "detailedForecast": "Snow likely and areas of blowing snow before 9pm, then blowing snow and snow likely between 9pm and 5am. Partly cloudy, with a low around 0. Chance of precipitation is 60%. New snow accumulation of less than one inch possible."
+          },
+          {
+              "number": 7,
+              "name": "Wednesday",
+              "startTime": "2024-02-28T06:00:00-07:00",
+              "endTime": "2024-02-28T18:00:00-07:00",
+              "isDaytime": true,
+              "temperature": 27,
+              "temperatureUnit": "F",
+              "temperatureTrend": null,
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": null
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -15.555555555555555
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 65
+              },
+              "windSpeed": "20 to 31 mph",
+              "windDirection": "W",
+              "icon": "https://api.weather.gov/icons/land/day/wind_few?size=medium",
+              "shortForecast": "Sunny",
+              "detailedForecast": "Sunny, with a high near 27."
+          },
+          {
+              "number": 8,
+              "name": "Wednesday Night",
+              "startTime": "2024-02-28T18:00:00-07:00",
+              "endTime": "2024-02-29T06:00:00-07:00",
+              "isDaytime": false,
+              "temperature": 12,
+              "temperatureUnit": "F",
+              "temperatureTrend": null,
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": null
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -15
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 58
+              },
+              "windSpeed": "22 mph",
+              "windDirection": "WSW",
+              "icon": "https://api.weather.gov/icons/land/night/wind_few?size=medium",
+              "shortForecast": "Mostly Clear",
+              "detailedForecast": "Mostly clear, with a low around 12."
+          },
+          {
+              "number": 9,
+              "name": "Thursday",
+              "startTime": "2024-02-29T06:00:00-07:00",
+              "endTime": "2024-02-29T18:00:00-07:00",
+              "isDaytime": true,
+              "temperature": 39,
+              "temperatureUnit": "F",
+              "temperatureTrend": null,
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": null
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -10.555555555555555
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 54
+              },
+              "windSpeed": "17 to 22 mph",
+              "windDirection": "W",
+              "icon": "https://api.weather.gov/icons/land/day/wind_few?size=medium",
+              "shortForecast": "Sunny",
+              "detailedForecast": "Sunny, with a high near 39."
+          },
+          {
+              "number": 10,
+              "name": "Thursday Night",
+              "startTime": "2024-02-29T18:00:00-07:00",
+              "endTime": "2024-03-01T06:00:00-07:00",
+              "isDaytime": false,
+              "temperature": 19,
+              "temperatureUnit": "F",
+              "temperatureTrend": null,
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": null
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -10.555555555555555
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 60
+              },
+              "windSpeed": "17 to 21 mph",
+              "windDirection": "W",
+              "icon": "https://api.weather.gov/icons/land/night/wind_few?size=medium",
+              "shortForecast": "Mostly Clear",
+              "detailedForecast": "Mostly clear, with a low around 19."
+          },
+          {
+              "number": 11,
+              "name": "Friday",
+              "startTime": "2024-03-01T06:00:00-07:00",
+              "endTime": "2024-03-01T18:00:00-07:00",
+              "isDaytime": true,
+              "temperature": 42,
+              "temperatureUnit": "F",
+              "temperatureTrend": null,
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": null
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -10
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 55
+              },
+              "windSpeed": "15 to 21 mph",
+              "windDirection": "WSW",
+              "icon": "https://api.weather.gov/icons/land/day/wind_few?size=medium",
+              "shortForecast": "Sunny",
+              "detailedForecast": "Sunny, with a high near 42."
+          },
+          {
+              "number": 12,
+              "name": "Friday Night",
+              "startTime": "2024-03-01T18:00:00-07:00",
+              "endTime": "2024-03-02T06:00:00-07:00",
+              "isDaytime": false,
+              "temperature": 21,
+              "temperatureUnit": "F",
+              "temperatureTrend": null,
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": null
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -10
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 55
+              },
+              "windSpeed": "17 mph",
+              "windDirection": "WSW",
+              "icon": "https://api.weather.gov/icons/land/night/few?size=medium",
+              "shortForecast": "Mostly Clear",
+              "detailedForecast": "Mostly clear, with a low around 21."
+          },
+          {
+              "number": 13,
+              "name": "Saturday",
+              "startTime": "2024-03-02T06:00:00-07:00",
+              "endTime": "2024-03-02T18:00:00-07:00",
+              "isDaytime": true,
+              "temperature": 43,
+              "temperatureUnit": "F",
+              "temperatureTrend": null,
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": null
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -10
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 50
+              },
+              "windSpeed": "14 to 18 mph",
+              "windDirection": "WSW",
+              "icon": "https://api.weather.gov/icons/land/day/few/snow?size=medium",
+              "shortForecast": "Sunny then Slight Chance Light Snow",
+              "detailedForecast": "A slight chance of snow after 5pm. Sunny, with a high near 43."
+          },
+          {
+              "number": 14,
+              "name": "Saturday Night",
+              "startTime": "2024-03-02T18:00:00-07:00",
+              "endTime": "2024-03-03T06:00:00-07:00",
+              "isDaytime": false,
+              "temperature": 20,
+              "temperatureUnit": "F",
+              "temperatureTrend": null,
+              "probabilityOfPrecipitation": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": null
+              },
+              "dewpoint": {
+                  "unitCode": "wmoUnit:degC",
+                  "value": -10
+              },
+              "relativeHumidity": {
+                  "unitCode": "wmoUnit:percent",
+                  "value": 57
+              },
+              "windSpeed": "14 to 20 mph",
+              "windDirection": "SW",
+              "icon": "https://api.weather.gov/icons/land/night/snow?size=medium",
+              "shortForecast": "Slight Chance Light Snow",
+              "detailedForecast": "A slight chance of snow. Partly cloudy, with a low around 20."
+          }
+      ]
+  }
+}
