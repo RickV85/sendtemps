@@ -12,17 +12,13 @@ describe("initial display for an unauthorized user", () => {
   });
 
   it("should display an initial loading message", () => {
-    cy.get("div.home-loading-msg").should(
-      "have.text",
-      "Please wait, loading..."
-    );
+    cy.get("div.home-loading-msg", { timeout: 3000 })
+      .should("exist")
+      .should("have.text", "Please wait, loading...");
   });
 
-  it("should display the Welcome Message once loaded", () => {
-    cy.wait(500);
-    cy.get("section.forecast-section")
-      .find("div.home-welcome-msg-div>h2")
-      .should("have.text", "Welcome to SendTemps!");
+  it("should display a Sign In button", () => {
+    cy.get("button.user-profile-login-button").should("have.text", "Sign in!");
   });
 
   it("should display the site title, 'SendTemps'", () => {
@@ -35,11 +31,15 @@ describe("initial display for an unauthorized user", () => {
       .should("have.text", "Select Sport");
   });
 
-  it("should display a Sign In button", () => {
-    cy.get("button.user-profile-login-button").should("have.text", "Sign in!");
+  it("should display the Welcome Message once loaded", () => {
+    cy.wait(250);
+    cy.get("section.forecast-section")
+      .find("div.home-welcome-msg-div>h2")
+      .should("have.text", "Welcome to SendTemps!");
   });
 
   it("should show the proper Welcome Message tailored to unauthorized user", () => {
+    cy.wait(250);
     cy.get("div.home-welcome-msg-div").contains(
       "Log in with Google by clicking the “Sign in!” button in the upper right corner to add your own favorite locations!"
     );
