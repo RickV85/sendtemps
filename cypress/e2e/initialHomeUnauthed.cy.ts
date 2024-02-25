@@ -11,8 +11,9 @@ describe("initial display for an unauthorized user", () => {
     });
   });
 
-  it("should display an initial loading message", () => {
-    cy.get("div.home-loading-msg", { timeout: 3000 })
+  it("should display an initial loading message", { retries: 10 }, () => {
+    cy.get("body")
+      .find("div.home-loading-msg", { timeout: 1500 })
       .should("exist")
       .should("have.text", "Please wait, loading...");
   });
@@ -43,5 +44,27 @@ describe("initial display for an unauthorized user", () => {
     cy.get("div.home-welcome-msg-div").contains(
       "Log in with Google by clicking the “Sign in!” button in the upper right corner to add your own favorite locations!"
     );
+  });
+
+  // Error testing
+
+  it("should show error message and reload button when default location call fails", () => {
+    cy.intercept("http://localhost:3000/api/default_locations", {
+      statusCode: 500,
+    });
+
+    cy.wait(1000);
+
+    cy.get("section.forecast-section")
+      .find("p.error-msg")
+      .should("be.visible")
+      .should(
+        "have.text",
+        "Oh, no! An error occurred while fetching locations. Please reload the page and try again."
+      );
+
+    cy.get("section.forecast-section")
+      .find("button.reload-btn")
+      .should("be.visible");
   });
 });

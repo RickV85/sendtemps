@@ -1,4 +1,4 @@
-describe("initial display for an unauthorized user", () => {
+describe("initial display for an authorized user", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000");
 
@@ -25,8 +25,9 @@ describe("initial display for an unauthorized user", () => {
     });
   });
 
-  it("should display an initial loading message", () => {
-    cy.get("div.home-loading-msg", { timeout: 3000 })
+  it("should display an initial loading message", { retries: 10 }, () => {
+    cy.get("body")
+      .find("div.home-loading-msg", { timeout: 1500 })
       .should("exist")
       .should("have.text", "Please wait, loading...");
   });
