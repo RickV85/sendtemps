@@ -5,7 +5,7 @@ describe("initial display for an unauthorized user", () => {
     // Intercept and return empty object for unauthorized user
     cy.intercept("http://localhost:3000/api/auth/session", {});
 
-    // Intercept def_locs api call
+    // Intercept default locations req
     cy.intercept("http://localhost:3000/api/default_locations", {
       fixture: "default_locs.json",
     });

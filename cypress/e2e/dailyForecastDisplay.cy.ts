@@ -30,19 +30,25 @@ describe("daily forecast display", () => {
 
     // Select Climbing in TypeSelect
     cy.get("select.type-select").select("Climbing");
+
     // Select Boulder Canyon - Lower in TypeSelect
     cy.get("select.location-select").select("Boulder Canyon - Lower");
-    // Create alias todayDetailedForecast
-    cy.get("article.detailed-day-forecast").eq(0).as("todayDetailedForecast");
+
+    // Create alias todayForecast
+    cy.get("article.detailed-day-forecast").eq(0).as("todayForecast");
   });
 
   it("should display the detailed daily forecast when a location is selected", () => {
-    cy.get("@todayDetailedForecast").find("h2").should("have.text", "Today");
-    cy.get("@todayDetailedForecast")
+    cy.get("@todayForecast").find("h2").should("have.text", "Today");
+    cy.get("@todayForecast")
       .find("p.day-forecast-text")
       .should(
         "have.text",
         "Sunny. High near 57, with temperatures falling to around 52 in the afternoon. West wind 30 to 36 mph, with gusts as high as 54 mph."
       );
   });
+
+  it("should display the humidity details if available", () => {
+    cy.get("@todayForecast").find("div.day-header-details>p").should("have.text", "19% RH")
+  })
 });

@@ -19,7 +19,7 @@ describe("initial display for an authorized user", () => {
       { fixture: "user_locs.json" }
     );
 
-    // Intercept def_locs api call
+    // Intercept default locations req
     cy.intercept("http://localhost:3000/api/default_locations", {
       fixture: "default_locs.json",
     });
