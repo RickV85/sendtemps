@@ -221,6 +221,35 @@ select {
   gap: 1rem;
 }
 
+.hourly-forecast-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.hourly-forecast-header > h2 {
+  color: #9faf90;
+}
+
+.hourly-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 33px;
+  width: 33px;
+}
+
+/* Spacer div, change if button width changes */
+.hourly-header-spacer {
+  width: 33px;
+}
+
+.hourly-close-btn-icon {
+  all: unset !important;
+}
+
 /* Prevents layout shift when loading new location */
 .forecast-section.loading {
   height: calc(100vh - 93px);
@@ -234,6 +263,10 @@ select {
   border-radius: 3px;
   border: 1px solid #9faf90;
   padding: 0.5rem;
+}
+
+.detailed-day-forecast {
+  cursor: pointer;
 }
 
 .day-forecast-header {

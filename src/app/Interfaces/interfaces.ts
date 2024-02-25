@@ -228,6 +228,7 @@ export interface GoogleMapPoint {
 }
 
 export interface HourlyForecastTimePeriod {
+  name: string;
   start: string;
   end: string;
 }

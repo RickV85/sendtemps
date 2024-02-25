@@ -2,13 +2,18 @@ import { HomeContext } from "@/app/Contexts/HomeContext";
 import { useContext, useEffect, useState } from "react";
 import HourlyForecastTile from "../HourlyForecastTile/HourlyForecastTile";
 import { HourlyForecastTimePeriod } from "@/app/Interfaces/interfaces";
+import Image from "next/image";
 
 interface Props {
   hourlyForecastTimePeriod: HourlyForecastTimePeriod;
+  setHourlyForecastTimePeriod: React.Dispatch<
+    React.SetStateAction<HourlyForecastTimePeriod | undefined>
+  >;
 }
 
 export default function HourlyForecastContainer({
   hourlyForecastTimePeriod,
+  setHourlyForecastTimePeriod,
 }: Props) {
   const { hourlyForecastData } = useContext(HomeContext);
   const [hourlyForecastDisplay, setHourlyForecastDisplay] =
@@ -44,6 +49,24 @@ export default function HourlyForecastContainer({
 
   return (
     <section className="hourly-forecast-section">
+      <header className="hourly-forecast-header">
+        <button
+          className="hourly-close-btn"
+          onClick={() => {
+            setHourlyForecastTimePeriod(undefined);
+          }}
+        >
+          <Image
+            src={"/icons8-close.svg"}
+            alt="close hourly forecast display"
+            fill={true}
+            className="hourly-close-btn-icon"
+          />
+        </button>
+        <h2>{hourlyForecastTimePeriod.name}</h2>
+        {/* Spacer div, change if button width changes */}
+        <div className="hourly-header-spacer"></div>
+      </header>
       {hourlyForecastDisplay}
     </section>
   );

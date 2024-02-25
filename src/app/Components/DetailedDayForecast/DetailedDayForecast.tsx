@@ -20,6 +20,7 @@ const DetailedDayForecast: React.FC<Props> = ({ data, setHourlyForecastTimePerio
       <article className="detailed-day-forecast" onClick={() => {
         console.log(data)
         setHourlyForecastTimePeriod({
+          name: data.name,
           start: data.startTime,
           end: data.endTime,
         });
