@@ -50,6 +50,9 @@ export default function LocationSelect() {
         try {
           let allLocs;
           const defaultLocs = await fetchAndCheckDefaultLocations();
+          // These throw errors if either states contain an error,
+          // preventing the rest of this try block from running
+          // and showing the user an error message
           checkError(defaultLocs);
           checkError(userLocations);
           if (defaultLocs.length) {

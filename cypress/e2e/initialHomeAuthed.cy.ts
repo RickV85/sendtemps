@@ -98,7 +98,23 @@ describe("initial display for an authorized user", () => {
   });
 
   it("should show error msg when user_locations call fails", () => {
-    cy.intercept("http://localhost:3000/api/user_locations?user_id=101000928729222042760", { statusCode: 500 });
+    cy.intercept(
+      "http://localhost:3000/api/user_locations?user_id=101000928729222042760",
+      { statusCode: 500 }
+    );
+
+    cy.wait(1000);
+
+    cy.get("section.forecast-section")
+      .find("p.error-msg")
+      .should("be.visible")
+      .should(
+        "have.text",
+        "Oh, no! An error occurred while fetching locations. Please reload the page and try again."
+      );
+
+    cy.get("section.forecast-section")
+      .find("button.reload-btn")
+      .should("be.visible");
   });
-  // Error messaging TBD
 });

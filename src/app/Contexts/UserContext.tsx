@@ -58,8 +58,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           if (fetchedUserLocs) {
             setUserLocations(fetchedUserLocs);
           }
-        } catch (error) {
-          console.error("Error fetching userLocations from UserContext");
+        } catch (error: any) {
+          console.error(
+            "Error fetching userLocations from UserContext:",
+            error
+          );
+          setUserLocations(error);
         }
       };
       fetchUserLocations();
