@@ -1,8 +1,27 @@
 .article {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  width: 98%;
-  border: 1px solid #9FAF90;
+  gap: 0.75rem;
+  width: 100%;
+  border: 1px solid #9faf90;
   border-radius: 3px;
+  padding: 1rem 0.5rem;
+}
+
+.detail-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-wrap: nowrap;
+}
+
+.time-div {
+  max-width: 5rem;
+}
+
+.temp-div {
+  width: 8rem;
+  text-wrap: wrap;
 }

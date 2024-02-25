@@ -10,26 +10,34 @@ export default function HourlyForecastContainer() {
   useEffect(() => {
     if (hourlyForecastData?.properties.periods.length) {
       const display = hourlyForecastData.properties.periods.map((period, i) => {
-        const time = new Date(period.startTime).toLocaleTimeString("en-us", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-        });
-        const conditions = `${period.temperature} ${period.shortForecast}`;
-        const precip = `${period.probabilityOfPrecipitation.value}% Precip.`;
-        const wind = `${period.windSpeed} ${period.windDirection}`;
-        const humidity = `${period.relativeHumidity.value}% RH`;
+        const formattedTime = new Date(period.startTime).toLocaleTimeString(
+          "en-us",
+          {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          }
+        );
+        const periodForecastData = {
+          time: formattedTime,
+          temp: period.temperature,
+          conditions: period.shortForecast,
+          precip: period.probabilityOfPrecipitation.value,
+          wind: { speed: period.windSpeed, direction: period.windDirection },
+          humidity: period.relativeHumidity.value,
+        };
 
         return (
-          <HourlyForecastTile
-            data={{ time, conditions, precip, wind, humidity }}
-            key={`hourTile-${i}`}
-          />
+          <HourlyForecastTile data={periodForecastData} key={`hourTile-${i}`} />
         );
       });
       setHourlyForecastDisplay(display);
     }
   }, [hourlyForecastData]);
 
-  return <section className="hourly-forecast-section">{hourlyForecastDisplay}</section>;
+  return (
+    <section className="hourly-forecast-section">
+      {hourlyForecastDisplay}
+    </section>
+  );
 }
