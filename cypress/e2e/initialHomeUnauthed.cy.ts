@@ -11,6 +11,20 @@ describe("initial display for an unauthorized user", () => {
     });
   });
 
+  it("should display an initial loading message", () => {
+    cy.get("div.home-loading-msg").should(
+      "have.text",
+      "Please wait, loading..."
+    );
+  });
+
+  it("should display the Welcome Message once loaded", () => {
+    cy.wait(500);
+    cy.get("section.forecast-section")
+      .find("div.home-welcome-msg-div>h2")
+      .should("have.text", "Welcome to SendTemps!");
+  });
+
   it("should display the site title, 'SendTemps'", () => {
     cy.get("h1").should("have.text", "SendTemps");
   });
