@@ -226,3 +226,8 @@ export interface GoogleMapPoint {
     lng: number;
   };
 }
+
+export interface HourlyForecastTimePeriod {
+  start: string;
+  end: string;
+}

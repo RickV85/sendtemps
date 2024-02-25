@@ -1,3 +1,5 @@
+import { HourlyForecastTimePeriod } from "@/app/Interfaces/interfaces";
+
 interface Props {
   data: {
     name: string;
@@ -6,13 +8,22 @@ interface Props {
       value: number;
     };
     icon: string;
+    startTime: string;
+    endTime: string;
   };
+  setHourlyForecastTimePeriod: React.Dispatch<React.SetStateAction<HourlyForecastTimePeriod | undefined>>;
 }
 
-const DetailedDayForecast: React.FC<Props> = ({ data }) => {
+const DetailedDayForecast: React.FC<Props> = ({ data, setHourlyForecastTimePeriod }) => {
   if (data) {
     return (
-      <article className="detailed-day-forecast" onClick={() => console.log(data)}>
+      <article className="detailed-day-forecast" onClick={() => {
+        console.log(data)
+        setHourlyForecastTimePeriod({
+          start: data.startTime,
+          end: data.endTime,
+        });
+      }}>
         <div className="day-forecast-header">
           {/* Using img here, had issues with loading using Image component */}
           {/* eslint-disable-next-line */}

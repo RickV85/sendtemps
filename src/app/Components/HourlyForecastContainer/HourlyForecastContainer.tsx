@@ -1,8 +1,15 @@
 import { HomeContext } from "@/app/Contexts/HomeContext";
 import { useContext, useEffect, useState } from "react";
 import HourlyForecastTile from "../HourlyForecastTile/HourlyForecastTile";
+import { HourlyForecastTimePeriod } from "@/app/Interfaces/interfaces";
 
-export default function HourlyForecastContainer() {
+interface Props {
+  hourlyForecastTimePeriod: HourlyForecastTimePeriod;
+}
+
+export default function HourlyForecastContainer({
+  hourlyForecastTimePeriod,
+}: Props) {
   const { hourlyForecastData } = useContext(HomeContext);
   const [hourlyForecastDisplay, setHourlyForecastDisplay] =
     useState<React.JSX.Element[]>();

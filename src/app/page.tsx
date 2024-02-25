@@ -1,6 +1,6 @@
 "use client";
 import "./home.css";
-import { useEffect, useRef, useContext, useCallback } from "react";
+import { useEffect, useRef, useContext, useCallback, useState } from "react";
 import { HomeContext } from "./Contexts/HomeContext";
 import { throttle } from "lodash";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
@@ -9,6 +9,10 @@ import HomeControl from "./Components/HomeControl/HomeControl";
 import ReloadBtn from "./Components/ReloadBtn/ReloadBtn";
 import { WelcomeHomeMsg } from "./Components/WelcomeHomeMsg/WelcomeHomeMsg";
 import HourlyForecastContainer from "./Components/HourlyForecastContainer/HourlyForecastContainer";
+import {
+  ForecastData,
+  HourlyForecastTimePeriod,
+} from "./Interfaces/interfaces";
 
 export default function Home() {
   const {
@@ -23,11 +27,19 @@ export default function Home() {
     setPageLoaded,
     error,
   } = useContext(HomeContext);
+  const [hourlyForecastTimePeriod, setHourlyForecastTimePeriod] =
+    useState<HourlyForecastTimePeriod>();
   const forecastSection = useRef<null | HTMLElement>(null);
 
   const createDetailedForecast = () => {
     const forecast = forecastData?.properties.periods.map((data, i) => {
-      return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
+      return (
+        <DetailedDayForecast
+          data={data}
+          setHourlyForecastTimePeriod={setHourlyForecastTimePeriod}
+          key={`forecastPeriod-${i}`}
+        />
+      );
     });
     return forecast;
   };
@@ -116,8 +128,13 @@ export default function Home() {
             </>
           ) : null}
           {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}
-          {/* {createDetailedForecast()} */}
-          <HourlyForecastContainer />
+          {hourlyForecastTimePeriod ? (
+            <HourlyForecastContainer
+              hourlyForecastTimePeriod={hourlyForecastTimePeriod}
+            />
+          ) : (
+            createDetailedForecast()
+          )}
         </section>
       </section>
     </main>
