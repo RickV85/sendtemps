@@ -29,6 +29,7 @@ export default function LocationSelect() {
     setLocationDetails,
     setForecastData,
     setHourlyForecastData,
+    setHourlyForecastParams,
     setError,
   } = useContext(HomeContext);
 
@@ -76,9 +77,12 @@ export default function LocationSelect() {
   }, [setError, userLocations, allLocationOptions]);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // Reset all location info, forecast data, removes all from DOM,
+    // then set the locationCoords
     setLocationDetails(undefined);
     setForecastData(undefined);
     setHourlyForecastData(undefined);
+    setHourlyForecastParams(undefined);
     setSelectedLocCoords(e.target.value);
   };
 

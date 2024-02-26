@@ -9,7 +9,6 @@ import HomeControl from "./Components/HomeControl/HomeControl";
 import ReloadBtn from "./Components/ReloadBtn/ReloadBtn";
 import { WelcomeHomeMsg } from "./Components/WelcomeHomeMsg/WelcomeHomeMsg";
 import HourlyForecastContainer from "./Components/HourlyForecastContainer/HourlyForecastContainer";
-import { HourlyForecastParams } from "./Interfaces/interfaces";
 
 export default function Home() {
   const {
