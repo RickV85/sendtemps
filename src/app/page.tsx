@@ -96,18 +96,6 @@ export default function Home() {
     }
   }, [selectedLocCoords, hourlyForecastParams]);
 
-  // Used by refresh button when location fetch fails
-  // to retry the fetch sequence
-  const retryDailyForecastFetch = useCallback(() => {
-    if (locationDetails) {
-      const failedLocDetails = locationDetails;
-      setLocationDetails(undefined);
-      setTimeout(() => {
-        setLocationDetails(failedLocDetails);
-      }, 100);
-    }
-  }, [locationDetails, setLocationDetails]);
-
   // Creates detailed daily forecast display
   const createDetailedForecast = () => {
     const forecast = forecastData?.properties.periods.map((data, i) => {
@@ -128,16 +116,7 @@ export default function Home() {
           {error && !isLoading ? (
             <>
               <p className="error-msg">{`Oh, no! ${error}`}</p>
-              {error === "All fetch Daily Forecast attempts failed." ? (
-                <button
-                  className="retry-fetch-btn"
-                  onClick={() => retryDailyForecastFetch()}
-                >
-                  Retry
-                </button>
-              ) : (
-                <ReloadBtn />
-              )}
+              <ReloadBtn />
             </>
           ) : null}
           {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}

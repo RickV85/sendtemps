@@ -186,15 +186,10 @@ select {
 }
 
 .type-select,
-.location-select,
-.retry-fetch-btn {
+.location-select {
   width: 95%;
   max-width: 30rem;
   height: 2.5rem;
-}
-
-.retry-fetch-btn {
-  max-width: 150px;
 }
 
 .type-select,
@@ -390,8 +385,7 @@ select {
   }
 
   .type-select,
-  .location-select,
-  .retry-fetch-btn {
+  .location-select {
     width: 24rem;
   }
 
