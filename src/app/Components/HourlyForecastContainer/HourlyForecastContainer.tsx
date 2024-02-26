@@ -1,5 +1,5 @@
 import { HomeContext } from "@/app/Contexts/HomeContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import HourlyForecastTile from "../HourlyForecastTile/HourlyForecastTile";
 import Image from "next/image";
 import { filterHourlyForecastByTime } from "@/app/Util/utils";
@@ -14,9 +14,33 @@ export default function HourlyForecastContainer() {
     setHourlyForecastParams,
     setIsLoading,
     setError,
+    screenWidth,
   } = useContext(HomeContext);
   const [hourlyForecastDisplay, setHourlyForecastDisplay] =
     useState<React.JSX.Element[]>();
+  const hourlyForecastSection = useRef<null | HTMLElement>(null);
+
+  // Scroll to top of the hourly forecast section once rendered
+  useEffect(() => {
+    if (hourlyForecastDisplay && screenWidth > 768) {
+      hourlyForecastSection.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else if (hourlyForecastDisplay && screenWidth < 768) {
+      const homeHeaderDims = document
+        .querySelector(".home-header")
+        ?.getBoundingClientRect();
+      if (homeHeaderDims?.height) {
+        const scrollPos = homeHeaderDims.height;
+        window.scrollTo({
+          top: scrollPos,
+          left: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [hourlyForecastDisplay, screenWidth]);
 
   useEffect(() => {
     if (!hourlyForecastData && locationDetails) {
@@ -81,29 +105,37 @@ export default function HourlyForecastContainer() {
     }
   }, [hourlyForecastData, hourlyForecastParams]);
 
-  if (hourlyForecastDisplay) {
-    return (
-      <section className="hourly-forecast-section">
-        <header className="hourly-forecast-header">
-          <button
-            className="hourly-close-btn"
-            onClick={() => {
-              setHourlyForecastParams(undefined);
-            }}
-          >
-            <Image
-              src={"/icons8-close.svg"}
-              alt="close hourly forecast display"
-              fill={true}
-              className="hourly-close-btn-icon"
-            />
-          </button>
-          <h2>{hourlyForecastParams?.name}</h2>
-          {/* Spacer div, change if button width changes */}
-          <div className="hourly-header-spacer"></div>
-        </header>
-        <div className="hourly-forecast-container">{hourlyForecastDisplay}</div>
-      </section>
-    );
-  }
+  return (
+    <section className="hourly-forecast-section" ref={hourlyForecastSection}>
+      {/* Display div to prevent layout shift until forecast
+      display is loaded and rendered */}
+      {hourlyForecastDisplay ? (
+        <>
+          <header className="hourly-forecast-header">
+            <button
+              className="hourly-close-btn"
+              onClick={() => {
+                setHourlyForecastParams(undefined);
+              }}
+            >
+              <Image
+                src={"/icons8-close.svg"}
+                alt="close hourly forecast display"
+                fill={true}
+                className="hourly-close-btn-icon"
+              />
+            </button>
+            <h2>{hourlyForecastParams?.name}</h2>
+            {/* Spacer div, change if button width changes */}
+            <div className="hourly-header-spacer"></div>
+          </header>
+          <div className="hourly-forecast-container">
+            {hourlyForecastDisplay}
+          </div>
+        </>
+      ) : (
+        <div className="forecast-section loading"></div>
+      )}
+    </section>
+  );
 }

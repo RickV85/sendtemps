@@ -219,6 +219,7 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: fadeIn ease-in 0.5s;
 }
 
 .hourly-forecast-header {

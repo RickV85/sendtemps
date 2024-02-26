@@ -72,22 +72,12 @@ export default function Home() {
   // Toggle loading class on forecast section -
   // prevents layout shift while loading new daily forecast
   useEffect(() => {
-    if (!forecastData && selectedLocCoords) {
+    if (isLoading) {
       forecastSection.current?.classList.add("loading");
     } else {
       forecastSection.current?.classList.remove("loading");
     }
-  }, [forecastData, selectedLocCoords]);
-
-  // Toggle loading class on forecast section -
-  // prevent layout shift during hourly forecast load
-  useEffect(() => {
-    if (selectedLocCoords && hourlyForecastParams) {
-      forecastSection.current?.classList.add("loading");
-    } else if (!selectedLocCoords || !hourlyForecastParams) {
-      forecastSection.current?.classList.remove("loading");
-    }
-  }, [selectedLocCoords, hourlyForecastParams]);
+  }, [isLoading]);
 
   // Creates detailed daily forecast display
   const createDetailedForecast = () => {
