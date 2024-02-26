@@ -28,7 +28,7 @@ interface HomeContextType {
     React.SetStateAction<HourlyForecastData | undefined>
   >;
   hourlyForecastParams: HourlyForecastParams | undefined;
-  setHourlyForecastPrams: React.Dispatch<React.SetStateAction<HourlyForecastParams | undefined>>
+  setHourlyForecastParams: React.Dispatch<React.SetStateAction<HourlyForecastParams | undefined>>
   screenWidth: number;
   setScreenWidth: React.Dispatch<React.SetStateAction<number>>;
   isLoading: boolean;
@@ -53,7 +53,7 @@ export const HomeContext = createContext<HomeContextType>({
   hourlyForecastData: undefined,
   setHourlyForecastData: () => {},
   hourlyForecastParams: undefined,
-  setHourlyForecastPrams: () => {},
+  setHourlyForecastParams: () => {},
   screenWidth: 0,
   setScreenWidth: () => {},
   isLoading: false,
@@ -76,7 +76,7 @@ export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [hourlyForecastData, setHourlyForecastData] = useState<HourlyForecastData>();
-  const [hourlyForecastParams, setHourlyForecastPrams] = useState<HourlyForecastParams>();
+  const [hourlyForecastParams, setHourlyForecastParams] = useState<HourlyForecastParams>();
   const [screenWidth, setScreenWidth] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [pageLoaded, setPageLoaded] = useState<boolean>(false);
@@ -97,7 +97,7 @@ export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
         hourlyForecastData,
         setHourlyForecastData,
         hourlyForecastParams,
-        setHourlyForecastPrams,
+        setHourlyForecastParams,
         screenWidth,
         setScreenWidth,
         isLoading,

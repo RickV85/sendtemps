@@ -17,6 +17,7 @@ export default function Home() {
     locationDetails,
     setLocationDetails,
     forecastData,
+    hourlyForecastParams,
     screenWidth,
     setScreenWidth,
     isLoading,
@@ -24,19 +25,11 @@ export default function Home() {
     setPageLoaded,
     error,
   } = useContext(HomeContext);
-  const [hourlyForecastParams, setHourlyForecastParams] =
-    useState<HourlyForecastParams>();
   const forecastSection = useRef<null | HTMLElement>(null);
 
   const createDetailedForecast = () => {
     const forecast = forecastData?.properties.periods.map((data, i) => {
-      return (
-        <DetailedDayForecast
-          data={data}
-          setHourlyForecastParams={setHourlyForecastParams}
-          key={`forecastPeriod-${i}`}
-        />
-      );
+      return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
     });
     return forecast;
   };
@@ -127,10 +120,7 @@ export default function Home() {
           ) : null}
           {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}
           {hourlyForecastParams ? (
-            <HourlyForecastContainer
-              hourlyForecastParams={hourlyForecastParams}
-              setHourlyForecastParams={setHourlyForecastParams}
-            />
+            <HourlyForecastContainer />
           ) : (
             createDetailedForecast()
           )}

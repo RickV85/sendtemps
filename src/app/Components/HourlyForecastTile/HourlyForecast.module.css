@@ -43,11 +43,11 @@
 @media only screen and (min-width: 975px) {
   .article {
     width: 100%;
+    min-height: 100%;
     padding: 1rem;
   }
 
   .temp-div {
-    width: unset;
-    max-width: 25%;
+    width: 25%;
   }
 }

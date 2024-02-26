@@ -1,4 +1,5 @@
-import { HourlyForecastParams } from "@/app/Interfaces/interfaces";
+import { useContext } from "react";
+import { HomeContext } from "@/app/Contexts/HomeContext";
 
 interface Props {
   data: {
@@ -11,15 +12,10 @@ interface Props {
     startTime: string;
     endTime: string;
   };
-  setHourlyForecastParams: React.Dispatch<
-    React.SetStateAction<HourlyForecastParams | undefined>
-  >;
 }
 
-const DetailedDayForecast: React.FC<Props> = ({
-  data,
-  setHourlyForecastParams,
-}) => {
+const DetailedDayForecast: React.FC<Props> = ({ data }) => {
+  const { setHourlyForecastParams } = useContext(HomeContext);
   if (data) {
     return (
       <article

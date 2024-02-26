@@ -5,23 +5,14 @@ import { HourlyForecastParams } from "@/app/Interfaces/interfaces";
 import Image from "next/image";
 import { filterHourlyForecastByTime } from "@/app/Util/utils";
 
-interface Props {
-  hourlyForecastParams: HourlyForecastParams;
-  setHourlyForecastParams: React.Dispatch<
-    React.SetStateAction<HourlyForecastParams | undefined>
-  >;
-}
-
-export default function HourlyForecastContainer({
-  hourlyForecastParams,
-  setHourlyForecastParams,
-}: Props) {
-  const { hourlyForecastData } = useContext(HomeContext);
+export default function HourlyForecastContainer() {
+  const { hourlyForecastData, hourlyForecastParams, setHourlyForecastParams } =
+    useContext(HomeContext);
   const [hourlyForecastDisplay, setHourlyForecastDisplay] =
     useState<React.JSX.Element[]>();
 
   useEffect(() => {
-    if (hourlyForecastData?.properties.periods.length) {
+    if (hourlyForecastData?.properties.periods.length && hourlyForecastParams) {
       const startEndTime = {
         startTime: hourlyForecastParams.start,
         endTime: hourlyForecastParams.end,
@@ -73,13 +64,11 @@ export default function HourlyForecastContainer({
             className="hourly-close-btn-icon"
           />
         </button>
-        <h2>{hourlyForecastParams.name}</h2>
+        <h2>{hourlyForecastParams?.name}</h2>
         {/* Spacer div, change if button width changes */}
         <div className="hourly-header-spacer"></div>
       </header>
-      <div className="hourly-forecast-container">
-        {hourlyForecastDisplay}
-      </div>
+      <div className="hourly-forecast-container">{hourlyForecastDisplay}</div>
     </section>
   );
 }

@@ -237,8 +237,8 @@ select {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 33px;
-  width: 33px;
+  height: 2rem;
+  width: 2rem;
   position: relative;
 }
 
@@ -258,11 +258,6 @@ select {
   align-items: center;
   margin-top: 1rem;
   gap: 1rem;
-}
-
-/* Prevents layout shift when loading new location */
-.forecast-section.loading {
-  height: calc(100vh - 93px);
 }
 
 .detailed-day-forecast,
@@ -419,7 +414,7 @@ select {
   }
 
   .hourly-forecast-header > h2 {
-    font-size: 1.75rem;
+    font-size: 1.9rem;
   }
 
   .detailed-day-forecast,
