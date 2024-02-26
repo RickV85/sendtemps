@@ -12,9 +12,7 @@ import HourlyForecastContainer from "./Components/HourlyForecastContainer/Hourly
 
 export default function Home() {
   const {
-    selectedLocCoords,
     forecastData,
-    hourlyForecastData,
     hourlyForecastParams,
     screenWidth,
     setScreenWidth,
@@ -24,6 +22,7 @@ export default function Home() {
     error,
   } = useContext(HomeContext);
   const forecastSection = useRef<null | HTMLElement>(null);
+  const [hasSeenHourlyForecast, setHasSeenHourlyForecast] = useState<boolean>();
 
   // Set pageLoaded using readyState listener
   useEffect(() => {
@@ -79,6 +78,25 @@ export default function Home() {
     }
   }, [isLoading]);
 
+  // Get sessionStorage item and set state indicating if user
+  // has seen the new hourly forecast feature
+  useEffect(() => {
+    const hasSeenHourly = window.sessionStorage.getItem("hasSeenHourly");
+    if (!hasSeenHourly || hasSeenHourly === "false") {
+      setHasSeenHourlyForecast(false);
+    } else if (hasSeenHourly === "true") {
+      setHasSeenHourlyForecast(true);
+    }
+  }, []);
+
+  // Set state and session storage if user views hourly forecast
+  useEffect(() => {
+    if (hourlyForecastParams && !hasSeenHourlyForecast) {
+      setHasSeenHourlyForecast(true);
+      window.sessionStorage.setItem("hasSeenHourly", "true");
+    }
+  }, [hourlyForecastParams, hasSeenHourlyForecast]);
+
   // Creates detailed daily forecast display
   const createDetailedForecast = () => {
     const forecast = forecastData?.properties.periods.map((data, i) => {
@@ -103,13 +121,19 @@ export default function Home() {
             </div>
           ) : null}
           {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}
-          {hourlyForecastParams ? (
-            <HourlyForecastContainer />
-          ) : (
-            <div className="day-forecast-container">
-              {createDetailedForecast()}
-            </div>
-          )}
+          {hourlyForecastParams && <HourlyForecastContainer />}
+          {forecastData && !hourlyForecastParams ? (
+            <>
+              {!hasSeenHourlyForecast && (
+                <p className="hour-forecast-tip">
+                  Click on a day for an hourly forecast!
+                </p>
+              )}
+              <div className="day-forecast-container">
+                {createDetailedForecast()}
+              </div>
+            </>
+          ) : null}
         </section>
       </section>
     </main>

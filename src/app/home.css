@@ -321,7 +321,7 @@ select {
   color: #f18f01;
   font-size: 1.85rem;
   font-weight: 600;
-  width: 80vw;
+  width: 100vw;
   text-align: center;
   margin-top: 1rem;
 }
@@ -354,6 +354,14 @@ select {
   color: #00b2ff;
   font-weight: 700;
   line-height: normal;
+}
+
+.hour-forecast-tip {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #ef8354;
+  margin: 0.5rem 0rem;
+  text-align: center;
 }
 
 /* Desktop */
