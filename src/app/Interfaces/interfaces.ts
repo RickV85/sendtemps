@@ -150,13 +150,16 @@ export interface ForecastData {
 }
 
 export interface HourlyForecastData {
-  "@context": Array<string | {
-    "@version": string,
-    "wx": string,
-    "geo": string,
-    "unit": string,
-    "@vocab": string
-  }>;
+  "@context": Array<
+    | string
+    | {
+        "@version": string;
+        wx: string;
+        geo: string;
+        unit: string;
+        "@vocab": string;
+      }
+  >;
   type: string;
   geometry: {
     type: string;
@@ -203,7 +206,6 @@ export interface HourlyForecastData {
   };
 }
 
-
 export interface LocationObject {
   id: number;
   latitude: string;
@@ -225,6 +227,34 @@ export interface GoogleMapPoint {
     lat: number;
     lng: number;
   };
+}
+
+export interface HourlyForecastPeriod {
+  number: number;
+  name: string;
+  startTime: string;
+  endTime: string;
+  isDaytime: boolean;
+  temperature: number;
+  temperatureUnit: string;
+  temperatureTrend: null;
+  probabilityOfPrecipitation: {
+    unitCode: string;
+    value: number | null;
+  };
+  dewpoint: {
+    unitCode: string;
+    value: number;
+  };
+  relativeHumidity: {
+    unitCode: string;
+    value: number;
+  };
+  windSpeed: string;
+  windDirection: string;
+  icon: string;
+  shortForecast: string;
+  detailedForecast: string;
 }
 
 export interface HourlyForecastTimePeriod {

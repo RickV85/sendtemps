@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import HourlyForecastTile from "../HourlyForecastTile/HourlyForecastTile";
 import { HourlyForecastTimePeriod } from "@/app/Interfaces/interfaces";
 import Image from "next/image";
+import { filterHourlyForecastByTime } from "@/app/Util/utils";
 
 interface Props {
   hourlyForecastTimePeriod: HourlyForecastTimePeriod;
@@ -21,7 +22,16 @@ export default function HourlyForecastContainer({
 
   useEffect(() => {
     if (hourlyForecastData?.properties.periods.length) {
-      const display = hourlyForecastData.properties.periods.map((period, i) => {
+      const startEndTime = {
+        startTime: hourlyForecastTimePeriod.start,
+        endTime: hourlyForecastTimePeriod.end,
+      };
+
+      const filteredPeriods = filterHourlyForecastByTime(
+        hourlyForecastData.properties.periods,
+        startEndTime
+      );
+      const display = filteredPeriods.map((period, i) => {
         const formattedTime = new Date(period.startTime).toLocaleTimeString(
           "en-us",
           {
@@ -45,7 +55,7 @@ export default function HourlyForecastContainer({
       });
       setHourlyForecastDisplay(display);
     }
-  }, [hourlyForecastData]);
+  }, [hourlyForecastData, hourlyForecastTimePeriod]);
 
   return (
     <section className="hourly-forecast-section">

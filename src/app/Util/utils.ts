@@ -1,4 +1,4 @@
-import { LocationObject, GoogleMapPoint } from "../Interfaces/interfaces";
+import { LocationObject, GoogleMapPoint, HourlyForecastData, HourlyForecastPeriod } from "../Interfaces/interfaces";
 import { UserLocation } from "../Classes/UserLocation";
 
 export function filterAndSortLocationsAlphaByName(
@@ -71,14 +71,14 @@ export const checkError = (x: any) => {
   }
 };
 
-export const filterDateTimeStrings = (
-  dateTimeStrings: string[],
-  timePeriod: { startTime: string; endTime: string }
-): string[] => {
-  const result = dateTimeStrings.filter((str) => {
-    const date = new Date(str);
-    const start = new Date(timePeriod.startTime);
-    const end = new Date(timePeriod.endTime);
+export const filterHourlyForecastByTime = (
+  periods: HourlyForecastPeriod[],
+  timeParams: { startTime: string; endTime: string }
+): HourlyForecastPeriod[] => {
+  const result = periods.filter((period) => {
+    const date = new Date(period.startTime);
+    const start = new Date(timeParams.startTime);
+    const end = new Date(timeParams.endTime);
     if (date >= start && date <= end) {
       return true;
     }
