@@ -239,15 +239,16 @@ select {
   justify-content: center;
   height: 33px;
   width: 33px;
+  position: relative;
+}
+
+.hourly-close-btn-icon {
+  all: unset !important;
 }
 
 /* Spacer div, change if button width changes */
 .hourly-header-spacer {
   width: 33px;
-}
-
-.hourly-close-btn-icon {
-  all: unset !important;
 }
 
 /* Prevents layout shift when loading new location */

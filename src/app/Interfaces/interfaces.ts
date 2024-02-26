@@ -257,7 +257,7 @@ export interface HourlyForecastPeriod {
   detailedForecast: string;
 }
 
-export interface HourlyForecastTimePeriod {
+export interface HourlyForecastParams {
   name: string;
   start: string;
   end: string;

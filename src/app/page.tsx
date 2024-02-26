@@ -9,7 +9,7 @@ import HomeControl from "./Components/HomeControl/HomeControl";
 import ReloadBtn from "./Components/ReloadBtn/ReloadBtn";
 import { WelcomeHomeMsg } from "./Components/WelcomeHomeMsg/WelcomeHomeMsg";
 import HourlyForecastContainer from "./Components/HourlyForecastContainer/HourlyForecastContainer";
-import { HourlyForecastTimePeriod } from "./Interfaces/interfaces";
+import { HourlyForecastParams } from "./Interfaces/interfaces";
 
 export default function Home() {
   const {
@@ -24,8 +24,8 @@ export default function Home() {
     setPageLoaded,
     error,
   } = useContext(HomeContext);
-  const [hourlyForecastTimePeriod, setHourlyForecastTimePeriod] =
-    useState<HourlyForecastTimePeriod>();
+  const [hourlyForecastParams, setHourlyForecastParams] =
+    useState<HourlyForecastParams>();
   const forecastSection = useRef<null | HTMLElement>(null);
 
   const createDetailedForecast = () => {
@@ -33,7 +33,7 @@ export default function Home() {
       return (
         <DetailedDayForecast
           data={data}
-          setHourlyForecastTimePeriod={setHourlyForecastTimePeriod}
+          setHourlyForecastParams={setHourlyForecastParams}
           key={`forecastPeriod-${i}`}
         />
       );
@@ -126,10 +126,10 @@ export default function Home() {
             </>
           ) : null}
           {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}
-          {hourlyForecastTimePeriod ? (
+          {hourlyForecastParams ? (
             <HourlyForecastContainer
-              hourlyForecastTimePeriod={hourlyForecastTimePeriod}
-              setHourlyForecastTimePeriod={setHourlyForecastTimePeriod}
+              hourlyForecastParams={hourlyForecastParams}
+              setHourlyForecastParams={setHourlyForecastParams}
             />
           ) : (
             createDetailedForecast()

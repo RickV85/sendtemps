@@ -1,20 +1,20 @@
 import { HomeContext } from "@/app/Contexts/HomeContext";
 import { useContext, useEffect, useState } from "react";
 import HourlyForecastTile from "../HourlyForecastTile/HourlyForecastTile";
-import { HourlyForecastTimePeriod } from "@/app/Interfaces/interfaces";
+import { HourlyForecastParams } from "@/app/Interfaces/interfaces";
 import Image from "next/image";
 import { filterHourlyForecastByTime } from "@/app/Util/utils";
 
 interface Props {
-  hourlyForecastTimePeriod: HourlyForecastTimePeriod;
-  setHourlyForecastTimePeriod: React.Dispatch<
-    React.SetStateAction<HourlyForecastTimePeriod | undefined>
+  hourlyForecastParams: HourlyForecastParams;
+  setHourlyForecastParams: React.Dispatch<
+    React.SetStateAction<HourlyForecastParams | undefined>
   >;
 }
 
 export default function HourlyForecastContainer({
-  hourlyForecastTimePeriod,
-  setHourlyForecastTimePeriod,
+  hourlyForecastParams,
+  setHourlyForecastParams,
 }: Props) {
   const { hourlyForecastData } = useContext(HomeContext);
   const [hourlyForecastDisplay, setHourlyForecastDisplay] =
@@ -23,8 +23,8 @@ export default function HourlyForecastContainer({
   useEffect(() => {
     if (hourlyForecastData?.properties.periods.length) {
       const startEndTime = {
-        startTime: hourlyForecastTimePeriod.start,
-        endTime: hourlyForecastTimePeriod.end,
+        startTime: hourlyForecastParams.start,
+        endTime: hourlyForecastParams.end,
       };
 
       const filteredPeriods = filterHourlyForecastByTime(
@@ -55,7 +55,7 @@ export default function HourlyForecastContainer({
       });
       setHourlyForecastDisplay(display);
     }
-  }, [hourlyForecastData, hourlyForecastTimePeriod]);
+  }, [hourlyForecastData, hourlyForecastParams]);
 
   return (
     <section className="hourly-forecast-section">
@@ -63,7 +63,7 @@ export default function HourlyForecastContainer({
         <button
           className="hourly-close-btn"
           onClick={() => {
-            setHourlyForecastTimePeriod(undefined);
+            setHourlyForecastParams(undefined);
           }}
         >
           <Image
@@ -73,7 +73,7 @@ export default function HourlyForecastContainer({
             className="hourly-close-btn-icon"
           />
         </button>
-        <h2>{hourlyForecastTimePeriod.name}</h2>
+        <h2>{hourlyForecastParams.name}</h2>
         {/* Spacer div, change if button width changes */}
         <div className="hourly-header-spacer"></div>
       </header>
