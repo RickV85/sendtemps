@@ -86,6 +86,7 @@ export default function Home() {
     }
   }, []);
 
+  // Toggle loading class - prevents layout shift
   useEffect(() => {
     if (!forecastData && selectedLocCoords) {
       forecastSection.current?.classList.add("loading");
@@ -93,6 +94,23 @@ export default function Home() {
       forecastSection.current?.classList.remove("loading");
     }
   }, [forecastData, selectedLocCoords]);
+
+  // Toggle min-height on forecast section prevent layout shift
+  // and add scroll function to show top of hourly forecast
+  useEffect(() => {
+    if (selectedLocCoords && hourlyForecastParams && forecastSection.current) {
+      forecastSection.current.style.minHeight = "100vh";
+      forecastSection.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else if (
+      (!selectedLocCoords || !hourlyForecastParams) &&
+      forecastSection.current
+    ) {
+      forecastSection.current.style.minHeight = "";
+    }
+  }, [selectedLocCoords, hourlyForecastParams]);
 
   return (
     <main className="home-main">

@@ -260,6 +260,11 @@ select {
   gap: 1rem;
 }
 
+/* Prevents layout shift when loading new location */
+.forecast-section.loading {
+  height: calc(100vh - 93px);
+}
+
 .detailed-day-forecast,
 .home-welcome-msg-div {
   animation: fadeIn 500ms ease-in-out;
