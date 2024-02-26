@@ -27,34 +27,7 @@ export default function Home() {
   } = useContext(HomeContext);
   const forecastSection = useRef<null | HTMLElement>(null);
 
-  const createDetailedForecast = () => {
-    const forecast = forecastData?.properties.periods.map((data, i) => {
-      return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
-    });
-    return forecast;
-  };
-
-  const retryDailyForecastFetch = useCallback(() => {
-    if (locationDetails) {
-      const failedLocDetails = locationDetails;
-      setLocationDetails(undefined);
-      setTimeout(() => {
-        setLocationDetails(failedLocDetails);
-      }, 100);
-    }
-  }, [locationDetails, setLocationDetails]);
-
-  useEffect(() => {
-    const setWindowWidthState = throttle(() => {
-      setScreenWidth(window.innerWidth);
-    }, 100);
-
-    setWindowWidthState();
-    window.addEventListener("resize", setWindowWidthState);
-
-    return () => window.removeEventListener("resize", setWindowWidthState);
-  }, [setScreenWidth]);
-
+  // Set pageLoaded using readyState listener
   useEffect(() => {
     if (document.readyState === "complete") {
       setPageLoaded(true);
@@ -86,6 +59,18 @@ export default function Home() {
     }
   }, []);
 
+  // SetScreen width with throttling
+  useEffect(() => {
+    const setWindowWidthState = throttle(() => {
+      setScreenWidth(window.innerWidth);
+    }, 100);
+
+    setWindowWidthState();
+    window.addEventListener("resize", setWindowWidthState);
+
+    return () => window.removeEventListener("resize", setWindowWidthState);
+  }, [setScreenWidth]);
+
   // Toggle loading class - prevents layout shift
   useEffect(() => {
     if (!forecastData && selectedLocCoords) {
@@ -111,6 +96,26 @@ export default function Home() {
       forecastSection.current.style.minHeight = "";
     }
   }, [selectedLocCoords, hourlyForecastParams]);
+
+  // Used by refresh button when location fetch fails
+  // to retry the fetch sequence
+  const retryDailyForecastFetch = useCallback(() => {
+    if (locationDetails) {
+      const failedLocDetails = locationDetails;
+      setLocationDetails(undefined);
+      setTimeout(() => {
+        setLocationDetails(failedLocDetails);
+      }, 100);
+    }
+  }, [locationDetails, setLocationDetails]);
+
+  // Creates detailed daily forecast display
+  const createDetailedForecast = () => {
+    const forecast = forecastData?.properties.periods.map((data, i) => {
+      return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
+    });
+    return forecast;
+  };
 
   return (
     <main className="home-main">
