@@ -69,7 +69,7 @@ export default function Home() {
     return () => window.removeEventListener("resize", setWindowWidthState);
   }, [setScreenWidth]);
 
-  // Toggle loading class on forecast section - 
+  // Toggle loading class on forecast section -
   // prevents layout shift while loading new daily forecast
   useEffect(() => {
     if (!forecastData && selectedLocCoords) {
@@ -79,7 +79,7 @@ export default function Home() {
     }
   }, [forecastData, selectedLocCoords]);
 
-  // Toggle loading class on forecast section - 
+  // Toggle loading class on forecast section -
   // prevent layout shift during hourly forecast load
   useEffect(() => {
     if (selectedLocCoords && hourlyForecastParams) {
@@ -94,7 +94,7 @@ export default function Home() {
     const forecast = forecastData?.properties.periods.map((data, i) => {
       return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
     });
-    return <div>{forecast}</div>;
+    return forecast;
   };
 
   return (
@@ -116,7 +116,9 @@ export default function Home() {
           {hourlyForecastParams ? (
             <HourlyForecastContainer />
           ) : (
-            createDetailedForecast()
+            <div className="day-forecast-container">
+              {createDetailedForecast()}
+            </div>
           )}
         </section>
       </section>

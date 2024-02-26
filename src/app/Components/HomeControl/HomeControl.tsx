@@ -53,7 +53,7 @@ export default function HomeControl() {
 
   useEffect(() => {
     // Fetch grid point details from NOAA with 5 retries
-    if (selectedLocCoords) {
+    if (selectedLocCoords && !locationDetails) {
       setIsLoading(true);
       fetchNoaaGridLocationWithRetry(selectedLocCoords)
         .then((result) => {
@@ -65,7 +65,13 @@ export default function HomeControl() {
           setIsLoading(false);
         });
     }
-  }, [selectedLocCoords, setError, setIsLoading, setLocationDetails]);
+  }, [
+    selectedLocCoords,
+    locationDetails,
+    setError,
+    setIsLoading,
+    setLocationDetails,
+  ]);
 
   useEffect(() => {
     // Fetch daily and hourly forecasts from NOAA with 5 retries
@@ -76,7 +82,6 @@ export default function HomeControl() {
       fetchDailyForecastWithRetry(forecastUrl)
         .then((res) => {
           setForecastData(res);
-          setIsLoading(false);
         })
         .then(() => setError(""))
         .catch((err) => {

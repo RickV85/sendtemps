@@ -202,10 +202,16 @@ select {
 .forecast-section {
   padding: 8px;
   width: 100vw;
+  z-index: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 0;
+}
+
+.day-forecast-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hourly-forecast-section {
@@ -251,7 +257,7 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 1rem;
+  margin: 1rem 0rem;
   gap: 1rem;
 }
 
@@ -272,6 +278,7 @@ select {
 
 .detailed-day-forecast {
   cursor: pointer;
+  text-align: center;
 }
 
 .day-forecast-header {
@@ -437,13 +444,22 @@ select {
 
 @media only screen and (min-width: 975px) {
   .forecast-section {
-    display: flex;
+    max-width: 1500px;
+  }
+
+  .day-forecast-container {
+    /* display: flex;
     flex-direction: row;
     align-items: flex-start;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0rem 1rem;
-    max-width: 1500px;
+    gap: 0rem 1rem; */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(7, auto);
+    grid-auto-flow: row;
+    align-items: start;
+    gap: 1rem;
   }
 
   .forecast-section.loading {
@@ -454,9 +470,8 @@ select {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    min-height: 11rem;
-    width: 48vw;
-    max-width: 700px;
+    height: 100%;
+    width: 100%;
   }
 
   .hourly-forecast-container {

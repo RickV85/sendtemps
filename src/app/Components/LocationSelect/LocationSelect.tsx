@@ -7,6 +7,7 @@ import {
   useCallback,
   ReactElement,
   useContext,
+  useRef,
 } from "react";
 import { getAllDefaultLocations } from "@/app/Util/DatabaseApiCalls";
 import {
@@ -32,10 +33,25 @@ export default function LocationSelect() {
     setHourlyForecastParams,
     setError,
   } = useContext(HomeContext);
+  const locType = useRef(selectedLocType);
 
-  useEffect(() => {
-    setSelectedLocCoords("");
-  }, [selectedLocType, setSelectedLocCoords]);
+  // useEffect(() => {
+  //   if (locType.current !== selectedLocType) {
+  //     setSelectedLocCoords("");
+  //     setLocationDetails(undefined);
+  //     locType.current = selectedLocType;
+  //   }
+  // }, [
+  //   selectedLocType,
+  //   locType,
+  //   setForecastData,
+  //   setLocationDetails,
+  //   setSelectedLocCoords,
+  // ]);
+
+  // useEffect(() => {
+  //   setSelectedLocCoords("");
+  // }, [selectedLocType, setSelectedLocCoords]);
 
   const fetchAndCheckDefaultLocations = async () => {
     const defaultLocs = await getAllDefaultLocations();
