@@ -13,9 +13,8 @@ import HourlyForecastContainer from "./Components/HourlyForecastContainer/Hourly
 export default function Home() {
   const {
     selectedLocCoords,
-    locationDetails,
-    setLocationDetails,
     forecastData,
+    hourlyForecastData,
     hourlyForecastParams,
     screenWidth,
     setScreenWidth,
@@ -70,7 +69,8 @@ export default function Home() {
     return () => window.removeEventListener("resize", setWindowWidthState);
   }, [setScreenWidth]);
 
-  // Toggle loading class - prevents layout shift
+  // Toggle loading class on forecast section - 
+  // prevents layout shift while loading new daily forecast
   useEffect(() => {
     if (!forecastData && selectedLocCoords) {
       forecastSection.current?.classList.add("loading");
@@ -79,15 +79,13 @@ export default function Home() {
     }
   }, [forecastData, selectedLocCoords]);
 
-  // Toggle min-height on forecast section prevent layout shift
+  // Toggle loading class on forecast section - 
+  // prevent layout shift during hourly forecast load
   useEffect(() => {
-    if (selectedLocCoords && hourlyForecastParams && forecastSection.current) {
-      forecastSection.current.style.minHeight = "100vh";
-    } else if (
-      (!selectedLocCoords || !hourlyForecastParams) &&
-      forecastSection.current
-    ) {
-      forecastSection.current.style.minHeight = "";
+    if (selectedLocCoords && hourlyForecastParams) {
+      forecastSection.current?.classList.add("loading");
+    } else if (!selectedLocCoords || !hourlyForecastParams) {
+      forecastSection.current?.classList.remove("loading");
     }
   }, [selectedLocCoords, hourlyForecastParams]);
 
