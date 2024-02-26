@@ -79,7 +79,7 @@ export const filterHourlyForecastByTime = (
     const date = new Date(period.startTime);
     const start = new Date(timeParams.startTime);
     const end = new Date(timeParams.endTime);
-    if (date >= start && date <= end) {
+    if (date >= start && date < end) {
       return true;
     }
   });
