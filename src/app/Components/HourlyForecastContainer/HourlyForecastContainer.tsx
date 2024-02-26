@@ -77,7 +77,9 @@ export default function HourlyForecastContainer({
         {/* Spacer div, change if button width changes */}
         <div className="hourly-header-spacer"></div>
       </header>
-      {hourlyForecastDisplay}
+      <div className="hourly-forecast-container">
+        {hourlyForecastDisplay}
+      </div>
     </section>
   );
 }

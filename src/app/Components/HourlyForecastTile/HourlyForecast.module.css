@@ -21,6 +21,11 @@
   max-width: 22vw;
 }
 
+.time-div > h3 {
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
+}
+
 .temp-div {
   width: 25vw;
   text-wrap: wrap;

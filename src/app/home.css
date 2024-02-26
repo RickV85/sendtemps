@@ -218,7 +218,6 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
 }
 
 .hourly-forecast-header {
@@ -231,6 +230,7 @@ select {
 
 .hourly-forecast-header > h2 {
   color: #9faf90;
+  font-size: 1.1rem;
 }
 
 .hourly-close-btn {
@@ -249,6 +249,15 @@ select {
 /* Spacer div, change if button width changes */
 .hourly-header-spacer {
   width: 33px;
+}
+
+.hourly-forecast-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
 }
 
 /* Prevents layout shift when loading new location */
@@ -434,12 +443,6 @@ select {
     justify-content: center;
     gap: 0rem 1rem;
     max-width: 1500px;
-  }
-
-  .hourly-forecast-section {
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: flex-start;
   }
 
   .forecast-section.loading {
