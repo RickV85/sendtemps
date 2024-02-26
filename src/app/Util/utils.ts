@@ -48,16 +48,18 @@ export const formatPOIDataForDisplay = (poi: string): string => {
 export const findLocByIdInUserLocs = (
   searchLocId: number,
   userLocations: UserLocation[] | null
-): UserLocation | undefined =>  {
+): UserLocation | undefined => {
   if (userLocations?.length) {
     return userLocations?.find((loc) => loc.id === searchLocId);
   } else {
-    console.log("Array of userLocations is empty")
+    console.log("Array of userLocations is empty");
     return undefined;
   }
 };
 
-export const resetErrorMsg = (errorMsgStateSet: React.Dispatch<React.SetStateAction<string>>) => {
+export const resetErrorMsg = (
+  errorMsgStateSet: React.Dispatch<React.SetStateAction<string>>
+) => {
   setTimeout(() => {
     errorMsgStateSet("");
   }, 1500);
@@ -67,4 +69,19 @@ export const checkError = (x: any) => {
   if (x instanceof Error) {
     throw x;
   }
-}
+};
+
+export const filterDateTimeStrings = (
+  dateTimeStrings: string[],
+  timePeriod: { startTime: string; endTime: string }
+): string[] => {
+  const result = dateTimeStrings.filter((str) => {
+    const date = new Date(str);
+    const start = new Date(timePeriod.startTime);
+    const end = new Date(timePeriod.endTime);
+    if (date >= start && date <= end) {
+      return true;
+    }
+  });
+  return result;
+};

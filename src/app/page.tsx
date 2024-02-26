@@ -74,6 +74,7 @@ export default function Home() {
     };
   }, [setPageLoaded]);
 
+  // Register service worker in production
   useEffect(() => {
     if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
       window.addEventListener("load", () => {
