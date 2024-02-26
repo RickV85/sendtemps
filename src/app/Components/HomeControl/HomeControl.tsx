@@ -3,9 +3,9 @@ import { HomeContext } from "@/app/Contexts/HomeContext";
 import TypeSelect from "../TypeSelect/TypeSelect";
 import LocationSelect from "../LocationSelect/LocationSelect";
 import {
-  fetchDailyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
-} from "../../Util/NoaaApiCalls";
+  fetchDailyForecastWithRetry,
+} from "@/app/Util/NoaaApiCalls";
 
 export default function HomeControl() {
   const {
@@ -43,17 +43,10 @@ export default function HomeControl() {
     );
   }, [setIsLoading]);
 
+  // If Current Location selected, user allows location sharing,
+  // and the location fetch is successful, get NOAA grid location
   useEffect(() => {
     if (selectedLocType === "Current Location" && currentGPSCoords) {
-      setSelectedLocCoords(
-        `${currentGPSCoords.latitude},${currentGPSCoords.longitude}`
-      );
-    }
-  }, [selectedLocType, currentGPSCoords, setSelectedLocCoords]);
-
-  useEffect(() => {
-    // Fetch grid point details from NOAA with 5 retries
-    if (selectedLocCoords && !locationDetails) {
       setIsLoading(true);
       fetchNoaaGridLocationWithRetry(selectedLocCoords)
         .then((result) => {
@@ -67,10 +60,12 @@ export default function HomeControl() {
     }
   }, [
     selectedLocCoords,
-    locationDetails,
     setError,
     setIsLoading,
     setLocationDetails,
+    currentGPSCoords,
+    setSelectedLocCoords,
+    selectedLocType,
   ]);
 
   useEffect(() => {
@@ -101,6 +96,7 @@ export default function HomeControl() {
     forecastData,
   ]);
 
+  // Ask for user location if Current Location selected
   useEffect(() => {
     if (selectedLocType === "Current Location") {
       setIsLoading(true);

@@ -7,13 +7,13 @@ import {
   useCallback,
   ReactElement,
   useContext,
-  useRef,
 } from "react";
 import { getAllDefaultLocations } from "@/app/Util/DatabaseApiCalls";
 import {
   checkError,
   filterAndSortLocationsAlphaByName,
 } from "@/app/Util/utils";
+import { fetchNoaaGridLocationWithRetry } from "../../Util/NoaaApiCalls";
 import { UserContext } from "@/app/Contexts/UserContext";
 import { HomeContext } from "@/app/Contexts/HomeContext";
 
@@ -31,27 +31,9 @@ export default function LocationSelect() {
     setForecastData,
     setHourlyForecastData,
     setHourlyForecastParams,
+    setIsLoading,
     setError,
   } = useContext(HomeContext);
-  const locType = useRef(selectedLocType);
-
-  // useEffect(() => {
-  //   if (locType.current !== selectedLocType) {
-  //     setSelectedLocCoords("");
-  //     setLocationDetails(undefined);
-  //     locType.current = selectedLocType;
-  //   }
-  // }, [
-  //   selectedLocType,
-  //   locType,
-  //   setForecastData,
-  //   setLocationDetails,
-  //   setSelectedLocCoords,
-  // ]);
-
-  // useEffect(() => {
-  //   setSelectedLocCoords("");
-  // }, [selectedLocType, setSelectedLocCoords]);
 
   const fetchAndCheckDefaultLocations = async () => {
     const defaultLocs = await getAllDefaultLocations();
@@ -100,6 +82,20 @@ export default function LocationSelect() {
     setHourlyForecastData(undefined);
     setHourlyForecastParams(undefined);
     setSelectedLocCoords(e.target.value);
+
+    // If coordinates for new selection, fetch location details
+    if (e.target.value) {
+      setIsLoading(true);
+      fetchNoaaGridLocationWithRetry(e.target.value)
+        .then((result) => {
+          setLocationDetails(result);
+        })
+        .catch((err) => {
+          console.error(err);
+          setError(`${err.message} Please reload the page and try again.`);
+          setIsLoading(false);
+        });
+    }
   };
 
   // Creates option elements

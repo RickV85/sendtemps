@@ -4,6 +4,7 @@ import { HomeContext } from "@/app/Contexts/HomeContext";
 
 export default function TypeSelect() {
   const {
+    setSelectedLocCoords,
     selectedLocType,
     setSelectedLocType,
     setLocationDetails,
@@ -15,6 +16,7 @@ export default function TypeSelect() {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     // Reset all location info, forecast data, removes all from DOM,
     // then set the locationType
+    setSelectedLocCoords("");
     setLocationDetails(undefined);
     setForecastData(undefined);
     setHourlyForecastData(undefined);
