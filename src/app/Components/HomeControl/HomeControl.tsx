@@ -74,17 +74,19 @@ export default function HomeControl() {
       const forecastUrl = locationDetails.properties.forecast;
 
       Promise.all([
-        fetchDailyForecastWithRetry(forecastUrl).then(setForecastData),
-        fetchHourlyForecastWithRetry(`${forecastUrl}/hourly`).then(
-          setHourlyForecastData
-        ),
+        fetchDailyForecastWithRetry(forecastUrl).then((res) => {
+          setForecastData(res);
+          setIsLoading(false);
+        }),
+        fetchHourlyForecastWithRetry(`${forecastUrl}/hourly`).then((res) => {
+          setHourlyForecastData(res);
+        }),
       ])
         .then(() => setError(""))
         .catch((err) => {
           console.error(err);
           setError(err.message);
-        })
-        .finally(() => setIsLoading(false));
+        });
     }
   }, [
     locationDetails,
