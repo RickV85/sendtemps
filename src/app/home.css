@@ -409,6 +409,10 @@ select {
     height: 25px;
   }
 
+  .hourly-forecast-header > h2 {
+    font-size: 1.75rem;
+  }
+
   .detailed-day-forecast,
   .home-welcome-msg-div {
     margin: 10px 0px 10px 0px;
@@ -425,11 +429,17 @@ select {
   .forecast-section {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
     justify-content: center;
     gap: 0rem 1rem;
     max-width: 1500px;
+  }
+
+  .hourly-forecast-section {
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: flex-start;
   }
 
   .forecast-section.loading {
