@@ -1,15 +1,48 @@
 import { HomeContext } from "@/app/Contexts/HomeContext";
 import { useContext, useEffect, useState } from "react";
 import HourlyForecastTile from "../HourlyForecastTile/HourlyForecastTile";
-import { HourlyForecastParams } from "@/app/Interfaces/interfaces";
 import Image from "next/image";
 import { filterHourlyForecastByTime } from "@/app/Util/utils";
+import { fetchHourlyForecastWithRetry } from "@/app/Util/NoaaApiCalls";
 
 export default function HourlyForecastContainer() {
-  const { hourlyForecastData, hourlyForecastParams, setHourlyForecastParams } =
-    useContext(HomeContext);
+  const {
+    locationDetails,
+    hourlyForecastData,
+    setHourlyForecastData,
+    hourlyForecastParams,
+    setHourlyForecastParams,
+    setIsLoading,
+    setError,
+  } = useContext(HomeContext);
   const [hourlyForecastDisplay, setHourlyForecastDisplay] =
     useState<React.JSX.Element[]>();
+
+  useEffect(() => {
+    if (!hourlyForecastData && locationDetails) {
+      setIsLoading(true);
+      const hourlyForecastUrl = `${locationDetails.properties.forecast}/hourly`;
+
+      fetchHourlyForecastWithRetry(hourlyForecastUrl)
+        .then((res) => {
+          setHourlyForecastData(res);
+        })
+        .then(() => setError(""))
+        .catch((err) => {
+          console.error(err);
+          setError(`${err.message} Please reload the page and try again.`);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [
+    hourlyForecastData,
+    locationDetails,
+    setError,
+    setHourlyForecastData,
+    setIsLoading,
+  ]);
 
   useEffect(() => {
     if (hourlyForecastData?.properties.periods.length && hourlyForecastParams) {
@@ -48,27 +81,29 @@ export default function HourlyForecastContainer() {
     }
   }, [hourlyForecastData, hourlyForecastParams]);
 
-  return (
-    <section className="hourly-forecast-section">
-      <header className="hourly-forecast-header">
-        <button
-          className="hourly-close-btn"
-          onClick={() => {
-            setHourlyForecastParams(undefined);
-          }}
-        >
-          <Image
-            src={"/icons8-close.svg"}
-            alt="close hourly forecast display"
-            fill={true}
-            className="hourly-close-btn-icon"
-          />
-        </button>
-        <h2>{hourlyForecastParams?.name}</h2>
-        {/* Spacer div, change if button width changes */}
-        <div className="hourly-header-spacer"></div>
-      </header>
-      <div className="hourly-forecast-container">{hourlyForecastDisplay}</div>
-    </section>
-  );
+  if (hourlyForecastDisplay) {
+    return (
+      <section className="hourly-forecast-section">
+        <header className="hourly-forecast-header">
+          <button
+            className="hourly-close-btn"
+            onClick={() => {
+              setHourlyForecastParams(undefined);
+            }}
+          >
+            <Image
+              src={"/icons8-close.svg"}
+              alt="close hourly forecast display"
+              fill={true}
+              className="hourly-close-btn-icon"
+            />
+          </button>
+          <h2>{hourlyForecastParams?.name}</h2>
+          {/* Spacer div, change if button width changes */}
+          <div className="hourly-header-spacer"></div>
+        </header>
+        <div className="hourly-forecast-container">{hourlyForecastDisplay}</div>
+      </section>
+    );
+  }
 }

@@ -80,14 +80,9 @@ export default function Home() {
   }, [forecastData, selectedLocCoords]);
 
   // Toggle min-height on forecast section prevent layout shift
-  // and add scroll function to show top of hourly forecast
   useEffect(() => {
     if (selectedLocCoords && hourlyForecastParams && forecastSection.current) {
       forecastSection.current.style.minHeight = "100vh";
-      forecastSection.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
     } else if (
       (!selectedLocCoords || !hourlyForecastParams) &&
       forecastSection.current
@@ -101,7 +96,7 @@ export default function Home() {
     const forecast = forecastData?.properties.periods.map((data, i) => {
       return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
     });
-    return forecast;
+    return <div>{forecast}</div>;
   };
 
   return (
@@ -114,10 +109,10 @@ export default function Home() {
             <p className="loading-msg">Loading forecast...</p>
           ) : null}
           {error && !isLoading ? (
-            <>
+            <div className="error-msg-div">
               <p className="error-msg">{`Oh, no! ${error}`}</p>
               <ReloadBtn />
-            </>
+            </div>
           ) : null}
           {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}
           {hourlyForecastParams ? (

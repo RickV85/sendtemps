@@ -318,6 +318,13 @@ select {
   margin-top: 1rem;
 }
 
+.error-msg-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 30vh;
+}
+
 .error-msg {
   font-size: 1.3rem;
   color: #f18f01;

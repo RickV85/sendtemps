@@ -66,7 +66,7 @@ export async function fetchDailyForecastWithRetry(
         `Fetch Daily Forecast attempt ${i} failed for forecastUrl: ${url}`
       );
       if (i === retries) {
-        throw new Error("All fetch Daily Forecast attempts failed.");
+        throw new Error("All daily forecast fetch attempts failed.");
       }
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
@@ -100,7 +100,7 @@ export async function fetchHourlyForecastWithRetry(
         `Fetch hourly forecast attempt ${i} failed for forecastUrl: ${url}`
       );
       if (i === retries) {
-        throw new Error("All fetch hourly Forecast attempts failed.");
+        throw new Error("All hourly forecast fetch attempts failed.");
       }
       await new Promise((resolve) => setTimeout(resolve, delay));
     }

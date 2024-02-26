@@ -4,7 +4,6 @@ import TypeSelect from "../TypeSelect/TypeSelect";
 import LocationSelect from "../LocationSelect/LocationSelect";
 import {
   fetchDailyForecastWithRetry,
-  fetchHourlyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
 } from "../../Util/NoaaApiCalls";
 
@@ -17,6 +16,7 @@ export default function HomeControl() {
     selectedLocType,
     locationDetails,
     setLocationDetails,
+    forecastData,
     setForecastData,
     setHourlyForecastData,
     setIsLoading,
@@ -69,23 +69,22 @@ export default function HomeControl() {
 
   useEffect(() => {
     // Fetch daily and hourly forecasts from NOAA with 5 retries
-    if (locationDetails?.properties.forecast) {
+    if (locationDetails?.properties.forecast && !forecastData) {
       setIsLoading(true);
       const forecastUrl = locationDetails.properties.forecast;
 
-      Promise.all([
-        fetchDailyForecastWithRetry(forecastUrl).then((res) => {
+      fetchDailyForecastWithRetry(forecastUrl)
+        .then((res) => {
           setForecastData(res);
           setIsLoading(false);
-        }),
-        fetchHourlyForecastWithRetry(`${forecastUrl}/hourly`).then((res) => {
-          setHourlyForecastData(res);
-        }),
-      ])
+        })
         .then(() => setError(""))
         .catch((err) => {
           console.error(err);
-          setError(err.message);
+          setError(`${err.message} Please reload the page and try again.`);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
   }, [
@@ -94,6 +93,7 @@ export default function HomeControl() {
     setIsLoading,
     setForecastData,
     setHourlyForecastData,
+    forecastData,
   ]);
 
   useEffect(() => {
