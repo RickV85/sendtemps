@@ -1,4 +1,6 @@
-import Image from "next/image";
+import { useContext } from "react";
+import { HomeContext } from "@/app/Contexts/HomeContext";
+
 interface Props {
   data: {
     name: string;
@@ -7,13 +9,25 @@ interface Props {
       value: number;
     };
     icon: string;
+    startTime: string;
+    endTime: string;
   };
 }
 
 const DetailedDayForecast: React.FC<Props> = ({ data }) => {
+  const { setHourlyForecastParams } = useContext(HomeContext);
   if (data) {
     return (
-      <article className="detailed-day-forecast">
+      <article
+        className="detailed-day-forecast"
+        onClick={() => {
+          setHourlyForecastParams({
+            name: data.name,
+            start: data.startTime,
+            end: data.endTime,
+          });
+        }}
+      >
         <div className="day-forecast-header">
           {/* Using img here, had issues with loading using Image component */}
           {/* eslint-disable-next-line */}

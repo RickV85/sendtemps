@@ -3,7 +3,7 @@ import "./edit-locations.css";
 import Link from "next/link";
 import { MouseEvent, useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../Contexts/UserContext";
-import { getAllUserLocations } from "../Util/APICalls";
+import { getAllUserLocations } from "../Util/DatabaseApiCalls";
 import UserLocTile from "../Components/UserLocTile/UserLocTile";
 import EditUserLocModal from "../Components/EditUserLocModal/EditUserLocModal";
 import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";

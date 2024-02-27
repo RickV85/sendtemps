@@ -1,18 +1,18 @@
-"use client"
-import { createContext, useState } from "react";
+"use client";
+import React, { createContext, useState } from "react";
 import {
   Coords,
   LocationDetails,
   ForecastData,
+  HourlyForecastData,
+  HourlyForecastParams,
 } from "../Interfaces/interfaces";
 
 interface HomeContextType {
   currentGPSCoords: Coords | undefined;
   setCurrentGPSCoords: React.Dispatch<React.SetStateAction<Coords | undefined>>;
   selectedLocCoords: string;
-  setSelectedLocCoords: React.Dispatch<
-    React.SetStateAction<string>
-  >;
+  setSelectedLocCoords: React.Dispatch<React.SetStateAction<string>>;
   selectedLocType: string;
   setSelectedLocType: React.Dispatch<React.SetStateAction<string>>;
   locationDetails: LocationDetails | undefined;
@@ -23,10 +23,14 @@ interface HomeContextType {
   setForecastData: React.Dispatch<
     React.SetStateAction<ForecastData | undefined>
   >;
-  screenWidth: number;
-  setScreenWidth: React.Dispatch<
-    React.SetStateAction<number>
+  hourlyForecastData: HourlyForecastData | undefined;
+  setHourlyForecastData: React.Dispatch<
+    React.SetStateAction<HourlyForecastData | undefined>
   >;
+  hourlyForecastParams: HourlyForecastParams | undefined;
+  setHourlyForecastParams: React.Dispatch<React.SetStateAction<HourlyForecastParams | undefined>>
+  screenWidth: number;
+  setScreenWidth: React.Dispatch<React.SetStateAction<number>>;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   pageLoaded: boolean;
@@ -46,6 +50,10 @@ export const HomeContext = createContext<HomeContextType>({
   setLocationDetails: () => {},
   forecastData: undefined,
   setForecastData: () => {},
+  hourlyForecastData: undefined,
+  setHourlyForecastData: () => {},
+  hourlyForecastParams: undefined,
+  setHourlyForecastParams: () => {},
   screenWidth: 0,
   setScreenWidth: () => {},
   isLoading: false,
@@ -67,6 +75,8 @@ export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
     useState<string>("Select Sport");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
   const [forecastData, setForecastData] = useState<ForecastData>();
+  const [hourlyForecastData, setHourlyForecastData] = useState<HourlyForecastData>();
+  const [hourlyForecastParams, setHourlyForecastParams] = useState<HourlyForecastParams>();
   const [screenWidth, setScreenWidth] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [pageLoaded, setPageLoaded] = useState<boolean>(false);
@@ -84,6 +94,10 @@ export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
         setLocationDetails,
         forecastData,
         setForecastData,
+        hourlyForecastData,
+        setHourlyForecastData,
+        hourlyForecastParams,
+        setHourlyForecastParams,
         screenWidth,
         setScreenWidth,
         isLoading,

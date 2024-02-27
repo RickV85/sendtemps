@@ -186,15 +186,10 @@ select {
 }
 
 .type-select,
-.location-select,
-.retry-fetch-btn {
+.location-select {
   width: 95%;
   max-width: 30rem;
   height: 2.5rem;
-}
-
-.retry-fetch-btn {
-  max-width: 150px;
 }
 
 .type-select,
@@ -207,10 +202,64 @@ select {
 .forecast-section {
   padding: 8px;
   width: 100vw;
+  z-index: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 0;
+}
+
+.day-forecast-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hourly-forecast-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn ease-in 0.5s;
+}
+
+.hourly-forecast-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.hourly-forecast-header > h2 {
+  color: #9faf90;
+  font-size: 1.6rem;
+}
+
+.hourly-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.hourly-close-btn-icon {
+  all: unset !important;
+}
+
+/* Spacer div, change if button width changes */
+.hourly-header-spacer {
+  width: 33px;
+}
+
+.hourly-forecast-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0rem;
+  gap: 1rem;
 }
 
 /* Prevents layout shift when loading new location */
@@ -226,6 +275,11 @@ select {
   border-radius: 3px;
   border: 1px solid #9faf90;
   padding: 0.5rem;
+}
+
+.detailed-day-forecast {
+  cursor: pointer;
+  text-align: center;
 }
 
 .day-forecast-header {
@@ -267,9 +321,16 @@ select {
   color: #f18f01;
   font-size: 1.85rem;
   font-weight: 600;
-  width: 80vw;
+  width: 100vw;
   text-align: center;
   margin-top: 1rem;
+}
+
+.error-msg-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 30vh;
 }
 
 .error-msg {
@@ -293,6 +354,14 @@ select {
   color: #00b2ff;
   font-weight: 700;
   line-height: normal;
+}
+
+.hour-forecast-tip {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #ef8354;
+  margin: 0.5rem 0rem;
+  text-align: center;
 }
 
 /* Desktop */
@@ -339,8 +408,7 @@ select {
   }
 
   .type-select,
-  .location-select,
-  .retry-fetch-btn {
+  .location-select {
     width: 24rem;
   }
 
@@ -367,6 +435,20 @@ select {
     height: 25px;
   }
 
+  .hourly-close-btn {
+    height: fit-content;
+    width: 8rem;
+    padding: 0.25rem 0rem;
+  }
+
+  .hourly-header-spacer {
+    width: 8rem;
+  }
+
+  .hourly-forecast-header > h2 {
+    font-size: 1.9rem;
+  }
+
   .detailed-day-forecast,
   .home-welcome-msg-div {
     margin: 10px 0px 10px 0px;
@@ -381,13 +463,22 @@ select {
 
 @media only screen and (min-width: 975px) {
   .forecast-section {
-    display: flex;
+    max-width: 1500px;
+  }
+
+  .day-forecast-container {
+    /* display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0rem 1rem;
-    max-width: 1500px;
+    gap: 0rem 1rem; */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(7, auto);
+    grid-auto-flow: row;
+    align-items: start;
+    gap: 1rem;
   }
 
   .forecast-section.loading {
@@ -398,9 +489,16 @@ select {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    min-height: 11rem;
-    width: 48vw;
-    max-width: 700px;
+    height: 100%;
+    width: 100%;
+  }
+
+  .hourly-forecast-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, auto);
+    grid-auto-flow: column;
+    align-items: start;
   }
 }
 

@@ -1,4 +1,4 @@
-import { LocationObject, GoogleMapPoint } from "../Interfaces/interfaces";
+import { LocationObject, GoogleMapPoint, HourlyForecastData, HourlyForecastPeriod } from "../Interfaces/interfaces";
 import { UserLocation } from "../Classes/UserLocation";
 
 export function filterAndSortLocationsAlphaByName(
@@ -48,16 +48,18 @@ export const formatPOIDataForDisplay = (poi: string): string => {
 export const findLocByIdInUserLocs = (
   searchLocId: number,
   userLocations: UserLocation[] | null
-): UserLocation | undefined =>  {
+): UserLocation | undefined => {
   if (userLocations?.length) {
     return userLocations?.find((loc) => loc.id === searchLocId);
   } else {
-    console.log("Array of userLocations is empty")
+    console.log("Array of userLocations is empty");
     return undefined;
   }
 };
 
-export const resetErrorMsg = (errorMsgStateSet: React.Dispatch<React.SetStateAction<string>>) => {
+export const resetErrorMsg = (
+  errorMsgStateSet: React.Dispatch<React.SetStateAction<string>>
+) => {
   setTimeout(() => {
     errorMsgStateSet("");
   }, 1500);
@@ -67,4 +69,19 @@ export const checkError = (x: any) => {
   if (x instanceof Error) {
     throw x;
   }
-}
+};
+
+export const filterHourlyForecastByTime = (
+  periods: HourlyForecastPeriod[],
+  timeParams: { startTime: string; endTime: string }
+): HourlyForecastPeriod[] => {
+  const result = periods.filter((period) => {
+    const date = new Date(period.startTime);
+    const start = new Date(timeParams.startTime);
+    const end = new Date(timeParams.endTime);
+    if (date >= start && date < end) {
+      return true;
+    }
+  });
+  return result;
+};

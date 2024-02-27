@@ -1,5 +1,5 @@
 import { UserLocation } from "@/app/Classes/UserLocation";
-import { getUserLocationById } from "@/app/Util/APICalls";
+import { getUserLocationById } from "@/app/Util/DatabaseApiCalls";
 import { sql, db } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 

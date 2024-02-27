@@ -3,9 +3,9 @@ import { HomeContext } from "@/app/Contexts/HomeContext";
 import TypeSelect from "../TypeSelect/TypeSelect";
 import LocationSelect from "../LocationSelect/LocationSelect";
 import {
-  fetchDailyForecastWithRetry,
   fetchNoaaGridLocationWithRetry,
-} from "../../Util/APICalls";
+  fetchDailyForecastWithRetry,
+} from "@/app/Util/NoaaApiCalls";
 
 export default function HomeControl() {
   const {
@@ -16,7 +16,9 @@ export default function HomeControl() {
     selectedLocType,
     locationDetails,
     setLocationDetails,
+    forecastData,
     setForecastData,
+    setHourlyForecastData,
     setIsLoading,
     setError,
   } = useContext(HomeContext);
@@ -41,17 +43,10 @@ export default function HomeControl() {
     );
   }, [setIsLoading]);
 
+  // If Current Location selected, user allows location sharing,
+  // and the location fetch is successful, get NOAA grid location
   useEffect(() => {
     if (selectedLocType === "Current Location" && currentGPSCoords) {
-      setSelectedLocCoords(
-        `${currentGPSCoords.latitude},${currentGPSCoords.longitude}`
-      );
-    }
-  }, [selectedLocType, currentGPSCoords, setSelectedLocCoords]);
-
-  useEffect(() => {
-    // Fetch grid point details from NOAA with 5 retries
-    if (selectedLocCoords) {
       setIsLoading(true);
       fetchNoaaGridLocationWithRetry(selectedLocCoords)
         .then((result) => {
@@ -63,26 +58,45 @@ export default function HomeControl() {
           setIsLoading(false);
         });
     }
-  }, [selectedLocCoords, setError, setIsLoading, setLocationDetails]);
+  }, [
+    selectedLocCoords,
+    setError,
+    setIsLoading,
+    setLocationDetails,
+    currentGPSCoords,
+    setSelectedLocCoords,
+    selectedLocType,
+  ]);
 
   useEffect(() => {
-    // Fetch forecast from NOAA with 5 retries
-    if (locationDetails?.properties.forecast) {
+    // Fetch daily and hourly forecasts from NOAA with 5 retries
+    if (locationDetails?.properties.forecast && !forecastData) {
       setIsLoading(true);
-      fetchDailyForecastWithRetry(locationDetails.properties.forecast)
-        .then((result) => {
-          setForecastData(result);
-          setIsLoading(false);
-          setError("");
+      const forecastUrl = locationDetails.properties.forecast;
+
+      fetchDailyForecastWithRetry(forecastUrl)
+        .then((res) => {
+          setForecastData(res);
         })
+        .then(() => setError(""))
         .catch((err) => {
           console.error(err);
-          setError(err.message);
+          setError(`${err.message} Please reload the page and try again.`);
+        })
+        .finally(() => {
           setIsLoading(false);
         });
     }
-  }, [locationDetails, setError, setIsLoading, setForecastData]);
+  }, [
+    locationDetails,
+    setError,
+    setIsLoading,
+    setForecastData,
+    setHourlyForecastData,
+    forecastData,
+  ]);
 
+  // Ask for user location if Current Location selected
   useEffect(() => {
     if (selectedLocType === "Current Location") {
       setIsLoading(true);

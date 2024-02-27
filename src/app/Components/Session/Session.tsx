@@ -1,4 +1,4 @@
-import { updateUserInfo } from "@/app/Util/APICalls";
+import { updateUserInfo } from "@/app/Util/DatabaseApiCalls";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";

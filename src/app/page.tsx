@@ -1,6 +1,6 @@
 "use client";
 import "./home.css";
-import { useEffect, useRef, useContext, useCallback } from "react";
+import { useEffect, useRef, useContext, useCallback, useState } from "react";
 import { HomeContext } from "./Contexts/HomeContext";
 import { throttle } from "lodash";
 import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
@@ -8,13 +8,12 @@ import HomeHeader from "./Components/HomeHeader/HomeHeader";
 import HomeControl from "./Components/HomeControl/HomeControl";
 import ReloadBtn from "./Components/ReloadBtn/ReloadBtn";
 import { WelcomeHomeMsg } from "./Components/WelcomeHomeMsg/WelcomeHomeMsg";
+import HourlyForecastContainer from "./Components/HourlyForecastContainer/HourlyForecastContainer";
 
 export default function Home() {
   const {
-    selectedLocCoords,
-    locationDetails,
-    setLocationDetails,
     forecastData,
+    hourlyForecastParams,
     screenWidth,
     setScreenWidth,
     isLoading,
@@ -23,35 +22,9 @@ export default function Home() {
     error,
   } = useContext(HomeContext);
   const forecastSection = useRef<null | HTMLElement>(null);
+  const [hasSeenHourlyForecast, setHasSeenHourlyForecast] = useState<boolean>();
 
-  const createDetailedForecast = () => {
-    const forecast = forecastData?.properties.periods.map((data, i) => {
-      return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
-    });
-    return forecast;
-  };
-
-  const retryDailyForecastFetch = useCallback(() => {
-    if (locationDetails) {
-      const failedLocDetails = locationDetails;
-      setLocationDetails(undefined);
-      setTimeout(() => {
-        setLocationDetails(failedLocDetails);
-      }, 100);
-    }
-  }, [locationDetails, setLocationDetails]);
-
-  useEffect(() => {
-    const setWindowWidthState = throttle(() => {
-      setScreenWidth(window.innerWidth);
-    }, 100);
-
-    setWindowWidthState();
-    window.addEventListener("resize", setWindowWidthState);
-
-    return () => window.removeEventListener("resize", setWindowWidthState);
-  }, [setScreenWidth]);
-
+  // Set pageLoaded using readyState listener
   useEffect(() => {
     if (document.readyState === "complete") {
       setPageLoaded(true);
@@ -64,6 +37,7 @@ export default function Home() {
     };
   }, [setPageLoaded]);
 
+  // Register service worker in production
   useEffect(() => {
     if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
       window.addEventListener("load", () => {
@@ -82,13 +56,54 @@ export default function Home() {
     }
   }, []);
 
+  // SetScreen width with throttling
   useEffect(() => {
-    if (!forecastData && selectedLocCoords) {
+    const setWindowWidthState = throttle(() => {
+      setScreenWidth(window.innerWidth);
+    }, 100);
+
+    setWindowWidthState();
+    window.addEventListener("resize", setWindowWidthState);
+
+    return () => window.removeEventListener("resize", setWindowWidthState);
+  }, [setScreenWidth]);
+
+  // Toggle loading class on forecast section -
+  // prevents layout shift while loading new daily forecast
+  useEffect(() => {
+    if (isLoading) {
       forecastSection.current?.classList.add("loading");
     } else {
       forecastSection.current?.classList.remove("loading");
     }
-  }, [forecastData, selectedLocCoords]);
+  }, [isLoading]);
+
+  // Get sessionStorage item and set state indicating if user
+  // has seen the new hourly forecast feature
+  useEffect(() => {
+    const hasSeenHourly = window.sessionStorage.getItem("hasSeenHourly");
+    if (!hasSeenHourly || hasSeenHourly === "false") {
+      setHasSeenHourlyForecast(false);
+    } else if (hasSeenHourly === "true") {
+      setHasSeenHourlyForecast(true);
+    }
+  }, []);
+
+  // Set state and session storage if user views hourly forecast
+  useEffect(() => {
+    if (hourlyForecastParams && !hasSeenHourlyForecast) {
+      setHasSeenHourlyForecast(true);
+      window.sessionStorage.setItem("hasSeenHourly", "true");
+    }
+  }, [hourlyForecastParams, hasSeenHourlyForecast]);
+
+  // Creates detailed daily forecast display
+  const createDetailedForecast = () => {
+    const forecast = forecastData?.properties.periods.map((data, i) => {
+      return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
+    });
+    return forecast;
+  };
 
   return (
     <main className="home-main">
@@ -100,22 +115,25 @@ export default function Home() {
             <p className="loading-msg">Loading forecast...</p>
           ) : null}
           {error && !isLoading ? (
-            <>
+            <div className="error-msg-div">
               <p className="error-msg">{`Oh, no! ${error}`}</p>
-              {error === "All fetch Daily Forecast attempts failed." ? (
-                <button
-                  className="retry-fetch-btn"
-                  onClick={() => retryDailyForecastFetch()}
-                >
-                  Retry
-                </button>
-              ) : (
-                <ReloadBtn />
-              )}
-            </>
+              <ReloadBtn />
+            </div>
           ) : null}
           {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}
-          {createDetailedForecast()}
+          {hourlyForecastParams && <HourlyForecastContainer />}
+          {forecastData && !hourlyForecastParams ? (
+            <>
+              {!hasSeenHourlyForecast && (
+                <p className="hour-forecast-tip">
+                  Click on a day for an hourly forecast!
+                </p>
+              )}
+              <div className="day-forecast-container">
+                {createDetailedForecast()}
+              </div>
+            </>
+          ) : null}
         </section>
       </section>
     </main>

@@ -8,11 +8,12 @@ import {
   ReactElement,
   useContext,
 } from "react";
-import { getAllDefaultLocations } from "@/app/Util/APICalls";
+import { getAllDefaultLocations } from "@/app/Util/DatabaseApiCalls";
 import {
   checkError,
   filterAndSortLocationsAlphaByName,
 } from "@/app/Util/utils";
+import { fetchNoaaGridLocationWithRetry } from "../../Util/NoaaApiCalls";
 import { UserContext } from "@/app/Contexts/UserContext";
 import { HomeContext } from "@/app/Contexts/HomeContext";
 
@@ -26,13 +27,13 @@ export default function LocationSelect() {
     selectedLocCoords,
     setSelectedLocCoords,
     selectedLocType,
+    setLocationDetails,
     setForecastData,
+    setHourlyForecastData,
+    setHourlyForecastParams,
+    setIsLoading,
     setError,
   } = useContext(HomeContext);
-
-  useEffect(() => {
-    setSelectedLocCoords("");
-  }, [selectedLocType, setSelectedLocCoords]);
 
   const fetchAndCheckDefaultLocations = async () => {
     const defaultLocs = await getAllDefaultLocations();
@@ -48,6 +49,9 @@ export default function LocationSelect() {
         try {
           let allLocs;
           const defaultLocs = await fetchAndCheckDefaultLocations();
+          // These throw errors if either states contain an error,
+          // preventing the rest of this try block from running
+          // and showing the user an error message
           checkError(defaultLocs);
           checkError(userLocations);
           if (defaultLocs.length) {
@@ -71,8 +75,27 @@ export default function LocationSelect() {
   }, [setError, userLocations, allLocationOptions]);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // Reset all location info, forecast data, removes all from DOM,
+    // then set the locationCoords
+    setLocationDetails(undefined);
     setForecastData(undefined);
+    setHourlyForecastData(undefined);
+    setHourlyForecastParams(undefined);
     setSelectedLocCoords(e.target.value);
+
+    // If coordinates for new selection, fetch location details
+    if (e.target.value) {
+      setIsLoading(true);
+      fetchNoaaGridLocationWithRetry(e.target.value)
+        .then((result) => {
+          setLocationDetails(result);
+        })
+        .catch((err) => {
+          console.error(err);
+          setError(`${err.message} Please reload the page and try again.`);
+          setIsLoading(false);
+        });
+    }
   };
 
   // Creates option elements

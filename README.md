@@ -7,7 +7,7 @@
 [Click here to view the deployed application](https://sendtemps.vercel.app)
 
 ## Introduction
-I am the creator of and sole contributor to this application which began as a very basic application in June 2023. I built it completely out of self interest as a tool to plan my own personal outdoor adventures. After months of constant use, I decided that it would be worthwhile to improve the application for users similar to myself and use it as an opportunity to learn some interesting new technology.
+I am the sole contributor to this project which began as a very basic application in June 2023. I built it completely out of self interest as a tool to plan my own personal outdoor adventures. After months of constant use, I decided that it would be worthwhile to improve the application for users similar to myself and use it as an opportunity to learn some interesting new technology.
 
 ## Overview
 SendTemps is a full-stack Next.js 14 application designed for Colorado Front Range outdoor sport enthusiasts. It delivers precise NOAA forecasts for both popular and user-created backcountry locations. This project integrates Google OAuth and NextAuth for seamless user account creation and authentication, Google Maps API for user-friendly custom location creation, and a robust Node.js-PostgreSQL backend with comprehensive CRUD operations, complemented by user-focused error handling.
@@ -19,13 +19,13 @@ SendTemps is a full-stack Next.js 14 application designed for Colorado Front Ran
 - **Robust Location Management:** Employs a Vercel PostgreSQL database for durable storage of custom locations, supporting full CRUD operations through Next.js APIs for dynamic user interaction.
 - **Optimized User Experience:** Implements intelligent error handling and automatic retry mechanisms for NOAA forecast API requests, ensuring smooth and informative user interactions.
 - **Standalone Display:** Designed for optimal performance on mobile devices, with capabilities for home screen addition, paving the way for full Progressive Web App functionality in the future.
+- **Hourly Forecast Display:** New as of 2.26.24 - Provides detailed hourly weather forecasts for more precise activity planning.
 
 ## Future Improvements
 - **Expanded Location Categories:** Introduce an "Other" category to accommodate custom location creation that is not limited to Climbing, Mountain Biking, or Skiing.
 - **Multiple Sport Association:** Enable users to associate multiple sports with a single location for enhanced flexibility.
 - **Customizable Default Views:** Allow users to personalize the locations around the Front Range that are loaded by default. This would allow a user to further personalize the application, increasing engagement by reducing irrelevant information.
 - **Enhanced Search Functionality:** Implement text-based search with autocomplete to streamline location finding. This would be especially useful if a user has many locations and the current select inputs become too cumbersome.
-- **Hourly Forecast Display:** Provide detailed hourly weather forecasts for more precise activity planning.
 - **AI-Powered Recommendations:** Using prompt engineering, integrate AI to analyze forecasts and recommend optimal days to engage in the sports that the location is associated with.
 
 ## Technical Challenges

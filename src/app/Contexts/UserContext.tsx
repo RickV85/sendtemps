@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect } from "react";
 import { getSession } from "next-auth/react";
 import { UserSessionInfo } from "../Interfaces/interfaces";
 import { UserLocation } from "../Classes/UserLocation";
-import { getAllUserLocations } from "../Util/APICalls";
+import { getAllUserLocations } from "../Util/DatabaseApiCalls";
 
 interface UserContextType {
   userInfo: UserSessionInfo | null | undefined;
@@ -58,8 +58,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           if (fetchedUserLocs) {
             setUserLocations(fetchedUserLocs);
           }
-        } catch (error) {
-          console.error("Error fetching userLocations from UserContext");
+        } catch (error: any) {
+          console.error(
+            "Error fetching userLocations from UserContext:",
+            error
+          );
+          setUserLocations(error);
         }
       };
       fetchUserLocations();
