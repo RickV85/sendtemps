@@ -126,7 +126,7 @@ export default function HourlyForecastContainer() {
                   className="hourly-close-btn-icon"
                 />
               ) : (
-                <>Back</>
+                <p>Back</p>
               )}
             </button>
             <h2>{hourlyForecastParams?.name}</h2>
