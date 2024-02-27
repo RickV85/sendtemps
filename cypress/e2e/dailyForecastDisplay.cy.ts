@@ -5,7 +5,7 @@ describe("daily forecast display", () => {
     // Intercept and return empty object for unauthorized user
     cy.intercept("http://localhost:3000/api/auth/session", {});
 
-    // Intercept def_locs api call
+    // Intercept default_locs api call
     cy.intercept("http://localhost:3000/api/default_locations", {
       fixture: "default_locs.json",
     });
@@ -49,6 +49,8 @@ describe("daily forecast display", () => {
   });
 
   it("should display the humidity details if available", () => {
-    cy.get("@todayForecast").find("div.day-header-details>p").should("have.text", "19% RH")
-  })
+    cy.get("@todayForecast")
+      .find("div.day-header-details>p")
+      .should("have.text", "19% RH");
+  });
 });
