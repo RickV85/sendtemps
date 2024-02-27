@@ -13,3 +13,5 @@ jobs:
         with:
           build: npm run build
           start: npm run start
+        env:
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
