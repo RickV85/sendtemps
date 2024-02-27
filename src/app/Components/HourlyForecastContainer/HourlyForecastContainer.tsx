@@ -118,12 +118,16 @@ export default function HourlyForecastContainer() {
                 setHourlyForecastParams(undefined);
               }}
             >
-              <Image
-                src={"/icons8-close.svg"}
-                alt="close hourly forecast display"
-                fill={true}
-                className="hourly-close-btn-icon"
-              />
+              {screenWidth < 769 ? (
+                <Image
+                  src={"/icons8-close.svg"}
+                  alt="close hourly forecast display"
+                  fill={true}
+                  className="hourly-close-btn-icon"
+                />
+              ) : (
+                <>Back</>
+              )}
             </button>
             <h2>{hourlyForecastParams?.name}</h2>
             {/* Spacer div, change if button width changes */}

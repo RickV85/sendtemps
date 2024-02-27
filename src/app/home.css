@@ -435,6 +435,16 @@ select {
     height: 25px;
   }
 
+  .hourly-close-btn {
+    height: fit-content;
+    width: 8rem;
+    padding: 0.25rem 0rem;
+  }
+
+  .hourly-header-spacer {
+    width: 8rem;
+  }
+
   .hourly-forecast-header > h2 {
     font-size: 1.9rem;
   }
