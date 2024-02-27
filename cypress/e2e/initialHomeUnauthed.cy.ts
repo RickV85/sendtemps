@@ -51,9 +51,10 @@ describe("initial display for an unauthorized user", () => {
   it("should show error message and reload button when default location call fails", () => {
     cy.intercept("http://localhost:3000/api/default_locations", {
       statusCode: 500,
+      body: "error",
     });
 
-    cy.wait(1000);
+    cy.wait(2500);
 
     cy.get("section.forecast-section")
       .find("p.error-msg")
