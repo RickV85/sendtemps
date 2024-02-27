@@ -38,6 +38,9 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm run start
-          env:
-            NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-            POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          browser: chrome
+          record: true
+        env:
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
