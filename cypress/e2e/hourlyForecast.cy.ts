@@ -1,5 +1,32 @@
 describe("hourly forecast display", () => {
   beforeEach(() => {
+        // Unregister service worker
+        cy.window().then(() => {
+          if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.getRegistrations().then((registrations) => {
+              registrations.forEach((registration) => {
+                registration.unregister();
+              });
+            });
+          }
+        });
+    
+        // Clear cookies and storage
+        cy.clearCookies();
+        cy.clearLocalStorage();
+        cy.clearAllSessionStorage();
+    
+        // Clear cache
+        if (window.caches) {
+          cy.window().then((win) => {
+            win.caches.keys().then((cacheNames) => {
+              cacheNames.forEach((cacheName) => {
+                win.caches.delete(cacheName);
+              });
+            });
+          });
+        }
+    
     cy.visit("http://localhost:3000");
 
     // Intercept and return empty object for unauthorized user
