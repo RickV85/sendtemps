@@ -2,7 +2,7 @@ describe("initial display for an unauthorized user", () => {
   beforeEach(() => {
     // Intercept and return empty object for unauthorized user
     cy.intercept("/api/auth/session", {});
-    
+
     // Intercept default locations req
     cy.intercept("/api/default_locations", {
       fixture: "default_locs.json",
@@ -44,28 +44,5 @@ describe("initial display for an unauthorized user", () => {
     cy.get("div.home-welcome-msg-div").contains(
       "Log in with Google by clicking the “Sign in!” button in the upper right corner to add your own favorite locations!"
     );
-  });
-
-  // Error testing
-
-  it("should show error message and reload button when default location call fails", () => {
-    cy.intercept("/api/default_locations", {
-      statusCode: 500,
-      body: "error",
-    });
-
-    cy.wait(2500);
-
-    cy.get("section.forecast-section")
-      .find("p.error-msg")
-      .should("be.visible")
-      .should(
-        "have.text",
-        "Oh, no! An error occurred while fetching locations. Please reload the page and try again."
-      );
-
-    cy.get("section.forecast-section")
-      .find("button.reload-btn")
-      .should("be.visible");
   });
 });

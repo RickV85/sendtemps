@@ -8,13 +8,13 @@ describe("daily forecast display errors", () => {
       fixture: "default_locs.json",
     });
 
+    cy.visit("/");
+
     // Select Climbing in TypeSelect
     cy.get("select.type-select").select("Climbing");
 
     // Select Boulder Canyon - Lower in TypeSelect
-    cy.get("select.location-select").select("Boulder Canyon - Lower");
-    
-    cy.visit("/");
+    cy.get("select.location-select").select("Boulder Canyon - Lower"); 
   });
 
   it("should display an error message when grid location call fails", () => {
