@@ -1,41 +1,14 @@
 describe("initial display for an unauthorized user", () => {
   beforeEach(() => {
-        // Unregister service worker
-        cy.window().then(() => {
-          if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.getRegistrations().then((registrations) => {
-              registrations.forEach((registration) => {
-                registration.unregister();
-              });
-            });
-          }
-        });
-    
-        // Clear cookies and storage
-        cy.clearCookies();
-        cy.clearLocalStorage();
-        cy.clearAllSessionStorage();
-    
-        // Clear cache
-        if (window.caches) {
-          cy.window().then((win) => {
-            win.caches.keys().then((cacheNames) => {
-              cacheNames.forEach((cacheName) => {
-                win.caches.delete(cacheName);
-              });
-            });
-          });
-        }
-    
-    cy.visit("http://localhost:3000");
-
     // Intercept and return empty object for unauthorized user
-    cy.intercept("http://localhost:3000/api/auth/session", {});
-
+    cy.intercept("/api/auth/session", {});
+    
     // Intercept default locations req
-    cy.intercept("http://localhost:3000/api/default_locations", {
+    cy.intercept("/api/default_locations", {
       fixture: "default_locs.json",
     });
+
+    cy.visit("/");
   });
 
   it("should display an initial loading message", { retries: 10 }, () => {
@@ -76,7 +49,7 @@ describe("initial display for an unauthorized user", () => {
   // Error testing
 
   it("should show error message and reload button when default location call fails", () => {
-    cy.intercept("http://localhost:3000/api/default_locations", {
+    cy.intercept("/api/default_locations", {
       statusCode: 500,
       body: "error",
     });

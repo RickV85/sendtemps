@@ -10,5 +10,6 @@ export default defineConfig({
       runMode: 2,
       openMode: 0,
     },
+    baseUrl: "http://localhost:3000",
   },
 });

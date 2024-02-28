@@ -1,55 +1,28 @@
 describe("initial display for an authorized user", () => {
   beforeEach(() => {
-    // Unregister service worker
-    cy.window().then(() => {
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.getRegistrations().then((registrations) => {
-          registrations.forEach((registration) => {
-            registration.unregister();
-          });
-        });
-      }
-    });
-
-    // Clear cookies and storage
-    cy.clearCookies();
-    cy.clearLocalStorage();
-    cy.clearAllSessionStorage();
-
-    // Clear cache
-    if (window.caches) {
-      cy.window().then((win) => {
-        win.caches.keys().then((cacheNames) => {
-          cacheNames.forEach((cacheName) => {
-            win.caches.delete(cacheName);
-          });
-        });
-      });
-    }
-
-    cy.visit("http://localhost:3000");
-
     // Intercept and return user session object
-    cy.intercept("http://localhost:3000/api/auth/session", {
+    cy.intercept("/api/auth/session", {
       fixture: "session.json",
     });
 
     // Intercept user login patch req
     cy.intercept(
-      "http://localhost:3000/api/users",
+      "/api/users",
       "New user data for id: 101000928729222042760 matches previous user data from database. New login: 2024-02-25T17:35:44.233Z"
     );
 
     // Intercept user location req
     cy.intercept(
-      "http://localhost:3000/api/user_locations?user_id=101000928729222042760",
+      "/api/user_locations?user_id=101000928729222042760",
       { fixture: "user_locs.json" }
     );
 
     // Intercept default locations req
-    cy.intercept("http://localhost:3000/api/default_locations", {
+    cy.intercept("/api/default_locations", {
       fixture: "default_locs.json",
     });
+
+    cy.visit("/");
   });
 
   it("should display an initial loading message", { retries: 10 }, () => {
@@ -105,7 +78,7 @@ describe("initial display for an authorized user", () => {
   // Error testing
 
   it("should show error message and reload button when default location call fails", () => {
-    cy.intercept("http://localhost:3000/api/default_locations", {
+    cy.intercept("/api/default_locations", {
       statusCode: 500,
       body: "error",
     });
@@ -127,7 +100,7 @@ describe("initial display for an authorized user", () => {
 
   it("should show error msg when user_locations call fails", () => {
     cy.intercept(
-      "http://localhost:3000/api/user_locations?user_id=101000928729222042760",
+      "/api/user_locations?user_id=101000928729222042760",
       { statusCode: 500 }
     );
 

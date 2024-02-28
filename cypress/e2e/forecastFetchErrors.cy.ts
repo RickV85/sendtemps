@@ -1,39 +1,10 @@
 describe("daily forecast display errors", () => {
   beforeEach(() => {
-        // Unregister service worker
-        cy.window().then(() => {
-          if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.getRegistrations().then((registrations) => {
-              registrations.forEach((registration) => {
-                registration.unregister();
-              });
-            });
-          }
-        });
-    
-        // Clear cookies and storage
-        cy.clearCookies();
-        cy.clearLocalStorage();
-        cy.clearAllSessionStorage();
-    
-        // Clear cache
-        if (window.caches) {
-          cy.window().then((win) => {
-            win.caches.keys().then((cacheNames) => {
-              cacheNames.forEach((cacheName) => {
-                win.caches.delete(cacheName);
-              });
-            });
-          });
-        }
-    
-    cy.visit("http://localhost:3000");
-
     // Intercept and return empty object for unauthorized user
-    cy.intercept("http://localhost:3000/api/auth/session", {});
+    cy.intercept("/api/auth/session", {});
 
     // Intercept default_locs api call
-    cy.intercept("http://localhost:3000/api/default_locations", {
+    cy.intercept("/api/default_locations", {
       fixture: "default_locs.json",
     });
 
@@ -42,6 +13,8 @@ describe("daily forecast display errors", () => {
 
     // Select Boulder Canyon - Lower in TypeSelect
     cy.get("select.location-select").select("Boulder Canyon - Lower");
+    
+    cy.visit("/");
   });
 
   it("should display an error message when grid location call fails", () => {
