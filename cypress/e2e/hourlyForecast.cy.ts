@@ -1,7 +1,5 @@
 describe("hourly forecast display", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
-
     // Intercept and return empty object for unauthorized user
     cy.intercept("http://localhost:3000/api/auth/session", {});
 
@@ -27,6 +25,8 @@ describe("hourly forecast display", () => {
         fixture: "hourly_forecast.json",
       }
     );
+
+    cy.visit("http://localhost:3000");
 
     // Select Climbing in TypeSelect
     cy.get("select.type-select").select("Climbing");
@@ -69,5 +69,12 @@ describe("hourly forecast display", () => {
   it("should display the relative humidity", () => {
     cy.get("@hourlyTile").find("div").eq(4).contains("17%");
     cy.get("@hourlyTile").find("div").eq(4).contains("RH");
-  })
+  });
+
+  it("should allow you to return to the daily forecast view", () => {
+    cy.get("button.hourly-close-btn").click();
+
+    cy.get("div.hourly-forecast-container").should("not.exist");
+    cy.get("article.detailed-day-forecast").eq(0).should("be.visible");
+  });
 });
