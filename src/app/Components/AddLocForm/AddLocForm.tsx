@@ -12,9 +12,9 @@ interface Props {
   setNewUserLocCoords: Dispatch<
     React.SetStateAction<{ lat: string; lng: string } | null>
   >;
-  newUserLocMarker: google.maps.Marker | null;
+  newUserLocMarker: google.maps.marker.AdvancedMarkerElement | null;
   setNewUserLocMarker: Dispatch<
-    React.SetStateAction<google.maps.Marker | null>
+    React.SetStateAction<google.maps.marker.AdvancedMarkerElement | null>
   >;
   userInfo: UserSessionInfo;
   setMapLocations: Dispatch<React.SetStateAction<GoogleMapPoint[] | []>>;

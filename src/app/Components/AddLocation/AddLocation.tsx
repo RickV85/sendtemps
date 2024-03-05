@@ -25,7 +25,7 @@ export default function AddLocation({
     lng: string;
   } | null>(null);
   const [newUserLocMarker, setNewUserLocMarker] =
-    useState<google.maps.Marker | null>(null);
+    useState<google.maps.marker.AdvancedMarkerElement | null>(null);
   const [error, setError] = useState("");
   const { userInfo, userLocations } = useContext(UserContext);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
