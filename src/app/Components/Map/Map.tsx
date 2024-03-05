@@ -91,6 +91,11 @@ export default function Map({
                 lng: marker.position.lng().toFixed(6),
               };
 
+              // See comment at line 52
+              console.log(
+                `Ignore deprecation warning on new map marker creation.
+                 Update to AdvancedMarkerElement not yet available for drawing mode markers.`
+              );
               setNewUserLocMarker(marker);
               setNewUserLocCoords(newUserMapPoint);
             }
@@ -109,9 +114,10 @@ export default function Map({
         markersRef.current = [];
 
         // Load AdvancedMarkerElement
-        const { AdvancedMarkerElement, PinElement } = (await google.maps.importLibrary(
-          "marker"
-        )) as google.maps.MarkerLibrary;
+        const { AdvancedMarkerElement, PinElement } =
+          (await google.maps.importLibrary(
+            "marker"
+          )) as google.maps.MarkerLibrary;
 
         mapLocations.forEach((location) => {
           const marker = new AdvancedMarkerElement({
