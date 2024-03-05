@@ -9,9 +9,9 @@ interface Props {
   setNewUserLocCoords: Dispatch<
     React.SetStateAction<{ lat: string; lng: string } | null>
   >;
-  newUserLocMarker: google.maps.Marker | null;
+  newUserLocMarker: google.maps.marker.AdvancedMarkerElement | null;
   setNewUserLocMarker: Dispatch<
-    React.SetStateAction<google.maps.Marker | null>
+    React.SetStateAction<google.maps.marker.AdvancedMarkerElement | null>
   >;
 }
 
@@ -103,7 +103,8 @@ export default function Map({
         markersRef.current?.forEach((marker) => (marker.position = null));
         markersRef.current = [];
 
-        const { AdvancedMarkerElement } = (await google.maps.importLibrary(
+        // Load AdvancedMarkerElement
+        const { AdvancedMarkerElement, PinElement } = (await google.maps.importLibrary(
           "marker"
         )) as google.maps.MarkerLibrary;
 
