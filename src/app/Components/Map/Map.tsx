@@ -114,7 +114,7 @@ export default function Map({
         markersRef.current = [];
 
         // Load AdvancedMarkerElement
-        const { AdvancedMarkerElement, PinElement } =
+        const { AdvancedMarkerElement } =
           (await google.maps.importLibrary(
             "marker"
           )) as google.maps.MarkerLibrary;
@@ -124,6 +124,8 @@ export default function Map({
             position: location.coords,
             map: mapInstanceRef.current!,
             title: location.name,
+            // Create a MapPin Component to render in content
+            // content: pinStyling
           });
 
           markersRef.current.push(marker);
