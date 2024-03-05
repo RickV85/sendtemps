@@ -23,7 +23,7 @@ export default function Map({
 }: Props) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
-  const markersRef = useRef<google.maps.Marker[]>([]);
+  const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
   const drawingManagerRef = useRef<google.maps.drawing.DrawingManager | null>(
     null
   );
@@ -99,11 +99,11 @@ export default function Map({
 
   useEffect(() => {
     if (mapLocations.length && mapLoaded && mapRef.current) {
-      markersRef.current?.forEach((marker) => marker.setMap(null));
+      markersRef.current?.forEach((marker) => marker.position = null);
       markersRef.current = [];
 
       mapLocations.forEach((location) => {
-        const marker = new google.maps.Marker({
+        const marker = new google.maps.marker.AdvancedMarkerElement({
           position: location.coords,
           map: mapInstanceRef.current!,
           label: {
