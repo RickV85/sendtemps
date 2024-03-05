@@ -43,7 +43,7 @@ export default function AddLocForm({
 
   const resetNewUserCoordsAndMarker = () => {
     if (newUserLocMarker && newUserLocCoords) {
-      newUserLocMarker.setMap(null);
+      newUserLocMarker.position = null;
       setNewUserLocCoords(null);
       setNewUserLocMarker(null);
     }
@@ -75,7 +75,7 @@ export default function AddLocForm({
         if (response.startsWith("Success")) {
           setSubmitMessage("New location saved!");
           if (newUserLocMarker) {
-            newUserLocMarker.setMap(null);
+            newUserLocMarker.position = null;
             setNewUserLocMarker(null);
           }
           let newMapPoint: GoogleMapPoint = {
