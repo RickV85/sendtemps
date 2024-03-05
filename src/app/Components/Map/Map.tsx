@@ -73,7 +73,7 @@ export default function Map({
         google.maps.event.addListener(
           drawingManagerRef.current,
           "overlaycomplete",
-          function (event) {
+          function (event: any) {
             
             if (
               event.type === google.maps.drawing.OverlayType.MARKER &&
