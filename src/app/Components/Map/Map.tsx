@@ -49,6 +49,11 @@ export default function Map({
         setMapLoaded(true);
       }
 
+      // No drawing mode available for AdvancedMarkerElement
+      // as of 2.5.24. This creates a legacy Marker object
+      // and throws a console warning about the deprecation.
+      // If update available, would need to update all references
+      // to google.maps.drawing.OverlayType.MARKER.
       drawingManagerRef.current = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.MARKER,
         drawingControl: true,
