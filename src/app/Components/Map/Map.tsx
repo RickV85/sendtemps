@@ -44,7 +44,7 @@ export default function Map({
           zoom: 10,
           fullscreenControl: false,
           streetViewControl: false,
-          mapId: '6696e534c9ad2933',
+          mapId: "6696e534c9ad2933",
         });
         setMapLoaded(true);
       }
@@ -75,7 +75,6 @@ export default function Map({
           drawingManagerRef.current,
           "overlaycomplete",
           function (event: any) {
-            
             if (
               event.type === google.maps.drawing.OverlayType.MARKER &&
               newUserLocMarker === null
@@ -98,26 +97,29 @@ export default function Map({
   }, []);
 
   useEffect(() => {
-    if (mapLocations.length && mapLoaded && mapRef.current) {
-      markersRef.current?.forEach((marker) => marker.position = null);
-      markersRef.current = [];
+    const resetAndCreateMarkers = async () => {
+      if (mapLocations.length && mapLoaded && mapRef.current) {
+        // Removes all markers from map before creating new
+        markersRef.current?.forEach((marker) => (marker.position = null));
+        markersRef.current = [];
 
-      mapLocations.forEach((location) => {
-        const marker = new google.maps.marker.AdvancedMarkerElement({
-          position: location.coords,
-          map: mapInstanceRef.current!,
-          label: {
-            text: location.name,
-            fontFamily: "'Tahoma', sans-serif",
-            fontSize: "12px",
-            fontWeight: "700",
-          },
-          clickable: false,
+        const { AdvancedMarkerElement } = (await google.maps.importLibrary(
+          "marker"
+        )) as google.maps.MarkerLibrary;
+
+        mapLocations.forEach((location) => {
+          const marker = new AdvancedMarkerElement({
+            position: location.coords,
+            map: mapInstanceRef.current!,
+            title: location.name,
+          });
+
+          markersRef.current.push(marker);
         });
+      }
+    };
 
-        markersRef.current.push(marker);
-      });
-    }
+    resetAndCreateMarkers();
   }, [mapLocations, mapLoaded]);
 
   useEffect(() => {
