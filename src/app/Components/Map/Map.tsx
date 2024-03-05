@@ -43,7 +43,8 @@ export default function Map({
           center: { lat: 40, lng: -105.5 },
           zoom: 10,
           fullscreenControl: false,
-          streetViewControl: false
+          streetViewControl: false,
+          mapId: '6696e534c9ad2933',
         });
         setMapLoaded(true);
       }
