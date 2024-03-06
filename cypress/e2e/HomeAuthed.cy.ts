@@ -55,9 +55,10 @@ describe("initial display for an authorized user", () => {
       .should("be.visible")
       .should("have.attr", "href", "/api/auth/signout")
       .should("have.text", "Sign Out")
-      .click()
-      .location("pathname")
-      .should("equal", "/api/auth/signout");
+      .click();
+
+    cy.wait(250);
+    cy.location("pathname").should("equal", "/api/auth/signout");
   });
 
   it("should display the site title, 'SendTemps'", () => {
