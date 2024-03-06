@@ -45,4 +45,10 @@ describe("initial display for an unauthorized user", () => {
       "Log in with Google by clicking the “Sign in!” button in the upper right corner to add your own favorite locations!"
     );
   });
+
+  it("should allow a user to sign in with Google", () => {
+    cy.get("button.user-profile-login-button").click();
+    cy.wait(250);
+    cy.location("pathname").should("equal", "/api/auth/signin");
+  });
 });

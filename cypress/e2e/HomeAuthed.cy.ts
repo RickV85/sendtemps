@@ -45,7 +45,7 @@ describe("initial display for an authorized user", () => {
     cy.get("button.user-profile-login-button").should("not.exist");
   });
 
-  it("should show the user's profile info display", () => {
+  it("should show the user's profile info display and have an option to sign out", () => {
     cy.wait(1500);
 
     cy.get("div.user-profile-div").as("userProfile");
@@ -53,7 +53,11 @@ describe("initial display for an authorized user", () => {
     cy.get("@userProfile")
       .find("a")
       .should("be.visible")
-      .should("have.attr", "href", "/api/auth/signout");
+      .should("have.attr", "href", "/api/auth/signout")
+      .should("have.text", "Sign Out")
+      .click()
+      .location("pathname")
+      .should("equal", "/api/auth/signout");
   });
 
   it("should display the site title, 'SendTemps'", () => {
