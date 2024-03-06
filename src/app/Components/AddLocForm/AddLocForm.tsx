@@ -12,9 +12,9 @@ interface Props {
   setNewUserLocCoords: Dispatch<
     React.SetStateAction<{ lat: string; lng: string } | null>
   >;
-  newUserLocMarker: google.maps.marker.AdvancedMarkerElement | null;
+  newUserLocMarker: google.maps.Marker | null;
   setNewUserLocMarker: Dispatch<
-    React.SetStateAction<google.maps.marker.AdvancedMarkerElement | null>
+    React.SetStateAction<google.maps.Marker | null>
   >;
   userInfo: UserSessionInfo;
   setMapLocations: Dispatch<React.SetStateAction<GoogleMapPoint[] | []>>;
@@ -43,7 +43,7 @@ export default function AddLocForm({
 
   const resetNewUserCoordsAndMarker = () => {
     if (newUserLocMarker && newUserLocCoords) {
-      newUserLocMarker.position = null;
+      newUserLocMarker.setMap(null);
       setNewUserLocCoords(null);
       setNewUserLocMarker(null);
     }
@@ -75,7 +75,7 @@ export default function AddLocForm({
         if (response.startsWith("Success")) {
           setSubmitMessage("New location saved!");
           if (newUserLocMarker) {
-            newUserLocMarker.position = null;
+            newUserLocMarker.setMap(null);
             setNewUserLocMarker(null);
           }
           let newMapPoint: GoogleMapPoint = {

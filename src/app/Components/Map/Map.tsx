@@ -12,9 +12,9 @@ interface Props {
   setNewUserLocCoords: Dispatch<
     React.SetStateAction<{ lat: string; lng: string } | null>
   >;
-  newUserLocMarker: google.maps.marker.AdvancedMarkerElement | null;
+  newUserLocMarker: google.maps.Marker | null;
   setNewUserLocMarker: Dispatch<
-    React.SetStateAction<google.maps.marker.AdvancedMarkerElement | null>
+    React.SetStateAction<google.maps.Marker | null>
   >;
 }
 
@@ -82,25 +82,28 @@ export default function Map({
         google.maps.event.addListener(
           drawingManagerRef.current,
           "overlaycomplete",
-          function (event: any) {
+          function (event: google.maps.drawing.OverlayCompleteMarkerEvent) {
             if (
               event.type === google.maps.drawing.OverlayType.MARKER &&
               newUserLocMarker === null
             ) {
               const marker = event.overlay;
+              const markerLat = marker?.getPosition()?.lat();
+              const markerLng = marker?.getPosition()?.lng();
 
-              const newUserMapPoint: { lat: string; lng: string } = {
-                lat: marker.position.lat().toFixed(6),
-                lng: marker.position.lng().toFixed(6),
-              };
+              if (marker && markerLat && markerLng) {
+                const newUserMapPoint: { lat: string; lng: string } = {
+                  lat: markerLat.toFixed(6),
+                  lng: markerLng.toFixed(6),
+                };
 
-              // See comment at line 52
-              console.log(
-                `Ignore deprecation warning on new map marker creation.
-                 Update to AdvancedMarkerElement not yet available for drawing mode markers.`
-              );
-              setNewUserLocMarker(marker);
-              setNewUserLocCoords(newUserMapPoint);
+                // See comment at line 52
+                console.log(
+                  `Ignore deprecation warning on new map marker creation. Update to AdvancedMarkerElement not yet available for drawing mode markers.`
+                );
+                setNewUserLocMarker(marker);
+                setNewUserLocCoords(newUserMapPoint);
+              }
             }
           }
         );
@@ -117,21 +120,20 @@ export default function Map({
         markersRef.current = [];
 
         // Load AdvancedMarkerElement
-        const { AdvancedMarkerElement } =
-          (await google.maps.importLibrary(
-            "marker"
-          )) as google.maps.MarkerLibrary;
+        const { AdvancedMarkerElement } = (await google.maps.importLibrary(
+          "marker"
+        )) as google.maps.MarkerLibrary;
 
         mapLocations.forEach((location) => {
           const pinContent = document.createElement("div");
-          const root = createRoot(pinContent)
+          const root = createRoot(pinContent);
           root.render(<MapPin title={location.name} />);
 
           const marker = new AdvancedMarkerElement({
             position: location.coords,
             map: mapInstanceRef.current!,
             title: location.name,
-            content: pinContent
+            content: pinContent,
           });
 
           markersRef.current.push(marker);
