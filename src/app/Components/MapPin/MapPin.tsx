@@ -8,11 +8,12 @@ interface Props {
 export default function MapPin({title} : Props) {
   return (
     <div className={styles.container}>
-      <p className={styles.title}>{title}</p>
+      <h4 className={styles.title}>{title}</h4>
       <Image
-        src={"/icons8-location-50.png"}
-        height={30}
-        width={30}
+        src={"/orange-pin.png"}
+        fill={true}
+        sizes="5vw"
+        priority={false}
         alt="map marker pin"
         className={styles["map-pin-png"]}
       />
