@@ -1,3 +1,5 @@
+import { should } from "chai";
+
 describe("Edit locations display", () => {
   beforeEach(() => {
     // Intercept and return user session object
@@ -21,12 +23,25 @@ describe("Edit locations display", () => {
       fixture: "default_locs.json",
     });
 
-    cy.visit("/edit-locations");
+    cy.visit("/");
+
+    cy.get("button#navLocationBtn").click();
 
     cy.wait(250);
   });
 
-  it("should pass", () => {
-    cy.get("body").should("exist");
+  it("should display the site title, 'SendTemps' and return user to Home when clicked", () => {
+    cy.get("h1").should("have.text", "SendTemps").click();
+
+    cy.wait(500).location("pathname").should("equal", "/");
+  });
+
+  it("should display the Back button and allow user to return to Home", () => {
+    cy.get("button#editLocBackBtn")
+      .should("be.visible")
+      .should("have.text", "Back")
+      .click();
+
+    cy.wait(250).location("pathname").should("equal", "/");
   });
 });
