@@ -2,10 +2,11 @@ import styles from "./MapPin.module.css";
 import Image from "next/image";
 
 interface Props {
-  title: string
+  title: string;
+  poiType: string;
 }
 
-export default function MapPin({title} : Props) {
+export default function MapPin({title, poiType} : Props) {
   return (
     <div className={styles.container}>
       <h4 className={styles.title}>{title}</h4>

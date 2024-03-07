@@ -80,6 +80,7 @@ export default function AddLocForm({
           }
           let newMapPoint: GoogleMapPoint = {
             name: locName,
+            poiType: locType,
             coords: {
               lat: +newUserLocCoords.lat,
               lng: +newUserLocCoords.lng,

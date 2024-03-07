@@ -2,7 +2,6 @@
 
 import { Loader } from "@googlemaps/js-api-loader";
 import { useRef, useEffect, Dispatch, useState } from "react";
-import ReactDOM from "react-dom";
 import { GoogleMapPoint } from "@/app/Interfaces/interfaces";
 import MapPin from "../MapPin/MapPin";
 import { createRoot } from "react-dom/client";
@@ -127,7 +126,7 @@ export default function Map({
         mapLocations.forEach((location) => {
           const pinContent = document.createElement("div");
           const root = createRoot(pinContent);
-          root.render(<MapPin title={location.name} />);
+          root.render(<MapPin title={location.name} poiType={location.poiType} />);
 
           const marker = new AdvancedMarkerElement({
             position: location.coords,
