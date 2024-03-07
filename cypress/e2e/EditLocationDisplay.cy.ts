@@ -71,6 +71,38 @@ describe("Edit locations display", () => {
     cy.get("@detailsList").contains("Modified");
   });
 
+  it("should show the Delete button and open modal, allow return and deletion", () => {
+    cy.get("button#userLocDeleteBtn").as("deleteBtn").should("be.visible");
+
+    cy.get("@deleteBtn").click();
+    cy.get("dialog#userLocModal")
+      .as("locModal")
+      .contains("Please select a location before editing.");
+    cy.get("button.edit-user-loc-button")
+      .as("modalBackBtn")
+      .should("be.visible")
+      .click();
+
+    cy.get("select#editUserLocSelect").select(1);
+    cy.get("@deleteBtn").click();
+    cy.get("@locModal").contains('Are you sure you want to delete "Eldora"?');
+    cy.get("@locModal").find("button").eq(0).should("have.text", "Cancel").click();
+    cy.get("@locModal").should("not.be.visible");
+
+    cy.get("@deleteBtn").click();
+    cy.get("@locModal").find("button").eq(1).should("have.text", "Confirm").click();
+
+    cy.intercept(
+      "DELETE",
+      "/api/user_locations",
+      JSON.stringify(
+        "Success: User Location id: XX for user_id: 101000928729222042760 successfully deleted"
+      )
+    );
+
+    cy.get("select#editUserLocSelect").should("not.exist");
+  });
+
   it("should show the heading for the add location section", () => {
     cy.get("h2").eq(1).should("have.text", "Add New Location");
   });
