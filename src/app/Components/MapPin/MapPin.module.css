@@ -16,13 +16,12 @@
   max-width: 10rem;
   color: black;
   text-align: center;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
 }
 
 .map-pin-png {
   z-index: 1;
-  position: relative;
-  object-fit: cover;
+  object-fit: fill;
 }
  
