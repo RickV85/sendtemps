@@ -38,7 +38,9 @@ describe("home error testing for authorized user", () => {
     // Intercept user login patch req
     cy.intercept(
       "/api/users",
-      "New user data for id: 101000928729222042760 matches previous user data from database. New login: 2024-02-25T17:35:44.233Z"
+      JSON.stringify(
+        "New user data for id: 101000928729222042760 matches previous user data from database. New login: 2024-02-25T17:35:44.233Z"
+      )
     );
   });
 
