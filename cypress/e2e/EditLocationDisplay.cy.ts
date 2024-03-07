@@ -71,12 +71,12 @@ describe("Edit locations display", () => {
     cy.get("@detailsList").contains("Modified");
   });
 
-  it("should show the Delete button and open modal, allow return and deletion", () => {
+  it("should show the Delete button,open modal, allow return, and deletion", () => {
     cy.intercept(
       "DELETE",
       "/api/user_locations",
       JSON.stringify(
-        "Success: User Location id: XX for user_id: 101000928729222042760 successfully deleted"
+        "Success: User Location id: 34 for user_id: 101000928729222042760 successfully deleted"
       )
     );
 
@@ -109,19 +109,19 @@ describe("Edit locations display", () => {
     cy.get("select#editUserLocSelect").should("not.exist");
   });
 
-  it("should show the Rename button and open modal, allow return and rename", () => {
+  it("should show the Rename button, open modal, allow return, and rename", () => {
     cy.intercept("PATCH", "/api/user_locations", {
-      "patchLoc": {
-          "id": 34,
-          "name": "Renamed",
-          "latitude": "40.041410",
-          "longitude": "-105.089064",
-          "user_id": "101000928729222042760",
-          "poi_type": "climb",
-          "date_created": "2024-03-06T21:42:17.348Z",
-          "last_modified": "2024-03-07T14:50:42.158Z"
-      }
-  });
+      patchLoc: {
+        id: 34,
+        name: "Renamed",
+        latitude: "40.041410",
+        longitude: "-105.089064",
+        user_id: "101000928729222042760",
+        poi_type: "ski",
+        date_created: "2024-03-06T21:42:17.348Z",
+        last_modified: "2024-03-07T14:50:42.158Z",
+      },
+    });
 
     cy.get("button#userLocRenameBtn").as("renameBtn").should("be.visible");
 
@@ -150,6 +150,54 @@ describe("Edit locations display", () => {
       .find("option")
       .eq(1)
       .should("have.text", "Renamed");
+  });
+
+  it("should show the Change Type button, open modal, allow return, and change type", () => {
+    cy.intercept("PATCH", "/api/user_locations", {
+      patchLoc: {
+        id: 34,
+        name: "Eldora",
+        latitude: "40.041410",
+        longitude: "-105.089064",
+        user_id: "101000928729222042760",
+        poi_type: "mtb",
+        date_created: "2024-03-06T21:42:17.348Z",
+        last_modified: "2024-03-07T14:50:42.158Z",
+      },
+    });
+
+    cy.get("button#userLocTypeBtn").as("typeBtn").should("be.visible");
+
+    cy.get("@typeBtn").click();
+    cy.get("button.edit-user-loc-button").should("be.visible").click();
+
+    cy.get("select#editUserLocSelect").select(1);
+    cy.get("@typeBtn").click();
+    cy.get("dialog#userLocModal")
+      .as("locModal")
+      .contains('Change "Eldora" sport type?');
+    cy.get("@locModal")
+      .find("button")
+      .eq(0)
+      .should("have.text", "Cancel")
+      .click();
+    cy.get("@locModal").should("not.be.visible");
+
+    cy.get("@typeBtn").click();
+    cy.get("select.edit-loc-input").select("Mountain Biking");
+    cy.get("@locModal")
+      .find("button")
+      .eq(1)
+      .should("have.text", "Confirm")
+      .click();
+
+    cy.get("select#editUserLocSelect").select("Eldora");
+
+    cy.get("dl")
+      .find("div")
+      .eq(2)
+      .find("dd")
+      .should("have.text", "Mountain Biking");
   });
 
   it("should show the heading for the add location section", () => {
