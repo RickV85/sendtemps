@@ -23,6 +23,9 @@ describe("Edit locations display", () => {
       fixture: "default_locs.json",
     });
 
+    // Failing on run due to Google req 3d context
+    cy.intercept("GET", "https://maps.googleapis.com/maps-api-v3/api/js/56/3/*");
+
     cy.visit("/");
 
     cy.get("button#navLocationBtn").click();
@@ -31,9 +34,6 @@ describe("Edit locations display", () => {
   });
 
   it("should display the site title, 'SendTemps' and return user to Home when clicked", () => {
-    // Error with google requesting 3d context here
-    cy.intercept("GET", "https://maps.googleapis.com/*");
-
     cy.wait(500);
     cy.get("h1").should("have.text", "SendTemps").click();
 
@@ -41,9 +41,6 @@ describe("Edit locations display", () => {
   });
 
   it("should display the Back button and allow user to return to Home", () => {
-    // Error with google requesting 3d context here
-    cy.intercept("GET", "https://maps.googleapis.com/*");
-
     cy.get("button#editLocBackBtn")
       .should("be.visible")
       .should("have.text", "Back")
