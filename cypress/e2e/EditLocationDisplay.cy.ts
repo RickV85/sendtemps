@@ -1,5 +1,3 @@
-import { should } from "chai";
-
 describe("Edit locations display", () => {
   beforeEach(() => {
     // Intercept and return user session object
@@ -71,7 +69,7 @@ describe("Edit locations display", () => {
     cy.get("@detailsList").contains("Modified");
   });
 
-  it("should show the Delete button,open modal, allow return, and deletion", () => {
+  it("should show the Delete button, open modal, allow return, and deletion", () => {
     cy.intercept(
       "DELETE",
       "/api/user_locations",

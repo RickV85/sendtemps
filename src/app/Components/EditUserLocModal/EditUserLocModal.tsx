@@ -1,6 +1,9 @@
 "use client";
 import { UserContext } from "@/app/Contexts/UserContext";
-import { deleteUserLocation, patchUserLocation } from "@/app/Util/DatabaseApiCalls";
+import {
+  deleteUserLocation,
+  patchUserLocation,
+} from "@/app/Util/DatabaseApiCalls";
 import { findLocByIdInUserLocs, resetErrorMsg } from "@/app/Util/utils";
 import { useContext, useState } from "react";
 
@@ -92,23 +95,27 @@ export default function EditUserLocModal({
     setSubmitMsg("Deleting location...");
     const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
     if (userLoc && userLoc.id) {
-      deleteUserLocation(+userLoc.id, userLoc.user_id).then((res) => {
-        if (typeof res === "string" && res.startsWith("Success")) {
-          setSelectedUserLoc("default");
-          userLocModalRef?.current?.close();
-          setSubmitMsg("");
-          setUserLocations((prevState) => {
-            const newState = prevState?.filter((loc) => loc.id !== userLoc.id);
-            return newState ? newState : null;
-          });
-        } else {
-          console.error(res);
+      deleteUserLocation(+userLoc.id, userLoc.user_id)
+        .then((res) => {
+          if (typeof res === "string" && res.startsWith("Success")) {
+            setSelectedUserLoc("default");
+            userLocModalRef?.current?.close();
+            setSubmitMsg("");
+            setUserLocations((prevState) => {
+              const newState = prevState?.filter(
+                (loc) => loc.id !== userLoc.id
+              );
+              return newState ? newState : null;
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
           setSubmitMsg(
             "An error occurred while deleting location. Please try again."
           );
           resetErrorMsg(setSubmitMsg);
-        }
-      });
+        });
     }
   };
 
