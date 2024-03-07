@@ -11,7 +11,7 @@
 .title {
   position: relative;
   z-index: 2;
-  bottom: .75rem;
+  bottom: 0.9rem;
   width: max-content;
   max-width: 10rem;
   color: black;
@@ -24,4 +24,3 @@
   z-index: 1;
   object-fit: fill;
 }
- 

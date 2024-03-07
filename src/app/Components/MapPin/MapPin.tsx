@@ -6,18 +6,47 @@ interface Props {
   poiType: string;
 }
 
-export default function MapPin({title, poiType} : Props) {
+export default function MapPin({ title, poiType }: Props) {
   const iconType = () => {
     switch (poiType) {
-      case "climb" : return "/climbing-pin.png";
-      case "mtb" : return "/mtb-pin.png";
-      case "ski" : return "/snowflake-pin.png";
-      default : return "/orange-pin.png";
+      case "climb":
+        return "/climbing-pin.png";
+      case "mtb":
+        return "/mtb-pin.png";
+      case "ski":
+        return "/snowflake-pin.png";
+      default:
+        return "/default-pin.png";
     }
-  }
-  // <a target="_blank" href="https://icons8.com/icon/10018/winter">Snowflake</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  // <a target="_blank" href="https://icons8.com/icon/9780/climbing">Climbing</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-  // <a target="_blank" href="https://icons8.com/icon/9823/mountain-biking">Mountain Biking</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+  };
+  const iconCredit = () => {
+    let link = "https://icons8.com/icon/7880/location";
+    let iconName = "Location";
+
+    if (poiType === "climb") {
+      link = "https://icons8.com/icon/9780/climbing";
+      iconName = "Climbing";
+    } else if (poiType === "mtb") {
+      link = "https://icons8.com/icon/9823/mountain-biking";
+      iconName = "Mountain Biking";
+    } else if (poiType === "ski") {
+      link = "https://icons8.com/icon/10018/winter";
+      iconName = "Snowflake";
+    }
+
+    return (
+      <span style={{ display: "none" }}>
+        <a target="_blank" href={link}>
+          {iconName}
+        </a>{" "}
+        icon by{" "}
+        <a target="_blank" href="https://icons8.com">
+          Icons8
+        </a>
+      </span>
+    );
+  };
+
   return (
     <div className={styles.container}>
       <h4 className={styles.title}>{title}</h4>
@@ -29,6 +58,7 @@ export default function MapPin({title, poiType} : Props) {
         alt="map marker pin"
         className={styles["map-pin-png"]}
       />
+      {iconCredit()}
     </div>
   );
 }
