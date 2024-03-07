@@ -72,26 +72,6 @@ describe("Edit locations display", () => {
   });
 
   it("should show the Delete button and open modal, allow return and deletion", () => {
-    cy.get("button#userLocDeleteBtn").as("deleteBtn").should("be.visible");
-
-    cy.get("@deleteBtn").click();
-    cy.get("dialog#userLocModal")
-      .as("locModal")
-      .contains("Please select a location before editing.");
-    cy.get("button.edit-user-loc-button")
-      .as("modalBackBtn")
-      .should("be.visible")
-      .click();
-
-    cy.get("select#editUserLocSelect").select(1);
-    cy.get("@deleteBtn").click();
-    cy.get("@locModal").contains('Are you sure you want to delete "Eldora"?');
-    cy.get("@locModal").find("button").eq(0).should("have.text", "Cancel").click();
-    cy.get("@locModal").should("not.be.visible");
-
-    cy.get("@deleteBtn").click();
-    cy.get("@locModal").find("button").eq(1).should("have.text", "Confirm").click();
-
     cy.intercept(
       "DELETE",
       "/api/user_locations",
@@ -100,7 +80,76 @@ describe("Edit locations display", () => {
       )
     );
 
+    cy.get("button#userLocDeleteBtn").as("deleteBtn").should("be.visible");
+
+    cy.get("@deleteBtn").click();
+    // Tests for no location selected, not needed on next two tests of CRUD functions
+    cy.get("dialog#userLocModal")
+      .as("locModal")
+      .contains("Please select a location before editing.");
+    cy.get("button.edit-user-loc-button").should("be.visible").click();
+
+    cy.get("select#editUserLocSelect").select(1);
+    cy.get("@deleteBtn").click();
+    cy.get("@locModal").contains('Are you sure you want to delete "Eldora"?');
+    cy.get("@locModal")
+      .find("button")
+      .eq(0)
+      .should("have.text", "Cancel")
+      .click();
+    cy.get("@locModal").should("not.be.visible");
+
+    cy.get("@deleteBtn").click();
+    cy.get("@locModal")
+      .find("button")
+      .eq(1)
+      .should("have.text", "Confirm")
+      .click();
+
     cy.get("select#editUserLocSelect").should("not.exist");
+  });
+
+  it("should show the Rename button and open modal, allow return and rename", () => {
+    cy.intercept("PATCH", "/api/user_locations", {
+      "patchLoc": {
+          "id": 34,
+          "name": "Renamed",
+          "latitude": "40.041410",
+          "longitude": "-105.089064",
+          "user_id": "101000928729222042760",
+          "poi_type": "climb",
+          "date_created": "2024-03-06T21:42:17.348Z",
+          "last_modified": "2024-03-07T14:50:42.158Z"
+      }
+  });
+
+    cy.get("button#userLocRenameBtn").as("renameBtn").should("be.visible");
+
+    cy.get("@renameBtn").click();
+    cy.get("button.edit-user-loc-button").should("be.visible").click();
+
+    cy.get("select#editUserLocSelect").select(1);
+    cy.get("@renameBtn").click();
+    cy.get("dialog#userLocModal").as("locModal").contains('Rename "Eldora"?');
+    cy.get("@locModal")
+      .find("button")
+      .eq(0)
+      .should("have.text", "Cancel")
+      .click();
+    cy.get("@locModal").should("not.be.visible");
+
+    cy.get("@renameBtn").click();
+    cy.get("input#editUserLocNameInput").type("Renamed");
+    cy.get("@locModal")
+      .find("button")
+      .eq(1)
+      .should("have.text", "Confirm")
+      .click();
+
+    cy.get("select#editUserLocSelect")
+      .find("option")
+      .eq(1)
+      .should("have.text", "Renamed");
   });
 
   it("should show the heading for the add location section", () => {
