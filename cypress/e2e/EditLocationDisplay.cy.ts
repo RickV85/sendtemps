@@ -31,6 +31,9 @@ describe("Edit locations display", () => {
   });
 
   it("should display the site title, 'SendTemps' and return user to Home when clicked", () => {
+    // Error with google requesting 3d context here
+    cy.intercept("GET", "https://maps.googleapis.com/*");
+
     cy.wait(500);
     cy.get("h1").should("have.text", "SendTemps").click();
 
@@ -38,6 +41,9 @@ describe("Edit locations display", () => {
   });
 
   it("should display the Back button and allow user to return to Home", () => {
+    // Error with google requesting 3d context here
+    cy.intercept("GET", "https://maps.googleapis.com/*");
+
     cy.get("button#editLocBackBtn")
       .should("be.visible")
       .should("have.text", "Back")
