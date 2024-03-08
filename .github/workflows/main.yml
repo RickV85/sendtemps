@@ -20,7 +20,7 @@ jobs:
       - name: Cypress install
         uses: cypress-io/github-action@v6
         with:
-          runTests: false # Disable running of tests within install job
+          runTests: false
           build: npm run build
 
       - name: Save .next folder
@@ -65,3 +65,4 @@ jobs:
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          DISPLAY: ':99'

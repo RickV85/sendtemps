@@ -1,3 +1,5 @@
+import Map from "@/app/Components/Map/Map";
+
 describe("Edit Location errors", () => {
   beforeEach(() => {
     // Intercept and return user session object
@@ -41,11 +43,14 @@ describe("Edit Location errors", () => {
       .eq(1)
       .should("have.text", "Confirm")
       .click();
-    
-    cy.get("dialog#userLocModal").find("p").eq(0).should(
-      "have.text",
-      "An error occurred while deleting location. Please try again."
-    );
+
+    cy.get("dialog#userLocModal")
+      .find("p")
+      .eq(0)
+      .should(
+        "have.text",
+        "An error occurred while deleting location. Please try again."
+      );
   });
 
   // Need to add tests for failed name change and type PATCH requests
