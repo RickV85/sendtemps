@@ -23,9 +23,6 @@ describe("Edit locations display", () => {
       fixture: "default_locs.json",
     });
 
-    // Failing on run due to Google req 3d context
-    cy.intercept("GET", "https://maps.googleapis.com/maps-api-v3/api/js/56/3/*");
-
     cy.visit("/");
 
     cy.get("button#navLocationBtn").click();

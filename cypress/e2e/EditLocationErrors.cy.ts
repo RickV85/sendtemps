@@ -1,5 +1,3 @@
-import Map from "@/app/Components/Map/Map";
-
 describe("Edit Location errors", () => {
   beforeEach(() => {
     // Intercept and return user session object
