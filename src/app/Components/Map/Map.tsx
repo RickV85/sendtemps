@@ -160,16 +160,12 @@ export default function Map({
     }
   }, [newUserLocMarker, mapLoaded]);
 
-  if (process.env.NODE_ENV !== "test") {
-    return (
-      <div
-        ref={mapRef}
-        role="application"
-        aria-label="Google map display of default and user created locations"
-        style={{ height: "100%", width: "100%" }}
-      />
-    );
-  } else {
-    return null;
-  }
+  return (
+    <div
+      ref={mapRef}
+      role="application"
+      aria-label="Google map display of default and user created locations"
+      style={{ height: "100%", width: "100%" }}
+    />
+  );
 }

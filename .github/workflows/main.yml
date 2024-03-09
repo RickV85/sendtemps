@@ -58,6 +58,7 @@ jobs:
         with:
           start: npm run start
           browser: chrome
+          headless: false
           record: true
         env:
           TZ: "America/Denver"
