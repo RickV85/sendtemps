@@ -57,7 +57,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm run start
-          browser: electron
+          browser: electron # using electron vs chrome, Gmaps still throws error about 3d context not found but after tests execute
           record: true
         env:
           TZ: "America/Denver"

@@ -44,14 +44,49 @@ describe("Edit Location errors", () => {
 
     cy.get("dialog#userLocModal")
       .find("p")
-      .eq(0)
       .should(
         "have.text",
-        "An error occurred while deleting location. Please try again."
+        "An error occurred while modifying location. Please try again."
       );
   });
 
   // Need to add tests for failed name change and type PATCH requests
   // Might need to add a .catch() and move the else() functions lines 57-63
   // in EditUserLocModal - handlePatchRequest lines to trigger error messaging
+
+  it("should show an error on failed rename", () => {
+    cy.intercept("PATCH", "/api/user_locations", {
+      statusCode: 500,
+      body: "Error",
+    });
+
+    cy.get("select#editUserLocSelect").select(1);
+    cy.get("button#userLocRenameBtn").as("renameBtn");
+    cy.get("@renameBtn").click();
+
+    cy.get("dialog#userLocModal")
+      .find("button")
+      .eq(1)
+      .as("confirmBtn")
+      .should("have.text", "Confirm")
+      .click();
+
+    cy.get("p.edit-user-loc-modal-msg").should(
+      "have.text",
+      "Please enter a name"
+    );
+
+    cy.get("input#editUserLocNameInput").type("Renamed");
+
+    cy.get("@confirmBtn").click();
+
+    cy.wait(250);
+
+    cy.get("dialog#userLocModal")
+      .find("p")
+      .should(
+        "have.text",
+        "An error occurred while renaming location. Please try again."
+      );
+  });
 });
