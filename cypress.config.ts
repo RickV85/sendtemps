@@ -7,8 +7,8 @@ export default defineConfig({
       // implement node event listeners here
 
       // Ignore Google maps 3d context error when run in GH Actions
-      Cypress.on("uncaught:exception", (err) => {
-        if (err.message === "Could not find a 3d context, error: 10") {
+      Cypress.on("uncaught:exception", (err, runnable) => {
+        if (err.message.includes("Could not find a 3d context, error: 10")) {
           return false;
         }
       });
