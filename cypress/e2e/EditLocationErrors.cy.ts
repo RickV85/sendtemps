@@ -83,4 +83,38 @@ describe("Edit Location errors", () => {
       "An error occurred while modifying location. Please try again."
     );
   });
+
+  it("should show an error on failed type change", () => {
+    cy.intercept("PATCH", "/api/user_locations", {
+      statusCode: 500,
+      body: "Error",
+    });
+
+    cy.get("select#editUserLocSelect").select(1);
+    cy.get("button#userLocTypeBtn").as("typeBtn");
+    cy.get("@typeBtn").click();
+
+    cy.get("dialog#userLocModal")
+      .find("button")
+      .eq(1)
+      .as("confirmBtn")
+      .should("have.text", "Confirm")
+      .click();
+
+    cy.get("p.edit-user-loc-modal-msg").should(
+      "have.text",
+      "Please choose a type"
+    );
+
+    cy.get("select.edit-loc-input").select(1);
+
+    cy.get("@confirmBtn").click();
+
+    cy.wait(250);
+
+    cy.get("p.edit-user-loc-modal-msg").should(
+      "have.text",
+      "An error occurred while modifying location. Please try again."
+    );
+  });
 });
