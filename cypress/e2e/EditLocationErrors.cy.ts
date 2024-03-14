@@ -50,8 +50,6 @@ describe("Edit Location errors", () => {
     );
   });
 
-  
-
   it("should show an error on failed rename", () => {
     cy.intercept("PATCH", "/api/user_locations", {
       statusCode: 500,
@@ -69,18 +67,38 @@ describe("Edit Location errors", () => {
       .should("have.text", "Confirm")
       .click();
 
-    cy.get("p.edit-user-loc-modal-msg").should(
+    cy.get("p.edit-user-loc-modal-msg")
+      .as("errorMsg")
+      .should("have.text", "Please enter a name");
+
+    cy.get("input#editUserLocNameInput")
+      .as("nameInput")
+      .type("kjwnfkjwnefkwjnfkjwnefnwenofnolkndlwnefwenfninfwefe");
+
+    cy.get("@confirmBtn").click();
+
+    cy.get("@errorMsg").should(
       "have.text",
-      "Please enter a name"
+      "Name cannot be longer than 50 characters"
     );
 
-    cy.get("input#editUserLocNameInput").type("Renamed");
+    cy.get("@nameInput").should("not.contain.text");
+
+    cy.get("@nameInput").type("<script>something malicious</script>");
+
+    cy.get("@confirmBtn").click();
+
+    cy.get("@errorMsg").should("have.text", "NO XSS");
+
+    cy.get("@nameInput").should("not.have.text");
+
+    cy.get("@nameInput").type("Renamed");
 
     cy.get("@confirmBtn").click();
 
     cy.wait(250);
 
-    cy.get("p.edit-user-loc-modal-msg").should(
+    cy.get("@errorMsg").should(
       "have.text",
       "An error occurred while modifying location. Please try again."
     );

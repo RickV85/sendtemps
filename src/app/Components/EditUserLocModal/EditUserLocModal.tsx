@@ -77,7 +77,7 @@ export default function EditUserLocModal({
       setNewName("");
       resetErrorMsg(setSubmitMsg);
       return;
-    } else if (newName.toLowerCase().includes("script")) {
+    } else if (newName.toLowerCase().includes("<script>")) {
       setSubmitMsg("NO XSS");
       setNewName("");
       resetErrorMsg(setSubmitMsg);
