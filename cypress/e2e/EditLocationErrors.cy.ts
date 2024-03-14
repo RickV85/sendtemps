@@ -50,6 +50,8 @@ describe("Edit Location errors", () => {
     );
   });
 
+  
+
   it("should show an error on failed rename", () => {
     cy.intercept("PATCH", "/api/user_locations", {
       statusCode: 500,

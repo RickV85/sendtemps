@@ -74,10 +74,12 @@ export default function EditUserLocModal({
       return;
     } else if (newName.length > 50) {
       setSubmitMsg("Name cannot be longer than 50 characters");
+      setNewName("");
       resetErrorMsg(setSubmitMsg);
       return;
     } else if (newName.toLowerCase().includes("script")) {
       setSubmitMsg("NO XSS");
+      setNewName("");
       resetErrorMsg(setSubmitMsg);
       return;
     }
