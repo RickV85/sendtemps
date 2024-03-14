@@ -37,31 +37,33 @@ export default function EditUserLocModal({
     setSubmitMsg("Submitting changes...");
     const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
     if (userLoc) {
-      patchUserLocation(userLoc, patchType, userInput).then((res) => {
-        if (
-          res.patchLoc.id &&
-          res.patchLoc.id === userLoc.id &&
-          userLocations
-        ) {
-          const newUserLocs = [...userLocations];
-          const editLocIndex = newUserLocs?.indexOf(userLoc);
-          if (editLocIndex !== -1) {
-            setSelectedUserLoc("default");
-            userInputStateSet("");
-            setSubmitMsg("");
-            userLocModalRef?.current?.close();
-            const updatedLoc = res.patchLoc;
-            newUserLocs.splice(editLocIndex, 1, updatedLoc);
-            setUserLocations(newUserLocs);
+      patchUserLocation(userLoc, patchType, userInput)
+        .then((res) => {
+          if (
+            res.patchLoc.id &&
+            res.patchLoc.id === userLoc.id &&
+            userLocations
+          ) {
+            const newUserLocs = [...userLocations];
+            const editLocIndex = newUserLocs?.indexOf(userLoc);
+            if (editLocIndex !== -1) {
+              setSelectedUserLoc("default");
+              userInputStateSet("");
+              setSubmitMsg("");
+              userLocModalRef?.current?.close();
+              const updatedLoc = res.patchLoc;
+              newUserLocs.splice(editLocIndex, 1, updatedLoc);
+              setUserLocations(newUserLocs);
+            }
           }
-        } else {
-          console.error(res);
+        })
+        .catch((error) => {
+          console.error(error);
           setSubmitMsg(
             "An error occurred while modifying location. Please try again."
           );
           resetErrorMsg(setSubmitMsg);
-        }
-      });
+        });
     }
   };
 
@@ -109,8 +111,8 @@ export default function EditUserLocModal({
             });
           }
         })
-        .catch((err) => {
-          console.error(err);
+        .catch((error) => {
+          console.error(error);
           setSubmitMsg(
             "An error occurred while deleting location. Please try again."
           );
