@@ -23,13 +23,18 @@ describe("Edit Location errors", () => {
       fixture: "default_locs.json",
     });
 
+    // Ignore Google maps 3d context error when run in GH Actions
+    Cypress.on("uncaught:exception", (err, runnable) => {
+      return false;
+    });
+
     cy.visit("/edit-locations");
   });
 
   it("should show an error on failed deletion", () => {
     cy.intercept("DELETE", "/api/user_locations", {
       statusCode: 500,
-      body: "Error",
+      body: JSON.stringify("Error"),
     });
 
     cy.get("select#editUserLocSelect").select(1);
@@ -53,7 +58,7 @@ describe("Edit Location errors", () => {
   it("should show an error on failed rename", () => {
     cy.intercept("PATCH", "/api/user_locations", {
       statusCode: 500,
-      body: "Error",
+      body: JSON.stringify("Error"),
     });
 
     cy.get("select#editUserLocSelect").select(1);
@@ -107,7 +112,7 @@ describe("Edit Location errors", () => {
   it("should show an error on failed type change", () => {
     cy.intercept("PATCH", "/api/user_locations", {
       statusCode: 500,
-      body: "Error",
+      body: JSON.stringify("Error"),
     });
 
     cy.get("select#editUserLocSelect").select(1);
