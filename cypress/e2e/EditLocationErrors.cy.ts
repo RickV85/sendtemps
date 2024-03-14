@@ -23,6 +23,13 @@ describe("Edit Location errors", () => {
       fixture: "default_locs.json",
     });
 
+    // Ignore Google maps 3d context error when run in GH Actions
+    cy.on("uncaught:exception", (err) => {
+      if (err.message.includes("3d context")) {
+        return false;
+      }
+    });
+
     cy.visit("/edit-locations");
   });
 
