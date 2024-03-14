@@ -42,17 +42,13 @@ describe("Edit Location errors", () => {
       .should("have.text", "Confirm")
       .click();
 
-    cy.get("dialog#userLocModal")
-      .find("p")
-      .should(
-        "have.text",
-        "An error occurred while modifying location. Please try again."
-      );
-  });
+    cy.wait(250);
 
-  // Need to add tests for failed name change and type PATCH requests
-  // Might need to add a .catch() and move the else() functions lines 57-63
-  // in EditUserLocModal - handlePatchRequest lines to trigger error messaging
+    cy.get("p.edit-user-loc-modal-msg").should(
+      "have.text",
+      "An error occurred while deleting location. Please try again."
+    );
+  });
 
   it("should show an error on failed rename", () => {
     cy.intercept("PATCH", "/api/user_locations", {
@@ -82,11 +78,9 @@ describe("Edit Location errors", () => {
 
     cy.wait(250);
 
-    cy.get("dialog#userLocModal")
-      .find("p")
-      .should(
-        "have.text",
-        "An error occurred while renaming location. Please try again."
-      );
+    cy.get("p.edit-user-loc-modal-msg").should(
+      "have.text",
+      "An error occurred while modifying location. Please try again."
+    );
   });
 });
