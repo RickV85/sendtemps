@@ -223,6 +223,7 @@ export interface UserSessionInfo {
 
 export interface GoogleMapPoint {
   name: string;
+  poiType: string;
   coords: {
     lat: number;
     lng: number;

@@ -1,4 +1,4 @@
-import { LocationObject, GoogleMapPoint, HourlyForecastData, HourlyForecastPeriod } from "../Interfaces/interfaces";
+import { LocationObject, GoogleMapPoint, HourlyForecastPeriod } from "../Interfaces/interfaces";
 import { UserLocation } from "../Classes/UserLocation";
 
 export function filterAndSortLocationsAlphaByName(
@@ -27,7 +27,7 @@ export const createGoogleMapPoints = (
       lat: +location.latitude,
       lng: +location.longitude,
     };
-    return { name: location.name, coords: coords };
+    return { name: location.name, poiType: location.poi_type, coords: coords };
   });
   return points;
 };

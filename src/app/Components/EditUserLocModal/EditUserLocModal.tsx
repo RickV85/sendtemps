@@ -1,6 +1,9 @@
 "use client";
 import { UserContext } from "@/app/Contexts/UserContext";
-import { deleteUserLocation, patchUserLocation } from "@/app/Util/DatabaseApiCalls";
+import {
+  deleteUserLocation,
+  patchUserLocation,
+} from "@/app/Util/DatabaseApiCalls";
 import { findLocByIdInUserLocs, resetErrorMsg } from "@/app/Util/utils";
 import { useContext, useState } from "react";
 
@@ -34,31 +37,33 @@ export default function EditUserLocModal({
     setSubmitMsg("Submitting changes...");
     const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
     if (userLoc) {
-      patchUserLocation(userLoc, patchType, userInput).then((res) => {
-        if (
-          res.patchLoc.id &&
-          res.patchLoc.id === userLoc.id &&
-          userLocations
-        ) {
-          const newUserLocs = [...userLocations];
-          const editLocIndex = newUserLocs?.indexOf(userLoc);
-          if (editLocIndex !== -1) {
-            setSelectedUserLoc("default");
-            userInputStateSet("");
-            setSubmitMsg("");
-            userLocModalRef?.current?.close();
-            const updatedLoc = res.patchLoc;
-            newUserLocs.splice(editLocIndex, 1, updatedLoc);
-            setUserLocations(newUserLocs);
+      patchUserLocation(userLoc, patchType, userInput)
+        .then((res) => {
+          if (
+            res.patchLoc.id &&
+            res.patchLoc.id === userLoc.id &&
+            userLocations
+          ) {
+            const newUserLocs = [...userLocations];
+            const editLocIndex = newUserLocs?.indexOf(userLoc);
+            if (editLocIndex !== -1) {
+              setSelectedUserLoc("default");
+              userInputStateSet("");
+              setSubmitMsg("");
+              userLocModalRef?.current?.close();
+              const updatedLoc = res.patchLoc;
+              newUserLocs.splice(editLocIndex, 1, updatedLoc);
+              setUserLocations(newUserLocs);
+            }
           }
-        } else {
-          console.error(res);
+        })
+        .catch((error) => {
+          console.error(error);
           setSubmitMsg(
             "An error occurred while modifying location. Please try again."
           );
           resetErrorMsg(setSubmitMsg);
-        }
-      });
+        });
     }
   };
 
@@ -69,10 +74,12 @@ export default function EditUserLocModal({
       return;
     } else if (newName.length > 50) {
       setSubmitMsg("Name cannot be longer than 50 characters");
+      setNewName("");
       resetErrorMsg(setSubmitMsg);
       return;
-    } else if (newName.toLowerCase().includes("script")) {
+    } else if (newName.toLowerCase().includes("<script>")) {
       setSubmitMsg("NO XSS");
+      setNewName("");
       resetErrorMsg(setSubmitMsg);
       return;
     }
@@ -92,23 +99,27 @@ export default function EditUserLocModal({
     setSubmitMsg("Deleting location...");
     const userLoc = findLocByIdInUserLocs(+selectedUserLoc, userLocations);
     if (userLoc && userLoc.id) {
-      deleteUserLocation(+userLoc.id, userLoc.user_id).then((res) => {
-        if (typeof res === "string" && res.startsWith("Success")) {
-          setSelectedUserLoc("default");
-          userLocModalRef?.current?.close();
-          setSubmitMsg("");
-          setUserLocations((prevState) => {
-            const newState = prevState?.filter((loc) => loc.id !== userLoc.id);
-            return newState ? newState : null;
-          });
-        } else {
-          console.error(res);
+      deleteUserLocation(+userLoc.id, userLoc.user_id)
+        .then((res) => {
+          if (typeof res === "string" && res.startsWith("Success")) {
+            setSelectedUserLoc("default");
+            userLocModalRef?.current?.close();
+            setSubmitMsg("");
+            setUserLocations((prevState) => {
+              const newState = prevState?.filter(
+                (loc) => loc.id !== userLoc.id
+              );
+              return newState ? newState : null;
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
           setSubmitMsg(
             "An error occurred while deleting location. Please try again."
           );
           resetErrorMsg(setSubmitMsg);
-        }
-      });
+        });
     }
   };
 

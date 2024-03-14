@@ -8,7 +8,9 @@ describe("initial display for an authorized user", () => {
     // Intercept user login patch req
     cy.intercept(
       "/api/users",
-      "New user data for id: 101000928729222042760 matches previous user data from database. New login: 2024-02-25T17:35:44.233Z"
+      JSON.stringify(
+        "New user data for id: 101000928729222042760 matches previous user data from database. New login: 2024-02-25T17:35:44.233Z"
+      )
     );
 
     // Intercept user location req
@@ -45,7 +47,7 @@ describe("initial display for an authorized user", () => {
     cy.get("button.user-profile-login-button").should("not.exist");
   });
 
-  it("should show the user's profile info display", () => {
+  it("should show the user's profile info display and have an option to sign out", () => {
     cy.wait(1500);
 
     cy.get("div.user-profile-div").as("userProfile");
@@ -53,7 +55,12 @@ describe("initial display for an authorized user", () => {
     cy.get("@userProfile")
       .find("a")
       .should("be.visible")
-      .should("have.attr", "href", "/api/auth/signout");
+      .should("have.attr", "href", "/api/auth/signout")
+      .should("have.text", "Sign Out")
+      .click();
+
+    cy.wait(250);
+    cy.location("pathname").should("equal", "/api/auth/signout");
   });
 
   it("should display the site title, 'SendTemps'", () => {

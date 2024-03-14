@@ -3,6 +3,8 @@
 import { Loader } from "@googlemaps/js-api-loader";
 import { useRef, useEffect, Dispatch, useState } from "react";
 import { GoogleMapPoint } from "@/app/Interfaces/interfaces";
+import MapPin from "../MapPin/MapPin";
+import { createRoot } from "react-dom/client";
 
 interface Props {
   mapLocations: Array<GoogleMapPoint>;
@@ -23,7 +25,7 @@ export default function Map({
 }: Props) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
-  const markersRef = useRef<google.maps.Marker[]>([]);
+  const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
   const drawingManagerRef = useRef<google.maps.drawing.DrawingManager | null>(
     null
   );
@@ -43,11 +45,17 @@ export default function Map({
           center: { lat: 40, lng: -105.5 },
           zoom: 10,
           fullscreenControl: false,
-          streetViewControl: false
+          streetViewControl: false,
+          mapId: "6696e534c9ad2933",
         });
         setMapLoaded(true);
       }
 
+      // No drawing mode available for AdvancedMarkerElement
+      // as of 2.5.24. This creates a legacy Marker object
+      // and throws a console warning about the deprecation.
+      // If update available, would need to update all references
+      // to google.maps.drawing.OverlayType.MARKER.
       drawingManagerRef.current = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.MARKER,
         drawingControl: true,
@@ -73,21 +81,28 @@ export default function Map({
         google.maps.event.addListener(
           drawingManagerRef.current,
           "overlaycomplete",
-          function (event) {
-            
+          function (event: google.maps.drawing.OverlayCompleteMarkerEvent) {
             if (
               event.type === google.maps.drawing.OverlayType.MARKER &&
               newUserLocMarker === null
             ) {
               const marker = event.overlay;
+              const markerLat = marker?.getPosition()?.lat();
+              const markerLng = marker?.getPosition()?.lng();
 
-              const newUserMapPoint: { lat: string; lng: string } = {
-                lat: marker.position.lat().toFixed(6),
-                lng: marker.position.lng().toFixed(6),
-              };
+              if (marker && markerLat && markerLng) {
+                const newUserMapPoint: { lat: string; lng: string } = {
+                  lat: markerLat.toFixed(6),
+                  lng: markerLng.toFixed(6),
+                };
 
-              setNewUserLocMarker(marker);
-              setNewUserLocCoords(newUserMapPoint);
+                // See comment at line 52
+                console.log(
+                  `Ignore deprecation warning on new map marker creation. Update to AdvancedMarkerElement not yet available for drawing mode markers.`
+                );
+                setNewUserLocMarker(marker);
+                setNewUserLocCoords(newUserMapPoint);
+              }
             }
           }
         );
@@ -97,26 +112,35 @@ export default function Map({
   }, []);
 
   useEffect(() => {
-    if (mapLocations.length && mapLoaded && mapRef.current) {
-      markersRef.current?.forEach((marker) => marker.setMap(null));
-      markersRef.current = [];
+    const resetAndCreateMarkers = async () => {
+      if (mapLocations.length && mapLoaded && mapRef.current) {
+        // Removes all markers from map before creating new
+        markersRef.current?.forEach((marker) => (marker.position = null));
+        markersRef.current = [];
 
-      mapLocations.forEach((location) => {
-        const marker = new google.maps.Marker({
-          position: location.coords,
-          map: mapInstanceRef.current!,
-          label: {
-            text: location.name,
-            fontFamily: "'Tahoma', sans-serif",
-            fontSize: "12px",
-            fontWeight: "700",
-          },
-          clickable: false,
+        // Load AdvancedMarkerElement
+        const { AdvancedMarkerElement } = (await google.maps.importLibrary(
+          "marker"
+        )) as google.maps.MarkerLibrary;
+
+        mapLocations.forEach((location) => {
+          const pinContent = document.createElement("div");
+          const root = createRoot(pinContent);
+          root.render(<MapPin title={location.name} poiType={location.poiType} />);
+
+          const marker = new AdvancedMarkerElement({
+            position: location.coords,
+            map: mapInstanceRef.current!,
+            title: location.name,
+            content: pinContent,
+          });
+
+          markersRef.current.push(marker);
         });
+      }
+    };
 
-        markersRef.current.push(marker);
-      });
-    }
+    resetAndCreateMarkers();
   }, [mapLocations, mapLoaded]);
 
   useEffect(() => {
