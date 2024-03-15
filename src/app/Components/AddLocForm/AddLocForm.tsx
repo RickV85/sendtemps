@@ -56,8 +56,8 @@ export default function AddLocForm({
     } else if (locName.length > 50) {
       handleSubmitError("Location names cannot be longer than 50 characters.");
       return;
-    } else if (locType === "Select Sport") {
-      handleSubmitError("Please choose a sport for this location.");
+    } else if (locType === "") {
+      handleSubmitError("Please select a type for this location.");
       return;
     } else if (locName.toLowerCase().includes("script")) {
       handleSubmitError("NO XSS");
