@@ -178,7 +178,7 @@ describe("Edit locations display", () => {
     cy.get("@typeBtn").click();
     cy.get("dialog#userLocModal")
       .as("locModal")
-      .contains('Change "Eldora" sport type?');
+      .contains('Change "Eldora" location type?');
     cy.get("@locModal")
       .find("button")
       .eq(0)

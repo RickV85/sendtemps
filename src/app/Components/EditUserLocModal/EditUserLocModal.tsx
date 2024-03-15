@@ -173,7 +173,7 @@ export default function EditUserLocModal({
             {submitMsg ? (
               modalSubmitMsg
             ) : (
-              <h3 className="modal-heading">{`Change "${curLoc?.name}" sport type?`}</h3>
+              <h3 className="modal-heading">{`Change "${curLoc?.name}" location type?`}</h3>
             )}
             <select
               value={newType}
@@ -181,11 +181,12 @@ export default function EditUserLocModal({
               className="edit-loc-input"
             >
               <option value={""} disabled>
-                Change sport type
+                Select type
               </option>
               <option value={"climb"}>Climbing</option>
               <option value={"mtb"}>Mountain Biking</option>
               <option value={"ski"}>Skiing</option>
+              <option value={"other"}>Other</option>
             </select>
             <div className="modal-btn-div">
               <button

@@ -36,9 +36,7 @@ describe("initial display for an authorized user", () => {
   it("should show the Edit Locations button to an authorized user", () => {
     cy.wait(1500);
 
-    cy.get("nav.home-nav")
-      .find("button#navLocationBtn")
-      .should("have.text", "Edit Locations");
+    cy.get("button#navLocationBtn").should("have.text", "Edit Locations");
   });
 
   it("should not display a Sign In button", () => {
@@ -69,12 +67,12 @@ describe("initial display for an authorized user", () => {
     cy.get("h1").should("have.text", "SendTemps");
   });
 
-  it("should display the type-select input and default to 'Select Sport'", () => {
+  it("should display the type-select input and default to 'Select location type'", () => {
     cy.wait(1500);
 
     cy.get("select.type-select")
       .find("option:selected")
-      .should("have.text", "Select Sport");
+      .should("have.text", "Select location type");
   });
 
   it("should display the Welcome Message once loaded", () => {

@@ -31,7 +31,7 @@ export default function AddLocForm({
   setEditLocOptionsStale,
 }: Props) {
   const [locName, setLocName] = useState("");
-  const [locType, setLocType] = useState("Select Sport");
+  const [locType, setLocType] = useState("");
   const [submitMessage, setSubmitMessage] = useState("");
 
   const handleSubmitError = (errMsg: string) => {
@@ -56,8 +56,8 @@ export default function AddLocForm({
     } else if (locName.length > 50) {
       handleSubmitError("Location names cannot be longer than 50 characters.");
       return;
-    } else if (locType === "Select Sport") {
-      handleSubmitError("Please choose a sport for this location.");
+    } else if (locType === "") {
+      handleSubmitError("Please select a type for this location.");
       return;
     } else if (locName.toLowerCase().includes("script")) {
       handleSubmitError("NO XSS");
@@ -131,14 +131,15 @@ export default function AddLocForm({
         className="add-loc-form-input"
         value={locType}
         onChange={(e) => setLocType(e.target.value)}
-        aria-label="Select sport type for your new custom location"
+        aria-label="Select location type for your new custom location"
       >
-        <option disabled value="Select Sport">
-          Select Sport
+        <option disabled value="">
+          Select location type
         </option>
         <option value="climb">Climbing</option>
         <option value="mtb">Mountain Biking</option>
         <option value="ski">Skiing / Snowboarding</option>
+        <option value="other">Other</option>
       </select>
       <div className="add-loc-btn-div">
         <button

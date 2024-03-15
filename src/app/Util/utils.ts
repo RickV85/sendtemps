@@ -40,6 +40,8 @@ export const formatPOIDataForDisplay = (poi: string): string => {
       return "Mountain Biking";
     case "ski":
       return "Skiing";
+    case "other":
+      return "Other";
     default:
       return "Unknown";
   }

@@ -26,10 +26,10 @@ describe("initial display for an unauthorized user", () => {
     cy.get("h1").should("have.text", "SendTemps");
   });
 
-  it("should display the type-select input and default to 'Select Sport'", () => {
+  it("should display the type-select input and default to 'Select location type'", () => {
     cy.get("select.type-select")
       .find("option:selected")
-      .should("have.text", "Select Sport");
+      .should("have.text", "Select location type");
   });
 
   it("should display the Welcome Message once loaded", () => {
