@@ -7,8 +7,8 @@ export const WelcomeHomeMsg = () => {
   return (
     <div className="home-welcome-msg-div">
       {userInfo === undefined ? (
-        <div className="home-loading-msg">
-          <p>Please wait, loading...</p>
+        <div className="loading-msg-div">
+          <p style={{fontSize: "1.3rem", fontWeight: "700"}}>Please wait, loading...</p>
         </div>
       ) : (
         <h2 className="home-welcome-header">Welcome to SendTemps!</h2>

@@ -112,10 +112,12 @@ export default function Home() {
         {pageLoaded && screenWidth <= 768 ? <HomeControl /> : null}
         <section className="forecast-section" ref={forecastSection}>
           {isLoading ? (
-            <p className="loading-msg">Loading forecast...</p>
+            <div className="loading-msg-div">
+              <p className="loading-msg">Loading forecast...</p>
+            </div>
           ) : null}
           {error && !isLoading ? (
-            <div className="error-msg-div">
+            <div className="loading-msg-div">
               <p className="error-msg">{`Oh, no! ${error}`}</p>
               <ReloadBtn />
             </div>

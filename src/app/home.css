@@ -316,44 +316,28 @@ select {
   margin-bottom: 1rem;
 }
 
-.loading-msg {
-  animation: fadeIn 250ms ease-in-out;
-  color: #f18f01;
-  font-size: 1.85rem;
-  font-weight: 600;
-  width: 100vw;
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.error-msg-div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 30vh;
-}
-
-.error-msg {
-  font-size: 1.3rem;
-  color: #f18f01;
-  text-align: center;
+.loading-msg-div {
   width: 100%;
-  padding: 1rem;
-}
-
-.home-loading-msg {
-  height: 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.home-loading-msg > p {
+.loading-msg {
+  animation: fadeIn 250ms ease-in-out;
+  color: #f18f01;
+  font-size: 1.85rem;
+  padding: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.error-msg {
   font-size: 1.3rem;
-  color: #00b2ff;
-  font-weight: 700;
-  line-height: normal;
+  color: #f18f01;
+  text-align: center;
+  padding: 1rem;
 }
 
 .hour-forecast-tip {
