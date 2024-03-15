@@ -28,8 +28,8 @@ export const WelcomeHomeMsg = () => {
             </>
           ) : null}
           <p>
-            Select Climbing, Mountain Biking, or Skiing/Snowboarding above, then
-            choose a location to get highly-accurate, NOAA pinpoint forecasts.
+            Select a location to view highly-accurate, NOAA pinpoint forecasts
+            for your backcountry adventures!
             <br />
             <br />
             {userInfo ? (
