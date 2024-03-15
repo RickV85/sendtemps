@@ -140,7 +140,7 @@ export default function LocationSelect() {
 
   if (
     displayOptions &&
-    selectedLocType !== "Select Sport" &&
+    selectedLocType !== "" &&
     selectedLocType !== "Current Location"
   ) {
     return (

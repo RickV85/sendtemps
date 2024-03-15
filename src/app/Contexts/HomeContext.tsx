@@ -44,7 +44,7 @@ export const HomeContext = createContext<HomeContextType>({
   setCurrentGPSCoords: () => {},
   selectedLocCoords: "",
   setSelectedLocCoords: () => {},
-  selectedLocType: "Select Sport",
+  selectedLocType: "",
   setSelectedLocType: () => {},
   locationDetails: undefined,
   setLocationDetails: () => {},
@@ -72,7 +72,7 @@ export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
   const [selectedLocCoords, setSelectedLocCoords] = useState<string>("");
   const [selectedLocType, setSelectedLocType] =
-    useState<string>("Select Sport");
+    useState<string>("");
   const [locationDetails, setLocationDetails] = useState<LocationDetails>();
   const [forecastData, setForecastData] = useState<ForecastData>();
   const [hourlyForecastData, setHourlyForecastData] = useState<HourlyForecastData>();

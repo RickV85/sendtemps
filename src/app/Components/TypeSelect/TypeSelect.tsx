@@ -33,8 +33,8 @@ export default function TypeSelect() {
       onChange={handleSelect}
       aria-label="Select location type or current location forecast"
     >
-      <option disabled value="Select Location Type">
-        Select Location Type
+      <option disabled value="">
+        Select location type
       </option>
       <option value="climb">Climbing</option>
       <option value="mtb">Mountain Biking</option>
