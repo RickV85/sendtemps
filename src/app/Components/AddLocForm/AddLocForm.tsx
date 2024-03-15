@@ -31,7 +31,7 @@ export default function AddLocForm({
   setEditLocOptionsStale,
 }: Props) {
   const [locName, setLocName] = useState("");
-  const [locType, setLocType] = useState("Select Sport");
+  const [locType, setLocType] = useState("");
   const [submitMessage, setSubmitMessage] = useState("");
 
   const handleSubmitError = (errMsg: string) => {
@@ -131,10 +131,10 @@ export default function AddLocForm({
         className="add-loc-form-input"
         value={locType}
         onChange={(e) => setLocType(e.target.value)}
-        aria-label="Select sport type for your new custom location"
+        aria-label="Select location type for your new custom location"
       >
-        <option disabled value="Select Sport">
-          Select Sport
+        <option disabled value="">
+          Select location type
         </option>
         <option value="climb">Climbing</option>
         <option value="mtb">Mountain Biking</option>
