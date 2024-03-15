@@ -37,6 +37,7 @@ export default function TypeSelect() {
       <option value="climb">Climbing</option>
       <option value="mtb">Mountain Biking</option>
       <option value="ski">Skiing/Snowboarding</option>
+      <option value="other">Other</option>
       <option value="Current Location">Current Location</option>
     </select>
   );
