@@ -186,6 +186,7 @@ export default function EditUserLocModal({
               <option value={"climb"}>Climbing</option>
               <option value={"mtb"}>Mountain Biking</option>
               <option value={"ski"}>Skiing</option>
+              <option value={"other"}>Other</option>
             </select>
             <div className="modal-btn-div">
               <button
