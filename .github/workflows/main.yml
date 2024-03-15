@@ -57,7 +57,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm run start
-          browser: chrome
+          browser: electron
           record: true
         env:
           TZ: "America/Denver"
