@@ -28,7 +28,7 @@ describe("initial display for an authorized user", () => {
 
   it("should display an initial loading message", { retries: 10 }, () => {
     cy.get("body")
-      .find("div.home-loading-msg", { timeout: 1500 })
+      .find("div.loading-msg-div", { timeout: 1500 })
       .should("exist")
       .should("have.text", "Please wait, loading...");
   });

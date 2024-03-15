@@ -31,7 +31,7 @@ describe("daily forecast display errors", () => {
 
     cy.wait(10000);
 
-    cy.get("div.error-msg-div")
+    cy.get("div.loading-msg-div")
       .find("p.error-msg")
       .should(
         "have.text",
@@ -52,7 +52,7 @@ describe("daily forecast display errors", () => {
 
     cy.wait(10000);
 
-    cy.get("div.error-msg-div")
+    cy.get("div.loading-msg-div")
       .find("p.error-msg")
       .should(
         "have.text",
@@ -83,7 +83,7 @@ describe("daily forecast display errors", () => {
 
     cy.wait(10000);
 
-    cy.get("div.error-msg-div")
+    cy.get("div.loading-msg-div")
       .find("p.error-msg")
       .should(
         "have.text",
