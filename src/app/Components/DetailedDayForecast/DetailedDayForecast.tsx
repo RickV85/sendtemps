@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { HomeContext } from "@/app/Contexts/HomeContext";
 
+// CHANGE AFTER IMPLEMENTING ForecastPeriod and Forecast classes
 interface Props {
   data: {
     name: string;
