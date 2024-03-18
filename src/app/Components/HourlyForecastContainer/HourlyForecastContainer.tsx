@@ -75,11 +75,13 @@ export default function HourlyForecastContainer() {
         endTime: hourlyForecastParams.end,
       };
 
+      // Create method of HourlyForecast?
       const filteredPeriods = filterHourlyForecastByTime(
         hourlyForecastData.properties.periods,
         startEndTime
       );
       const display = filteredPeriods.map((period, i) => {
+        // Method of HourlyForecastPeriod
         const formattedTime = new Date(period.startTime).toLocaleTimeString(
           "en-us",
           {
