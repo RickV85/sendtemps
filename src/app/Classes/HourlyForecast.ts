@@ -1,4 +1,7 @@
-import { HourlyForecastData } from "../Interfaces/interfaces";
+import {
+  HourlyForecastData,
+  HourlyForecastParams,
+} from "../Interfaces/interfaces";
 import { HourlyForecastPeriod } from "./HourlyForecastPeriod";
 
 export class HourlyForecast {
@@ -9,14 +12,13 @@ export class HourlyForecast {
     );
   }
 
-  filterHourlyPeriodsByTime(timeParams: {
-    startTime: string;
-    endTime: string;
-  }): HourlyForecastPeriod[] {
+  filterHourlyPeriodsByTime(
+    hourlyParams: HourlyForecastParams
+  ): HourlyForecastPeriod[] {
     const result = this.hourlyPeriods.filter((period) => {
       const date = new Date(period.startTime);
-      const start = new Date(timeParams.startTime);
-      const end = new Date(timeParams.endTime);
+      const start = new Date(hourlyParams.start);
+      const end = new Date(hourlyParams.end);
       if (date >= start && date < end) {
         return true;
       }

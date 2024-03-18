@@ -2,12 +2,11 @@
 import React, { createContext, useState } from "react";
 import {
   Coords,
-  ForecastData,
-  HourlyForecastData,
   HourlyForecastParams,
 } from "../Interfaces/interfaces";
 import { Gridpoint } from "../Classes/Gridpoint";
 import { Forecast } from "../Classes/Forecast";
+import { HourlyForecast } from "../Classes/HourlyForecast";
 
 interface HomeContextType {
   currentGPSCoords: Coords | undefined;
@@ -24,9 +23,9 @@ interface HomeContextType {
   setForecastData: React.Dispatch<
     React.SetStateAction<Forecast | undefined>
   >;
-  hourlyForecastData: HourlyForecastData | undefined;
+  hourlyForecastData: HourlyForecast | undefined;
   setHourlyForecastData: React.Dispatch<
-    React.SetStateAction<HourlyForecastData | undefined>
+    React.SetStateAction<HourlyForecast | undefined>
   >;
   hourlyForecastParams: HourlyForecastParams | undefined;
   setHourlyForecastParams: React.Dispatch<React.SetStateAction<HourlyForecastParams | undefined>>
@@ -76,7 +75,7 @@ export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
     useState<string>("");
   const [locationDetails, setLocationDetails] = useState<Gridpoint>();
   const [forecastData, setForecastData] = useState<Forecast>();
-  const [hourlyForecastData, setHourlyForecastData] = useState<HourlyForecastData>();
+  const [hourlyForecastData, setHourlyForecastData] = useState<HourlyForecast>();
   const [hourlyForecastParams, setHourlyForecastParams] = useState<HourlyForecastParams>();
   const [screenWidth, setScreenWidth] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
