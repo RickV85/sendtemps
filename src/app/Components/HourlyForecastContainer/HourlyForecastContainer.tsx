@@ -82,22 +82,22 @@ export default function HourlyForecastContainer() {
       );
       const display = filteredPeriods.map((period, i) => {
         // Method of HourlyForecastPeriod
-        const formattedTime = new Date(period.startTime).toLocaleTimeString(
-          "en-us",
-          {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-          }
-        );
-        const periodForecastData = {
-          time: formattedTime,
-          temp: period.temperature,
-          conditions: period.shortForecast,
-          precip: period.probabilityOfPrecipitation.value,
-          wind: { speed: period.windSpeed, direction: period.windDirection },
-          humidity: period.relativeHumidity.value,
-        };
+        // const formattedTime = new Date(period.startTime).toLocaleTimeString(
+        //   "en-us",
+        //   {
+        //     hour: "numeric",
+        //     minute: "2-digit",
+        //     hour12: true,
+        //   }
+        // );
+        // const periodForecastData = {
+        //   time: formattedTime,
+        //   temp: period.temperature,
+        //   conditions: period.shortForecast,
+        //   precip: period.probabilityOfPrecipitation.value,
+        //   wind: { speed: period.windSpeed, direction: period.windDirection },
+        //   humidity: period.relativeHumidity.value,
+        // };
 
         return (
           <HourlyForecastTile data={periodForecastData} key={`hourTile-${i}`} />
