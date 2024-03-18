@@ -8,7 +8,7 @@ export class ForecastPeriod {
   icon: string;
   startTime: string;
   endTime: string;
-  constructor (data : ForecastData["properties"]["periods"][number]) {
+  constructor(data: ForecastData["properties"]["periods"][number]) {
     this.name = data.name;
     this.detailedForecast = data.detailedForecast;
     this.relativeHumidity = data.relativeHumidity;

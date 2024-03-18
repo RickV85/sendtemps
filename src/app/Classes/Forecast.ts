@@ -4,12 +4,12 @@ import { ForecastPeriod } from "./ForecastPeriod";
 export class Forecast {
   periods: ForecastPeriod[];
   constructor(data: ForecastData) {
-    this.periods = this.createForecastPeriods(data.properties.periods);
+    this.periods = this.createForecastPeriods(data);
   }
 
-  createForecastPeriods(periodArr: ForecastData["properties"]["periods"]) {
-    const forecastPeriods = periodArr.map(
-      (period) => new ForecastPeriod(period)
+  createForecastPeriods(data: ForecastData) {
+    const forecastPeriods = data.properties.periods.map(
+      (periodData) => new ForecastPeriod(periodData)
     );
     return forecastPeriods;
   }
