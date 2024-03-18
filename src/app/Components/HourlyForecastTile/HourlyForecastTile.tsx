@@ -22,7 +22,7 @@ export default function HourlyForecastTile({ data }: Props) {
         <p>{data.conditions}</p>
       </div>
       <div className={styles["detail-div"]}>
-        <p>{data.precip}%</p>
+        <p>{data.precip || "0"}%</p>
         <p>Precip.</p>
       </div>
       <div className={styles["detail-div"]}>

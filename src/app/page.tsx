@@ -99,10 +99,14 @@ export default function Home() {
 
   // Creates detailed daily forecast display
   const createDetailedForecast = () => {
-    const forecast = forecastData?.properties.periods.map((data, i) => {
-      return <DetailedDayForecast data={data} key={`forecastPeriod-${i}`} />;
-    });
-    return forecast;
+    if (forecastData) {
+      const forecast = forecastData?.periods.map((period, i) => {
+        return (
+          <DetailedDayForecast period={period} key={`forecastPeriod-${i}`} />
+        );
+      });
+      return forecast;
+    }
   };
 
   return (

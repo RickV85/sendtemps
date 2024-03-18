@@ -230,34 +230,6 @@ export interface GoogleMapPoint {
   };
 }
 
-export interface HourlyForecastPeriod {
-  number: number;
-  name: string;
-  startTime: string;
-  endTime: string;
-  isDaytime: boolean;
-  temperature: number;
-  temperatureUnit: string;
-  temperatureTrend: null;
-  probabilityOfPrecipitation: {
-    unitCode: string;
-    value: number | null;
-  };
-  dewpoint: {
-    unitCode: string;
-    value: number;
-  };
-  relativeHumidity: {
-    unitCode: string;
-    value: number;
-  };
-  windSpeed: string;
-  windDirection: string;
-  icon: string;
-  shortForecast: string;
-  detailedForecast: string;
-}
-
 export interface HourlyForecastParams {
   name: string;
   start: string;

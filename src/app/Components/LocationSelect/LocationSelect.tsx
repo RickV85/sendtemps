@@ -16,6 +16,7 @@ import {
 import { fetchNoaaGridLocationWithRetry } from "../../Util/NoaaApiCalls";
 import { UserContext } from "@/app/Contexts/UserContext";
 import { HomeContext } from "@/app/Contexts/HomeContext";
+import { Gridpoint } from "@/app/Classes/Gridpoint";
 
 export default function LocationSelect() {
   const [allLocationOptions, setAllLocationOptions] = useState<
@@ -88,7 +89,7 @@ export default function LocationSelect() {
       setIsLoading(true);
       fetchNoaaGridLocationWithRetry(e.target.value)
         .then((result) => {
-          setLocationDetails(result);
+          setLocationDetails(new Gridpoint(result));
         })
         .catch((err) => {
           console.error(err);

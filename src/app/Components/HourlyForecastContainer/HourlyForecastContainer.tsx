@@ -2,8 +2,8 @@ import { HomeContext } from "@/app/Contexts/HomeContext";
 import { useContext, useEffect, useState, useRef } from "react";
 import HourlyForecastTile from "../HourlyForecastTile/HourlyForecastTile";
 import Image from "next/image";
-import { filterHourlyForecastByTime } from "@/app/Util/utils";
 import { fetchHourlyForecastWithRetry } from "@/app/Util/NoaaApiCalls";
+import { HourlyForecast } from "@/app/Classes/HourlyForecast";
 
 export default function HourlyForecastContainer() {
   const {
@@ -45,11 +45,11 @@ export default function HourlyForecastContainer() {
   useEffect(() => {
     if (!hourlyForecastData && locationDetails) {
       setIsLoading(true);
-      const hourlyForecastUrl = `${locationDetails.properties.forecast}/hourly`;
+      const hourlyForecastUrl = `${locationDetails.forecastUrl}/hourly`;
 
       fetchHourlyForecastWithRetry(hourlyForecastUrl)
         .then((res) => {
-          setHourlyForecastData(res);
+          setHourlyForecastData(new HourlyForecast(res));
         })
         .then(() => setError(""))
         .catch((err) => {
@@ -69,37 +69,11 @@ export default function HourlyForecastContainer() {
   ]);
 
   useEffect(() => {
-    if (hourlyForecastData?.properties.periods.length && hourlyForecastParams) {
-      const startEndTime = {
-        startTime: hourlyForecastParams.start,
-        endTime: hourlyForecastParams.end,
-      };
-
-      const filteredPeriods = filterHourlyForecastByTime(
-        hourlyForecastData.properties.periods,
-        startEndTime
-      );
+    if (hourlyForecastData && hourlyForecastParams) {
+      const filteredPeriods =
+        hourlyForecastData.filterHourlyPeriodsByTime(hourlyForecastParams);
       const display = filteredPeriods.map((period, i) => {
-        const formattedTime = new Date(period.startTime).toLocaleTimeString(
-          "en-us",
-          {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-          }
-        );
-        const periodForecastData = {
-          time: formattedTime,
-          temp: period.temperature,
-          conditions: period.shortForecast,
-          precip: period.probabilityOfPrecipitation.value,
-          wind: { speed: period.windSpeed, direction: period.windDirection },
-          humidity: period.relativeHumidity.value,
-        };
-
-        return (
-          <HourlyForecastTile data={periodForecastData} key={`hourTile-${i}`} />
-        );
+        return <HourlyForecastTile data={period} key={`hourTile-${i}`} />;
       });
       setHourlyForecastDisplay(display);
     }
