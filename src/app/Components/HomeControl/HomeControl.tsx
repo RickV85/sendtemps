@@ -6,6 +6,7 @@ import {
   fetchNoaaGridLocationWithRetry,
   fetchDailyForecastWithRetry,
 } from "@/app/Util/NoaaApiCalls";
+import { Gridpoint } from "@/app/Classes/Gridpoint";
 
 export default function HomeControl() {
   const {
@@ -50,7 +51,7 @@ export default function HomeControl() {
       setIsLoading(true);
       fetchNoaaGridLocationWithRetry(selectedLocCoords)
         .then((result) => {
-          setLocationDetails(result);
+          setLocationDetails(new Gridpoint(result));
         })
         .catch((err) => {
           console.error(err);
@@ -70,9 +71,9 @@ export default function HomeControl() {
 
   useEffect(() => {
     // Fetch daily and hourly forecasts from NOAA with 5 retries
-    if (locationDetails?.properties.forecast && !forecastData) {
+    if (locationDetails?.forecastUrl && !forecastData) {
       setIsLoading(true);
-      const forecastUrl = locationDetails.properties.forecast;
+      const forecastUrl = locationDetails.forecastUrl;
 
       fetchDailyForecastWithRetry(forecastUrl)
         .then((res) => {

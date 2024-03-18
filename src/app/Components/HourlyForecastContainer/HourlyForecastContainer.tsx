@@ -45,7 +45,7 @@ export default function HourlyForecastContainer() {
   useEffect(() => {
     if (!hourlyForecastData && locationDetails) {
       setIsLoading(true);
-      const hourlyForecastUrl = `${locationDetails.properties.forecast}/hourly`;
+      const hourlyForecastUrl = `${locationDetails.forecastUrl}/hourly`;
 
       fetchHourlyForecastWithRetry(hourlyForecastUrl)
         .then((res) => {
