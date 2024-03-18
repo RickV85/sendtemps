@@ -7,6 +7,7 @@ import {
   HourlyForecastParams,
 } from "../Interfaces/interfaces";
 import { Gridpoint } from "../Classes/Gridpoint";
+import { Forecast } from "../Classes/Forecast";
 
 interface HomeContextType {
   currentGPSCoords: Coords | undefined;
@@ -19,9 +20,9 @@ interface HomeContextType {
   setLocationDetails: React.Dispatch<
     React.SetStateAction<Gridpoint | undefined>
   >;
-  forecastData: ForecastData | undefined;
+  forecastData: Forecast | undefined;
   setForecastData: React.Dispatch<
-    React.SetStateAction<ForecastData | undefined>
+    React.SetStateAction<Forecast | undefined>
   >;
   hourlyForecastData: HourlyForecastData | undefined;
   setHourlyForecastData: React.Dispatch<
@@ -74,7 +75,7 @@ export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
   const [selectedLocType, setSelectedLocType] =
     useState<string>("");
   const [locationDetails, setLocationDetails] = useState<Gridpoint>();
-  const [forecastData, setForecastData] = useState<ForecastData>();
+  const [forecastData, setForecastData] = useState<Forecast>();
   const [hourlyForecastData, setHourlyForecastData] = useState<HourlyForecastData>();
   const [hourlyForecastParams, setHourlyForecastParams] = useState<HourlyForecastParams>();
   const [screenWidth, setScreenWidth] = useState<number>(0);

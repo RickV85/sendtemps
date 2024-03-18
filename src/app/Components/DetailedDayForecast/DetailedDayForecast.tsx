@@ -1,31 +1,22 @@
 import { useContext } from "react";
 import { HomeContext } from "@/app/Contexts/HomeContext";
+import { ForecastPeriod } from "@/app/Classes/ForecastPeriod";
 
-// CHANGE AFTER IMPLEMENTING ForecastPeriod and Forecast classes
 interface Props {
-  data: {
-    name: string;
-    detailedForecast: string;
-    relativeHumidity: {
-      value: number;
-    };
-    icon: string;
-    startTime: string;
-    endTime: string;
-  };
+  period: ForecastPeriod;
 }
 
-const DetailedDayForecast: React.FC<Props> = ({ data }) => {
+const DetailedDayForecast: React.FC<Props> = ({ period }) => {
   const { setHourlyForecastParams } = useContext(HomeContext);
-  if (data) {
+  if (period) {
     return (
       <article
         className="detailed-day-forecast"
         onClick={() => {
           setHourlyForecastParams({
-            name: data.name,
-            start: data.startTime,
-            end: data.endTime,
+            name: period.name,
+            start: period.startTime,
+            end: period.endTime,
           });
         }}
       >
@@ -33,21 +24,21 @@ const DetailedDayForecast: React.FC<Props> = ({ data }) => {
           {/* Using img here, had issues with loading using Image component */}
           {/* eslint-disable-next-line */}
           <img
-            src={data.icon}
+            src={period.icon}
             height={60}
             width={60}
             alt="weather icon"
             loading="lazy"
             className="day-forecast-icon"
           />
-          <h2 className="day-header-text">{data.name}</h2>
+          <h2 className="day-header-text">{period.name}</h2>
           <div className="day-header-details">
-            {data.relativeHumidity ? (
-              <p>{data.relativeHumidity.value}% RH</p>
+            {period.relativeHumidity ? (
+              <p>{period.relativeHumidity.value}% RH</p>
             ) : null}
           </div>
         </div>
-        <p className="day-forecast-text">{data.detailedForecast}</p>
+        <p className="day-forecast-text">{period.detailedForecast}</p>
       </article>
     );
   }

@@ -7,6 +7,7 @@ import {
   fetchDailyForecastWithRetry,
 } from "@/app/Util/NoaaApiCalls";
 import { Gridpoint } from "@/app/Classes/Gridpoint";
+import { Forecast } from "@/app/Classes/Forecast";
 
 export default function HomeControl() {
   const {
@@ -77,7 +78,7 @@ export default function HomeControl() {
 
       fetchDailyForecastWithRetry(forecastUrl)
         .then((res) => {
-          setForecastData(res);
+          setForecastData(new Forecast(res));
         })
         .then(() => setError(""))
         .catch((err) => {

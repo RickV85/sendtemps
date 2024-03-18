@@ -1,4 +1,4 @@
-
+import { ForecastData } from "../Interfaces/interfaces";
 export class ForecastPeriod {
   name: string;
   detailedForecast: string;
@@ -8,8 +8,7 @@ export class ForecastPeriod {
   icon: string;
   startTime: string;
   endTime: string;
-  // Change type to Forecast.periods?
-  constructor (data : any) {
+  constructor (data : ForecastData["properties"]["periods"][number]) {
     this.name = data.name;
     this.detailedForecast = data.detailedForecast;
     this.relativeHumidity = data.relativeHumidity;
