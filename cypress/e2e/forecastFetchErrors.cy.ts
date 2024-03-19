@@ -1,7 +1,7 @@
 describe("daily forecast display errors", () => {
   beforeEach(() => {
     // Intercept and return empty object for unauthorized user
-    cy.intercept("/api/auth/session", {});
+    cy.intercept("/api/auth/session", JSON.stringify({}));
 
     // Intercept default_locs api call
     cy.intercept("/api/default_locations", {
@@ -21,12 +21,10 @@ describe("daily forecast display errors", () => {
     // Intercept Climbing - Lower Boulder Canyon fetchNoaaGridLocation call
     cy.intercept("https://api.weather.gov/points/40.004482,-105.355800", {
       statusCode: 500,
-      body: "error",
     });
 
     cy.intercept("https://api.weather.gov/points/40.0045,-105.3558", {
       statusCode: 500,
-      body: "error",
     });
 
     cy.wait(10000);
@@ -42,6 +40,11 @@ describe("daily forecast display errors", () => {
   it("should display an error message when daily forecast fetch fails", () => {
     // Intercept Climbing - Lower Boulder Canyon fetchNoaaGridLocation call
     cy.intercept("https://api.weather.gov/points/40.004482,-105.355800", {
+      fixture: "location_details.json",
+    });
+
+    // Intercept Climbing - Lower Boulder Canyon redirected fetchNoaaGridLocation call
+    cy.intercept("https://api.weather.gov/points/40.0045,-105.3558", {
       fixture: "location_details.json",
     });
 
@@ -74,6 +77,11 @@ describe("daily forecast display errors", () => {
       fixture: "location_details.json",
     });
 
+    // Intercept Climbing - Lower Boulder Canyon redirected fetchNoaaGridLocation call
+    cy.intercept("https://api.weather.gov/points/40.0045,-105.3558", {
+      fixture: "location_details.json",
+    });
+
     // Intercept Lower Boulder Canyon Detailed daily forecast
     cy.intercept("https://api.weather.gov/gridpoints/BOU/51,74/forecast", {
       fixture: "detailed_forecast.json",
@@ -86,8 +94,6 @@ describe("daily forecast display errors", () => {
         statusCode: 500,
       }
     );
-
-    cy.get("article.detailed-day-forecast").eq(0).click();
 
     cy.wait(10000);
 

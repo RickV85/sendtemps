@@ -1,7 +1,7 @@
 describe("home error testing for unauthorized user", () => {
   beforeEach(() => {
     // Intercept and return empty object for unauthorized user
-    cy.intercept("/api/auth/session", {});
+    cy.intercept("/api/auth/session", JSON.stringify({}));
   });
 
   it("should show error message and reload button when default location call fails", () => {

@@ -1,7 +1,7 @@
 describe("initial display for an unauthorized user", () => {
   beforeEach(() => {
     // Intercept and return empty object for unauthorized user
-    cy.intercept("/api/auth/session", {});
+    cy.intercept("/api/auth/session", JSON.stringify({}));
 
     // Intercept default locations req
     cy.intercept("/api/default_locations", {

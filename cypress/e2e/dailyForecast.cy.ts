@@ -1,7 +1,7 @@
 describe("daily forecast display", () => {
   beforeEach(() => {
     // Intercept and return empty object for unauthorized user
-    cy.intercept("/api/auth/session", {});
+    cy.intercept("/api/auth/session", JSON.stringify({}));
 
     // Intercept default_locs api call
     cy.intercept("/api/default_locations", {
