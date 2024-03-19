@@ -1,4 +1,4 @@
-import { ForecastData } from "../Interfaces/interfaces";
+import { ForecastData, HourlyForecastData } from "../Interfaces/interfaces";
 
 // NOAA API CALLS
 
@@ -74,7 +74,7 @@ export async function fetchDailyForecastWithRetry(
   throw new Error("Unknown error in fetchDailyForecastWithRetry");
 }
 
-export async function fetchHourlyForecast(url: string): Promise<ForecastData> {
+export async function fetchHourlyForecast(url: string): Promise<HourlyForecastData> {
   try {
     const response = await fetch(url);
     if (response.ok) {
@@ -91,7 +91,7 @@ export async function fetchHourlyForecastWithRetry(
   url: string,
   retries: number = 5,
   delay: number = 2000
-): Promise<ForecastData> {
+): Promise<HourlyForecastData> {
   for (let i = 1; i <= retries; i++) {
     try {
       return await fetchHourlyForecast(url);

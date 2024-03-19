@@ -206,6 +206,12 @@ export interface HourlyForecastData {
   };
 }
 
+export interface HourlyForecastParams {
+  name: string;
+  start: string;
+  end: string;
+}
+
 export interface LocationObject {
   id: number;
   latitude: string;
@@ -228,10 +234,4 @@ export interface GoogleMapPoint {
     lat: number;
     lng: number;
   };
-}
-
-export interface HourlyForecastParams {
-  name: string;
-  start: string;
-  end: string;
 }
