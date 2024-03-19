@@ -25,19 +25,24 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
       >
         <div className="day-forecast-header">
           {/* Using img here, had issues with loading using Image component */}
-          {/* eslint-disable-next-line */}
-          <img
-            src={period.icon}
-            height={60}
-            width={60}
-            alt="weather icon"
-            loading="lazy"
-            className="day-forecast-icon"
-          />
+          <div className="day-forecast-icon-div">
+            {/* eslint-disable-next-line */}
+            <img
+              src={period.icon}
+              height={60}
+              width={60}
+              alt="weather icon"
+              loading="lazy"
+              className="day-forecast-icon"
+            />
+          </div>
           <h2 className="day-header-text">{period.name}</h2>
           <div className="day-header-details">
             {period.relativeHumidity ? (
-              <p>{period.relativeHumidity.value}% RH</p>
+              <>
+                <p>Max {period.relativeHumidity.value}% RH</p>
+                <p>Min {minRH.toLocaleString()}% RH</p>
+              </>
             ) : null}
           </div>
         </div>
