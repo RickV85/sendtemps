@@ -7,17 +7,21 @@ interface Props {
 }
 
 const DetailedDayForecast: React.FC<Props> = ({ period }) => {
-  const { setHourlyForecastParams } = useContext(HomeContext);
-  if (period) {
+  const { setHourlyForecastParams, hourlyForecastData } =
+    useContext(HomeContext);
+  if (period && hourlyForecastData) {
+    const hourlyParams = {
+      name: period.name,
+      start: period.startTime,
+      end: period.endTime,
+    };
+    const maxMinRH =
+      hourlyForecastData.getMinMaxHumidityForTimePeriod(hourlyParams);
     return (
       <article
         className="detailed-day-forecast"
         onClick={() => {
-          setHourlyForecastParams({
-            name: period.name,
-            start: period.startTime,
-            end: period.endTime,
-          });
+          setHourlyForecastParams(hourlyParams);
         }}
       >
         <div className="day-forecast-header">
