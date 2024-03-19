@@ -5,9 +5,11 @@ import LocationSelect from "../LocationSelect/LocationSelect";
 import {
   fetchNoaaGridLocationWithRetry,
   fetchDailyForecastWithRetry,
+  fetchHourlyForecastWithRetry,
 } from "@/app/Util/NoaaApiCalls";
 import { Gridpoint } from "@/app/Classes/Gridpoint";
 import { Forecast } from "@/app/Classes/Forecast";
+import { HourlyForecast } from "@/app/Classes/HourlyForecast";
 
 export default function HomeControl() {
   const {
@@ -76,18 +78,31 @@ export default function HomeControl() {
       setIsLoading(true);
       const forecastUrl = locationDetails.forecastUrl;
 
-      fetchDailyForecastWithRetry(forecastUrl)
-        .then((res) => {
-          setForecastData(new Forecast(res));
-        })
-        .then(() => setError(""))
-        .catch((err) => {
-          console.error(err);
-          setError(`${err.message} Please reload the page and try again.`);
-        })
-        .finally(() => {
+      const fetchDailyAndHourlyForecasts = async () => {
+        try {
+          const dailyForecastRes = await fetchDailyForecastWithRetry(
+            forecastUrl
+          );
+          if (dailyForecastRes) {
+            setForecastData(new Forecast(dailyForecastRes));
+            setIsLoading(false);
+            const hourlyForecastRes = await fetchHourlyForecastWithRetry(
+              `${forecastUrl}/hourly`
+            );
+            if (hourlyForecastRes) {
+              setHourlyForecastData(new HourlyForecast(hourlyForecastRes));
+            }
+            setError("");
+          }
+        } catch (error) {
+          if (error instanceof Error) {
+            console.error(error);
+            setError(`${error.message} Please reload the page and try again.`);
+          }
           setIsLoading(false);
-        });
+        }
+      };
+      fetchDailyAndHourlyForecasts();
     }
   }, [
     locationDetails,
