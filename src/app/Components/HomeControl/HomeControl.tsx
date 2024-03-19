@@ -5,9 +5,11 @@ import LocationSelect from "../LocationSelect/LocationSelect";
 import {
   fetchNoaaGridLocationWithRetry,
   fetchDailyForecastWithRetry,
+  fetchHourlyForecastWithRetry,
 } from "@/app/Util/NoaaApiCalls";
 import { Gridpoint } from "@/app/Classes/Gridpoint";
 import { Forecast } from "@/app/Classes/Forecast";
+import { HourlyForecast } from "@/app/Classes/HourlyForecast";
 
 export default function HomeControl() {
   const {
@@ -76,11 +78,14 @@ export default function HomeControl() {
       setIsLoading(true);
       const forecastUrl = locationDetails.forecastUrl;
 
-      fetchDailyForecastWithRetry(forecastUrl)
-        .then((res) => {
-          setForecastData(new Forecast(res));
+      Promise.all([
+        fetchDailyForecastWithRetry(forecastUrl),
+        fetchHourlyForecastWithRetry(`${forecastUrl}/hourly`),
+      ])
+        .then((responses) => {
+          setForecastData(new Forecast(responses[0]));
+          setHourlyForecastData(new HourlyForecast(responses[1]));
         })
-        .then(() => setError(""))
         .catch((err) => {
           console.error(err);
           setError(`${err.message} Please reload the page and try again.`);
