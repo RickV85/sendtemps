@@ -15,8 +15,7 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
       start: period.startTime,
       end: period.endTime,
     };
-    const maxMinRH =
-      hourlyForecastData.getMinMaxHumidityForTimePeriod(hourlyParams);
+    const minRH = hourlyForecastData.getMinRHForTimePeriod(hourlyParams);
     return (
       <article
         className="detailed-day-forecast"
