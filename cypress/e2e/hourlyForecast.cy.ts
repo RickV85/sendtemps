@@ -26,7 +26,7 @@ describe("hourly forecast display", () => {
       }
     );
 
-    cy.visit("http://localhost:3000");
+    cy.visit("/");
 
     // Select Climbing in TypeSelect
     cy.get("select.type-select").select("Climbing");

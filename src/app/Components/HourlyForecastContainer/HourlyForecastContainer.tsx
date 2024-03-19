@@ -43,32 +43,6 @@ export default function HourlyForecastContainer() {
   }, [hourlyForecastDisplay, screenWidth]);
 
   useEffect(() => {
-    if (!hourlyForecastData && locationDetails) {
-      setIsLoading(true);
-      const hourlyForecastUrl = `${locationDetails.forecastUrl}/hourly`;
-
-      fetchHourlyForecastWithRetry(hourlyForecastUrl)
-        .then((res) => {
-          setHourlyForecastData(new HourlyForecast(res));
-        })
-        .then(() => setError(""))
-        .catch((err) => {
-          console.error(err);
-          setError(`${err.message} Please reload the page and try again.`);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
-  }, [
-    hourlyForecastData,
-    locationDetails,
-    setError,
-    setHourlyForecastData,
-    setIsLoading,
-  ]);
-
-  useEffect(() => {
     if (hourlyForecastData && hourlyForecastParams) {
       const filteredPeriods =
         hourlyForecastData.filterHourlyPeriodsByTime(hourlyForecastParams);
