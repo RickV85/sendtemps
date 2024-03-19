@@ -51,6 +51,12 @@ describe("daily forecast display", () => {
   it("should display the humidity details if available", () => {
     cy.get("@todayForecast")
       .find("div.day-header-details>p")
-      .should("have.text", "19% RH");
+      .eq(0)
+      .should("have.text", "Max 19% RH");
+
+      cy.get("@todayForecast")
+      .find("div.day-header-details>p")
+      .eq(1)
+      .should("have.text", "Min 17% RH");
   });
 });
