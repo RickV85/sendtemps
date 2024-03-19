@@ -78,31 +78,21 @@ export default function HomeControl() {
       setIsLoading(true);
       const forecastUrl = locationDetails.forecastUrl;
 
-      const fetchDailyAndHourlyForecasts = async () => {
-        try {
-          const dailyForecastRes = await fetchDailyForecastWithRetry(
-            forecastUrl
-          );
-          if (dailyForecastRes) {
-            setForecastData(new Forecast(dailyForecastRes));
-            setIsLoading(false);
-            const hourlyForecastRes = await fetchHourlyForecastWithRetry(
-              `${forecastUrl}/hourly`
-            );
-            if (hourlyForecastRes) {
-              setHourlyForecastData(new HourlyForecast(hourlyForecastRes));
-            }
-            setError("");
-          }
-        } catch (error) {
-          if (error instanceof Error) {
-            console.error(error);
-            setError(`${error.message} Please reload the page and try again.`);
-          }
+      Promise.all([
+        fetchDailyForecastWithRetry(forecastUrl),
+        fetchHourlyForecastWithRetry(`${forecastUrl}/hourly`),
+      ])
+        .then((responses) => {
+          setForecastData(new Forecast(responses[0]));
+          setHourlyForecastData(new HourlyForecast(responses[1]));
+        })
+        .catch((err) => {
+          console.error(err);
+          setError(`${err.message} Please reload the page and try again.`);
+        })
+        .finally(() => {
           setIsLoading(false);
-        }
-      };
-      fetchDailyAndHourlyForecasts();
+        });
     }
   }, [
     locationDetails,

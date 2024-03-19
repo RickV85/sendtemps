@@ -14,7 +14,7 @@ describe("daily forecast display errors", () => {
     cy.get("select.type-select").select("Climbing");
 
     // Select Boulder Canyon - Lower in TypeSelect
-    cy.get("select.location-select").select("Boulder Canyon - Lower"); 
+    cy.get("select.location-select").select("Boulder Canyon - Lower");
   });
 
   it("should display an error message when grid location call fails", () => {
@@ -49,6 +49,14 @@ describe("daily forecast display errors", () => {
     cy.intercept("https://api.weather.gov/gridpoints/BOU/51,74/forecast", {
       statusCode: 500,
     });
+
+    // Intercept Lower Boulder Canyon hourly forecast
+    cy.intercept(
+      "https://api.weather.gov/gridpoints/BOU/51,74/forecast/hourly",
+      {
+        fixture: "hourly_forecast.json",
+      }
+    );
 
     cy.wait(10000);
 
