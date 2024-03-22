@@ -22,6 +22,7 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
         onClick={() => {
           setHourlyForecastParams(hourlyParams);
         }}
+        title={`Click for ${period.name}'s hourly forecast`}
       >
         <div className="day-forecast-header">
           {/* Using img here, had issues with loading using Image component */}
