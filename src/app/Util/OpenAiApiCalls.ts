@@ -1,4 +1,6 @@
-export async function postForecastForSendScores(aiForecastData: any) {
+import { OpenAIForecastData } from "../Interfaces/interfaces";
+
+export async function postForecastForSendScores(aiForecastData: OpenAIForecastData) {
   try {
     const response = await fetch("/api/open_ai/send_score", {
       method: "POST",
