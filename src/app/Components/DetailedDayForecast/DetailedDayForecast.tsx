@@ -47,7 +47,11 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
             ) : null}
           </div>
         </div>
-        <p className="day-forecast-text">{period.detailedForecast}</p>
+        <p className="day-forecast-text">{`${
+          period.detailedForecast
+        } Humidity ${minRH.toLocaleString()}% to ${
+          period.relativeHumidity.value
+        }% RH.`}</p>
       </article>
     );
   }
