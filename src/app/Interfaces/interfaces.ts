@@ -235,3 +235,7 @@ export interface GoogleMapPoint {
     lng: number;
   };
 }
+
+export interface ForecastSendScores {
+  forecastPeriods: { name: string; sendScore: number }[];
+}

@@ -2,6 +2,7 @@
 import React, { createContext, useState } from "react";
 import {
   Coords,
+  ForecastSendScores,
   HourlyForecastParams,
 } from "../Interfaces/interfaces";
 import { Gridpoint } from "../Classes/Gridpoint";
@@ -20,15 +21,19 @@ interface HomeContextType {
     React.SetStateAction<Gridpoint | undefined>
   >;
   forecastData: Forecast | undefined;
-  setForecastData: React.Dispatch<
-    React.SetStateAction<Forecast | undefined>
-  >;
+  setForecastData: React.Dispatch<React.SetStateAction<Forecast | undefined>>;
   hourlyForecastData: HourlyForecast | undefined;
   setHourlyForecastData: React.Dispatch<
     React.SetStateAction<HourlyForecast | undefined>
   >;
   hourlyForecastParams: HourlyForecastParams | undefined;
-  setHourlyForecastParams: React.Dispatch<React.SetStateAction<HourlyForecastParams | undefined>>
+  setHourlyForecastParams: React.Dispatch<
+    React.SetStateAction<HourlyForecastParams | undefined>
+  >;
+  forecastSendScores: ForecastSendScores | undefined;
+  setForecastSendScores: React.Dispatch<
+    React.SetStateAction<ForecastSendScores | undefined>
+  >;
   screenWidth: number;
   setScreenWidth: React.Dispatch<React.SetStateAction<number>>;
   isLoading: boolean;
@@ -54,6 +59,8 @@ export const HomeContext = createContext<HomeContextType>({
   setHourlyForecastData: () => {},
   hourlyForecastParams: undefined,
   setHourlyForecastParams: () => {},
+  forecastSendScores: undefined,
+  setForecastSendScores: () => {},
   screenWidth: 0,
   setScreenWidth: () => {},
   isLoading: false,
@@ -71,12 +78,15 @@ interface HomeProviderProps {
 export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
   const [currentGPSCoords, setCurrentGPSCoords] = useState<Coords>();
   const [selectedLocCoords, setSelectedLocCoords] = useState<string>("");
-  const [selectedLocType, setSelectedLocType] =
-    useState<string>("");
+  const [selectedLocType, setSelectedLocType] = useState<string>("");
   const [locationDetails, setLocationDetails] = useState<Gridpoint>();
   const [forecastData, setForecastData] = useState<Forecast>();
-  const [hourlyForecastData, setHourlyForecastData] = useState<HourlyForecast>();
-  const [hourlyForecastParams, setHourlyForecastParams] = useState<HourlyForecastParams>();
+  const [hourlyForecastData, setHourlyForecastData] =
+    useState<HourlyForecast>();
+  const [hourlyForecastParams, setHourlyForecastParams] =
+    useState<HourlyForecastParams>();
+  const [forecastSendScores, setForecastSendScores] =
+    useState<ForecastSendScores>();
   const [screenWidth, setScreenWidth] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [pageLoaded, setPageLoaded] = useState<boolean>(false);
@@ -98,6 +108,8 @@ export const HomeProvider: React.FC<HomeProviderProps> = ({ children }) => {
         setHourlyForecastData,
         hourlyForecastParams,
         setHourlyForecastParams,
+        forecastSendScores,
+        setForecastSendScores,
         screenWidth,
         setScreenWidth,
         isLoading,
