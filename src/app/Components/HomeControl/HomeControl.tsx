@@ -10,6 +10,8 @@ import {
 import { Gridpoint } from "@/app/Classes/Gridpoint";
 import { Forecast } from "@/app/Classes/Forecast";
 import { HourlyForecast } from "@/app/Classes/HourlyForecast";
+import { postForecastForSendScores } from "@/app/Util/OpenAiApiCalls";
+import { OpenAIForecastData } from "@/app/Classes/OpenAIForecastData";
 
 export default function HomeControl() {
   const {
@@ -102,6 +104,26 @@ export default function HomeControl() {
     setHourlyForecastData,
     forecastData,
   ]);
+
+  useEffect(() => {
+    // Add global state for AI res, with && here
+    if (forecastData) {
+      const aiForecastData = new OpenAIForecastData(
+        selectedLocType,
+        forecastData
+      );
+      const fetchAiScores = async () => {
+        try {
+          const res = await postForecastForSendScores(aiForecastData);
+          console.log(res);
+          return res;
+        } catch (error) {
+          console.log("An error occurred fetching OpenAI send scores", error);
+        }
+      };
+      fetchAiScores();
+    }
+  }, [forecastData, locationDetails, selectedLocType]);
 
   // Ask for user location if Current Location selected
   useEffect(() => {
