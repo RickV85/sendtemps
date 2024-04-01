@@ -235,12 +235,3 @@ export interface GoogleMapPoint {
     lng: number;
   };
 }
-
-export interface OpenAIForecastData {
-  sport: string;
-  forecastPeriods: {
-    name: string;
-    detailedForecast: string;
-    humidity: { min: number; max: number };
-  }[];
-}
