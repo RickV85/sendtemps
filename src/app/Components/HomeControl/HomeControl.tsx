@@ -25,6 +25,8 @@ export default function HomeControl() {
     forecastData,
     setForecastData,
     setHourlyForecastData,
+    forecastSendScores,
+    setForecastSendScores,
     setIsLoading,
     setError,
   } = useContext(HomeContext);
@@ -107,7 +109,7 @@ export default function HomeControl() {
 
   useEffect(() => {
     // Add global state for AI res, with && here
-    if (forecastData) {
+    if (forecastData && !forecastSendScores) {
       const aiForecastData = new OpenAIForecastData(
         selectedLocType,
         forecastData
@@ -115,15 +117,23 @@ export default function HomeControl() {
       const fetchAiScores = async () => {
         try {
           const res = await postForecastForSendScores(aiForecastData);
-          console.log(res);
-          return res;
+          if (res) {
+            console.log(res);
+            setForecastSendScores(res);
+          }
         } catch (error) {
           console.log("An error occurred fetching OpenAI send scores", error);
         }
       };
       fetchAiScores();
     }
-  }, [forecastData, locationDetails, selectedLocType]);
+  }, [
+    forecastData,
+    locationDetails,
+    selectedLocType,
+    forecastSendScores,
+    setForecastSendScores,
+  ]);
 
   // Ask for user location if Current Location selected
   useEffect(() => {

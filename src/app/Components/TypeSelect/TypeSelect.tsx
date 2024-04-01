@@ -12,6 +12,7 @@ export default function TypeSelect() {
     setForecastData,
     setHourlyForecastData,
     setHourlyForecastParams,
+    setForecastSendScores,
   } = useContext(HomeContext);
   const { userInfo } = useContext(UserContext);
 
@@ -23,6 +24,7 @@ export default function TypeSelect() {
     setForecastData(undefined);
     setHourlyForecastData(undefined);
     setHourlyForecastParams(undefined);
+    setForecastSendScores(undefined);
     setSelectedLocType(e.target.value);
   };
 

@@ -53,10 +53,12 @@ export async function POST(request: NextRequest) {
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0,
+      response_format: { type: "json_object" },
     });
 
     if (aiResponse?.choices[0]?.message?.content) {
-      return NextResponse.json(aiResponse?.choices[0]?.message?.content, {
+      const content = JSON.parse(aiResponse.choices[0].message.content);
+      return NextResponse.json(content, {
         status: 200,
       });
     } else {
