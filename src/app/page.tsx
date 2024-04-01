@@ -37,6 +37,29 @@ export default function Home() {
     };
   }, [setPageLoaded]);
 
+  // Unregister service worker in production, no longer used.
+  // Was causing issues with caching network requests
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .getRegistrations()
+          .then((registrations) => {
+            for (let registration of registrations) {
+              registration.unregister().then((res) => {
+                if (res === true) {
+                  console.log("Service Worker unregistered successfully");
+                }
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Service Worker unregistration failed:", error);
+          });
+      });
+    }
+  }, []);
+
   // SetScreen width with throttling
   useEffect(() => {
     const setWindowWidthState = throttle(() => {
