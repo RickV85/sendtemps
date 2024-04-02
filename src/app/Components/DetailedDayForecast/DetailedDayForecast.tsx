@@ -7,7 +7,7 @@ interface Props {
 }
 
 const DetailedDayForecast: React.FC<Props> = ({ period }) => {
-  const { setHourlyForecastParams, hourlyForecastData } =
+  const { setHourlyForecastParams, hourlyForecastData, forecastSendScores } =
     useContext(HomeContext);
   if (period && hourlyForecastData) {
     const hourlyParams = {
@@ -16,6 +16,9 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
       end: period.endTime,
     };
     const minRH = hourlyForecastData.getMinRHForTimePeriod(hourlyParams);
+    const sendScore = forecastSendScores?.forecastPeriods.find(
+      (score) => score.name === period.name
+    );
     return (
       <article
         className="detailed-day-forecast"
@@ -41,8 +44,7 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
           <div className="day-header-details">
             {period.relativeHumidity ? (
               <>
-                <p>Max {period.relativeHumidity.value}% RH</p>
-                <p>Min {minRH.toLocaleString()}% RH</p>
+                <p>SendScore {sendScore?.sendScore}</p>
               </>
             ) : null}
           </div>

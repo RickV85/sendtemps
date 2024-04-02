@@ -14,6 +14,7 @@ export default function Home() {
   const {
     forecastData,
     hourlyForecastParams,
+    forecastSendScores,
     screenWidth,
     setScreenWidth,
     isLoading,
@@ -134,6 +135,7 @@ export default function Home() {
           {hourlyForecastParams && <HourlyForecastContainer />}
           {forecastData && !hourlyForecastParams ? (
             <>
+              {forecastSendScores?.summary}
               {!hasSeenHourlyForecast && (
                 <p className="hour-forecast-tip">
                   Click on a day for an hourly forecast!

@@ -30,8 +30,9 @@ export async function POST(request: NextRequest) {
 
     const aiPrompt = `Your job is to create "sendScore" value between 0 and 10 that represents how favorable it is for the user to participate in ${sportString} based on the below information and return a JSON response. The days are represented by objects in the "forecastPeriods" array. Any period that is a "Night" should be scored with a lower "sendScore" as all sports are less favorable to engage in at night. Only return a JSON response with this structure:
     {
+      "summary": a 2-4 sentence summary, telling the user which day it would be best to engage in ${sportString}
       "forecastPeriods" : [
-      {"name" : same as name for each period, "sendScore": number representing how favorable that period is to engage in the "sport" provided} ... return a response object for each period
+      {"name" : same as name for each period, "sendScore": number representing how favorable that period is to engage in ${sportString}} ... return a response object for each period
       ]
     }
     ${sportPrompt}`;

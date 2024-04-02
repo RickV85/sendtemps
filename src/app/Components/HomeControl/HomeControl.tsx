@@ -108,13 +108,13 @@ export default function HomeControl() {
   ]);
 
   useEffect(() => {
-    // Add global state for AI res, with && here
-    if (forecastData && !forecastSendScores) {
+    // Fetch AI weather analysis
+    if (forecastData && !forecastSendScores && selectedLocType !== "other") {
       const aiForecastData = new OpenAIForecastData(
         selectedLocType,
         forecastData
       );
-      const fetchAiScores = async () => {
+      const fetchAiWeatherAnalysis = async () => {
         try {
           const res = await postForecastForSendScores(aiForecastData);
           if (res) {
@@ -125,7 +125,7 @@ export default function HomeControl() {
           console.log("An error occurred fetching OpenAI send scores", error);
         }
       };
-      fetchAiScores();
+      fetchAiWeatherAnalysis();
     }
   }, [
     forecastData,
