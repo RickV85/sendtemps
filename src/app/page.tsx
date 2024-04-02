@@ -135,7 +135,11 @@ export default function Home() {
           {hourlyForecastParams && <HourlyForecastContainer />}
           {forecastData && !hourlyForecastParams ? (
             <>
-              {forecastSendScores?.summary}
+              {forecastSendScores?.summary ? (
+                <p style={{textAlign: "center"}}>{forecastSendScores?.summary}</p>
+              ) : (
+                <p style={{textAlign: "center"}}>Loading analysis</p>
+              )}
               {!hasSeenHourlyForecast && (
                 <p className="hour-forecast-tip">
                   Click on a day for an hourly forecast!

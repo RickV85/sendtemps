@@ -15,27 +15,30 @@ export async function POST(request: NextRequest) {
       case "climb":
         sportString = "rock climbing";
         sportPrompt =
-          "Optimal conditions for most climbers would be between 50 and 75 degrees, clear skies and low wind. Snow and rain are extremely undesirable, making it impossible to rock climb. Snowfall within a few days prior or heavy rain the day prior could leave the rock wet if not sunny and breezy.";
+          "Optimal rock climbing conditions are 50-75°F with sunny skies and and wind under 15mph. Wind gusts above 30mph are unfavorable and above 50mph should be avoided. Snow and rain are extremely undesirable, making it impossible to rock climb. Snowfall within a few days prior or heavy rain the day prior could leave the rock wet if not sunny and breezy.";
         break;
       case "mtb":
         sportString = "mountain biking";
         sportPrompt =
-          "Optimal conditions for most mountain bikers is between 50 and 85 degrees. If it is colder, sunny skies and low wind makes it more favorable. If the temperature is above 85, cloudy skies and a light breeze are desirable";
+          "Optimal mountain biking conditions are 50-85°F with sunny skies and wind under 15mph. Below 50°F, sunny and calm conditions are preferable. Above 85°F, seek cloudy skies with a light breeze (up to 15mph). Adjust sendScore for wind speeds above 15mph, visibility issues, and trail conditions from recent heavy rain or snow.";
         break;
       case "ski":
         sportString = "skiing";
         sportPrompt =
-          "Optimal conditions for most skiers is between 15 and 45 degrees with little wind and sunny skies. Factors that make the day more desirable include new snowfall forecasted the night or day before the day the user would engage in skiing. High wind and low wind chill values are the least desirable conditions for skiing, especially if it is also cloudy. Ski conditions are better the day after snow is forecasted as skiing while it is snowing can be cold and hard to see. Rain and freezing rain are very unfavorable conditions for skiing.";
+          "Optimal skiing conditions are 15-45°F with sunny skies and wind speed under 20mph. New snowfall forecasted the night or day before the day the user would engage in skiing is highly desirable. High wind and/or low wind chill values are the least desirable conditions for skiing, especially if it is also cloudy. Ski conditions are better the day after snow is forecasted as skiing while it is snowing can be cold and hard to see. Rain and freezing rain are very unfavorable conditions for skiing.";
     }
 
-    const aiPrompt = `Your job is to create "sendScore" value between 0 and 10 that represents how favorable it is for the user to participate in ${sportString} based on the below information and return a JSON response. The days are represented by objects in the "forecastPeriods" array. Any period that is a "Night" should be scored with a lower "sendScore" as all sports are less favorable to engage in at night. Only return a JSON response with this structure:
+    const aiPrompt = `Your task is to compute a "sendScore" between 1 and 10 for each forecast period, reflecting the suitability for ${sportString}. Each day and night's forecast is represented by an object in the "forecastPeriods" array. All temperatures are in degrees Fahrenheit and winds in MPH. Only return a JSON response with this structure:
     {
-      "summary": a 2-4 sentence summary, telling the user which day it would be best to engage in ${sportString}
-      "forecastPeriods" : [
-      {"name" : same as name for each period, "sendScore": number representing how favorable that period is to engage in ${sportString}} ... return a response object for each period
+      "summary": "A brief summary indicating the best day, and also the next best options, for ${sportString} based on the forecast periods. Do not reference sendScore values.",
+      "forecastPeriods": [
+        {"name": "The same name as each period", "sendScore": "A score representing the suitability of that period for ${sportString}"}
+        ...
       ]
     }
     ${sportPrompt}`;
+
+    console.log(aiPrompt);
 
     const aiResponse = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -49,7 +52,7 @@ export async function POST(request: NextRequest) {
           content: JSON.stringify(reqBody.forecastPeriods),
         },
       ],
-      temperature: 0.5,
+      temperature: 1,
       max_tokens: 448,
       top_p: 1,
       frequency_penalty: 0,

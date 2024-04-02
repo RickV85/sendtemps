@@ -118,11 +118,11 @@ export default function HomeControl() {
         try {
           const res = await postForecastForSendScores(aiForecastData);
           if (res) {
-            console.log(res);
             setForecastSendScores(res);
           }
         } catch (error) {
           console.log("An error occurred fetching OpenAI send scores", error);
+          // Set summary with error and make forecastPeriods null?
         }
       };
       fetchAiWeatherAnalysis();
