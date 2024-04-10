@@ -86,7 +86,7 @@ export default function Home() {
   // Get sessionStorage item and set state indicating if user
   // has seen the new hourly forecast feature
   useEffect(() => {
-    const hasSeenHourly = window.sessionStorage.getItem("hasSeenHourly");
+    const hasSeenHourly = window.localStorage.getItem("hasSeenHourly");
     if (!hasSeenHourly || hasSeenHourly === "false") {
       setHasSeenHourlyForecast(false);
     } else if (hasSeenHourly === "true") {
@@ -98,7 +98,7 @@ export default function Home() {
   useEffect(() => {
     if (hourlyForecastParams && !hasSeenHourlyForecast) {
       setHasSeenHourlyForecast(true);
-      window.sessionStorage.setItem("hasSeenHourly", "true");
+      window.localStorage.setItem("hasSeenHourly", "true");
     }
   }, [hourlyForecastParams, hasSeenHourlyForecast]);
 

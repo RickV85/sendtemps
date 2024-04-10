@@ -38,8 +38,6 @@ export async function POST(request: NextRequest) {
     }
     ${sportPrompt}`;
 
-    console.log(aiPrompt);
-
     const aiResponse = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
@@ -52,7 +50,7 @@ export async function POST(request: NextRequest) {
           content: JSON.stringify(reqBody.forecastPeriods),
         },
       ],
-      temperature: 1,
+      temperature: 0.75,
       max_tokens: 448,
       top_p: 1,
       frequency_penalty: 0,
