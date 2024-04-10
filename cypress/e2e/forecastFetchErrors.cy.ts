@@ -61,6 +61,9 @@ describe("daily forecast display errors", () => {
       }
     );
 
+    // Intercept OpenAI AI call
+    cy.intercept("/api/open_ai/send_score", { fixture: "sendscore.json" });
+
     cy.wait(10000);
 
     cy.get("div.loading-msg-div")
@@ -95,6 +98,9 @@ describe("daily forecast display errors", () => {
       }
     );
 
+    // Intercept OpenAI AI call
+    cy.intercept("/api/open_ai/send_score", { fixture: "sendscore.json" });
+
     cy.wait(10000);
 
     cy.get("div.loading-msg-div")
@@ -102,6 +108,41 @@ describe("daily forecast display errors", () => {
       .should(
         "have.text",
         "Oh, no! All hourly forecast fetch attempts failed. Please reload the page and try again."
+      );
+  });
+
+  it("should display an error when the OpenAI fetch fails", () => {
+    // Intercept Climbing - Lower Boulder Canyon fetchNoaaGridLocation call
+    cy.intercept("https://api.weather.gov/points/40.004482,-105.355800", {
+      fixture: "location_details.json",
+    });
+
+    // Intercept Climbing - Lower Boulder Canyon redirected fetchNoaaGridLocation call
+    cy.intercept("https://api.weather.gov/points/40.0045,-105.3558", {
+      fixture: "location_details.json",
+    });
+
+    // Intercept Lower Boulder Canyon Detailed daily forecast
+    cy.intercept("https://api.weather.gov/gridpoints/BOU/51,74/forecast", {
+      fixture: "detailed_forecast.json",
+    });
+
+    // Intercept Lower Boulder Canyon hourly forecast
+    cy.intercept(
+      "https://api.weather.gov/gridpoints/BOU/51,74/forecast/hourly",
+      {
+        fixture: "hourly_forecast.json",
+      }
+    );
+
+    // Intercept OpenAI AI call
+    cy.intercept("/api/open_ai/send_score", { statusCode: 500 });
+
+    cy.get("div.loading-msg-div")
+      .find("p.error-msg")
+      .should(
+        "have.text",
+        "Oh, no! An error occurred while creating SendScores."
       );
   });
 });

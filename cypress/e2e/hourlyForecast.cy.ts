@@ -26,6 +26,9 @@ describe("hourly forecast display", () => {
       }
     );
 
+    // Intercept OpenAI AI call
+    cy.intercept("/api/open_ai/send_score", { fixture: "sendscore.json" });
+
     cy.visit("/");
 
     // Select Climbing in TypeSelect
