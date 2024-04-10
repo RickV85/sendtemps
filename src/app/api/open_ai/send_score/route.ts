@@ -25,12 +25,12 @@ export async function POST(request: NextRequest) {
       case "ski":
         sportString = "skiing";
         sportPrompt =
-          "Optimal skiing conditions are 15-45°F with sunny skies and wind speed under 20mph. New snowfall forecasted the night or day before the day the user would engage in skiing is highly desirable. High wind and/or low wind chill values are the least desirable conditions for skiing, especially if it is also cloudy. Ski conditions are better the day after snow is forecasted as skiing while it is snowing can be cold and hard to see. Rain and freezing rain are very unfavorable conditions for skiing.";
+          "Optimal skiing conditions are 15-45°F with sunny skies and wind speed under 20mph. New snowfall forecasted the night or day before, or on the day the user would engage in skiing is highly desirable. Snowfall amounts above 2 inches are most desireable and increases exponentially with higher snowfall forecasts. High wind and/or low wind chill values are the least desirable conditions for skiing, especially if it is also cloudy. Rain and freezing rain are very unfavorable conditions for skiing.";
     }
 
-    const aiPrompt = `Your task is to compute a "sendScore" between 1 and 10 for each forecast period, reflecting the suitability for ${sportString}. Each day and night's forecast is represented by an object in the "forecastPeriods" array. All temperatures are in degrees Fahrenheit and winds in MPH. Only return a JSON response with this structure:
+    const aiPrompt = `Your task is to compute a "sendScore" between 1 and 10 for each forecast period and a text summary, reflecting the suitability for ${sportString}. Each day and night's forecast is represented by an object in the "forecastPeriods" array. All temperatures are in degrees Fahrenheit and winds in MPH. Night forecast periods are less desireable to participate in ${sportString} and should be scored significantly lower. Only return a JSON response with this structure:
     {
-      "summary": "A brief summary indicating the best day, and also the next best options, for ${sportString} based on the forecast periods. Do not reference sendScore values.",
+      "summary": "A brief summary indicating the best day, and also the next best options, for ${sportString} based on the forecast periods. Do not reference sendScore values. It should be 1 to 3 sentences.",
       "forecastPeriods": [
         {"name": "The same name as each period", "sendScore": "A score representing the suitability of that period for ${sportString}"}
         ...
