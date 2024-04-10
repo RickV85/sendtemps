@@ -83,7 +83,7 @@ export default function Home() {
     }
   }, [isLoading]);
 
-  // Get sessionStorage item and set state indicating if user
+  // Get localStorage item and set state indicating if user
   // has seen the new hourly forecast feature
   useEffect(() => {
     const hasSeenHourly = window.localStorage.getItem("hasSeenHourly");
@@ -136,9 +136,9 @@ export default function Home() {
           {forecastData && !hourlyForecastParams ? (
             <>
               {forecastSendScores?.summary ? (
-                <p style={{textAlign: "center"}}>{forecastSendScores?.summary}</p>
+                <p className="send-score-summary">{forecastSendScores?.summary}</p>
               ) : (
-                <p style={{textAlign: "center"}}>Loading analysis</p>
+                <p className="send-score-summary">Loading analysis</p>
               )}
               {!hasSeenHourlyForecast && (
                 <p className="hour-forecast-tip">

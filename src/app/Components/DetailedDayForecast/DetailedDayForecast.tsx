@@ -42,11 +42,9 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
           </div>
           <h2 className="day-header-text">{period.name}</h2>
           <div className="day-header-details">
-            {period.relativeHumidity ? (
-              <>
-                <p>SendScore {sendScore?.sendScore}</p>
-              </>
-            ) : null}
+            {sendScore?.sendScore ? (
+                <p>SendScore {sendScore.sendScore}</p>
+            ) : <p>Loading...</p>}
           </div>
         </div>
         <p className="day-forecast-text">{`${
