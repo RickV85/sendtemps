@@ -136,11 +136,13 @@ export default function Home() {
           {forecastData && !hourlyForecastParams ? (
             <>
               {forecastSendScores?.summary ? (
-                <p className="send-score-summary">{forecastSendScores?.summary}</p>
+                <p className="send-score-summary">
+                  {forecastSendScores?.summary}
+                </p>
               ) : (
-                <p className="send-score-summary">Loading analysis</p>
+                !error && <p className="send-score-summary">Loading SendScore™ analysis...</p>
               )}
-              {!hasSeenHourlyForecast && (
+              {!hasSeenHourlyForecast && !error && (
                 <p className="hour-forecast-tip">
                   Click on a day for an hourly forecast!
                 </p>

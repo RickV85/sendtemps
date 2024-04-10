@@ -12,6 +12,7 @@ import { Forecast } from "@/app/Classes/Forecast";
 import { HourlyForecast } from "@/app/Classes/HourlyForecast";
 import { postForecastForSendScores } from "@/app/Util/OpenAiApiCalls";
 import { OpenAIForecastData } from "@/app/Classes/OpenAIForecastData";
+import { ForecastSendScores } from "@/app/Interfaces/interfaces";
 
 export default function HomeControl() {
   const {
@@ -121,8 +122,9 @@ export default function HomeControl() {
             setForecastSendScores(res);
           }
         } catch (error) {
-          console.log("An error occurred fetching OpenAI send scores", error);
-          // Set summary with error and make forecastPeriods null?
+          console.error(error);
+          // Set error
+          setError("An error occurred while creating SendScores.");
         }
       };
       fetchAiWeatherAnalysis();
@@ -133,6 +135,7 @@ export default function HomeControl() {
     selectedLocType,
     forecastSendScores,
     setForecastSendScores,
+    setError,
   ]);
 
   // Ask for user location if Current Location selected

@@ -339,7 +339,7 @@ select {
   font-size: 1.3rem;
   color: #f18f01;
   text-align: center;
-  padding: 1rem;
+  padding: 1rem 1rem 0rem 1rem;
 }
 
 .hour-forecast-tip {
