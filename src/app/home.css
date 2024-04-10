@@ -306,10 +306,11 @@ select {
 }
 
 .day-header-details {
-  min-width: 20%;
+  min-width: 67px;
   font-weight: 600;
   font-size: 1rem;
   position: relative;
+  text-align: right;
 }
 
 .home-welcome-header {
@@ -352,7 +353,7 @@ select {
 
 .send-score-summary {
   font-size: 1.25rem;
-  color: #ef8354;
+  color: #00b2ff;
   margin: 0.5rem 0rem;
   text-align: center;
 }
@@ -458,6 +459,10 @@ select {
   .forecast-section {
     max-width: 1500px;
   }
+  
+  .send-score-summary {
+    margin: 0.5rem 1rem;
+  }
 
   .day-forecast-container {
     display: grid;
@@ -485,7 +490,7 @@ select {
   }
 
   .day-header-details {
-    min-width: 18%;
+    min-width: 5.542rem;
     font-size: 1.2rem;
   }
 

@@ -7,8 +7,13 @@ interface Props {
 }
 
 const DetailedDayForecast: React.FC<Props> = ({ period }) => {
-  const { setHourlyForecastParams, hourlyForecastData, forecastSendScores, error } =
-    useContext(HomeContext);
+  const {
+    selectedLocType,
+    setHourlyForecastParams,
+    hourlyForecastData,
+    forecastSendScores,
+    error,
+  } = useContext(HomeContext);
 
   if (period && hourlyForecastData) {
     const hourlyParams = {
@@ -49,8 +54,10 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
           <h2 className="day-header-text">{period.name}</h2>
           <div className="day-header-details">
             {sendScore?.sendScore ? (
-                <p>SendScore {sendScore.sendScore}</p>
-            ) : !error && <p>Loading...</p>}
+              <p>SendScore: {sendScore.sendScore}</p>
+            ) : (
+              !error && selectedLocType !== "other" && <p>Loading...</p>
+            )}
           </div>
         </div>
         <p className="day-forecast-text">{`${

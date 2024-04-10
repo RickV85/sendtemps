@@ -12,6 +12,7 @@ import HourlyForecastContainer from "./Components/HourlyForecastContainer/Hourly
 
 export default function Home() {
   const {
+    selectedLocType,
     forecastData,
     hourlyForecastParams,
     forecastSendScores,
@@ -140,7 +141,12 @@ export default function Home() {
                   {forecastSendScores?.summary}
                 </p>
               ) : (
-                !error && <p className="send-score-summary">Loading SendScore™ analysis...</p>
+                !error &&
+                selectedLocType !== "other" && (
+                  <p className="send-score-summary">
+                    Loading SendScore™ analysis...
+                  </p>
+                )
               )}
               {!hasSeenHourlyForecast && !error && (
                 <p className="hour-forecast-tip">

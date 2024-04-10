@@ -123,7 +123,6 @@ export default function HomeControl() {
           }
         } catch (error) {
           console.error(error);
-          // Set error
           setError("An error occurred while creating SendScores.");
         }
       };
