@@ -45,6 +45,7 @@ SendTemps is a full-stack Next.js 14 application designed for Colorado Front Ran
 - Google OAuth
 - NextAuth
 - Google Maps API
+- OpenAI API
 - Vercel Storage
 - Cypress E2E Testing
 
