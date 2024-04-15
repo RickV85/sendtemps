@@ -12,7 +12,6 @@ import { Forecast } from "@/app/Classes/Forecast";
 import { HourlyForecast } from "@/app/Classes/HourlyForecast";
 import { postForecastForSendScores } from "@/app/Util/OpenAiApiCalls";
 import { OpenAIForecastData } from "@/app/Classes/OpenAIForecastData";
-import { ForecastSendScores } from "@/app/Interfaces/interfaces";
 
 export default function HomeControl() {
   const {

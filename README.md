@@ -17,6 +17,7 @@ SendTemps is a full-stack Next.js 14 application designed for Colorado Front Ran
 - **Seamless User Account Management:** Integrates Google OAuth and NextAuth for a secure, streamlined sign-in experience with persistent sessions, enabling easy access to location customization features.
 - **Interactive Mapping:** Features a point-and-click Google Maps interface for easy creation of backcountry locations, with an auto-updating, user-friendly UI.
 - **Robust Location Management:** Employs a Vercel PostgreSQL database for durable storage of custom locations, supporting full CRUD operations through Next.js APIs for dynamic user interaction.
+- **AI-Powered Recommendations:** Using prompt engineering, integrated AI to analyze forecasts and recommend optimal days to engage in the sports that the user selected location is associated with.
 - **Optimized User Experience:** Implements intelligent error handling and automatic retry mechanisms for NOAA forecast API requests, ensuring smooth and informative user interactions.
 - **Standalone Display:** Designed for optimal performance on mobile devices, with capabilities for home screen addition, paving the way for full Progressive Web App functionality in the future.
 - **Hourly Forecast Display:** New as of 2.26.24 - Provides detailed hourly weather forecasts for more precise activity planning.
@@ -26,7 +27,6 @@ SendTemps is a full-stack Next.js 14 application designed for Colorado Front Ran
 - **Multiple Sport Association:** Enable users to associate multiple sports with a single location for enhanced flexibility.
 - **Customizable Default Views:** Allow users to personalize the locations around the Front Range that are loaded by default. This would allow a user to further personalize the application, increasing engagement by reducing irrelevant information.
 - **Enhanced Search Functionality:** Implement text-based search with autocomplete to streamline location finding. This would be especially useful if a user has many locations and the current select inputs become too cumbersome.
-- **AI-Powered Recommendations:** Using prompt engineering, integrate AI to analyze forecasts and recommend optimal days to engage in the sports that the location is associated with.
 
 ## Technical Challenges
 - Google OAuth / NextAuth

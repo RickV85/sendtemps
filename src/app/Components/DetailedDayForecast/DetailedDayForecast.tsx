@@ -8,11 +8,9 @@ interface Props {
 
 const DetailedDayForecast: React.FC<Props> = ({ period }) => {
   const {
-    selectedLocType,
     setHourlyForecastParams,
     hourlyForecastData,
     forecastSendScores,
-    error,
   } = useContext(HomeContext);
 
   if (period && hourlyForecastData) {
@@ -24,12 +22,10 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
 
     const minRH = hourlyForecastData.getMinRHForTimePeriod(hourlyParams);
 
-    let sendScore;
-    if (forecastSendScores?.forecastPeriods) {
-      sendScore = forecastSendScores?.forecastPeriods.find(
-        (score) => score.name === period.name
-      );
-    }
+    const sendScoreData = forecastSendScores?.forecastPeriods.find(
+      (score) => score.name === period.name
+    );
+
     return (
       <article
         className="detailed-day-forecast"
@@ -53,10 +49,8 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
           </div>
           <h2 className="day-header-text">{period.name}</h2>
           <div className="day-header-details">
-            {sendScore?.sendScore ? (
-              <p>SendScore: {sendScore.sendScore}</p>
-            ) : (
-              !error && selectedLocType !== "other" && <p>Loading...</p>
+            {sendScoreData?.sendScore && (
+              <p>SendScore: {sendScoreData.sendScore}</p>
             )}
           </div>
         </div>
