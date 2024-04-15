@@ -7,21 +7,32 @@ interface Props {
 }
 
 const DetailedDayForecast: React.FC<Props> = ({ period }) => {
-  const { setHourlyForecastParams, hourlyForecastData } =
-    useContext(HomeContext);
+  const {
+    setHourlyForecastParams,
+    hourlyForecastData,
+    forecastSendScores,
+  } = useContext(HomeContext);
+
   if (period && hourlyForecastData) {
     const hourlyParams = {
       name: period.name,
       start: period.startTime,
       end: period.endTime,
     };
+
     const minRH = hourlyForecastData.getMinRHForTimePeriod(hourlyParams);
+
+    const sendScoreData = forecastSendScores?.forecastPeriods.find(
+      (score) => score.name === period.name
+    );
+
     return (
       <article
         className="detailed-day-forecast"
         onClick={() => {
           setHourlyForecastParams(hourlyParams);
         }}
+        title={`Click for ${period.name}'s hourly forecast`}
       >
         <div className="day-forecast-header">
           {/* Using img here, had issues with loading using Image component */}
@@ -38,15 +49,16 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
           </div>
           <h2 className="day-header-text">{period.name}</h2>
           <div className="day-header-details">
-            {period.relativeHumidity ? (
-              <>
-                <p>Max {period.relativeHumidity.value}% RH</p>
-                <p>Min {minRH.toLocaleString()}% RH</p>
-              </>
-            ) : null}
+            {sendScoreData?.sendScore && (
+              <p>SendScore: {sendScoreData.sendScore}</p>
+            )}
           </div>
         </div>
-        <p className="day-forecast-text">{period.detailedForecast}</p>
+        <p className="day-forecast-text">{`${
+          period.detailedForecast
+        } Humidity ${minRH.toLocaleString()}% to ${
+          period.relativeHumidity.value
+        }% RH.`}</p>
       </article>
     );
   }

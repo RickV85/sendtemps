@@ -26,6 +26,9 @@ describe("daily forecast display", () => {
       }
     );
 
+    // Intercept OpenAI AI call
+    cy.intercept("/api/open_ai/send_score", { fixture: "sendscore.json" });
+
     cy.visit("/");
 
     // Select Climbing in TypeSelect
@@ -44,19 +47,26 @@ describe("daily forecast display", () => {
       .find("p.day-forecast-text")
       .should(
         "have.text",
-        "Sunny. High near 57, with temperatures falling to around 52 in the afternoon. West wind 30 to 36 mph, with gusts as high as 54 mph."
+        "Sunny. High near 57, with temperatures falling to around 52 in the afternoon. West wind 30 to 36 mph, with gusts as high as 54 mph. Humidity 17% to 19% RH."
       );
   });
 
-  it("should display the humidity details if available", () => {
-    cy.get("@todayForecast")
-      .find("div.day-header-details>p")
-      .eq(0)
-      .should("have.text", "Max 19% RH");
+  it("should display a summary from AI data", () => {
+    cy.get("p.send-score-summary").should(
+      "have.text",
+      "Thursday is the best day for rock climbing with sunny skies, a high near 51°F, and light west winds. Friday is also a good option with a high near 61°F and light southwest winds. Saturday could work as well with a high near 59°F and mostly clear skies."
+    );
+  });
 
-      cy.get("@todayForecast")
-      .find("div.day-header-details>p")
+  it("should display the SendScore on forecast tiles", () => {
+    cy.get("article.detailed-day-forecast")
       .eq(1)
-      .should("have.text", "Min 17% RH");
+      .as("tonightForecast")
+      .find("div.day-header-details>p")
+      .should("have.text", "SendScore: 1");
+  });
+
+  it("should display a tip to click on forecast tiles for hourly forecasts", () => {
+    cy.get("p.hour-forecast-tip").should("be.visible");
   });
 });

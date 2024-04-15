@@ -12,8 +12,10 @@ import HourlyForecastContainer from "./Components/HourlyForecastContainer/Hourly
 
 export default function Home() {
   const {
+    selectedLocType,
     forecastData,
     hourlyForecastParams,
+    forecastSendScores,
     screenWidth,
     setScreenWidth,
     isLoading,
@@ -37,20 +39,24 @@ export default function Home() {
     };
   }, [setPageLoaded]);
 
-  // Register service worker in production
+  // Unregister service worker in production, no longer used.
+  // Was causing issues with caching network requests
   useEffect(() => {
-    if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
+    if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker
-          .register("/serviceWorker.js")
-          .then((registration) => {
-            console.log(
-              "Service Worker registered with scope:",
-              registration.scope
-            );
+          .getRegistrations()
+          .then((registrations) => {
+            for (let registration of registrations) {
+              registration.unregister().then((res) => {
+                if (res === true) {
+                  console.log("Service Worker unregistered successfully");
+                }
+              });
+            }
           })
           .catch((error) => {
-            console.error("Service Worker registration failed:", error);
+            console.error("Service Worker unregistration failed:", error);
           });
       });
     }
@@ -78,10 +84,10 @@ export default function Home() {
     }
   }, [isLoading]);
 
-  // Get sessionStorage item and set state indicating if user
+  // Get localStorage item and set state indicating if user
   // has seen the new hourly forecast feature
   useEffect(() => {
-    const hasSeenHourly = window.sessionStorage.getItem("hasSeenHourly");
+    const hasSeenHourly = window.localStorage.getItem("hasSeenHourly");
     if (!hasSeenHourly || hasSeenHourly === "false") {
       setHasSeenHourlyForecast(false);
     } else if (hasSeenHourly === "true") {
@@ -93,7 +99,7 @@ export default function Home() {
   useEffect(() => {
     if (hourlyForecastParams && !hasSeenHourlyForecast) {
       setHasSeenHourlyForecast(true);
-      window.sessionStorage.setItem("hasSeenHourly", "true");
+      window.localStorage.setItem("hasSeenHourly", "true");
     }
   }, [hourlyForecastParams, hasSeenHourlyForecast]);
 
@@ -130,7 +136,19 @@ export default function Home() {
           {hourlyForecastParams && <HourlyForecastContainer />}
           {forecastData && !hourlyForecastParams ? (
             <>
-              {!hasSeenHourlyForecast && (
+              {forecastSendScores?.summary ? (
+                <p className="send-score-summary">
+                  {forecastSendScores?.summary}
+                </p>
+              ) : (
+                !error &&
+                selectedLocType !== "other" && (
+                  <p className="send-score-summary">
+                    Loading SendScore™ analysis...
+                  </p>
+                )
+              )}
+              {!hasSeenHourlyForecast && !error && (
                 <p className="hour-forecast-tip">
                   Click on a day for an hourly forecast!
                 </p>

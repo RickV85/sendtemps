@@ -306,13 +306,11 @@ select {
 }
 
 .day-header-details {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  min-width: 67px;
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 1rem;
   position: relative;
+  text-align: right;
 }
 
 .home-welcome-header {
@@ -342,13 +340,20 @@ select {
   font-size: 1.3rem;
   color: #f18f01;
   text-align: center;
-  padding: 1rem;
+  padding: 1rem 1rem 0rem 1rem;
 }
 
 .hour-forecast-tip {
   font-weight: 700;
   font-size: 1.25rem;
   color: #ef8354;
+  margin: 0.5rem 0rem;
+  text-align: center;
+}
+
+.send-score-summary {
+  font-size: 1.25rem;
+  color: #00b2ff;
   margin: 0.5rem 0rem;
   text-align: center;
 }
@@ -454,6 +459,10 @@ select {
   .forecast-section {
     max-width: 1500px;
   }
+  
+  .send-score-summary {
+    margin: 0.5rem 1rem;
+  }
 
   .day-forecast-container {
     display: grid;
@@ -481,7 +490,8 @@ select {
   }
 
   .day-header-details {
-    font-size: 0.9rem;
+    min-width: 5.542rem;
+    font-size: 1.2rem;
   }
 
   .hourly-forecast-container {

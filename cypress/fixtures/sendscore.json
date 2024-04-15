@@ -1,0 +1,61 @@
+{
+  "summary": "Thursday is the best day for rock climbing with sunny skies, a high near 51°F, and light west winds. Friday is also a good option with a high near 61°F and light southwest winds. Saturday could work as well with a high near 59°F and mostly clear skies.",
+  "forecastPeriods": [
+    {
+      "name": "This Afternoon",
+      "sendScore": 3
+    },
+    {
+      "name": "Tonight",
+      "sendScore": 1
+    },
+    {
+      "name": "Thursday",
+      "sendScore": 8
+    },
+    {
+      "name": "Thursday Night",
+      "sendScore": 2
+    },
+    {
+      "name": "Friday",
+      "sendScore": 7
+    },
+    {
+      "name": "Friday Night",
+      "sendScore": 3
+    },
+    {
+      "name": "Saturday",
+      "sendScore": 6
+    },
+    {
+      "name": "Saturday Night",
+      "sendScore": 2
+    },
+    {
+      "name": "Sunday",
+      "sendScore": 4
+    },
+    {
+      "name": "Sunday Night",
+      "sendScore": 1
+    },
+    {
+      "name": "Monday",
+      "sendScore": 3
+    },
+    {
+      "name": "Monday Night",
+      "sendScore": 1
+    },
+    {
+      "name": "Tuesday",
+      "sendScore": 3
+    },
+    {
+      "name": "Tuesday Night",
+      "sendScore": 1
+    }
+  ]
+}

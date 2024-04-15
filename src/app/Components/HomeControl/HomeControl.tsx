@@ -10,6 +10,8 @@ import {
 import { Gridpoint } from "@/app/Classes/Gridpoint";
 import { Forecast } from "@/app/Classes/Forecast";
 import { HourlyForecast } from "@/app/Classes/HourlyForecast";
+import { postForecastForSendScores } from "@/app/Util/OpenAiApiCalls";
+import { OpenAIForecastData } from "@/app/Classes/OpenAIForecastData";
 
 export default function HomeControl() {
   const {
@@ -23,6 +25,8 @@ export default function HomeControl() {
     forecastData,
     setForecastData,
     setHourlyForecastData,
+    forecastSendScores,
+    setForecastSendScores,
     setIsLoading,
     setError,
   } = useContext(HomeContext);
@@ -101,6 +105,35 @@ export default function HomeControl() {
     setForecastData,
     setHourlyForecastData,
     forecastData,
+  ]);
+
+  useEffect(() => {
+    // Fetch AI weather analysis
+    if (forecastData && !forecastSendScores && selectedLocType !== "other") {
+      const aiForecastData = new OpenAIForecastData(
+        selectedLocType,
+        forecastData
+      );
+      const fetchAiWeatherAnalysis = async () => {
+        try {
+          const res = await postForecastForSendScores(aiForecastData);
+          if (res) {
+            setForecastSendScores(res);
+          }
+        } catch (error) {
+          console.error(error);
+          setError("An error occurred while creating SendScores.");
+        }
+      };
+      fetchAiWeatherAnalysis();
+    }
+  }, [
+    forecastData,
+    locationDetails,
+    selectedLocType,
+    forecastSendScores,
+    setForecastSendScores,
+    setError,
   ]);
 
   // Ask for user location if Current Location selected

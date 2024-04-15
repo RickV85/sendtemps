@@ -32,6 +32,7 @@ export default function LocationSelect() {
     setForecastData,
     setHourlyForecastData,
     setHourlyForecastParams,
+    setForecastSendScores,
     setIsLoading,
     setError,
   } = useContext(HomeContext);
@@ -82,6 +83,7 @@ export default function LocationSelect() {
     setForecastData(undefined);
     setHourlyForecastData(undefined);
     setHourlyForecastParams(undefined);
+    setForecastSendScores(undefined);
     setSelectedLocCoords(e.target.value);
 
     // If coordinates for new selection, fetch location details
