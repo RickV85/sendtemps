@@ -352,10 +352,22 @@ select {
 }
 
 .send-score-summary {
-  font-size: 1.25rem;
-  color: #00b2ff;
-  margin: 0.5rem 0rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 125px;
+  font-size: 1.125rem;
+  /* color: #00b2ff; */
+  margin: 0.25rem 0rem 0.5rem 0rem;
   text-align: center;
+  border: 1px solid #00b2ff;
+  border-radius: 3px;
+  padding: 0.5rem;
+}
+
+#sendScoreLoading {
+  font-size: 1.5rem;
 }
 
 /* Desktop */
@@ -459,7 +471,7 @@ select {
   .forecast-section {
     max-width: 1500px;
   }
-  
+
   .send-score-summary {
     margin: 0.5rem 1rem;
   }
