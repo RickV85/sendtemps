@@ -52,7 +52,7 @@ describe("daily forecast display", () => {
   });
 
   it("should display a summary from AI data", () => {
-    cy.get("p.send-score-summary").should(
+    cy.get("div.send-score-summary").should(
       "have.text",
       "Thursday is the best day for rock climbing with sunny skies, a high near 51°F, and light west winds. Friday is also a good option with a high near 61°F and light southwest winds. Saturday could work as well with a high near 59°F and mostly clear skies."
     );
@@ -62,8 +62,8 @@ describe("daily forecast display", () => {
     cy.get("article.detailed-day-forecast")
       .eq(1)
       .as("tonightForecast")
-      .find("div.day-header-details>p")
-      .should("have.text", "SendScore: 1");
+      .find("div.day-send-score-div>p")
+      .should("have.text", "SendScore:1");
   });
 
   it("should display a tip to click on forecast tiles for hourly forecasts", () => {

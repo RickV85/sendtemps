@@ -137,15 +137,15 @@ export default function Home() {
           {forecastData && !hourlyForecastParams ? (
             <>
               {forecastSendScores?.summary ? (
-                <p className="send-score-summary">
-                  {forecastSendScores?.summary}
-                </p>
+                <div className="send-score-summary">
+                  <p>{forecastSendScores?.summary}</p>
+                </div>
               ) : (
                 !error &&
                 selectedLocType !== "other" && (
-                  <p className="send-score-summary">
-                    Loading SendScore™ analysis...
-                  </p>
+                  <div className="send-score-summary loading">
+                    <p>Loading SendScore™ analysis...</p>
+                  </div>
                 )
               )}
               {!hasSeenHourlyForecast && !error && (

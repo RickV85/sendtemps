@@ -212,6 +212,7 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .hourly-forecast-section {
@@ -305,12 +306,22 @@ select {
   font-size: 1.5rem;
 }
 
-.day-header-details {
+.day-send-score-div {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
   min-width: 67px;
-  font-weight: 600;
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
   font-size: 1rem;
   position: relative;
   text-align: right;
+}
+
+#sendScore {
+  color: #ef8354;
+  font-size: 1.25rem;
+  font-weight: 500;
 }
 
 .home-welcome-header {
@@ -352,10 +363,24 @@ select {
 }
 
 .send-score-summary {
-  font-size: 1.25rem;
-  color: #00b2ff;
-  margin: 0.5rem 0rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 6rem;
+  width: 100%;
+  font-size: 1.125rem;
+  margin: 5px 0px;
   text-align: center;
+  padding: 0.5rem;
+  color: #ffffff;
+  border: 1px solid #00b2ff;
+  border-radius: 3px;
+}
+
+.send-score-summary.loading {
+  font-size: 1.5rem;
+  font-family: var(--font-fugazOne);
 }
 
 /* Desktop */
@@ -459,7 +484,7 @@ select {
   .forecast-section {
     max-width: 1500px;
   }
-  
+
   .send-score-summary {
     margin: 0.5rem 1rem;
   }
@@ -489,9 +514,13 @@ select {
     width: 5.542rem;
   }
 
-  .day-header-details {
+  .day-send-score-div {
     min-width: 5.542rem;
     font-size: 1.2rem;
+  }
+
+  #sendScore {
+    font-size: 1.45rem;
   }
 
   .hourly-forecast-container {
