@@ -7,11 +7,8 @@ interface Props {
 }
 
 const DetailedDayForecast: React.FC<Props> = ({ period }) => {
-  const {
-    setHourlyForecastParams,
-    hourlyForecastData,
-    forecastSendScores,
-  } = useContext(HomeContext);
+  const { setHourlyForecastParams, hourlyForecastData, forecastSendScores } =
+    useContext(HomeContext);
 
   if (period && hourlyForecastData) {
     const hourlyParams = {
@@ -48,9 +45,12 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
             />
           </div>
           <h2 className="day-header-text">{period.name}</h2>
-          <div className="day-header-details">
+          <div className="day-send-score-div">
             {sendScoreData?.sendScore && (
-              <p>SendScore: {sendScoreData.sendScore}</p>
+              <>
+                <p>SendScore:</p>
+                <p id="sendScore">{sendScoreData.sendScore}</p>
+              </>
             )}
           </div>
         </div>

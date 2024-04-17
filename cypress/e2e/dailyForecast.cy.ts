@@ -62,7 +62,7 @@ describe("daily forecast display", () => {
     cy.get("article.detailed-day-forecast")
       .eq(1)
       .as("tonightForecast")
-      .find("div.day-header-details>p")
+      .find("div.day-send-score-div>p")
       .should("have.text", "SendScore: 1");
   });
 

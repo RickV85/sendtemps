@@ -306,12 +306,22 @@ select {
   font-size: 1.5rem;
 }
 
-.day-header-details {
+.day-send-score-div {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
   min-width: 67px;
-  font-weight: 600;
+  font-family: var(--font-fugazOne);
+  font-weight: 400;
   font-size: 1rem;
   position: relative;
   text-align: right;
+}
+
+#sendScore {
+  color: #ef8354;
+  font-size: 1.25rem;
+  font-weight: 500;
 }
 
 .home-welcome-header {
@@ -504,9 +514,13 @@ select {
     width: 5.542rem;
   }
 
-  .day-header-details {
+  .day-send-score-div {
     min-width: 5.542rem;
     font-size: 1.2rem;
+  }
+
+  #sendScore {
+    font-size: 1.45rem;
   }
 
   .hourly-forecast-container {
