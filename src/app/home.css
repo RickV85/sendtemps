@@ -212,6 +212,7 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .hourly-forecast-section {
@@ -356,18 +357,20 @@ select {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 125px;
+  min-height: 6rem;
+  width: 100%;
   font-size: 1.125rem;
-  /* color: #00b2ff; */
-  margin: 0.25rem 0rem 0.5rem 0rem;
+  margin: 5px 0px;
   text-align: center;
+  padding: 0.5rem;
+  color: #ffffff;
   border: 1px solid #00b2ff;
   border-radius: 3px;
-  padding: 0.5rem;
 }
 
-#sendScoreLoading {
+.send-score-summary.loading {
   font-size: 1.5rem;
+  font-family: var(--font-fugazOne);
 }
 
 /* Desktop */

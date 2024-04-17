@@ -143,8 +143,8 @@ export default function Home() {
               ) : (
                 !error &&
                 selectedLocType !== "other" && (
-                  <div className="send-score-summary">
-                    <p id="sendScoreLoading">Loading SendScore™ analysis...</p>
+                  <div className="send-score-summary loading">
+                    <p>Loading SendScore™ analysis...</p>
                   </div>
                 )
               )}
