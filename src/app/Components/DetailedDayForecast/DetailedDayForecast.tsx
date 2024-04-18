@@ -45,6 +45,9 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
                 className="day-forecast-icon"
               />
             </div>
+            <div className="day-forecast-header layer2">
+              <h2 className="day-header-text">{period.name}</h2>
+            </div>
             <div className="day-send-score-div">
               {sendScoreData?.sendScore && (
                 <>
@@ -53,9 +56,6 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
                 </>
               )}
             </div>
-          </div>
-          <div className="day-forecast-header layer2">
-            <h2 className="day-header-text">{period.name}</h2>
           </div>
         </div>
         <p className="day-forecast-text">{`${
