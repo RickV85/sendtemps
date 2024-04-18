@@ -328,14 +328,14 @@ select {
   min-width: 67px;
   font-family: var(--font-fugazOne);
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 0.8rem;
   position: relative;
   text-align: right;
 }
 
 #sendScore {
   color: #ef8354;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 500;
 }
 
@@ -531,11 +531,11 @@ select {
 
   .day-send-score-div {
     min-width: 5.542rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   #sendScore {
-    font-size: 1.45rem;
+    font-size: 1.25rem;
   }
 
   .hourly-forecast-container {
