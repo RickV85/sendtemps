@@ -33,25 +33,29 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
       >
         <div className="day-forecast-header">
           {/* Using img here, had issues with loading using Image component */}
-          <div className="day-forecast-icon-div">
-            {/* eslint-disable-next-line */}
-            <img
-              src={period.icon}
-              height={60}
-              width={60}
-              alt="weather icon"
-              loading="lazy"
-              className="day-forecast-icon"
-            />
-          </div>
-          <h2 className="day-header-text">{period.name}</h2>
-          <div className="day-send-score-div">
-            {sendScoreData?.sendScore && (
-              <>
-                <p>SendScore:</p>
-                <p id="sendScore">{sendScoreData.sendScore}</p>
-              </>
-            )}
+          <div className="day-forecast-header layer1">
+            <div className="day-forecast-icon-div">
+              {/* eslint-disable-next-line */}
+              <img
+                src={period.icon}
+                height={60}
+                width={60}
+                alt="weather icon"
+                loading="lazy"
+                className="day-forecast-icon"
+              />
+            </div>
+            <div className="day-forecast-header layer2">
+              <h2 className="day-header-text">{period.name}</h2>
+            </div>
+            <div className="day-send-score-div">
+              {sendScoreData?.sendScore && (
+                <>
+                  <p>SendScore:</p>
+                  <p id="sendScore">{sendScoreData.sendScore}</p>
+                </>
+              )}
+            </div>
           </div>
         </div>
         <p className="day-forecast-text">{`${
