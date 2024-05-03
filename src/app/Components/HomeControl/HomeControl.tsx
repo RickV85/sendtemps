@@ -109,7 +109,12 @@ export default function HomeControl() {
 
   useEffect(() => {
     // Fetch AI weather analysis
-    if (forecastData && !forecastSendScores && selectedLocType !== "other") {
+    if (
+      forecastData &&
+      !forecastSendScores &&
+      selectedLocType !== "other" &&
+      selectedLocType !== "Current Location"
+    ) {
       const aiForecastData = new OpenAIForecastData(
         selectedLocType,
         forecastData
