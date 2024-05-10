@@ -1,14 +1,14 @@
-"use client";
-import "./home.css";
-import { useEffect, useRef, useContext, useCallback, useState } from "react";
-import { HomeContext } from "./Contexts/HomeContext";
-import { throttle } from "lodash";
-import DetailedDayForecast from "./Components/DetailedDayForecast/DetailedDayForecast";
-import HomeHeader from "./Components/HomeHeader/HomeHeader";
-import HomeControl from "./Components/HomeControl/HomeControl";
-import ReloadBtn from "./Components/ReloadBtn/ReloadBtn";
-import { WelcomeHomeMsg } from "./Components/WelcomeHomeMsg/WelcomeHomeMsg";
-import HourlyForecastContainer from "./Components/HourlyForecastContainer/HourlyForecastContainer";
+'use client';
+import './home.css';
+import { useEffect, useRef, useContext, useCallback, useState } from 'react';
+import { HomeContext } from './Contexts/HomeContext';
+import { throttle } from 'lodash';
+import DetailedDayForecast from './Components/DetailedDayForecast/DetailedDayForecast';
+import HomeHeader from './Components/HomeHeader/HomeHeader';
+import HomeControl from './Components/HomeControl/HomeControl';
+import ReloadBtn from './Components/ReloadBtn/ReloadBtn';
+import { WelcomeHomeMsg } from './Components/WelcomeHomeMsg/WelcomeHomeMsg';
+import HourlyForecastContainer from './Components/HourlyForecastContainer/HourlyForecastContainer';
 
 export default function Home() {
   const {
@@ -28,35 +28,35 @@ export default function Home() {
 
   // Set pageLoaded using readyState listener
   useEffect(() => {
-    if (document.readyState === "complete") {
+    if (document.readyState === 'complete') {
       setPageLoaded(true);
     } else {
-      window.addEventListener("load", () => setPageLoaded(true));
+      window.addEventListener('load', () => setPageLoaded(true));
     }
 
     return () => {
-      window.removeEventListener("load", () => setPageLoaded(true));
+      window.removeEventListener('load', () => setPageLoaded(true));
     };
   }, [setPageLoaded]);
 
   // Unregister service worker in production, no longer used.
   // Was causing issues with caching network requests
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
         navigator.serviceWorker
           .getRegistrations()
           .then((registrations) => {
             for (let registration of registrations) {
               registration.unregister().then((res) => {
                 if (res === true) {
-                  console.log("Service Worker unregistered successfully");
+                  console.log('Service Worker unregistered successfully');
                 }
               });
             }
           })
           .catch((error) => {
-            console.error("Service Worker unregistration failed:", error);
+            console.error('Service Worker unregistration failed:', error);
           });
       });
     }
@@ -69,28 +69,28 @@ export default function Home() {
     }, 100);
 
     setWindowWidthState();
-    window.addEventListener("resize", setWindowWidthState);
+    window.addEventListener('resize', setWindowWidthState);
 
-    return () => window.removeEventListener("resize", setWindowWidthState);
+    return () => window.removeEventListener('resize', setWindowWidthState);
   }, [setScreenWidth]);
 
   // Toggle loading class on forecast section -
   // prevents layout shift while loading new daily forecast
   useEffect(() => {
     if (isLoading) {
-      forecastSection.current?.classList.add("loading");
+      forecastSection.current?.classList.add('loading');
     } else {
-      forecastSection.current?.classList.remove("loading");
+      forecastSection.current?.classList.remove('loading');
     }
   }, [isLoading]);
 
   // Get localStorage item and set state indicating if user
   // has seen the new hourly forecast feature
   useEffect(() => {
-    const hasSeenHourly = window.localStorage.getItem("hasSeenHourly");
-    if (!hasSeenHourly || hasSeenHourly === "false") {
+    const hasSeenHourly = window.localStorage.getItem('hasSeenHourly');
+    if (!hasSeenHourly || hasSeenHourly === 'false') {
       setHasSeenHourlyForecast(false);
-    } else if (hasSeenHourly === "true") {
+    } else if (hasSeenHourly === 'true') {
       setHasSeenHourlyForecast(true);
     }
   }, []);
@@ -99,7 +99,7 @@ export default function Home() {
   useEffect(() => {
     if (hourlyForecastParams && !hasSeenHourlyForecast) {
       setHasSeenHourlyForecast(true);
-      window.localStorage.setItem("hasSeenHourly", "true");
+      window.localStorage.setItem('hasSeenHourly', 'true');
     }
   }, [hourlyForecastParams, hasSeenHourlyForecast]);
 
@@ -142,7 +142,8 @@ export default function Home() {
                 </div>
               ) : (
                 !error &&
-                selectedLocType !== "other" && (
+                selectedLocType !== 'other' &&
+                selectedLocType !== 'Current Location' && (
                   <div className="send-score-summary loading">
                     <p>Loading SendScore™ analysis...</p>
                   </div>
