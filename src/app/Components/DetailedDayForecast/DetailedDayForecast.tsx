@@ -1,6 +1,6 @@
-import { useContext } from "react";
-import { HomeContext } from "@/app/Contexts/HomeContext";
-import { ForecastPeriod } from "@/app/Classes/ForecastPeriod";
+import { useContext } from 'react';
+import { HomeContext } from '@/app/Contexts/HomeContext';
+import { ForecastPeriod } from '@/app/Classes/ForecastPeriod';
 
 interface Props {
   period: ForecastPeriod;
@@ -23,6 +23,8 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
       (score) => score.name === period.name
     );
 
+    console.log(period);
+
     return (
       <article
         className="detailed-day-forecast"
@@ -32,12 +34,12 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
         title={`Click for ${period.name}'s hourly forecast`}
       >
         <div className="day-forecast-header">
-          {/* Using img here, had issues with loading using Image component */}
           <div className="day-forecast-header layer1">
             <div className="day-forecast-icon-div">
+              {/* Using img here, had issues with loading using Image component */}
               {/* eslint-disable-next-line */}
               <img
-                src={period.icon}
+                src={`https://api.weather.gov${period.icon}`}
                 height={60}
                 width={60}
                 alt="weather icon"
@@ -61,7 +63,9 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
         <p className="day-forecast-text">{`${
           period.detailedForecast
         } Humidity ${minRH.toLocaleString()}% to ${
-          period.relativeHumidity.value
+          // RH now undefined on period, not on hourly though
+          // need to create a maxRH from hourly values
+          period.relativeHumidity?.value
         }% RH.`}</p>
       </article>
     );
