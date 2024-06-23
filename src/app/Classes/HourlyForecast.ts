@@ -26,12 +26,12 @@ export class HourlyForecast {
     return result;
   }
 
-  getMinRHForTimePeriod(hourlyParams: HourlyForecastParams) {
+  getMinMaxRHForTimePeriod(hourlyParams: HourlyForecastParams) {
     const filteredTimePeriods = this.filterHourlyPeriodsByTime(hourlyParams);
     const humidityValues = filteredTimePeriods.map(
       (hourlyPeriod: HourlyForecastPeriod) => hourlyPeriod.humidity
     );
 
-    return Math.min(...humidityValues);
+    return {min: Math.min(...humidityValues), max: Math.max(...humidityValues)};
   }
 }

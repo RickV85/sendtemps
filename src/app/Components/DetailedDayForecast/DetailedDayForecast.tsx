@@ -17,7 +17,7 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
       end: period.endTime,
     };
 
-    const minRH = hourlyForecastData.getMinRHForTimePeriod(hourlyParams);
+    const minMaxRH = hourlyForecastData.getMinMaxRHForTimePeriod(hourlyParams);
 
     const sendScoreData = forecastSendScores?.forecastPeriods.find(
       (score) => score.name === period.name
@@ -60,13 +60,7 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
             </div>
           </div>
         </div>
-        <p className="day-forecast-text">{`${
-          period.detailedForecast
-        } Humidity ${minRH.toLocaleString()}% to ${
-          // RH now undefined on period, not on hourly though
-          // need to create a maxRH from hourly values
-          period.relativeHumidity?.value
-        }% RH.`}</p>
+        <p className="day-forecast-text">{`${period.detailedForecast} Humidity ${minMaxRH.max}% to ${minMaxRH.min}% RH.`}</p>
       </article>
     );
   }
