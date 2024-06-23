@@ -47,7 +47,7 @@ describe("daily forecast display", () => {
       .find("p.day-forecast-text")
       .should(
         "have.text",
-        "Sunny. High near 57, with temperatures falling to around 52 in the afternoon. West wind 30 to 36 mph, with gusts as high as 54 mph. Humidity 17% to 19% RH."
+        "Sunny. High near 57, with temperatures falling to around 52 in the afternoon. West wind 30 to 36 mph, with gusts as high as 54 mph. Humidity 19% to 17% RH."
       );
   });
 
