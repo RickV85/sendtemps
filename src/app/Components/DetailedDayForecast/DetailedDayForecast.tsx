@@ -23,8 +23,6 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
       (score) => score.name === period.name
     );
 
-    console.log(period);
-
     return (
       <article
         className="detailed-day-forecast"
@@ -39,7 +37,7 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
               {/* Using img here, had issues with loading using Image component */}
               {/* eslint-disable-next-line */}
               <img
-                src={`https://api.weather.gov${period.icon}`}
+                src={period.icon}
                 height={60}
                 width={60}
                 alt="weather icon"
