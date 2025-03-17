@@ -27,14 +27,17 @@ export default function Home() {
     error,
   } = useContext(HomeContext);
   const forecastSection = useRef<null | HTMLElement>(null);
-  const [hasSeenHourlyForecast, setHasSeenHourlyForecast] = useState<boolean>();
+  const [hasSeenHourlyForecast, setHasSeenHourlyForecast] = useState<boolean>(false);
+  const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
   const hasForecastData = !!forecastData;
-  const isTouchDevice = 'ontouchstart' in window;
 
-  // Set pageLoaded using readyState listener
   useEffect(() => {
+    // Set pageLoaded using readyState listener
     if (document.readyState === 'complete') {
       setPageLoaded(true);
+      if ('ontouchstart' in window) {
+        setIsTouchDevice(true);
+      }
     } else {
       window.addEventListener('load', () => setPageLoaded(true));
     }
