@@ -1,4 +1,4 @@
-import { ForecastData, HourlyForecastData } from "../Interfaces/interfaces";
+import { ForecastData, HourlyForecastData } from '../Interfaces/interfaces';
 
 // NOAA API CALLS
 
@@ -8,9 +8,7 @@ export async function fetchNoaaGridLocation(coords: string) {
     if (response.ok) {
       return response.json();
     }
-    throw new Error(
-      `Failed to fetch location grid point for coordinates: ${coords}`
-    );
+    throw new Error(`Failed to fetch location grid point for coordinates: ${coords}`);
   } catch (err) {
     console.error(`Error fetching NOAA grid location for ${coords}:`, err);
     throw err;
@@ -20,29 +18,25 @@ export async function fetchNoaaGridLocation(coords: string) {
 export async function fetchNoaaGridLocationWithRetry(
   coords: string,
   retries: number = 5,
-  delay: number = 2000
+  delay: number = 2000,
 ) {
   for (let i = 1; i <= retries; i++) {
     try {
       return await fetchNoaaGridLocation(coords);
     } catch {
-      console.error(
-        `Fetch NOAA grid location attempt ${i} failed for coordinates: ${coords}`
-      );
+      console.error(`Fetch NOAA grid location attempt ${i} failed for coordinates: ${coords}`);
       if (i === retries) {
-        throw new Error(
-          `All attempts to fetch NOAA grid location failed for coordinates: ${coords}.`
-        );
+        throw new Error(`All attempts to fetch NOAA grid location failed for coordinates: ${coords}.`);
       }
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
-  throw new Error("Unknown error in fetchNoaaGridLocationWithRetry");
+  throw new Error('Unknown error in fetchNoaaGridLocationWithRetry');
 }
 
 export async function fetchDailyForecast(url: string): Promise<ForecastData> {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { cache: 'no-cache' });
     if (response.ok) {
       return response.json();
     }
@@ -56,27 +50,25 @@ export async function fetchDailyForecast(url: string): Promise<ForecastData> {
 export async function fetchDailyForecastWithRetry(
   url: string,
   retries: number = 5,
-  delay: number = 2000
+  delay: number = 2000,
 ): Promise<ForecastData> {
   for (let i = 1; i <= retries; i++) {
     try {
       return await fetchDailyForecast(url);
     } catch (err) {
-      console.error(
-        `Fetch Daily Forecast attempt ${i} failed for forecastUrl: ${url}`
-      );
+      console.error(`Fetch Daily Forecast attempt ${i} failed for forecastUrl: ${url}`);
       if (i === retries) {
-        throw new Error("All daily forecast fetch attempts failed.");
+        throw new Error('All daily forecast fetch attempts failed.');
       }
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
-  throw new Error("Unknown error in fetchDailyForecastWithRetry");
+  throw new Error('Unknown error in fetchDailyForecastWithRetry');
 }
 
 export async function fetchHourlyForecast(url: string): Promise<HourlyForecastData> {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { cache: 'no-cache' });
     if (response.ok) {
       return response.json();
     }
@@ -90,20 +82,18 @@ export async function fetchHourlyForecast(url: string): Promise<HourlyForecastDa
 export async function fetchHourlyForecastWithRetry(
   url: string,
   retries: number = 5,
-  delay: number = 2000
+  delay: number = 2000,
 ): Promise<HourlyForecastData> {
   for (let i = 1; i <= retries; i++) {
     try {
       return await fetchHourlyForecast(url);
     } catch (err) {
-      console.error(
-        `Fetch hourly forecast attempt ${i} failed for forecastUrl: ${url}`
-      );
+      console.error(`Fetch hourly forecast attempt ${i} failed for forecastUrl: ${url}`);
       if (i === retries) {
-        throw new Error("All hourly forecast fetch attempts failed.");
+        throw new Error('All hourly forecast fetch attempts failed.');
       }
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
-  throw new Error("Unknown error in fetchHourlyForecastWithRetry");
+  throw new Error('Unknown error in fetchHourlyForecastWithRetry');
 }

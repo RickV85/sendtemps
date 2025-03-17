@@ -398,6 +398,18 @@ select {
   font-family: var(--font-fugazOne);
 }
 
+.pull-to-refresh-container {
+  color: #00b2ff;
+  font-size: 1.25rem;
+  font-family: var(--font-fugazOne);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  height: 3rem;
+}
+
 /* Desktop */
 
 @media screen and (min-width: 769px) {
