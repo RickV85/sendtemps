@@ -17,11 +17,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
 
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js app
+        run: npm run build
+
+      - name: Check if .next exists
+        run: ls -la .next
+
       - name: Cypress install
         uses: cypress-io/github-action@v6
         with:
           runTests: false
-          build: npm run build
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
@@ -62,7 +70,7 @@ jobs:
           browser: electron
           record: true
         env:
-          TZ: "America/Denver"
+          TZ: 'America/Denver'
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
