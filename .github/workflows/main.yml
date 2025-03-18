@@ -36,18 +36,28 @@ jobs:
     runs-on: ubuntu-22.04
     needs: install
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Cache node modules and .next cache
+      - name: Cache node modules
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.npm
-            ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
+            ${{ runner.os }}-npm-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js app (again to ensure .next exists)
+        run: npm run build
+
+      - name: Verify .next contents before starting
+        run: ls -la .next
+
+      - name: Start Next.js server
+        run: npm run start
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
