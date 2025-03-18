@@ -58,9 +58,6 @@ jobs:
       - name: Verify .next contents before starting
         run: ls -la .next
 
-      - name: Start Next.js server
-        run: npm run start
-
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
