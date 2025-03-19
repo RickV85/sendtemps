@@ -11,10 +11,10 @@
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.6",
     "@vercel/analytics": "^1.1.1",
-    "@vercel/postgres": "^0.5.1",
+    "@vercel/postgres": "^0.10.0",
     "lodash": "^4.17.21",
-    "next": "^14.0.4",
-    "next-auth": "^4.24.5",
+    "next": "^14.2.25",
+    "next-auth": "^4.24.11",
     "openai": "^4.31.0",
     "react": "^18",
     "react-dom": "^18",
