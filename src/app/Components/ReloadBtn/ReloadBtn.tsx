@@ -1,23 +1,17 @@
 interface Props {
   id?: string | undefined;
+  label?: string;
+  onClick?: () => void;
 }
 
-export default function ReloadBtn({ id }: Props) {
-  if (id) {
-    return (
-      <button
-        id={`${id}`}
-        className="reload-btn"
-        onClick={() => window.location.reload()}
-      >
-        Reload
-      </button>
-    );
-  } else {
-    return (
-      <button className="reload-btn" onClick={() => window.location.reload()}>
-        Reload
-      </button>
-    );
-  }
+export default function ReloadBtn({ id, label, onClick }: Props) {
+  return (
+    <button
+      id={id || 'ReloadBtn'}
+      className="reload-btn"
+      onClick={onClick ? onClick : () => window.location.reload()}
+    >
+      {label || 'Reload'}
+    </button>
+  );
 }

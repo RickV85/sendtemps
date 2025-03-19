@@ -1,19 +1,22 @@
 'use client';
-import './home.css';
-import { useEffect, useRef, useContext, useCallback, useState } from 'react';
-import { HomeContext } from './Contexts/HomeContext';
 import { throttle } from 'lodash';
+import { useEffect, useRef, useContext, useCallback, useState } from 'react';
+import PullToRefresh from 'react-simple-pull-to-refresh';
+import { HomeContext } from './Contexts/HomeContext';
 import DetailedDayForecast from './Components/DetailedDayForecast/DetailedDayForecast';
 import HomeHeader from './Components/HomeHeader/HomeHeader';
 import HomeControl from './Components/HomeControl/HomeControl';
 import ReloadBtn from './Components/ReloadBtn/ReloadBtn';
 import { WelcomeHomeMsg } from './Components/WelcomeHomeMsg/WelcomeHomeMsg';
 import HourlyForecastContainer from './Components/HourlyForecastContainer/HourlyForecastContainer';
+import PullToRefreshContent from './Components/PullToRefreshContent/PullToRefreshContent';
+import './home.css';
 
 export default function Home() {
   const {
     selectedLocType,
     forecastData,
+    setForecastData,
     hourlyForecastParams,
     forecastSendScores,
     screenWidth,
@@ -24,12 +27,17 @@ export default function Home() {
     error,
   } = useContext(HomeContext);
   const forecastSection = useRef<null | HTMLElement>(null);
-  const [hasSeenHourlyForecast, setHasSeenHourlyForecast] = useState<boolean>();
+  const [hasSeenHourlyForecast, setHasSeenHourlyForecast] = useState<boolean>(false);
+  const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
+  const hasForecastData = !!forecastData;
 
-  // Set pageLoaded using readyState listener
   useEffect(() => {
+    // Set pageLoaded using readyState listener
     if (document.readyState === 'complete') {
       setPageLoaded(true);
+      if ('ontouchstart' in window) {
+        setIsTouchDevice(true);
+      }
     } else {
       window.addEventListener('load', () => setPageLoaded(true));
     }
@@ -103,13 +111,16 @@ export default function Home() {
     }
   }, [hourlyForecastParams, hasSeenHourlyForecast]);
 
+  const handleRefresh = () =>
+    new Promise<void>((resolve) => {
+      resolve(setForecastData(undefined));
+    });
+
   // Creates detailed daily forecast display
   const createDetailedForecast = () => {
     if (forecastData) {
       const forecast = forecastData?.periods.map((period, i) => {
-        return (
-          <DetailedDayForecast period={period} key={`forecastPeriod-${i}`} />
-        );
+        return <DetailedDayForecast period={period} key={`forecastPeriod-${i}`} />;
       });
       return forecast;
     }
@@ -117,50 +128,59 @@ export default function Home() {
 
   return (
     <main className="home-main">
-      <HomeHeader />
-      <section className="home-main-section">
-        {pageLoaded && screenWidth <= 768 ? <HomeControl /> : null}
-        <section className="forecast-section" ref={forecastSection}>
-          {isLoading ? (
-            <div className="loading-msg-div">
-              <p className="loading-msg">Loading forecast...</p>
-            </div>
-          ) : null}
-          {error && !isLoading ? (
-            <div className="loading-msg-div">
-              <p className="error-msg">{`Oh, no! ${error}`}</p>
-              <ReloadBtn />
-            </div>
-          ) : null}
-          {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}
-          {hourlyForecastParams && <HourlyForecastContainer />}
-          {forecastData && !hourlyForecastParams ? (
-            <>
-              {forecastSendScores?.summary ? (
-                <div className="send-score-summary">
-                  <p>{forecastSendScores?.summary}</p>
+      <PullToRefresh
+        isPullable={pageLoaded && isTouchDevice && hasForecastData}
+        onRefresh={handleRefresh}
+        pullingContent={<PullToRefreshContent />}
+      >
+        <>
+          <HomeHeader />
+          <section className="home-main-section">
+            {pageLoaded && screenWidth <= 768 ? <HomeControl /> : null}
+            <section className="forecast-section" ref={forecastSection}>
+              {isLoading ? (
+                <div className="loading-msg-div">
+                  <p className="loading-msg">Loading forecast...</p>
                 </div>
-              ) : (
-                !error &&
-                selectedLocType !== 'other' &&
-                selectedLocType !== 'Current Location' && (
-                  <div className="send-score-summary loading">
-                    <p>Loading SendScore™ analysis...</p>
-                  </div>
-                )
+              ) : null}
+              {error && !isLoading ? (
+                <div className="loading-msg-div">
+                  <p className="error-msg">{`Oh, no! ${error}`}</p>
+                  <ReloadBtn />
+                </div>
+              ) : null}
+              {!forecastData && !isLoading && !error ? <WelcomeHomeMsg /> : null}
+              {hourlyForecastParams && <HourlyForecastContainer />}
+              {forecastData && !hourlyForecastParams ? (
+                <>
+                  {forecastSendScores?.summary ? (
+                    <div className="send-score-summary">
+                      <p>{forecastSendScores?.summary}</p>
+                    </div>
+                  ) : (
+                    !error &&
+                    selectedLocType !== 'other' &&
+                    selectedLocType !== 'Current Location' && (
+                      <div className="send-score-summary loading">
+                        <p>Loading SendScore™ analysis...</p>
+                      </div>
+                    )
+                  )}
+                  {!hasSeenHourlyForecast && !error && (
+                    <p className="hour-forecast-tip">Click on a day for an hourly forecast!</p>
+                  )}
+                  <div className="day-forecast-container">{createDetailedForecast()}</div>
+                </>
+              ) : null}
+              {!isTouchDevice && hasForecastData && (
+                <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+                  <ReloadBtn id="RefreshForecastBtn" label="Refresh Forecast" onClick={handleRefresh} />
+                </div>
               )}
-              {!hasSeenHourlyForecast && !error && (
-                <p className="hour-forecast-tip">
-                  Click on a day for an hourly forecast!
-                </p>
-              )}
-              <div className="day-forecast-container">
-                {createDetailedForecast()}
-              </div>
-            </>
-          ) : null}
-        </section>
-      </section>
+            </section>
+          </section>
+        </>
+      </PullToRefresh>
     </main>
   );
 }

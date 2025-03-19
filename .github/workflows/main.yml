@@ -17,43 +17,46 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
 
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js app
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npm run build
+
       - name: Cypress install
         uses: cypress-io/github-action@v6
         with:
           runTests: false
-          build: npm run build
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
-      - name: Save .next folder
-        uses: actions/upload-artifact@v4
-        with:
-          name: next-artifact
-          if-no-files-found: error
-          path: .next
 
   cypress-run:
     runs-on: ubuntu-22.04
     needs: install
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download the .next folder
-        uses: actions/download-artifact@v4
-        with:
-          name: next-artifact
-          path: .next
-
-      - name: Cache node modules and .next cache
+      - name: Cache node modules
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.npm
-            ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
+            ${{ runner.os }}-npm-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js app
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npm run build
+
+      - name: Verify .next contents before starting
+        run: ls -la .next
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
@@ -62,7 +65,7 @@ jobs:
           browser: electron
           record: true
         env:
-          TZ: "America/Denver"
+          TZ: 'America/Denver'
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
