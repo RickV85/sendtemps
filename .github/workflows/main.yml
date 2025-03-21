@@ -62,12 +62,10 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm run start
-          browser: electron
-          record: true
+          browser: chrome
         env:
           TZ: 'America/Denver'
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
