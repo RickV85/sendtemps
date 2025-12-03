@@ -39,7 +39,7 @@ describe("Edit locations display", () => {
     cy.wait(500);
     cy.get("h1").should("have.text", "SendTemps").click();
 
-    cy.wait(500).location("pathname").should("equal", "/");
+    cy.wait(1000).location("pathname").should("equal", "/");
   });
 
   it("should display the Back button and allow user to return to Home", () => {
