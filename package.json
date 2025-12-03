@@ -3,13 +3,18 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:ts": "tsc --noEmit"
+    
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.6",
+    "@neondatabase/serverless": "^1.0.2",
     "@vercel/analytics": "^1.1.1",
     "@vercel/postgres": "^0.10.0",
     "lodash": "^4.17.21",
