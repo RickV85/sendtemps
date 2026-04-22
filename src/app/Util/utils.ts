@@ -1,9 +1,9 @@
-import { LocationObject, GoogleMapPoint } from "../Interfaces/interfaces";
-import { UserLocation } from "../Classes/UserLocation";
+import { LocationObject, GoogleMapPoint } from '../Interfaces/interfaces';
+import { UserLocation } from '../Classes/UserLocation';
 
 export function filterAndSortLocationsAlphaByName(
   locArr: Array<LocationObject>,
-  selectedType: string
+  selectedType: string,
 ): Array<LocationObject> {
   const filteredSortedLocations = locArr
     .filter((loc) => loc.poi_type === selectedType)
@@ -19,9 +19,7 @@ export function filterAndSortLocationsAlphaByName(
   return filteredSortedLocations;
 }
 
-export const createGoogleMapPoints = (
-  locs: LocationObject[] | UserLocation[]
-) => {
+export const createGoogleMapPoints = (locs: LocationObject[] | UserLocation[]) => {
   const points = locs.map((location): GoogleMapPoint => {
     const coords = {
       lat: +location.latitude,
@@ -34,41 +32,33 @@ export const createGoogleMapPoints = (
 
 export const formatPOIDataForDisplay = (poi: string): string => {
   switch (poi) {
-    case "climb":
-      return "Climbing";
-    case "mtb":
-      return "Mountain Biking";
-    case "ski":
-      return "Skiing";
-    case "other":
-      return "Other";
+    case 'climb':
+      return 'Climbing';
+    case 'mtb':
+      return 'Mountain Biking';
+    case 'ski':
+      return 'Skiing';
+    case 'other':
+      return 'Other';
     default:
-      return "Unknown";
+      return 'Unknown';
   }
 };
 
 export const findLocByIdInUserLocs = (
   searchLocId: number,
-  userLocations: UserLocation[] | null
+  userLocations: UserLocation[] | null,
 ): UserLocation | undefined => {
   if (userLocations?.length) {
     return userLocations?.find((loc) => loc.id === searchLocId);
   } else {
-    console.log("Array of userLocations is empty");
+    console.log('Array of userLocations is empty');
     return undefined;
   }
 };
 
-export const resetErrorMsg = (
-  errorMsgStateSet: React.Dispatch<React.SetStateAction<string>>
-) => {
+export const resetErrorMsg = (errorMsgStateSet: React.Dispatch<React.SetStateAction<string>>) => {
   setTimeout(() => {
-    errorMsgStateSet("");
+    errorMsgStateSet('');
   }, 1500);
-};
-
-export const checkError = (x: any) => {
-  if (x instanceof Error) {
-    throw x;
-  }
 };

@@ -8,36 +8,31 @@ import UserLocTile from "../Components/UserLocTile/UserLocTile";
 import EditUserLocModal from "../Components/EditUserLocModal/EditUserLocModal";
 import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
 import BackBtn from "../Components/BackBtn/BackBtn";
-import { checkError } from "../Util/utils";
 import ReloadBtn from "../Components/ReloadBtn/ReloadBtn";
 import AddLocation from "../Components/AddLocation/AddLocation";
 
 export default function EditLocations() {
   const [selectedUserLoc, setSelectedUserLoc] = useState("default");
-  const { userInfo, userLocations, setUserLocations } = useContext(UserContext);
+  const { userInfo, userLocations, userLocationsError, setUserLocations } =
+    useContext(UserContext);
   const userLocModalRef = useRef<HTMLDialogElement>(null);
   const [userLocEditTrigger, setUserLocEditTrigger] = useState("");
   const [editUserLocError, setEditUserLocError] = useState("");
   const [editLocOptionsStale, setEditLocOptionsStale] = useState(true);
 
   useEffect(() => {
-    if (userInfo && userLocations) {
-      try {
-        checkError(userLocations);
-      } catch {
-        setEditUserLocError(
-          "An error occurred while fetching locations. Please reload the page and try again."
-        );
-      }
+    if (userLocationsError) {
+      setEditUserLocError(
+        "An error occurred while fetching locations. Please reload the page and try again."
+      );
     }
-  }, [userLocations, userInfo]);
+  }, [userLocationsError]);
 
   useEffect(() => {
     if (editLocOptionsStale && userInfo?.id && !editUserLocError) {
       const refetchUserLocations = async () => {
         try {
           const newUserLocs = await getAllUserLocations(userInfo.id);
-          checkError(newUserLocs);
           setUserLocations(newUserLocs);
           setEditLocOptionsStale(false);
         } catch {

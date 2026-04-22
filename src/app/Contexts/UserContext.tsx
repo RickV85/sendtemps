@@ -11,6 +11,7 @@ interface UserContextType {
     React.SetStateAction<UserSessionInfo | null | undefined>
   >;
   userLocations: UserLocation[] | null;
+  userLocationsError: string | null;
   setUserLocations: React.Dispatch<React.SetStateAction<UserLocation[] | null>>;
 }
 
@@ -18,6 +19,7 @@ export const UserContext = createContext<UserContextType>({
   userInfo: null,
   setUserInfo: () => {},
   userLocations: null,
+  userLocationsError: null,
   setUserLocations: () => {},
 });
 
@@ -30,6 +32,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     undefined
   );
   const [userLocations, setUserLocations] = useState<UserLocation[] | null>(
+    null
+  );
+  const [userLocationsError, setUserLocationsError] = useState<string | null>(
     null
   );
 
@@ -50,7 +55,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // userInfo starts as undefined, then moved to null if not signed in
+    // userInfo starts as undefined, then moves to null if not signed in
     if (userInfo !== undefined && userInfo?.id) {
       const fetchUserLocations = async () => {
         try {
@@ -58,12 +63,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           if (fetchedUserLocs) {
             setUserLocations(fetchedUserLocs);
           }
-        } catch (error: any) {
+        } catch (error: unknown) {
+          const message =
+            error instanceof Error ? error.message : "An unknown error occurred";
           console.error(
             "Error fetching userLocations from UserContext:",
             error
           );
-          setUserLocations(error);
+          setUserLocationsError(message);
         }
       };
       fetchUserLocations();
@@ -74,7 +81,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ userInfo, setUserInfo, userLocations, setUserLocations }}
+      value={{ userInfo, setUserInfo, userLocations, userLocationsError, setUserLocations }}
     >
       {children}
     </UserContext.Provider>
