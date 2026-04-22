@@ -32,18 +32,21 @@ export default function Home() {
   const hasForecastData = !!forecastData;
 
   useEffect(() => {
-    // Set pageLoaded using readyState listener
-    if (document.readyState === 'complete') {
+    const handleLoad = () => {
       setPageLoaded(true);
       if ('ontouchstart' in window) {
         setIsTouchDevice(true);
       }
+    };
+
+    if (document.readyState === 'complete') {
+      handleLoad();
     } else {
-      window.addEventListener('load', () => setPageLoaded(true));
+      window.addEventListener('load', handleLoad);
     }
 
     return () => {
-      window.removeEventListener('load', () => setPageLoaded(true));
+      window.removeEventListener('load', handleLoad);
     };
   }, [setPageLoaded]);
 
@@ -79,7 +82,10 @@ export default function Home() {
     setWindowWidthState();
     window.addEventListener('resize', setWindowWidthState);
 
-    return () => window.removeEventListener('resize', setWindowWidthState);
+    return () => {
+      window.removeEventListener('resize', setWindowWidthState);
+      setWindowWidthState.cancel();
+    };
   }, [setScreenWidth]);
 
   // Toggle loading class on forecast section -
