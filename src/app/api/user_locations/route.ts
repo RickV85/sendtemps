@@ -1,12 +1,12 @@
-import { UserLocation } from "@/app/Classes/UserLocation";
-import { getUserLocationById } from "@/app/Util/DatabaseApiCalls";
-import { sql, db } from "@vercel/postgres";
-import { NextRequest, NextResponse } from "next/server";
+import { UserLocation } from '@/app/Classes/UserLocation';
+import { getUserLocationById } from '@/app/Util/DatabaseApiCalls';
+import { sql, db } from '@vercel/postgres';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = request.nextUrl.searchParams.get("user_id");
-    const id = request.nextUrl.searchParams.get("id");
+    const userId = request.nextUrl.searchParams.get('user_id');
+    const id = request.nextUrl.searchParams.get('id');
     let matchingLocs;
     let foundEntries;
     if (userId && id) {
@@ -14,8 +14,7 @@ export async function GET(request: NextRequest) {
         await sql`SELECT * FROM sendtemps.user_locations WHERE user_id = ${userId} AND id = ${id};`;
       foundEntries = matchingLocs?.rows[0];
     } else if (userId && !id) {
-      matchingLocs =
-        await sql`SELECT * FROM sendtemps.user_locations WHERE user_id = ${userId};`;
+      matchingLocs = await sql`SELECT * FROM sendtemps.user_locations WHERE user_id = ${userId};`;
       foundEntries = matchingLocs?.rows;
     }
 
@@ -38,14 +37,14 @@ export async function POST(request: NextRequest) {
       reqBody.user_id,
       reqBody.poi_type,
       null,
-      null
+      null,
     );
     let response;
     if (newUserLoc) {
       await sql`INSERT INTO sendtemps.user_locations (name, latitude, longitude, user_id, poi_type, date_created, last_modified) VALUES (${newUserLoc.name}, ${newUserLoc.latitude}, ${newUserLoc.longitude}, ${newUserLoc.user_id}, ${newUserLoc.poi_type}, ${newUserLoc.date_created}, ${newUserLoc.last_modified})`;
       response = NextResponse.json(
         `Success - New Location "${newUserLoc.name}" created for user: ${newUserLoc.user_id}`,
-        { status: 201 }
+        { status: 201 },
       );
     }
     return response;
@@ -58,7 +57,7 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     const reqBody = await request.json();
-    const validCols = ["name", "poi_type"];
+    const validCols = ['name', 'poi_type'];
     let userLoc = await getUserLocationById(reqBody.userId, reqBody.id);
 
     if (userLoc && validCols.includes(reqBody.changeCol)) {
@@ -70,11 +69,11 @@ export async function PATCH(request: NextRequest) {
         userLoc.user_id,
         userLoc.poi_type,
         userLoc.date_created,
-        userLoc.last_modified
+        userLoc.last_modified,
       );
-      if (reqBody.changeCol === "name") {
+      if (reqBody.changeCol === 'name') {
         patchLoc.updateName(reqBody.data);
-      } else if (reqBody.changeCol === "poi_type") {
+      } else if (reqBody.changeCol === 'poi_type') {
         patchLoc.updatePOIType(reqBody.data);
       }
       patchLoc.updateLastModified();
@@ -82,11 +81,11 @@ export async function PATCH(request: NextRequest) {
       // Connect to DB and start SQl queries
       const client = await db.connect();
 
-      if (reqBody.changeCol === "name") {
+      if (reqBody.changeCol === 'name') {
         await client.sql`UPDATE sendtemps.user_locations 
         SET name = ${reqBody.data} 
         WHERE id = ${patchLoc.id} AND user_id = ${patchLoc.user_id};`;
-      } else if (reqBody.changeCol === "poi_type") {
+      } else if (reqBody.changeCol === 'poi_type') {
         await client.sql`UPDATE sendtemps.user_locations 
         SET poi_type = ${reqBody.data} 
         WHERE id = ${patchLoc.id} AND user_id = ${patchLoc.user_id};`;
@@ -113,7 +112,7 @@ export async function DELETE(request: NextRequest) {
       WHERE id = ${deleteLoc.id} AND user_id = ${deleteLoc.user_id};`;
     return NextResponse.json(
       `Success: User Location id: ${deleteLoc.id} for user_id: ${deleteLoc.user_id} successfully deleted`,
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error(error);

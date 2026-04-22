@@ -1,12 +1,12 @@
-"use client";
-import Map from "../Map/Map";
-import { useEffect, useState, useContext, useRef } from "react";
-import { getAllDefaultLocations } from "../../Util/DatabaseApiCalls";
-import AddLocForm from "../AddLocForm/AddLocForm";
-import { GoogleMapPoint } from "../../Interfaces/interfaces";
-import { createGoogleMapPoints } from "../../Util/utils";
-import { UserContext } from "../../Contexts/UserContext";
-import ReloadBtn from "../ReloadBtn/ReloadBtn";
+'use client';
+import Map from '../Map/Map';
+import { useEffect, useState, useContext, useRef } from 'react';
+import { getAllDefaultLocations } from '../../Util/DatabaseApiCalls';
+import AddLocForm from '../AddLocForm/AddLocForm';
+import { GoogleMapPoint } from '../../Interfaces/interfaces';
+import { createGoogleMapPoints } from '../../Util/utils';
+import { UserContext } from '../../Contexts/UserContext';
+import ReloadBtn from '../ReloadBtn/ReloadBtn';
 
 interface Props {
   setEditLocOptionsStale: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,9 +24,8 @@ export default function AddLocation({
     lat: string;
     lng: string;
   } | null>(null);
-  const [newUserLocMarker, setNewUserLocMarker] =
-    useState<google.maps.Marker | null>(null);
-  const [error, setError] = useState("");
+  const [newUserLocMarker, setNewUserLocMarker] = useState<google.maps.Marker | null>(null);
+  const [error, setError] = useState('');
   const { userInfo, userLocations } = useContext(UserContext);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const [isMapInView, setIsMapInView] = useState(false);
@@ -36,16 +35,13 @@ export default function AddLocation({
       const fetchAndCreateMapPoints = async () => {
         try {
           const defaultLocs = await getAllDefaultLocations();
-          const allLocs = [
-            ...defaultLocs,
-            ...(userLocations.length ? userLocations : []),
-          ];
+          const allLocs = [...defaultLocs, ...(userLocations.length ? userLocations : [])];
           const mapMarkers = createGoogleMapPoints(allLocs);
           setMapLocations(mapMarkers);
         } catch (error) {
           console.error(error);
           setError(
-            "Oh, no! An error occurred while fetching locations. Please reload the page and try again."
+            'Oh, no! An error occurred while fetching locations. Please reload the page and try again.',
           );
         }
       };
@@ -70,7 +66,7 @@ export default function AddLocation({
           // .99 accounts for 2px border and
           // default scroll that Google Map fires
           threshold: 0.99,
-        }
+        },
       );
       if (mapContainer) {
         observer.observe(mapContainer);
@@ -96,37 +92,31 @@ export default function AddLocation({
         if (!isMapInView && !newUserLocMarker) {
           e.preventDefault();
           e.stopPropagation();
-          setUserLocEditTrigger("mapNotInView");
+          setUserLocEditTrigger('mapNotInView');
           userLocModalRef.current?.showModal();
         }
       };
       // True in options sets listener to capturing phase
-      mapContainer.addEventListener("click", handleMapClick, true);
+      mapContainer.addEventListener('click', handleMapClick, true);
 
       return () => {
-        mapContainer.removeEventListener("click", handleMapClick, true);
+        mapContainer.removeEventListener('click', handleMapClick, true);
       };
     }
-  }, [
-    mapContainerRef,
-    isMapInView,
-    setUserLocEditTrigger,
-    userLocModalRef,
-    newUserLocMarker,
-  ]);
+  }, [mapContainerRef, isMapInView, setUserLocEditTrigger, userLocModalRef, newUserLocMarker]);
 
   if (userInfo) {
     return (
-      <section className="add-loc-main">
+      <section className='add-loc-main'>
         {error ? (
           <>
-            <p id="errorMessage">{error}</p>
+            <p id='errorMessage'>{error}</p>
             <ReloadBtn />
           </>
         ) : (
           <>
-            <section className="add-loc-section">
-              <h2 id="addLocTitle">Add New Location</h2>
+            <section className='add-loc-section'>
+              <h2 id='addLocTitle'>Add New Location</h2>
               {newUserLocCoords ? (
                 <AddLocForm
                   newUserLocCoords={newUserLocCoords}
@@ -139,12 +129,12 @@ export default function AddLocation({
                 />
               ) : (
                 <p>
-                  Scroll down to view entire map below, then click on the map
-                  where you would like to create a new location.
+                  Scroll down to view entire map below, then click on the map where you would like
+                  to create a new location.
                 </p>
               )}
             </section>
-            <div className="map-container" ref={mapContainerRef}>
+            <div className='map-container' ref={mapContainerRef}>
               {mapLocations.length ? (
                 <Map
                   mapLocations={mapLocations}

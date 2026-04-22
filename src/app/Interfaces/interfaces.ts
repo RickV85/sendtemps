@@ -4,48 +4,48 @@ export interface Coords {
 }
 
 export interface LocationDetails {
-  "@context": [
+  '@context': [
     string,
     {
-      "@version": string;
+      '@version': string;
       wx: string;
       s: string;
       geo: string;
       unit: string;
-      "@vocab": string;
+      '@vocab': string;
       geometry: {
-        "@id": string;
-        "@type": string;
+        '@id': string;
+        '@type': string;
       };
       city: string;
       state: string;
       distance: {
-        "@id": string;
-        "@type": string;
+        '@id': string;
+        '@type': string;
       };
       bearing: {
-        "@type": string;
+        '@type': string;
       };
       value: {
-        "@id": string;
+        '@id': string;
       };
       unitCode: {
-        "@id": string;
-        "@type": string;
+        '@id': string;
+        '@type': string;
       };
       forecastOffice: {
-        "@type": string;
+        '@type': string;
       };
       forecastGridData: {
-        "@type": string;
+        '@type': string;
       };
       publicZone: {
-        "@type": string;
+        '@type': string;
       };
       county: {
-        "@type": string;
+        '@type': string;
       };
-    }
+    },
   ];
   id: string;
   type: string;
@@ -54,8 +54,8 @@ export interface LocationDetails {
     coordinates: number[];
   };
   properties: {
-    "@id": string;
-    "@type": string;
+    '@id': string;
+    '@type': string;
     cwa: string;
     forecastOffice: string;
     gridId: string;
@@ -93,15 +93,15 @@ export interface LocationDetails {
 }
 
 export interface ForecastData {
-  "@context": [
+  '@context': [
     string,
     {
-      "@version": string;
+      '@version': string;
       wx: string;
       geo: string;
       unit: string;
-      "@vocab": string;
-    }
+      '@vocab': string;
+    },
   ];
   type: string;
   geometry: {
@@ -150,14 +150,14 @@ export interface ForecastData {
 }
 
 export interface HourlyForecastData {
-  "@context": Array<
+  '@context': Array<
     | string
     | {
-        "@version": string;
+        '@version': string;
         wx: string;
         geo: string;
         unit: string;
-        "@vocab": string;
+        '@vocab': string;
       }
   >;
   type: string;

@@ -3,14 +3,14 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
+    "build": "next build",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "format": "prettier --write .",
     "lint": "next lint",
-    "lint:ts": "tsc --noEmit"
-    
+    "lint:ts": "tsc --noEmit",
+    "start": "next start"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.6",
@@ -35,6 +35,7 @@
     "cypress": "^13.6.4",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
+    "prettier": "3.8.3",
     "typescript": "^5"
   }
 }

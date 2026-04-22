@@ -1,16 +1,14 @@
-import { OpenAIForecastData } from "../Classes/OpenAIForecastData";
+import { OpenAIForecastData } from '../Classes/OpenAIForecastData';
 
-export async function postForecastForSendScores(
-  aiForecastData: OpenAIForecastData
-) {
+export async function postForecastForSendScores(aiForecastData: OpenAIForecastData) {
   try {
-    const response = await fetch("/api/open_ai/send_score", {
-      method: "POST",
+    const response = await fetch('/api/open_ai/send_score', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(aiForecastData),
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (response.ok) {

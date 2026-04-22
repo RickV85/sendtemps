@@ -47,7 +47,9 @@ export default function LocationSelect() {
           }
         } catch (err) {
           console.error(err);
-          setError('An error occurred while fetching locations. Please reload the page and try again.');
+          setError(
+            'An error occurred while fetching locations. Please reload the page and try again.',
+          );
         }
       };
 
@@ -114,12 +116,12 @@ export default function LocationSelect() {
   if (displayOptions && selectedLocType !== '' && selectedLocType !== 'Current Location') {
     return (
       <select
-        className="location-select"
+        className='location-select'
         value={selectedLocCoords}
         onChange={(e) => handleSelect(e)}
-        aria-label="Select location you would like a forecast for"
+        aria-label='Select location you would like a forecast for'
       >
-        <option value="" disabled>
+        <option value='' disabled>
           Select location
         </option>
         {displayOptions}

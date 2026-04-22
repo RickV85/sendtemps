@@ -133,7 +133,7 @@ export default function Home() {
   };
 
   return (
-    <main className="home-main">
+    <main className='home-main'>
       <PullToRefresh
         isPullable={pageLoaded && isTouchDevice && hasForecastData}
         onRefresh={handleRefresh}
@@ -141,17 +141,17 @@ export default function Home() {
       >
         <>
           <HomeHeader />
-          <section className="home-main-section">
+          <section className='home-main-section'>
             {pageLoaded && screenWidth <= 768 ? <HomeControl /> : null}
-            <section className="forecast-section" ref={forecastSection}>
+            <section className='forecast-section' ref={forecastSection}>
               {isLoading ? (
-                <div className="loading-msg-div">
-                  <p className="loading-msg">Loading forecast...</p>
+                <div className='loading-msg-div'>
+                  <p className='loading-msg'>Loading forecast...</p>
                 </div>
               ) : null}
               {error && !isLoading ? (
-                <div className="loading-msg-div">
-                  <p className="error-msg">{`Oh, no! ${error}`}</p>
+                <div className='loading-msg-div'>
+                  <p className='error-msg'>{`Oh, no! ${error}`}</p>
                   <ReloadBtn />
                 </div>
               ) : null}
@@ -160,27 +160,31 @@ export default function Home() {
               {forecastData && !hourlyForecastParams ? (
                 <>
                   {forecastSendScores?.summary ? (
-                    <div className="send-score-summary">
+                    <div className='send-score-summary'>
                       <p>{forecastSendScores?.summary}</p>
                     </div>
                   ) : (
                     !error &&
                     selectedLocType !== 'other' &&
                     selectedLocType !== 'Current Location' && (
-                      <div className="send-score-summary loading">
+                      <div className='send-score-summary loading'>
                         <p>Loading SendScore™ analysis...</p>
                       </div>
                     )
                   )}
                   {!hasSeenHourlyForecast && !error && (
-                    <p className="hour-forecast-tip">Click on a day for an hourly forecast!</p>
+                    <p className='hour-forecast-tip'>Click on a day for an hourly forecast!</p>
                   )}
-                  <div className="day-forecast-container">{createDetailedForecast()}</div>
+                  <div className='day-forecast-container'>{createDetailedForecast()}</div>
                 </>
               ) : null}
               {!isTouchDevice && hasForecastData && (
                 <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-                  <ReloadBtn id="RefreshForecastBtn" label="Refresh Forecast" onClick={handleRefresh} />
+                  <ReloadBtn
+                    id='RefreshForecastBtn'
+                    label='Refresh Forecast'
+                    onClick={handleRefresh}
+                  />
                 </div>
               )}
             </section>

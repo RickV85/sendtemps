@@ -1,15 +1,13 @@
-"use client";
-import React, { createContext, useState, useEffect } from "react";
-import { getSession } from "next-auth/react";
-import { UserSessionInfo } from "../Interfaces/interfaces";
-import { UserLocation } from "../Classes/UserLocation";
-import { getAllUserLocations } from "../Util/DatabaseApiCalls";
+'use client';
+import React, { createContext, useState, useEffect } from 'react';
+import { getSession } from 'next-auth/react';
+import { UserSessionInfo } from '../Interfaces/interfaces';
+import { UserLocation } from '../Classes/UserLocation';
+import { getAllUserLocations } from '../Util/DatabaseApiCalls';
 
 interface UserContextType {
   userInfo: UserSessionInfo | null | undefined;
-  setUserInfo: React.Dispatch<
-    React.SetStateAction<UserSessionInfo | null | undefined>
-  >;
+  setUserInfo: React.Dispatch<React.SetStateAction<UserSessionInfo | null | undefined>>;
   userLocations: UserLocation[] | null;
   userLocationsError: string | null;
   setUserLocations: React.Dispatch<React.SetStateAction<UserLocation[] | null>>;
@@ -28,15 +26,9 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [userInfo, setUserInfo] = useState<UserSessionInfo | null | undefined>(
-    undefined
-  );
-  const [userLocations, setUserLocations] = useState<UserLocation[] | null>(
-    null
-  );
-  const [userLocationsError, setUserLocationsError] = useState<string | null>(
-    null
-  );
+  const [userInfo, setUserInfo] = useState<UserSessionInfo | null | undefined>(undefined);
+  const [userLocations, setUserLocations] = useState<UserLocation[] | null>(null);
+  const [userLocationsError, setUserLocationsError] = useState<string | null>(null);
 
   useEffect(() => {
     const getUserSessionInfo = async () => {
@@ -48,7 +40,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           setUserInfo(null);
         }
       } catch (error) {
-        console.error("Error fetching user session from UserContext:", error);
+        console.error('Error fetching user session from UserContext:', error);
       }
     };
     getUserSessionInfo();
@@ -64,12 +56,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             setUserLocations(fetchedUserLocs);
           }
         } catch (error: unknown) {
-          const message =
-            error instanceof Error ? error.message : "An unknown error occurred";
-          console.error(
-            "Error fetching userLocations from UserContext:",
-            error
-          );
+          const message = error instanceof Error ? error.message : 'An unknown error occurred';
+          console.error('Error fetching userLocations from UserContext:', error);
           setUserLocationsError(message);
         }
       };

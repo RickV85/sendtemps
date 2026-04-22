@@ -1,4 +1,4 @@
-import { UserLocation } from "../Classes/UserLocation";
+import { UserLocation } from '../Classes/UserLocation';
 
 // VERCEL POSTGRES DB CALLS
 
@@ -12,7 +12,7 @@ import { UserLocation } from "../Classes/UserLocation";
 
 export async function getAllDefaultLocations() {
   try {
-    const response = await fetch("/api/default_locations", {
+    const response = await fetch('/api/default_locations', {
       next: {
         revalidate: 3600,
       },
@@ -32,7 +32,7 @@ export async function getAllDefaultLocations() {
 export async function getAllUserLocations(userId: string) {
   try {
     const response = await fetch(`/api/user_locations?user_id=${userId}`, {
-      cache: "no-store",
+      cache: 'no-store',
     });
     if (!response.ok) {
       throw new Error(`Error in getAllUserLocations: ${response.status}`);
@@ -46,16 +46,13 @@ export async function getAllUserLocations(userId: string) {
 
 export async function getUserLocationById(userId: string, id: string) {
   const baseUrl =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : "https://sendtemps.vercel.app";
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000'
+      : 'https://sendtemps.vercel.app';
   try {
-    const response = await fetch(
-      `${baseUrl}/api/user_locations?user_id=${userId}&id=${id}`,
-      {
-        cache: "no-store",
-      }
-    );
+    const response = await fetch(`${baseUrl}/api/user_locations?user_id=${userId}&id=${id}`, {
+      cache: 'no-store',
+    });
     if (!response.ok) {
       throw new Error(`Error in getUserLocationById: ${response.status}`);
     }
@@ -76,13 +73,13 @@ interface NewUserLoc {
 
 export async function postNewUserLocation(userLoc: NewUserLoc) {
   try {
-    const response = await fetch("/api/user_locations", {
-      method: "POST",
+    const response = await fetch('/api/user_locations', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(userLoc),
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (response.status === 201) {
@@ -96,11 +93,7 @@ export async function postNewUserLocation(userLoc: NewUserLoc) {
   }
 }
 
-export async function patchUserLocation(
-  userLoc: UserLocation,
-  changeCol: string,
-  data: string
-) {
+export async function patchUserLocation(userLoc: UserLocation, changeCol: string, data: string) {
   const reqBody = {
     id: userLoc.id,
     userId: userLoc.user_id,
@@ -108,13 +101,13 @@ export async function patchUserLocation(
     data: data,
   };
   try {
-    const response = await fetch("/api/user_locations", {
-      method: "PATCH",
+    const response = await fetch('/api/user_locations', {
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(reqBody),
-      credentials: "include",
+      credentials: 'include',
     });
     if (response.ok) {
       return await response.json();
@@ -133,13 +126,13 @@ export async function deleteUserLocation(locId: number, userId: string) {
     user_id: userId,
   };
   try {
-    const response = await fetch("/api/user_locations", {
-      method: "DELETE",
+    const response = await fetch('/api/user_locations', {
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(reqBody),
-      credentials: "include",
+      credentials: 'include',
     });
     if (response.ok) {
       return await response.json();
@@ -175,13 +168,13 @@ export const updateUserInfo = async (userInfoToUpdate: {
   name: string;
 }) => {
   try {
-    const response = await fetch("/api/users", {
-      method: "PATCH",
+    const response = await fetch('/api/users', {
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(userInfoToUpdate),
-      credentials: "include",
+      credentials: 'include',
     });
     if (response.ok) {
       return await response.json();

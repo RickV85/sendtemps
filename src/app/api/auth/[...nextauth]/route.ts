@@ -1,5 +1,5 @@
-import nextAuth, { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import nextAuth, { NextAuthOptions } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!;
@@ -8,7 +8,7 @@ const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET!;
 
 const authOptions: NextAuthOptions = {
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   providers: [
     GoogleProvider({
@@ -20,7 +20,7 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       if (!user) {
-        throw new Error("No Google user retrieved.");
+        throw new Error('No Google user retrieved.');
       }
 
       const googleUserInfo = {
@@ -31,12 +31,12 @@ const authOptions: NextAuthOptions = {
 
       const userPostReq = async () => {
         const res = await fetch(`${NEXTAUTH_URL}api/users`, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(googleUserInfo),
-          credentials: "include",
+          credentials: 'include',
         });
 
         if (res.status === 201) {
@@ -45,27 +45,25 @@ const authOptions: NextAuthOptions = {
           return false;
         } else {
           const errorData = await res.json();
-          console.error("userPostReq error response:", errorData);
+          console.error('userPostReq error response:', errorData);
           throw new Error(`userPostReq response was not ok: ${res.status}`);
         }
       };
 
       const userPatchReq = async () => {
         const res = await fetch(`${NEXTAUTH_URL}api/users`, {
-          method: "PATCH",
+          method: 'PATCH',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(googleUserInfo),
-          credentials: "include",
+          credentials: 'include',
         });
 
         if (!res.ok) {
           const errorData = await res.json();
-          console.error("userPatchReq error Response:", errorData);
-          throw new Error(
-            `userPatchReq API response was not ok: ${res.status}`
-          );
+          console.error('userPatchReq error Response:', errorData);
+          throw new Error(`userPatchReq API response was not ok: ${res.status}`);
         }
         return true;
       };
@@ -82,7 +80,7 @@ const authOptions: NextAuthOptions = {
 
         return true;
       } catch (error) {
-        console.error("Error in user creation/updating process:", error);
+        console.error('Error in user creation/updating process:', error);
         return false;
       }
     },

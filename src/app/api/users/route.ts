@@ -1,6 +1,6 @@
-import { sql } from "@vercel/postgres";
-import { NextRequest, NextResponse } from "next/server";
-import { User } from "@/app/Classes/User";
+import { sql } from '@vercel/postgres';
+import { NextRequest, NextResponse } from 'next/server';
+import { User } from '@/app/Classes/User';
 
 const findUserById = async (userId: string) => {
   try {
@@ -13,7 +13,7 @@ const findUserById = async (userId: string) => {
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = await request.nextUrl.searchParams.get("user_id");
+    const userId = await request.nextUrl.searchParams.get('user_id');
     if (userId) {
       const foundUser = await findUserById(userId);
       let response;
@@ -35,14 +35,7 @@ export async function POST(request: NextRequest) {
   try {
     const reqUserData = await request.json();
     const foundUser = await findUserById(reqUserData.id);
-    const newUser = new User(
-      reqUserData.id,
-      reqUserData.email,
-      reqUserData.name,
-      null,
-      null,
-      null
-    );
+    const newUser = new User(reqUserData.id, reqUserData.email, reqUserData.name, null, null, null);
     let response;
     if (!foundUser) {
       await sql`INSERT INTO sendtemps.users (id, email, name, last_login, date_created, last_modified) VALUES (${newUser.id}, ${newUser.email}, ${newUser.name}, ${newUser.last_login}, ${newUser.date_created}, ${newUser.last_modified})`;
@@ -54,7 +47,7 @@ export async function POST(request: NextRequest) {
         `User with id: ${newUser.id} already exists, no new user created.`,
         {
           status: 409,
-        }
+        },
       );
     }
     return response;
@@ -81,7 +74,7 @@ export async function PATCH(request: NextRequest) {
       previousUserData.name,
       previousUserData.last_login,
       previousUserData.date_created,
-      previousUserData.last_modified
+      previousUserData.last_modified,
     );
 
     let isUpdated = false;
@@ -118,7 +111,7 @@ export async function PATCH(request: NextRequest) {
 
       return NextResponse.json(
         `New user data for id: ${user.id} matches previous user data from database. New login: ${user.last_login}`,
-        { status: 200 }
+        { status: 200 },
       );
     }
   } catch (error) {

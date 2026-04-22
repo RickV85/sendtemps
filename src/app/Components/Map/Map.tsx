@@ -1,20 +1,16 @@
-"use client";
+'use client';
 
-import { Loader } from "@googlemaps/js-api-loader";
-import { useRef, useEffect, Dispatch, useState } from "react";
-import { GoogleMapPoint } from "@/app/Interfaces/interfaces";
-import MapPin from "../MapPin/MapPin";
-import { createRoot } from "react-dom/client";
+import { Loader } from '@googlemaps/js-api-loader';
+import { useRef, useEffect, Dispatch, useState } from 'react';
+import { GoogleMapPoint } from '@/app/Interfaces/interfaces';
+import MapPin from '../MapPin/MapPin';
+import { createRoot } from 'react-dom/client';
 
 interface Props {
   mapLocations: Array<GoogleMapPoint>;
-  setNewUserLocCoords: Dispatch<
-    React.SetStateAction<{ lat: string; lng: string } | null>
-  >;
+  setNewUserLocCoords: Dispatch<React.SetStateAction<{ lat: string; lng: string } | null>>;
   newUserLocMarker: google.maps.Marker | null;
-  setNewUserLocMarker: Dispatch<
-    React.SetStateAction<google.maps.Marker | null>
-  >;
+  setNewUserLocMarker: Dispatch<React.SetStateAction<google.maps.Marker | null>>;
 }
 
 export default function Map({
@@ -26,27 +22,25 @@ export default function Map({
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
-  const drawingManagerRef = useRef<google.maps.drawing.DrawingManager | null>(
-    null
-  );
+  const drawingManagerRef = useRef<google.maps.drawing.DrawingManager | null>(null);
   const [mapLoaded, setMapLoaded] = useState<boolean>(false);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!;
 
   useEffect(() => {
     const loader = new Loader({
       apiKey: apiKey,
-      version: "weekly",
-      libraries: ["drawing"],
+      version: 'weekly',
+      libraries: ['drawing'],
     });
 
-    loader.importLibrary("maps").then(() => {
+    loader.importLibrary('maps').then(() => {
       if (mapRef.current) {
         mapInstanceRef.current = new google.maps.Map(mapRef.current, {
           center: { lat: 40, lng: -105.5 },
           zoom: 10,
           fullscreenControl: false,
           streetViewControl: false,
-          mapId: "6696e534c9ad2933",
+          mapId: '6696e534c9ad2933',
         });
         setMapLoaded(true);
       }
@@ -66,11 +60,11 @@ export default function Map({
         markerOptions: {
           icon: undefined,
           label: {
-            text: "Your new location!",
+            text: 'Your new location!',
             fontFamily: "'Tahoma', sans-serif",
-            fontSize: "16px",
-            fontWeight: "700",
-            color: "rgb(0 15 255)",
+            fontSize: '16px',
+            fontWeight: '700',
+            color: 'rgb(0 15 255)',
           },
         },
       });
@@ -80,7 +74,7 @@ export default function Map({
 
         google.maps.event.addListener(
           drawingManagerRef.current,
-          "overlaycomplete",
+          'overlaycomplete',
           function (event: google.maps.drawing.OverlayCompleteMarkerEvent) {
             if (
               event.type === google.maps.drawing.OverlayType.MARKER &&
@@ -98,13 +92,13 @@ export default function Map({
 
                 // See comment at line 52
                 console.log(
-                  `Ignore deprecation warning on new map marker creation. Update to AdvancedMarkerElement not yet available for drawing mode markers.`
+                  `Ignore deprecation warning on new map marker creation. Update to AdvancedMarkerElement not yet available for drawing mode markers.`,
                 );
                 setNewUserLocMarker(marker);
                 setNewUserLocCoords(newUserMapPoint);
               }
             }
-          }
+          },
         );
       }
     });
@@ -120,11 +114,11 @@ export default function Map({
 
         // Load AdvancedMarkerElement
         const { AdvancedMarkerElement } = (await google.maps.importLibrary(
-          "marker"
+          'marker',
         )) as google.maps.MarkerLibrary;
 
         mapLocations.forEach((location) => {
-          const pinContent = document.createElement("div");
+          const pinContent = document.createElement('div');
           const root = createRoot(pinContent);
           root.render(<MapPin title={location.name} poiType={location.poiType} />);
 
@@ -163,9 +157,9 @@ export default function Map({
   return (
     <div
       ref={mapRef}
-      role="application"
-      aria-label="Google map display of default and user created locations"
-      style={{ height: "100%", width: "100%" }}
+      role='application'
+      aria-label='Google map display of default and user created locations'
+      style={{ height: '100%', width: '100%' }}
     />
   );
 }

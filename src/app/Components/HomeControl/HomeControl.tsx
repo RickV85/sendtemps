@@ -1,17 +1,17 @@
-import { useContext, useEffect, useCallback } from "react";
-import { HomeContext } from "@/app/Contexts/HomeContext";
-import TypeSelect from "../TypeSelect/TypeSelect";
-import LocationSelect from "../LocationSelect/LocationSelect";
+import { useContext, useEffect, useCallback } from 'react';
+import { HomeContext } from '@/app/Contexts/HomeContext';
+import TypeSelect from '../TypeSelect/TypeSelect';
+import LocationSelect from '../LocationSelect/LocationSelect';
 import {
   fetchNoaaGridLocationWithRetry,
   fetchDailyForecastWithRetry,
   fetchHourlyForecastWithRetry,
-} from "@/app/Util/NoaaApiCalls";
-import { Gridpoint } from "@/app/Classes/Gridpoint";
-import { Forecast } from "@/app/Classes/Forecast";
-import { HourlyForecast } from "@/app/Classes/HourlyForecast";
-import { postForecastForSendScores } from "@/app/Util/OpenAiApiCalls";
-import { OpenAIForecastData } from "@/app/Classes/OpenAIForecastData";
+} from '@/app/Util/NoaaApiCalls';
+import { Gridpoint } from '@/app/Classes/Gridpoint';
+import { Forecast } from '@/app/Classes/Forecast';
+import { HourlyForecast } from '@/app/Classes/HourlyForecast';
+import { postForecastForSendScores } from '@/app/Util/OpenAiApiCalls';
+import { OpenAIForecastData } from '@/app/Classes/OpenAIForecastData';
 
 export default function HomeControl() {
   const {
@@ -37,24 +37,22 @@ export default function HomeControl() {
         latitude: `${position.coords.latitude}`,
         longitude: `${position.coords.longitude}`,
       });
-      setSelectedLocCoords(
-        `${position.coords.latitude},${position.coords.longitude}`
-      );
+      setSelectedLocCoords(`${position.coords.latitude},${position.coords.longitude}`);
     },
-    [setCurrentGPSCoords, setSelectedLocCoords]
+    [setCurrentGPSCoords, setSelectedLocCoords],
   );
 
   const locationFetchFailure = useCallback(() => {
     setIsLoading(false);
     alert(
-      "Please allow this app to use your location if you would like a display of your current location's forecast."
+      "Please allow this app to use your location if you would like a display of your current location's forecast.",
     );
   }, [setIsLoading]);
 
   // If Current Location selected, user allows location sharing,
   // and the location fetch is successful, get NOAA grid location
   useEffect(() => {
-    if (selectedLocType === "Current Location" && currentGPSCoords) {
+    if (selectedLocType === 'Current Location' && currentGPSCoords) {
       setIsLoading(true);
       fetchNoaaGridLocationWithRetry(selectedLocCoords)
         .then((result) => {
@@ -112,13 +110,10 @@ export default function HomeControl() {
     if (
       forecastData &&
       !forecastSendScores &&
-      selectedLocType !== "other" &&
-      selectedLocType !== "Current Location"
+      selectedLocType !== 'other' &&
+      selectedLocType !== 'Current Location'
     ) {
-      const aiForecastData = new OpenAIForecastData(
-        selectedLocType,
-        forecastData
-      );
+      const aiForecastData = new OpenAIForecastData(selectedLocType, forecastData);
       const fetchAiWeatherAnalysis = async () => {
         try {
           const res = await postForecastForSendScores(aiForecastData);
@@ -127,7 +122,7 @@ export default function HomeControl() {
           }
         } catch (error) {
           console.error(error);
-          setError("An error occurred while creating SendScores.");
+          setError('An error occurred while creating SendScores.');
         }
       };
       fetchAiWeatherAnalysis();
@@ -143,23 +138,15 @@ export default function HomeControl() {
 
   // Ask for user location if Current Location selected
   useEffect(() => {
-    if (selectedLocType === "Current Location") {
+    if (selectedLocType === 'Current Location') {
       setIsLoading(true);
-      navigator.geolocation.getCurrentPosition(
-        locationFetchSuccess,
-        locationFetchFailure
-      );
+      navigator.geolocation.getCurrentPosition(locationFetchSuccess, locationFetchFailure);
     }
-  }, [
-    selectedLocType,
-    setIsLoading,
-    locationFetchSuccess,
-    locationFetchFailure,
-  ]);
+  }, [selectedLocType, setIsLoading, locationFetchSuccess, locationFetchFailure]);
 
   return (
-    <section className="home-control-section">
-      <div className="home-forecast-select-div">
+    <section className='home-control-section'>
+      <div className='home-forecast-select-div'>
         <TypeSelect />
         <LocationSelect />
       </div>

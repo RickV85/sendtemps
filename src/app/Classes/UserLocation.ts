@@ -16,7 +16,7 @@ export class UserLocation {
     user_id: string,
     poi_type: string,
     date_created: string | null,
-    last_modified: string | null
+    last_modified: string | null,
   ) {
     this.id = id || undefined;
     this.name = name;
@@ -32,9 +32,7 @@ export class UserLocation {
     if (newName && newName.length <= 50) {
       this.name = newName;
     } else {
-      console.log(
-        "newName for UserLocation must be 50 characters or less. Name not updated."
-      );
+      console.log('newName for UserLocation must be 50 characters or less. Name not updated.');
     }
   }
 

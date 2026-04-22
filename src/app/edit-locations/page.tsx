@@ -1,29 +1,28 @@
-"use client";
-import "./edit-locations.css";
-import Link from "next/link";
-import { MouseEvent, useContext, useEffect, useRef, useState } from "react";
-import { UserContext } from "../Contexts/UserContext";
-import { getAllUserLocations } from "../Util/DatabaseApiCalls";
-import UserLocTile from "../Components/UserLocTile/UserLocTile";
-import EditUserLocModal from "../Components/EditUserLocModal/EditUserLocModal";
-import ReturnToLogin from "../Components/ReturnToLogin/ReturnToLogin";
-import BackBtn from "../Components/BackBtn/BackBtn";
-import ReloadBtn from "../Components/ReloadBtn/ReloadBtn";
-import AddLocation from "../Components/AddLocation/AddLocation";
+'use client';
+import './edit-locations.css';
+import Link from 'next/link';
+import { MouseEvent, useContext, useEffect, useRef, useState } from 'react';
+import { UserContext } from '../Contexts/UserContext';
+import { getAllUserLocations } from '../Util/DatabaseApiCalls';
+import UserLocTile from '../Components/UserLocTile/UserLocTile';
+import EditUserLocModal from '../Components/EditUserLocModal/EditUserLocModal';
+import ReturnToLogin from '../Components/ReturnToLogin/ReturnToLogin';
+import BackBtn from '../Components/BackBtn/BackBtn';
+import ReloadBtn from '../Components/ReloadBtn/ReloadBtn';
+import AddLocation from '../Components/AddLocation/AddLocation';
 
 export default function EditLocations() {
-  const [selectedUserLoc, setSelectedUserLoc] = useState("default");
-  const { userInfo, userLocations, userLocationsError, setUserLocations } =
-    useContext(UserContext);
+  const [selectedUserLoc, setSelectedUserLoc] = useState('default');
+  const { userInfo, userLocations, userLocationsError, setUserLocations } = useContext(UserContext);
   const userLocModalRef = useRef<HTMLDialogElement>(null);
-  const [userLocEditTrigger, setUserLocEditTrigger] = useState("");
-  const [editUserLocError, setEditUserLocError] = useState("");
+  const [userLocEditTrigger, setUserLocEditTrigger] = useState('');
+  const [editUserLocError, setEditUserLocError] = useState('');
   const [editLocOptionsStale, setEditLocOptionsStale] = useState(true);
 
   useEffect(() => {
     if (userLocationsError) {
       setEditUserLocError(
-        "An error occurred while fetching locations. Please reload the page and try again."
+        'An error occurred while fetching locations. Please reload the page and try again.',
       );
     }
   }, [userLocationsError]);
@@ -37,7 +36,7 @@ export default function EditLocations() {
           setEditLocOptionsStale(false);
         } catch {
           setEditUserLocError(
-            "An error occurred while fetching locations. Please reload the page and try again."
+            'An error occurred while fetching locations. Please reload the page and try again.',
           );
         }
       };
@@ -51,39 +50,39 @@ export default function EditLocations() {
     } else {
       userLocModalRef.current?.showModal();
     }
-    if (selectedUserLoc !== "default") {
+    if (selectedUserLoc !== 'default') {
       setUserLocEditTrigger(e.currentTarget?.id);
     } else {
-      setUserLocEditTrigger("default");
+      setUserLocEditTrigger('default');
     }
   };
 
   const handleModalBackdropClick = (event: MouseEvent) => {
     if (event.currentTarget === event.target && userLocModalRef.current?.open) {
       userLocModalRef.current?.close();
-      setUserLocEditTrigger("");
+      setUserLocEditTrigger('');
     }
   };
 
   if (userInfo) {
     return (
-      <main className="edit-loc-main">
-        <BackBtn id="editLocBackBtn" />
-        <Link href={"/"}>
-          <h1 className="edit-loc-site-title">SendTemps</h1>
+      <main className='edit-loc-main'>
+        <BackBtn id='editLocBackBtn' />
+        <Link href={'/'}>
+          <h1 className='edit-loc-site-title'>SendTemps</h1>
         </Link>
-        <section className="edit-loc-section">
-          <section className="edit-user-loc-section">
-            <h2 className="edit-user-loc-heading">Edit Custom Locations</h2>
+        <section className='edit-loc-section'>
+          <section className='edit-user-loc-section'>
+            <h2 className='edit-user-loc-heading'>Edit Custom Locations</h2>
             {userLocations?.length ? (
               <select
-                id="editUserLocSelect"
+                id='editUserLocSelect'
                 value={selectedUserLoc}
                 onChange={(e) => setSelectedUserLoc(e.target.value)}
-                className="edit-user-loc-select"
-                aria-label="Choose a custom location to edit"
+                className='edit-user-loc-select'
+                aria-label='Choose a custom location to edit'
               >
-                <option value="default" disabled>
+                <option value='default' disabled>
                   Choose location
                 </option>
                 {userLocations.length
@@ -97,20 +96,18 @@ export default function EditLocations() {
                   : null}
               </select>
             ) : null}
-            <div className="edit-user-loc">
+            <div className='edit-user-loc'>
               {editUserLocError ? (
                 <>
-                  <p className="edit-user-loc-error">{editUserLocError}</p>
+                  <p className='edit-user-loc-error'>{editUserLocError}</p>
                   <ReloadBtn />
                 </>
               ) : null}
               {!userLocations && !editUserLocError ? (
-                <p className="edit-user-loc-loading">
-                  Loading your locations...
-                </p>
+                <p className='edit-user-loc-loading'>Loading your locations...</p>
               ) : null}
               {userLocations && !userLocations.length && !editUserLocError ? (
-                <p id="linkToAddLoc">
+                <p id='linkToAddLoc'>
                   No locations created yet.
                   <br />
                   Add your own custom location below!
@@ -118,9 +115,7 @@ export default function EditLocations() {
               ) : null}
               {userLocations && userLocations.length ? (
                 <UserLocTile
-                  userLoc={userLocations.find(
-                    (loc) => loc?.id?.toString() === selectedUserLoc
-                  )}
+                  userLoc={userLocations.find((loc) => loc?.id?.toString() === selectedUserLoc)}
                   toggleUserLocModal={toggleUserLocModal}
                 />
               ) : null}

@@ -1,5 +1,5 @@
-import { ForecastData } from "../Interfaces/interfaces";
-import { ForecastPeriod } from "./ForecastPeriod";
+import { ForecastData } from '../Interfaces/interfaces';
+import { ForecastPeriod } from './ForecastPeriod';
 
 export class Forecast {
   periods: ForecastPeriod[];
@@ -9,7 +9,7 @@ export class Forecast {
 
   createForecastPeriods(data: ForecastData) {
     const forecastPeriods = data.properties.periods.map(
-      (periodData) => new ForecastPeriod(periodData)
+      (periodData) => new ForecastPeriod(periodData),
     );
     return forecastPeriods;
   }
