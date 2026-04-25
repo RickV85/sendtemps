@@ -1,6 +1,8 @@
-import { sql } from '@vercel/postgres';
-import { NextRequest, NextResponse } from 'next/server';
 import { User } from '@/app/Classes/User';
+import { authOptions } from '@/app/lib/authOptions';
+import { sql } from '@vercel/postgres';
+import { getServerSession } from 'next-auth/next';
+import { NextRequest, NextResponse } from 'next/server';
 
 const findUserById = async (userId: string) => {
   try {
@@ -12,60 +14,75 @@ const findUserById = async (userId: string) => {
 };
 
 export async function GET(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const userId = request.nextUrl.searchParams.get('user_id');
+  if (!userId) {
+    return NextResponse.json({ error: 'Missing user_id parameter' }, { status: 400 });
+  }
+
+  if (session.user.id !== userId) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
   try {
-    const userId = await request.nextUrl.searchParams.get('user_id');
-    if (userId) {
-      const foundUser = await findUserById(userId);
-      let response;
-      if (foundUser) {
-        response = NextResponse.json(foundUser, { status: 200 });
-      } else {
-        response = NextResponse.json(`No user found with id: ${userId}`, {
-          status: 200,
-        });
-      }
-      return response;
+    const foundUser = await findUserById(userId);
+    if (foundUser) {
+      return NextResponse.json(foundUser, { status: 200 });
+    } else {
+      return NextResponse.json({ error: `No user found with id: ${userId}` }, { status: 404 });
     }
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
 
+// Called internally by NextAuth's signIn callback — intentionally unauthenticated.
 export async function POST(request: NextRequest) {
   try {
     const reqUserData = await request.json();
     const foundUser = await findUserById(reqUserData.id);
     const newUser = new User(reqUserData.id, reqUserData.email, reqUserData.name, null, null, null);
-    let response;
     if (!foundUser) {
       await sql`INSERT INTO sendtemps.users (id, email, name, last_login, date_created, last_modified) VALUES (${newUser.id}, ${newUser.email}, ${newUser.name}, ${newUser.last_login}, ${newUser.date_created}, ${newUser.last_modified})`;
-      response = NextResponse.json(`New user created with id: ${newUser.id}`, {
+      return NextResponse.json(`New user created with id: ${newUser.id}`, {
         status: 201,
       });
     } else {
-      response = NextResponse.json(
-        `User with id: ${newUser.id} already exists, no new user created.`,
-        {
-          status: 409,
-        },
-      );
+      return NextResponse.json(`User with id: ${newUser.id} already exists, no new user created.`, {
+        status: 409,
+      });
     }
-    return response;
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
 
 export async function PATCH(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   try {
-    // Req must include user: {id, email, name} - all props = strings
     const userInfoToUpdate = await request.json();
+
+    if (session.user.id !== userInfoToUpdate.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const previousUserData = await findUserById(userInfoToUpdate.id);
 
     if (!previousUserData) {
-      return NextResponse.json(`User id: ${userInfoToUpdate.id} not found`, {
-        status: 404,
-      });
+      return NextResponse.json(
+        { error: `User id: ${userInfoToUpdate.id} not found` },
+        {
+          status: 404,
+        },
+      );
     }
 
     const user = new User(
@@ -104,10 +121,10 @@ export async function PATCH(request: NextRequest) {
       user.updateLastLoginToNow();
 
       await sql`
-      UPDATE sendtemps.users 
-      SET last_login = ${user.last_login} 
-      WHERE id = ${user.id};
-    `;
+        UPDATE sendtemps.users 
+        SET last_login = ${user.last_login} 
+        WHERE id = ${user.id};
+      `;
 
       return NextResponse.json(
         `New user data for id: ${user.id} matches previous user data from database. New login: ${user.last_login}`,
