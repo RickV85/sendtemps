@@ -45,10 +45,7 @@ export async function getAllUserLocations(userId: string) {
 }
 
 export async function getUserLocationById(userId: string, id: string) {
-  const baseUrl =
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3000'
-      : 'https://sendtemps.vercel.app';
+  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   try {
     const response = await fetch(`${baseUrl}/api/user_locations?user_id=${userId}&id=${id}`, {
       cache: 'no-store',
