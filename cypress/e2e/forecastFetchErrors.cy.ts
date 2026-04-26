@@ -12,13 +12,10 @@ describe('daily forecast display errors', () => {
 
     // Select Climbing in TypeSelect
     cy.get('select.type-select').select('Climbing');
-
-    // Select Boulder Canyon - Lower in TypeSelect
-    cy.get('select.location-select').select('Boulder Canyon - Lower');
   });
 
   it('should display an error message when grid location call fails', () => {
-    // Intercept Climbing - Lower Boulder Canyon fetchNoaaGridLocation call
+    // Intercept before selecting location so the fetch is caught before it starts
     cy.intercept('https://api.weather.gov/points/40.004482,-105.355800', {
       statusCode: 500,
     });
@@ -26,6 +23,8 @@ describe('daily forecast display errors', () => {
     cy.intercept('https://api.weather.gov/points/40.0045,-105.3558', {
       statusCode: 500,
     });
+
+    cy.get('select.location-select').select('Boulder Canyon - Lower');
 
     cy.wait(10000);
 
@@ -61,6 +60,8 @@ describe('daily forecast display errors', () => {
     // Intercept OpenAI AI call
     cy.intercept('/api/open_ai/send_score', { fixture: 'sendscore.json' });
 
+    cy.get('select.location-select').select('Boulder Canyon - Lower');
+
     cy.wait(10000);
 
     cy.get('div.loading-msg-div')
@@ -95,6 +96,8 @@ describe('daily forecast display errors', () => {
     // Intercept OpenAI AI call
     cy.intercept('/api/open_ai/send_score', { fixture: 'sendscore.json' });
 
+    cy.get('select.location-select').select('Boulder Canyon - Lower');
+
     cy.wait(10000);
 
     cy.get('div.loading-msg-div')
@@ -128,6 +131,8 @@ describe('daily forecast display errors', () => {
 
     // Intercept OpenAI AI call
     cy.intercept('/api/open_ai/send_score', { statusCode: 500 });
+
+    cy.get('select.location-select').select('Boulder Canyon - Lower');
 
     cy.get('div.loading-msg-div')
       .find('p.error-msg')
