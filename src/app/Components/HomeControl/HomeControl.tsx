@@ -129,11 +129,11 @@ export default function HomeControl() {
     }
   }, [
     forecastData,
+    forecastSendScores,
     locationDetails,
     selectedLocType,
-    forecastSendScores,
-    setForecastSendScores,
     setError,
+    setForecastSendScores,
   ]);
 
   // Ask for user location if Current Location selected

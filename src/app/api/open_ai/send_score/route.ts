@@ -1,5 +1,3 @@
-import { authOptions } from '@/app/lib/authOptions';
-import { getServerSession } from 'next-auth/next';
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
@@ -15,11 +13,6 @@ function isValidSport(value: unknown): value is Sport {
 }
 
 export async function POST(request: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
   try {
     const reqBody = await request.json();
 
@@ -66,8 +59,7 @@ export async function POST(request: NextRequest) {
     ${sportPrompt}`;
 
     const aiResponse = await openai.chat.completions.create({
-      frequency_penalty: 0,
-      max_tokens: 448,
+      max_tokens: 512,
       messages: [
         {
           content: JSON.stringify(aiPrompt),
@@ -78,11 +70,8 @@ export async function POST(request: NextRequest) {
           role: 'user',
         },
       ],
-      model: 'gpt-3.5-turbo',
-      presence_penalty: 0,
+      model: 'gpt-4.1-nano',
       response_format: { type: 'json_object' },
-      temperature: 0.75,
-      top_p: 1,
     });
 
     const rawContent = aiResponse?.choices[0]?.message?.content;
