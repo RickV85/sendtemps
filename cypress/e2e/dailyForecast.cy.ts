@@ -35,7 +35,7 @@ describe('daily forecast display', () => {
     cy.get('select.location-select').select('Boulder Canyon - Lower');
 
     // Create alias todayForecast
-    cy.get('article.detailed-day-forecast').eq(0).as('todayForecast');
+    cy.get('div.detailed-day-forecast').eq(0).as('todayForecast');
   });
 
   it('should display the detailed daily forecast when a location is selected', () => {
@@ -56,7 +56,7 @@ describe('daily forecast display', () => {
   });
 
   it('should display the SendScore on forecast tiles', () => {
-    cy.get('article.detailed-day-forecast')
+    cy.get('div.detailed-day-forecast')
       .eq(1)
       .as('tonightForecast')
       .find('div.day-send-score-div>p')

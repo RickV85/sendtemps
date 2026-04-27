@@ -35,7 +35,7 @@ describe('hourly forecast display', () => {
     cy.get('select.location-select').select('Boulder Canyon - Lower');
 
     // Click forecast tile to show hourly
-    cy.get('article.detailed-day-forecast').eq(0).click();
+    cy.get('div.detailed-day-forecast').eq(0).click();
 
     cy.get('div.hourly-forecast-container').find('article').eq(0).as('hourlyTile');
   });
@@ -72,6 +72,6 @@ describe('hourly forecast display', () => {
     cy.get('button.hourly-close-btn').click();
 
     cy.get('div.hourly-forecast-container').should('not.exist');
-    cy.get('article.detailed-day-forecast').eq(0).should('be.visible');
+    cy.get('div.detailed-day-forecast').eq(0).should('be.visible');
   });
 });
