@@ -1,5 +1,5 @@
-import { HourlyForecastData, HourlyForecastParams } from '../Interfaces/interfaces';
 import { HourlyForecastPeriod } from './HourlyForecastPeriod';
+import { HourlyForecastData, HourlyForecastParams } from '../Interfaces/interfaces';
 
 export class HourlyForecast {
   hourlyPeriods: HourlyForecastPeriod[];

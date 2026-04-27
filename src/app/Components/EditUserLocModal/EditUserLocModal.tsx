@@ -1,12 +1,13 @@
 'use client';
+import { useContext, useState } from 'react';
+
 import { UserContext } from '@/app/Contexts/UserContext';
 import { deleteUserLocation, patchUserLocation } from '@/app/Util/DatabaseApiCalls';
 import { findLocByIdInUserLocs, resetErrorMsg } from '@/app/Util/utils';
-import { useContext, useState } from 'react';
 
 interface Props {
   userLocModalRef: React.RefObject<HTMLDialogElement>;
-  handleModalBackdropClick: Function;
+  handleModalBackdropClick: (event: React.MouseEvent<HTMLDialogElement>) => void;
   userLocEditTrigger: string;
   selectedUserLoc: string;
   setSelectedUserLoc: React.Dispatch<React.SetStateAction<string>>;
@@ -241,11 +242,15 @@ export default function EditUserLocModal({
   };
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <dialog
       id='userLocModal'
       ref={userLocModalRef}
       className='edit-user-loc-modal'
       onClick={(e) => handleModalBackdropClick(e)}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') userLocModalRef.current?.close();
+      }}
     >
       <div className='modal-content'>{createUserLocModalContent(userLocEditTrigger)}</div>
     </dialog>

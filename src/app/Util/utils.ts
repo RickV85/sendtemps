@@ -1,5 +1,5 @@
-import { LocationObject, GoogleMapPoint } from '../Interfaces/interfaces';
 import { UserLocation } from '../Classes/UserLocation';
+import { LocationObject, GoogleMapPoint } from '../Interfaces/interfaces';
 
 export function filterAndSortLocationsAlphaByName(
   locArr: Array<LocationObject>,

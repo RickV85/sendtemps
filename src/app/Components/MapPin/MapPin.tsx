@@ -1,5 +1,6 @@
-import styles from './MapPin.module.css';
 import Image from 'next/image';
+
+import styles from './MapPin.module.css';
 
 interface Props {
   title: string;

@@ -1,8 +1,9 @@
 'use client';
 
+import { Dispatch, useState } from 'react';
+
 import { UserSessionInfo, GoogleMapPoint } from '@/app/Interfaces/interfaces';
 import { postNewUserLocation } from '@/app/Util/DatabaseApiCalls';
-import { Dispatch, useState } from 'react';
 
 interface Props {
   newUserLocCoords: {
@@ -74,7 +75,7 @@ export default function AddLocForm({
             newUserLocMarker.setMap(null);
             setNewUserLocMarker(null);
           }
-          let newMapPoint: GoogleMapPoint = {
+          const newMapPoint: GoogleMapPoint = {
             name: locName,
             poiType: locType,
             coords: {

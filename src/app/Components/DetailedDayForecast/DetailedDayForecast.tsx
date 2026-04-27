@@ -1,6 +1,7 @@
 import { useContext } from 'react';
-import { HomeContext } from '@/app/Contexts/HomeContext';
+
 import { ForecastPeriod } from '@/app/Classes/ForecastPeriod';
+import { HomeContext } from '@/app/Contexts/HomeContext';
 
 interface Props {
   period: ForecastPeriod;
@@ -24,11 +25,14 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
     );
 
     return (
-      <article
+      <div
         className='detailed-day-forecast'
-        onClick={() => {
-          setHourlyForecastParams(hourlyParams);
+        onClick={() => setHourlyForecastParams(hourlyParams)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') setHourlyForecastParams(hourlyParams);
         }}
+        role='button'
+        tabIndex={0}
         title={`Click for ${period.name}'s hourly forecast`}
       >
         <div className='day-forecast-header'>
@@ -59,7 +63,7 @@ const DetailedDayForecast: React.FC<Props> = ({ period }) => {
           </div>
         </div>
         <p className='day-forecast-text'>{`${period.detailedForecast} Humidity ${minMaxRH.max}% to ${minMaxRH.min}% RH.`}</p>
-      </article>
+      </div>
     );
   }
 };

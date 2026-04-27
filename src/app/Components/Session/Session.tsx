@@ -1,12 +1,13 @@
-import { updateUserInfo } from '@/app/Util/DatabaseApiCalls';
-import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
+
+import { updateUserInfo } from '@/app/Util/DatabaseApiCalls';
 
 export default function Session() {
   const { data: session, status } = useSession();
-  let userProfileImgUrl = session?.user.image ? session?.user.image : null;
+  const userProfileImgUrl = session?.user.image ? session?.user.image : null;
 
   useEffect(() => {
     if (status === 'authenticated' && session.user.id) {

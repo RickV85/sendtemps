@@ -1,5 +1,6 @@
-import { UserContext } from '@/app/Contexts/UserContext';
 import { useContext } from 'react';
+
+import { UserContext } from '@/app/Contexts/UserContext';
 
 export const WelcomeHomeMsg = () => {
   const { userInfo } = useContext(UserContext);

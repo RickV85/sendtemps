@@ -2,14 +2,15 @@
 import './edit-locations.css';
 import Link from 'next/link';
 import { MouseEvent, useContext, useEffect, useRef, useState } from 'react';
+
+import AddLocation from '../Components/AddLocation/AddLocation';
+import BackBtn from '../Components/BackBtn/BackBtn';
+import EditUserLocModal from '../Components/EditUserLocModal/EditUserLocModal';
+import ReloadBtn from '../Components/ReloadBtn/ReloadBtn';
+import ReturnToLogin from '../Components/ReturnToLogin/ReturnToLogin';
+import UserLocTile from '../Components/UserLocTile/UserLocTile';
 import { UserContext } from '../Contexts/UserContext';
 import { getAllUserLocations } from '../Util/DatabaseApiCalls';
-import UserLocTile from '../Components/UserLocTile/UserLocTile';
-import EditUserLocModal from '../Components/EditUserLocModal/EditUserLocModal';
-import ReturnToLogin from '../Components/ReturnToLogin/ReturnToLogin';
-import BackBtn from '../Components/BackBtn/BackBtn';
-import ReloadBtn from '../Components/ReloadBtn/ReloadBtn';
-import AddLocation from '../Components/AddLocation/AddLocation';
 
 export default function EditLocations() {
   const [selectedUserLoc, setSelectedUserLoc] = useState('default');

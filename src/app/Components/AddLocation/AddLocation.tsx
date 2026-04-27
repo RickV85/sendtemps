@@ -1,11 +1,12 @@
 'use client';
-import Map from '../Map/Map';
 import { useEffect, useState, useContext, useRef } from 'react';
-import { getAllDefaultLocations } from '../../Util/DatabaseApiCalls';
-import AddLocForm from '../AddLocForm/AddLocForm';
-import { GoogleMapPoint } from '../../Interfaces/interfaces';
-import { createGoogleMapPoints } from '../../Util/utils';
+
 import { UserContext } from '../../Contexts/UserContext';
+import { GoogleMapPoint } from '../../Interfaces/interfaces';
+import { getAllDefaultLocations } from '../../Util/DatabaseApiCalls';
+import { createGoogleMapPoints } from '../../Util/utils';
+import AddLocForm from '../AddLocForm/AddLocForm';
+import Map from '../Map/Map';
 import ReloadBtn from '../ReloadBtn/ReloadBtn';
 
 interface Props {

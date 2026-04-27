@@ -1,8 +1,9 @@
 'use client';
-import React, { createContext, useState, useEffect } from 'react';
 import { getSession } from 'next-auth/react';
-import { UserSessionInfo } from '../Interfaces/interfaces';
+import React, { createContext, useState, useEffect } from 'react';
+
 import { UserLocation } from '../Classes/UserLocation';
+import { UserSessionInfo } from '../Interfaces/interfaces';
 import { getAllUserLocations } from '../Util/DatabaseApiCalls';
 
 type UserLocationsStatus = 'idle' | 'loading' | 'success' | 'error';

@@ -15,7 +15,7 @@ export async function postForecastForSendScores(aiForecastData: OpenAIForecastDa
       return await response.json();
     } else {
       const errorData = await response.json();
-      throw new Error(`Error response postNewUserLocation: ${errorData}`);
+      throw new Error(`Error response postForecastForSendScores: ${JSON.stringify(errorData)}`);
     }
   } catch (error) {
     throw error;

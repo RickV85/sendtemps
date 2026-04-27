@@ -1,9 +1,10 @@
-import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/react';
+import type { Metadata, Viewport } from 'next';
 import { Fugaz_One, Hanuman } from 'next/font/google';
+
 import './globals.css';
-import { UserProvider } from './Contexts/UserContext';
 import { HomeProvider } from './Contexts/HomeContext';
+import { UserProvider } from './Contexts/UserContext';
 
 export const metadata: Metadata = {
   title: 'SendTemps - Backcountry Forecasts for the Colorado Front Range',

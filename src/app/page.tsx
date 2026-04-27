@@ -1,15 +1,16 @@
 'use client';
 import { throttle } from 'lodash';
-import { useEffect, useRef, useContext, useCallback, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import PullToRefresh from 'react-simple-pull-to-refresh';
-import { HomeContext } from './Contexts/HomeContext';
+
 import DetailedDayForecast from './Components/DetailedDayForecast/DetailedDayForecast';
-import HomeHeader from './Components/HomeHeader/HomeHeader';
 import HomeControl from './Components/HomeControl/HomeControl';
-import ReloadBtn from './Components/ReloadBtn/ReloadBtn';
-import { WelcomeHomeMsg } from './Components/WelcomeHomeMsg/WelcomeHomeMsg';
+import HomeHeader from './Components/HomeHeader/HomeHeader';
 import HourlyForecastContainer from './Components/HourlyForecastContainer/HourlyForecastContainer';
 import PullToRefreshContent from './Components/PullToRefreshContent/PullToRefreshContent';
+import ReloadBtn from './Components/ReloadBtn/ReloadBtn';
+import { WelcomeHomeMsg } from './Components/WelcomeHomeMsg/WelcomeHomeMsg';
+import { HomeContext } from './Contexts/HomeContext';
 import './home.css';
 
 export default function Home() {
@@ -58,7 +59,7 @@ export default function Home() {
         navigator.serviceWorker
           .getRegistrations()
           .then((registrations) => {
-            for (let registration of registrations) {
+            for (const registration of registrations) {
               registration.unregister().then((res) => {
                 if (res === true) {
                   console.log('Service Worker unregistered successfully');

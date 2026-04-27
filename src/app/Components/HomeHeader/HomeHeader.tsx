@@ -1,11 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { SessionProvider } from 'next-auth/react';
-import Session from '../Session/Session';
-import { UserContext } from '@/app/Contexts/UserContext';
-import { HomeContext } from '@/app/Contexts/HomeContext';
 import { useContext } from 'react';
+
+import { HomeContext } from '@/app/Contexts/HomeContext';
+import { UserContext } from '@/app/Contexts/UserContext';
+
 import HomeControl from '../HomeControl/HomeControl';
+import Session from '../Session/Session';
 
 export default function HomeHeader() {
   const { userInfo } = useContext(UserContext);

@@ -1,10 +1,11 @@
 import { UserLocation } from '@/app/Classes/UserLocation';
-import styles from './user-loc-tile.module.css';
 import { formatPOIDataForDisplay } from '@/app/Util/utils';
+
+import styles from './user-loc-tile.module.css';
 
 interface Props {
   userLoc: UserLocation | undefined;
-  toggleUserLocModal: Function;
+  toggleUserLocModal: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function UserLocTile({ userLoc, toggleUserLocModal }: Props) {

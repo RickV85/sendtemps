@@ -1,12 +1,14 @@
 'use client';
-import { LocationObject } from '../../Interfaces/interfaces';
 import { useState, useEffect, ReactNode, useCallback, ReactElement, useContext } from 'react';
+
+import { Gridpoint } from '@/app/Classes/Gridpoint';
+import { HomeContext } from '@/app/Contexts/HomeContext';
+import { UserContext } from '@/app/Contexts/UserContext';
 import { getAllDefaultLocations } from '@/app/Util/DatabaseApiCalls';
 import { filterAndSortLocationsAlphaByName } from '@/app/Util/utils';
+
+import { LocationObject } from '../../Interfaces/interfaces';
 import { fetchNoaaGridLocationWithRetry } from '../../Util/NoaaApiCalls';
-import { UserContext } from '@/app/Contexts/UserContext';
-import { HomeContext } from '@/app/Contexts/HomeContext';
-import { Gridpoint } from '@/app/Classes/Gridpoint';
 
 export default function LocationSelect() {
   const [allLocationOptions, setAllLocationOptions] = useState<LocationObject[] | []>([]);

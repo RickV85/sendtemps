@@ -1,21 +1,13 @@
-import { HomeContext } from '@/app/Contexts/HomeContext';
-import { useContext, useEffect, useState, useRef } from 'react';
-import HourlyForecastTile from '../HourlyForecastTile/HourlyForecastTile';
 import Image from 'next/image';
-import { fetchHourlyForecastWithRetry } from '@/app/Util/NoaaApiCalls';
-import { HourlyForecast } from '@/app/Classes/HourlyForecast';
+import { useContext, useEffect, useRef, useState } from 'react';
+
+import { HomeContext } from '@/app/Contexts/HomeContext';
+
+import HourlyForecastTile from '../HourlyForecastTile/HourlyForecastTile';
 
 export default function HourlyForecastContainer() {
-  const {
-    locationDetails,
-    hourlyForecastData,
-    setHourlyForecastData,
-    hourlyForecastParams,
-    setHourlyForecastParams,
-    setIsLoading,
-    setError,
-    screenWidth,
-  } = useContext(HomeContext);
+  const { hourlyForecastData, hourlyForecastParams, screenWidth, setHourlyForecastParams } =
+    useContext(HomeContext);
   const [hourlyForecastDisplay, setHourlyForecastDisplay] = useState<React.JSX.Element[]>();
   const hourlyForecastSection = useRef<null | HTMLElement>(null);
 

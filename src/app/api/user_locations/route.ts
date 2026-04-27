@@ -1,8 +1,15 @@
+import { sql, db } from '@vercel/postgres';
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
+
 import { UserLocation } from '@/app/Classes/UserLocation';
 import { authOptions } from '@/app/lib/authOptions';
-import { sql, db } from '@vercel/postgres';
-import { getServerSession } from 'next-auth/next';
-import { NextRequest, NextResponse } from 'next/server';
+import { parseBody } from '@/app/lib/parseBody';
+import {
+  createUserLocationSchema,
+  deleteUserLocationSchema,
+  patchUserLocationSchema,
+} from '@/app/lib/schemas';
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -45,15 +52,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const parsed = await parseBody(request, createUserLocationSchema);
+  if (parsed.error) return parsed.error;
+
   try {
-    const reqBody = await request.json();
     const newUserLoc = new UserLocation(
       undefined,
-      reqBody.name,
-      reqBody.latitude,
-      reqBody.longitude,
+      parsed.data.name,
+      parsed.data.latitude,
+      parsed.data.longitude,
       session.user.id,
-      reqBody.poi_type,
+      parsed.data.poi_type,
       null,
       null,
     );
@@ -74,16 +83,12 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const parsed = await parseBody(request, patchUserLocationSchema);
+  if (parsed.error) return parsed.error;
+
   try {
-    const reqBody = await request.json();
-    const validCols = ['name', 'poi_type'];
-
-    if (!reqBody.id || !reqBody.changeCol || !validCols.includes(reqBody.changeCol)) {
-      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
-    }
-
     const { rows } = await sql`
-      SELECT * FROM sendtemps.user_locations WHERE id = ${reqBody.id};
+      SELECT * FROM sendtemps.user_locations WHERE id = ${parsed.data.id};
     `;
     const userLoc = rows[0] ?? null;
 
@@ -106,22 +111,22 @@ export async function PATCH(request: NextRequest) {
       userLoc.last_modified,
     );
 
-    if (reqBody.changeCol === 'name') {
-      patchLoc.updateName(reqBody.data);
-    } else if (reqBody.changeCol === 'poi_type') {
-      patchLoc.updatePOIType(reqBody.data);
+    if (parsed.data.changeCol === 'name') {
+      patchLoc.updateName(parsed.data.data);
+    } else if (parsed.data.changeCol === 'poi_type') {
+      patchLoc.updatePOIType(parsed.data.data);
     }
     patchLoc.updateLastModified();
 
     const client = await db.connect();
 
-    if (reqBody.changeCol === 'name') {
+    if (parsed.data.changeCol === 'name') {
       await client.sql`UPDATE sendtemps.user_locations 
-        SET name = ${reqBody.data} 
+        SET name = ${parsed.data.data} 
         WHERE id = ${patchLoc.id} AND user_id = ${patchLoc.user_id};`;
-    } else if (reqBody.changeCol === 'poi_type') {
+    } else if (parsed.data.changeCol === 'poi_type') {
       await client.sql`UPDATE sendtemps.user_locations 
-        SET poi_type = ${reqBody.data} 
+        SET poi_type = ${parsed.data.data} 
         WHERE id = ${patchLoc.id} AND user_id = ${patchLoc.user_id};`;
     }
 
@@ -144,17 +149,18 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  try {
-    const deleteLoc = await request.json();
+  const parsed = await parseBody(request, deleteUserLocationSchema);
+  if (parsed.error) return parsed.error;
 
-    if (deleteLoc.user_id !== session.user.id) {
+  try {
+    if (parsed.data.user_id !== session.user.id) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     await sql`DELETE FROM sendtemps.user_locations 
-      WHERE id = ${deleteLoc.id} AND user_id = ${deleteLoc.user_id};`;
+      WHERE id = ${parsed.data.id} AND user_id = ${parsed.data.user_id};`;
     return NextResponse.json(
-      `Success: User Location id: ${deleteLoc.id} for user_id: ${deleteLoc.user_id} successfully deleted`,
+      `Success: User Location id: ${parsed.data.id} for user_id: ${parsed.data.user_id} successfully deleted`,
       { status: 200 },
     );
   } catch (error) {

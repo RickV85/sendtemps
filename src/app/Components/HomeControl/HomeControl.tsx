@@ -1,17 +1,19 @@
 import { useContext, useEffect, useCallback } from 'react';
+
+import { Forecast } from '@/app/Classes/Forecast';
+import { Gridpoint } from '@/app/Classes/Gridpoint';
+import { HourlyForecast } from '@/app/Classes/HourlyForecast';
+import { OpenAIForecastData } from '@/app/Classes/OpenAIForecastData';
 import { HomeContext } from '@/app/Contexts/HomeContext';
-import TypeSelect from '../TypeSelect/TypeSelect';
-import LocationSelect from '../LocationSelect/LocationSelect';
 import {
   fetchNoaaGridLocationWithRetry,
   fetchDailyForecastWithRetry,
   fetchHourlyForecastWithRetry,
 } from '@/app/Util/NoaaApiCalls';
-import { Gridpoint } from '@/app/Classes/Gridpoint';
-import { Forecast } from '@/app/Classes/Forecast';
-import { HourlyForecast } from '@/app/Classes/HourlyForecast';
 import { postForecastForSendScores } from '@/app/Util/OpenAiApiCalls';
-import { OpenAIForecastData } from '@/app/Classes/OpenAIForecastData';
+
+import LocationSelect from '../LocationSelect/LocationSelect';
+import TypeSelect from '../TypeSelect/TypeSelect';
 
 export default function HomeControl() {
   const {

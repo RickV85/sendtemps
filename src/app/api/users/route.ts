@@ -1,8 +1,11 @@
+import { sql } from '@vercel/postgres';
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
+
 import { User } from '@/app/Classes/User';
 import { authOptions } from '@/app/lib/authOptions';
-import { sql } from '@vercel/postgres';
-import { getServerSession } from 'next-auth/next';
-import { NextRequest, NextResponse } from 'next/server';
+import { parseBody } from '@/app/lib/parseBody';
+import { createUserSchema, patchUserSchema } from '@/app/lib/schemas';
 
 const findUserById = async (userId: string) => {
   try {
@@ -42,10 +45,12 @@ export async function GET(request: NextRequest) {
 
 // Called internally by NextAuth's signIn callback — intentionally unauthenticated.
 export async function POST(request: NextRequest) {
+  const parsed = await parseBody(request, createUserSchema);
+  if (parsed.error) return parsed.error;
+
   try {
-    const reqUserData = await request.json();
-    const foundUser = await findUserById(reqUserData.id);
-    const newUser = new User(reqUserData.id, reqUserData.email, reqUserData.name, null, null, null);
+    const foundUser = await findUserById(parsed.data.id);
+    const newUser = new User(parsed.data.id, parsed.data.email, parsed.data.name, null, null, null);
     if (!foundUser) {
       await sql`INSERT INTO sendtemps.users (id, email, name, last_login, date_created, last_modified) VALUES (${newUser.id}, ${newUser.email}, ${newUser.name}, ${newUser.last_login}, ${newUser.date_created}, ${newUser.last_modified})`;
       return NextResponse.json(`New user created with id: ${newUser.id}`, {
@@ -67,22 +72,18 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  try {
-    const userInfoToUpdate = await request.json();
+  const parsed = await parseBody(request, patchUserSchema);
+  if (parsed.error) return parsed.error;
 
-    if (session.user.id !== userInfoToUpdate.id) {
+  try {
+    if (session.user.id !== parsed.data.id) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const previousUserData = await findUserById(userInfoToUpdate.id);
+    const previousUserData = await findUserById(parsed.data.id);
 
     if (!previousUserData) {
-      return NextResponse.json(
-        { error: `User id: ${userInfoToUpdate.id} not found` },
-        {
-          status: 404,
-        },
-      );
+      return NextResponse.json({ error: `User id: ${parsed.data.id} not found` }, { status: 404 });
     }
 
     const user = new User(
@@ -95,12 +96,12 @@ export async function PATCH(request: NextRequest) {
     );
 
     let isUpdated = false;
-    if (userInfoToUpdate.email && user.email !== userInfoToUpdate.email) {
-      user.updateEmail(userInfoToUpdate.email);
+    if (parsed.data.email && user.email !== parsed.data.email) {
+      user.updateEmail(parsed.data.email);
       isUpdated = true;
     }
-    if (userInfoToUpdate.name && user.name !== userInfoToUpdate.name) {
-      user.updateName(userInfoToUpdate.name);
+    if (parsed.data.name && user.name !== parsed.data.name) {
+      user.updateName(parsed.data.name);
       isUpdated = true;
     }
 
@@ -114,9 +115,7 @@ export async function PATCH(request: NextRequest) {
         WHERE id = ${user.id};
       `;
 
-      return NextResponse.json(`User id: ${user.id} updated successfully.`, {
-        status: 200,
-      });
+      return NextResponse.json(`User id: ${user.id} updated successfully.`, { status: 200 });
     } else {
       user.updateLastLoginToNow();
 

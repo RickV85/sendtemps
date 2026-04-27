@@ -2,9 +2,11 @@
 
 import { Loader } from '@googlemaps/js-api-loader';
 import { useRef, useEffect, Dispatch, useState } from 'react';
-import { GoogleMapPoint } from '@/app/Interfaces/interfaces';
-import MapPin from '../MapPin/MapPin';
 import { createRoot } from 'react-dom/client';
+
+import { GoogleMapPoint } from '@/app/Interfaces/interfaces';
+
+import MapPin from '../MapPin/MapPin';
 
 interface Props {
   mapLocations: Array<GoogleMapPoint>;

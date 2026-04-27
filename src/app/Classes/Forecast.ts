@@ -1,5 +1,5 @@
-import { ForecastData } from '../Interfaces/interfaces';
 import { ForecastPeriod } from './ForecastPeriod';
+import { ForecastData } from '../Interfaces/interfaces';
 
 export class Forecast {
   periods: ForecastPeriod[];
