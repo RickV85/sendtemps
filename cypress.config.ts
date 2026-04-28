@@ -1,4 +1,4 @@
-import { defineConfig } from "cypress";
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
   projectId: '361teg',
@@ -10,6 +10,6 @@ export default defineConfig({
       runMode: 2,
       openMode: 0,
     },
-    baseUrl: "http://localhost:3000",
+    baseUrl: 'http://localhost:3000',
   },
 });

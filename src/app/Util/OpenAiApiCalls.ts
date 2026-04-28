@@ -1,23 +1,21 @@
-import { OpenAIForecastData } from "../Classes/OpenAIForecastData";
+import { OpenAIForecastData } from '../Classes/OpenAIForecastData';
 
-export async function postForecastForSendScores(
-  aiForecastData: OpenAIForecastData
-) {
+export async function postForecastForSendScores(aiForecastData: OpenAIForecastData) {
   try {
-    const response = await fetch("/api/open_ai/send_score", {
-      method: "POST",
+    const response = await fetch('/api/open_ai/send_score', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(aiForecastData),
-      credentials: "include",
+      credentials: 'include',
     });
 
     if (response.ok) {
       return await response.json();
     } else {
       const errorData = await response.json();
-      throw new Error(`Error response postNewUserLocation: ${errorData}`);
+      throw new Error(`Error response postForecastForSendScores: ${JSON.stringify(errorData)}`);
     }
   } catch (error) {
     throw error;

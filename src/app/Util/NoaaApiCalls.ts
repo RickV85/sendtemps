@@ -26,7 +26,9 @@ export async function fetchNoaaGridLocationWithRetry(
     } catch {
       console.error(`Fetch NOAA grid location attempt ${i} failed for coordinates: ${coords}`);
       if (i === retries) {
-        throw new Error(`All attempts to fetch NOAA grid location failed for coordinates: ${coords}.`);
+        throw new Error(
+          `All attempts to fetch NOAA grid location failed for coordinates: ${coords}.`,
+        );
       }
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
@@ -55,7 +57,7 @@ export async function fetchDailyForecastWithRetry(
   for (let i = 1; i <= retries; i++) {
     try {
       return await fetchDailyForecast(url);
-    } catch (err) {
+    } catch {
       console.error(`Fetch Daily Forecast attempt ${i} failed for forecastUrl: ${url}`);
       if (i === retries) {
         throw new Error('All daily forecast fetch attempts failed.');
@@ -87,7 +89,7 @@ export async function fetchHourlyForecastWithRetry(
   for (let i = 1; i <= retries; i++) {
     try {
       return await fetchHourlyForecast(url);
-    } catch (err) {
+    } catch {
       console.error(`Fetch hourly forecast attempt ${i} failed for forecastUrl: ${url}`);
       if (i === retries) {
         throw new Error('All hourly forecast fetch attempts failed.');

@@ -1,9 +1,10 @@
 'use client';
 import React, { createContext, useMemo, useState } from 'react';
-import { Coords, ForecastSendScores, HourlyForecastParams } from '../Interfaces/interfaces';
-import { Gridpoint } from '../Classes/Gridpoint';
+
 import { Forecast } from '../Classes/Forecast';
+import { Gridpoint } from '../Classes/Gridpoint';
 import { HourlyForecast } from '../Classes/HourlyForecast';
+import { Coords, ForecastSendScores, HourlyForecastParams } from '../Interfaces/interfaces';
 
 interface HomeContextType {
   currentGPSCoords: Coords | undefined;

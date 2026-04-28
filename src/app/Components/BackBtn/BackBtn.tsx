@@ -5,17 +5,13 @@ interface Props {
 export default function BackBtn({ id }: Props) {
   if (id) {
     return (
-      <button
-        id={`${id}`}
-        className="back-btn"
-        onClick={() => window.history.back()}
-      >
+      <button id={`${id}`} className='back-btn' onClick={() => window.history.back()}>
         Back
       </button>
     );
   } else {
     return (
-      <button className="back-btn" onClick={() => window.history.back()}>
+      <button className='back-btn' onClick={() => window.history.back()}>
         Back
       </button>
     );

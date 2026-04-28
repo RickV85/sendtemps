@@ -12,7 +12,7 @@ export class User {
     name: string,
     last_login: string | null,
     date_created: string | null,
-    last_modified: string | null
+    last_modified: string | null,
   ) {
     this.id = id;
     this.email = email;
@@ -26,9 +26,7 @@ export class User {
     if (newEmail && newEmail.length <= 100) {
       this.email = newEmail;
     } else {
-      console.log(
-        "newEmail for User must be 100 characters or less. Email not updated."
-      );
+      console.log('newEmail for User must be 100 characters or less. Email not updated.');
     }
   }
 
@@ -36,9 +34,7 @@ export class User {
     if (newName && newName.length <= 100) {
       this.name = newName;
     } else {
-      console.log(
-        "newName for User must be 100 characters or less. Name not updated."
-      );
+      console.log('newName for User must be 100 characters or less. Name not updated.');
     }
   }
 

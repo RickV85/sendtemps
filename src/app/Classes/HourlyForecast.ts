@@ -1,20 +1,15 @@
-import {
-  HourlyForecastData,
-  HourlyForecastParams,
-} from "../Interfaces/interfaces";
-import { HourlyForecastPeriod } from "./HourlyForecastPeriod";
+import { HourlyForecastPeriod } from './HourlyForecastPeriod';
+import { HourlyForecastData, HourlyForecastParams } from '../Interfaces/interfaces';
 
 export class HourlyForecast {
   hourlyPeriods: HourlyForecastPeriod[];
   constructor(hourlyData: HourlyForecastData) {
     this.hourlyPeriods = hourlyData.properties.periods.map(
-      (periodData) => new HourlyForecastPeriod(periodData)
+      (periodData) => new HourlyForecastPeriod(periodData),
     );
   }
 
-  filterHourlyPeriodsByTime(
-    hourlyParams: HourlyForecastParams
-  ): HourlyForecastPeriod[] {
+  filterHourlyPeriodsByTime(hourlyParams: HourlyForecastParams): HourlyForecastPeriod[] {
     const result = this.hourlyPeriods.filter((period) => {
       const date = new Date(period.startTime);
       const start = new Date(hourlyParams.start);
@@ -29,9 +24,9 @@ export class HourlyForecast {
   getMinMaxRHForTimePeriod(hourlyParams: HourlyForecastParams) {
     const filteredTimePeriods = this.filterHourlyPeriodsByTime(hourlyParams);
     const humidityValues = filteredTimePeriods.map(
-      (hourlyPeriod: HourlyForecastPeriod) => hourlyPeriod.humidity
+      (hourlyPeriod: HourlyForecastPeriod) => hourlyPeriod.humidity,
     );
 
-    return {min: Math.min(...humidityValues), max: Math.max(...humidityValues)};
+    return { min: Math.min(...humidityValues), max: Math.max(...humidityValues) };
   }
 }

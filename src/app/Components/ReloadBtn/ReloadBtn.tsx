@@ -8,7 +8,7 @@ export default function ReloadBtn({ id, label, onClick }: Props) {
   return (
     <button
       id={id || 'ReloadBtn'}
-      className="reload-btn"
+      className='reload-btn'
       onClick={onClick ? onClick : () => window.location.reload()}
     >
       {label || 'Reload'}

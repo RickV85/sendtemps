@@ -1,6 +1,11 @@
-import { sql } from "@vercel/postgres";
-import { NextRequest, NextResponse } from "next/server";
-import { User } from "@/app/Classes/User";
+import { sql } from '@vercel/postgres';
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
+
+import { User } from '@/app/Classes/User';
+import { authOptions } from '@/app/lib/authOptions';
+import { parseBody } from '@/app/lib/parseBody';
+import { createUserSchema, patchUserSchema } from '@/app/lib/schemas';
 
 const findUserById = async (userId: string) => {
   try {
@@ -12,67 +17,73 @@ const findUserById = async (userId: string) => {
 };
 
 export async function GET(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const userId = request.nextUrl.searchParams.get('user_id');
+  if (!userId) {
+    return NextResponse.json({ error: 'Missing user_id parameter' }, { status: 400 });
+  }
+
+  if (session.user.id !== userId) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
   try {
-    const userId = await request.nextUrl.searchParams.get("user_id");
-    if (userId) {
-      const foundUser = await findUserById(userId);
-      let response;
-      if (foundUser) {
-        response = NextResponse.json(foundUser, { status: 200 });
-      } else {
-        response = NextResponse.json(`No user found with id: ${userId}`, {
-          status: 200,
-        });
-      }
-      return response;
+    const foundUser = await findUserById(userId);
+    if (foundUser) {
+      return NextResponse.json(foundUser, { status: 200 });
+    } else {
+      return NextResponse.json({ error: `No user found with id: ${userId}` }, { status: 404 });
     }
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
 
+// Called internally by NextAuth's signIn callback — intentionally unauthenticated.
 export async function POST(request: NextRequest) {
+  const parsed = await parseBody(request, createUserSchema);
+  if (parsed.error) return parsed.error;
+
   try {
-    const reqUserData = await request.json();
-    const foundUser = await findUserById(reqUserData.id);
-    const newUser = new User(
-      reqUserData.id,
-      reqUserData.email,
-      reqUserData.name,
-      null,
-      null,
-      null
-    );
-    let response;
+    const foundUser = await findUserById(parsed.data.id);
+    const newUser = new User(parsed.data.id, parsed.data.email, parsed.data.name, null, null, null);
     if (!foundUser) {
       await sql`INSERT INTO sendtemps.users (id, email, name, last_login, date_created, last_modified) VALUES (${newUser.id}, ${newUser.email}, ${newUser.name}, ${newUser.last_login}, ${newUser.date_created}, ${newUser.last_modified})`;
-      response = NextResponse.json(`New user created with id: ${newUser.id}`, {
+      return NextResponse.json(`New user created with id: ${newUser.id}`, {
         status: 201,
       });
     } else {
-      response = NextResponse.json(
-        `User with id: ${newUser.id} already exists, no new user created.`,
-        {
-          status: 409,
-        }
-      );
+      return NextResponse.json(`User with id: ${newUser.id} already exists, no new user created.`, {
+        status: 409,
+      });
     }
-    return response;
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
 
 export async function PATCH(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const parsed = await parseBody(request, patchUserSchema);
+  if (parsed.error) return parsed.error;
+
   try {
-    // Req must include user: {id, email, name} - all props = strings
-    const userInfoToUpdate = await request.json();
-    const previousUserData = await findUserById(userInfoToUpdate.id);
+    if (session.user.id !== parsed.data.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    const previousUserData = await findUserById(parsed.data.id);
 
     if (!previousUserData) {
-      return NextResponse.json(`User id: ${userInfoToUpdate.id} not found`, {
-        status: 404,
-      });
+      return NextResponse.json({ error: `User id: ${parsed.data.id} not found` }, { status: 404 });
     }
 
     const user = new User(
@@ -81,16 +92,16 @@ export async function PATCH(request: NextRequest) {
       previousUserData.name,
       previousUserData.last_login,
       previousUserData.date_created,
-      previousUserData.last_modified
+      previousUserData.last_modified,
     );
 
     let isUpdated = false;
-    if (userInfoToUpdate.email && user.email !== userInfoToUpdate.email) {
-      user.updateEmail(userInfoToUpdate.email);
+    if (parsed.data.email && user.email !== parsed.data.email) {
+      user.updateEmail(parsed.data.email);
       isUpdated = true;
     }
-    if (userInfoToUpdate.name && user.name !== userInfoToUpdate.name) {
-      user.updateName(userInfoToUpdate.name);
+    if (parsed.data.name && user.name !== parsed.data.name) {
+      user.updateName(parsed.data.name);
       isUpdated = true;
     }
 
@@ -104,21 +115,19 @@ export async function PATCH(request: NextRequest) {
         WHERE id = ${user.id};
       `;
 
-      return NextResponse.json(`User id: ${user.id} updated successfully.`, {
-        status: 200,
-      });
+      return NextResponse.json(`User id: ${user.id} updated successfully.`, { status: 200 });
     } else {
       user.updateLastLoginToNow();
 
       await sql`
-      UPDATE sendtemps.users 
-      SET last_login = ${user.last_login} 
-      WHERE id = ${user.id};
-    `;
+        UPDATE sendtemps.users 
+        SET last_login = ${user.last_login} 
+        WHERE id = ${user.id};
+      `;
 
       return NextResponse.json(
         `New user data for id: ${user.id} matches previous user data from database. New login: ${user.last_login}`,
-        { status: 200 }
+        { status: 200 },
       );
     }
   } catch (error) {

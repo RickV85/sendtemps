@@ -1,4 +1,4 @@
-import { HourlyForecastData } from "../Interfaces/interfaces";
+import { HourlyForecastData } from '../Interfaces/interfaces';
 
 export class HourlyForecastPeriod {
   startTime: string;
@@ -12,7 +12,7 @@ export class HourlyForecastPeriod {
     direction: string;
   };
   humidity: number;
-  constructor(data: HourlyForecastData["properties"]["periods"][number]) {
+  constructor(data: HourlyForecastData['properties']['periods'][number]) {
     this.startTime = data.startTime;
     this.endTime = data.endTime;
     this.time = this.createFormattedTime(data.startTime);
@@ -24,9 +24,9 @@ export class HourlyForecastPeriod {
   }
 
   createFormattedTime(timeStr: string) {
-    const formattedTime = new Date(timeStr).toLocaleTimeString("en-us", {
-      hour: "numeric",
-      minute: "2-digit",
+    const formattedTime = new Date(timeStr).toLocaleTimeString('en-us', {
+      hour: 'numeric',
+      minute: '2-digit',
       hour12: true,
     });
     return formattedTime;
