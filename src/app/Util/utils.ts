@@ -5,18 +5,9 @@ export function filterAndSortLocationsAlphaByName(
   locArr: Array<LocationObject>,
   selectedType: string,
 ): Array<LocationObject> {
-  const filteredSortedLocations = locArr
+  return locArr
     .filter((loc) => loc.poi_type === selectedType)
-    .toSorted((a, b) => {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    });
-  return filteredSortedLocations;
+    .toSorted((a, b) => a.name.localeCompare(b.name));
 }
 
 export const createGoogleMapPoints = (locs: LocationObject[] | UserLocation[]) => {
@@ -25,7 +16,7 @@ export const createGoogleMapPoints = (locs: LocationObject[] | UserLocation[]) =
       lat: +location.latitude,
       lng: +location.longitude,
     };
-    return { name: location.name, poiType: location.poi_type, coords: coords };
+    return { name: location.name, poiType: location.poi_type, coords };
   });
   return points;
 };
