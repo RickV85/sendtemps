@@ -4,6 +4,13 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/recommended"
   ],
+  "overrides": [
+    {
+      "extends": ["plugin:@cypress/dev/tests"],
+      "files": ["cypress/**/*.{js,jsx,ts,tsx}"],
+      "plugins": ["@cypress/dev", "mocha"]
+    }
+  ],
   "plugins": ["import"],
   "rules": {
     "@typescript-eslint/no-explicit-any": "error",
