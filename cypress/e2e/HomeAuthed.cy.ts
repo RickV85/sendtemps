@@ -56,7 +56,7 @@ describe('initial display for an authorized user', () => {
       .should('have.text', 'Welcome to SendTemps!');
   });
 
-  it.only('should show the proper Welcome Message tailored to authorized user', () => {
+  it('should show the proper Welcome Message tailored to authorized user', () => {
     cy.get('p[data-testid="authed-edit-location-msg"]').should('be.visible');
   });
 });
