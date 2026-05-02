@@ -57,6 +57,6 @@ describe('initial display for an authorized user', () => {
   });
 
   it('should show the proper Welcome Message tailored to authorized user', () => {
-    cy.get('p[data-testid="authed-edit-location-msg"]').should('be.visible');
+    cy.get('span[data-testid="authed-edit-location-msg"]').should('be.visible');
   });
 });

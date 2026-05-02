@@ -39,12 +39,11 @@ export default function Map({
       if (mapRef.current) {
         mapInstanceRef.current = new google.maps.Map(mapRef.current, {
           center: { lat: 40, lng: -105.5 },
-          zoom: 10,
           fullscreenControl: false,
-          streetViewControl: false,
           mapId: '6696e534c9ad2933',
+          streetViewControl: false,
+          zoom: 10,
         });
-        setMapLoaded(true);
       }
 
       // No drawing mode available for AdvancedMarkerElement
@@ -102,6 +101,8 @@ export default function Map({
             }
           },
         );
+
+        setMapLoaded(true);
       }
     });
     //eslint-disable-next-line
@@ -158,9 +159,11 @@ export default function Map({
 
   return (
     <div
+      aria-busy={!mapLoaded}
+      aria-label='Google map display of default and user created locations'
+      data-google-map-loaded={mapLoaded ? 'true' : 'false'}
       ref={mapRef}
       role='application'
-      aria-label='Google map display of default and user created locations'
       style={{ height: '100%', width: '100%' }}
     />
   );

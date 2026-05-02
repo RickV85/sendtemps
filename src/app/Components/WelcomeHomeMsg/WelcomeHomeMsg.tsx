@@ -18,7 +18,7 @@ export const WelcomeHomeMsg = () => {
         <div className='home-welcome-content'>
           {!userInfo ? (
             <>
-              <p>
+              <p data-testid='unauthed-signin-msg'>
                 <strong>
                   Log in with Google by clicking the &ldquo;Sign in!&rdquo; button in the upper
                   right corner to add your own favorite locations!
@@ -33,12 +33,12 @@ export const WelcomeHomeMsg = () => {
             <br />
             <br />
             {userInfo ? (
-              <>
+              <span data-testid='authed-edit-location-msg'>
                 Click the &ldquo;Edit Locations&rdquo; button in the upper left corner to add a new
                 custom location or edit an existing custom location.
                 <br />
                 <br />
-              </>
+              </span>
             ) : null}
             In my experience over the last decade, NOAA&apos;s pinpoint forecasts have proven to be
             far more accurate for backcountry destinations when compared to the average weather app.
