@@ -1,41 +1,20 @@
 describe('Edit Location errors', () => {
   beforeEach(() => {
-    // Intercept and return user session object
-    cy.intercept('/api/auth/session', {
-      fixture: 'session.json',
-    });
+    cy.stubAuthedFetches();
 
-    // Intercept user login patch req
-    cy.intercept(
-      '/api/users',
-      JSON.stringify(
-        'New user data for id: 101000928729222042760 matches previous user data from database. New login: 2024-02-25T17:35:44.233Z',
-      ),
-    );
-
-    // Intercept user location req
-    cy.intercept('/api/user_locations?user_id=101000928729222042760', {
-      fixture: 'user_locs.json',
-    });
-
-    // Intercept default locations req
-    cy.intercept('GET', '/api/default_locations', {
-      fixture: 'default_locs.json',
-    });
-
-    // Ignore Google maps 3d context error when run in GH Actions
-    Cypress.on('uncaught:exception', (err, runnable) => {
+    Cypress.on('uncaught:exception', () => {
       return false;
     });
 
     cy.visit('/edit-locations');
+    cy.injectAxe();
   });
 
   it('should show an error on failed deletion', () => {
     cy.intercept('DELETE', '/api/user_locations', {
-      statusCode: 500,
       body: JSON.stringify('Error'),
-    });
+      statusCode: 500,
+    }).as('deleteUserLocationFail');
 
     cy.get('select#editUserLocSelect').select(1);
     cy.get('button#userLocDeleteBtn').as('deleteBtn');
@@ -43,8 +22,7 @@ describe('Edit Location errors', () => {
 
     cy.get('dialog#userLocModal').find('button').eq(1).should('have.text', 'Confirm').click();
 
-    cy.wait(250);
-
+    cy.wait('@deleteUserLocationFail');
     cy.get('p.edit-user-loc-modal-msg').should(
       'have.text',
       'An error occurred while deleting location. Please try again.',
@@ -53,9 +31,9 @@ describe('Edit Location errors', () => {
 
   it('should show an error on failed rename', () => {
     cy.intercept('PATCH', '/api/user_locations', {
-      statusCode: 500,
       body: JSON.stringify('Error'),
-    });
+      statusCode: 500,
+    }).as('patchUserLocationFail');
 
     cy.get('select#editUserLocSelect').select(1);
     cy.get('button#userLocRenameBtn').as('renameBtn');
@@ -92,8 +70,7 @@ describe('Edit Location errors', () => {
 
     cy.get('@confirmBtn').click();
 
-    cy.wait(250);
-
+    cy.wait('@patchUserLocationFail');
     cy.get('@errorMsg').should(
       'have.text',
       'An error occurred while modifying location. Please try again.',
@@ -102,9 +79,9 @@ describe('Edit Location errors', () => {
 
   it('should show an error on failed type change', () => {
     cy.intercept('PATCH', '/api/user_locations', {
-      statusCode: 500,
       body: JSON.stringify('Error'),
-    });
+      statusCode: 500,
+    }).as('patchUserLocationFail');
 
     cy.get('select#editUserLocSelect').select(1);
     cy.get('button#userLocTypeBtn').as('typeBtn');
@@ -123,8 +100,7 @@ describe('Edit Location errors', () => {
 
     cy.get('@confirmBtn').click();
 
-    cy.wait(250);
-
+    cy.wait('@patchUserLocationFail');
     cy.get('p.edit-user-loc-modal-msg').should(
       'have.text',
       'An error occurred while modifying location. Please try again.',
