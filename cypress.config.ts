@@ -2,13 +2,13 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   projectId: '361teg',
+  retries: {
+    runMode: 3,
+    openMode: 0,
+  },
   e2e: {
-    setupNodeEvents(on, config) {
+    setupNodeEvents() {
       // implement node event listeners here
-    },
-    retries: {
-      runMode: 2,
-      openMode: 0,
     },
     baseUrl: 'http://localhost:3000',
   },
