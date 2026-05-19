@@ -1,15 +1,19 @@
 export {};
 
-Cypress.Commands.add('stubAuthedFetches', () => {
-  cy.stubAuthedSession();
+Cypress.Commands.add('stubAuthedFetches', (options?: { sessionDelayMs?: number }) => {
+  cy.stubAuthedSession(options?.sessionDelayMs);
   cy.intercept('/api/default_locations', { fixture: 'default_locs.json' }).as('defaultLocations');
   cy.intercept('/api/user_locations?user_id=101000928729222042760', {
     fixture: 'user_locs.json',
   }).as('userLocations');
 });
 
-Cypress.Commands.add('stubAuthedSession', () => {
-  cy.intercept('/api/auth/session', { fixture: 'session.json' }).as('session');
+Cypress.Commands.add('stubAuthedSession', (sessionDelayMs?: number) => {
+  const sessionResponse =
+    sessionDelayMs != null && sessionDelayMs > 0
+      ? { delay: sessionDelayMs, fixture: 'session.json' as const }
+      : { fixture: 'session.json' as const };
+  cy.intercept('/api/auth/session', sessionResponse).as('session');
   cy.intercept(
     '/api/users',
     JSON.stringify(

@@ -19,8 +19,8 @@ export default function HomeHeader() {
         <nav className='home-nav'>
           <div className='nav-edit-locations'>
             {userInfo ? (
-              <Link href={'/edit-locations'}>
-                <button id='navLocationBtn'>Edit Locations</button>
+              <Link href='/edit-locations' id='navLocationBtn'>
+                Edit Locations
               </Link>
             ) : null}
           </div>

@@ -2,8 +2,8 @@
 
 declare namespace Cypress {
   interface Chainable {
-    stubAuthedFetches(): Chainable;
-    stubAuthedSession(): Chainable;
+    stubAuthedFetches(options?: { sessionDelayMs?: number }): Chainable;
+    stubAuthedSession(sessionDelayMs?: number): Chainable;
     stubForecastFetches(): Chainable;
     stubSession(): Chainable;
     waitForAddLocationGoogleMapReady(): Chainable;

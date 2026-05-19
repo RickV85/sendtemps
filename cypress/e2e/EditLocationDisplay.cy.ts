@@ -9,7 +9,7 @@ describe('Edit locations display', () => {
     cy.visit('/');
     cy.injectAxe();
 
-    cy.get('button#navLocationBtn').click();
+    cy.get('#navLocationBtn').click();
     cy.location('pathname').should('equal', '/edit-locations');
   });
 
