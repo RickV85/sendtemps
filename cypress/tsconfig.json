@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "isolatedModules": false,
+    "moduleResolution": "node",
+    "types": ["cypress", "node"]
+  },
+  "exclude": ["node_modules"],
+  "include": ["../cypress.config.ts", "./**/*.ts", "./support/customCommands.d.ts"]
+}

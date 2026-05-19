@@ -8,7 +8,8 @@
 }
 
 button,
-select {
+select,
+#navLocationBtn {
   background-color: transparent;
   border: 1px solid #00b2ff;
   border-radius: 5px;
@@ -71,11 +72,13 @@ select {
 }
 
 #navLocationBtn {
+  animation: fadeIn ease-in 0.5s;
   background-color: transparent;
   border: 1px solid #00b2ff;
   border-radius: 5px;
+  display: inline-block;
   padding: 0.5rem;
-  animation: fadeIn ease-in 0.5s;
+  text-decoration: none;
 }
 
 .desktop-title-controls {

@@ -1,21 +1,16 @@
 describe('home error testing for unauthorized user', () => {
   beforeEach(() => {
-    // Intercept and return empty object for unauthorized user
-    cy.intercept('/api/auth/session', JSON.stringify({}));
+    cy.intercept('/api/auth/session', JSON.stringify({})).as('session');
   });
 
   it('should show error message and reload button when default location call fails', () => {
-    // Failure - default locations call
-    cy.intercept('/api/default_locations', {
-      statusCode: 500,
-    });
+    cy.intercept('/api/default_locations', { statusCode: 500 }).as('defaultLocationsFail');
 
     cy.visit('/');
-
-    cy.wait(2500);
+    cy.injectAxe();
 
     cy.get('section.forecast-section')
-      .find('p.error-msg')
+      .find('p.error-msg', { timeout: 10000 })
       .should('be.visible')
       .should(
         'have.text',
@@ -28,37 +23,20 @@ describe('home error testing for unauthorized user', () => {
 
 describe('home error testing for authorized user', () => {
   beforeEach(() => {
-    // Intercept and return user session object
-    cy.intercept('/api/auth/session', {
-      fixture: 'session.json',
-    });
-
-    // Intercept user login patch req
-    cy.intercept(
-      '/api/users',
-      JSON.stringify(
-        'New user data for id: 101000928729222042760 matches previous user data from database. New login: 2024-02-25T17:35:44.233Z',
-      ),
-    );
+    cy.stubAuthedSession();
   });
 
   it('should show error message and reload button when default location call fails', () => {
-    // Failure - default locations call
-    cy.intercept('/api/default_locations', {
-      statusCode: 500,
-    });
-
-    // Intercept user locations call
+    cy.intercept('/api/default_locations', { statusCode: 500 }).as('defaultLocationsFail');
     cy.intercept('/api/user_locations?user_id=101000928729222042760', {
       fixture: 'user_locs.json',
-    });
+    }).as('userLocations');
 
     cy.visit('/');
-
-    cy.wait(2500);
+    cy.injectAxe();
 
     cy.get('section.forecast-section')
-      .find('p.error-msg')
+      .find('p.error-msg', { timeout: 10000 })
       .should('be.visible')
       .should(
         'have.text',
@@ -69,22 +47,16 @@ describe('home error testing for authorized user', () => {
   });
 
   it('should show error msg when user_locations call fails', () => {
-    // Failure - user locations call
+    cy.intercept('/api/default_locations', { fixture: 'default_locs.json' }).as('defaultLocations');
     cy.intercept('/api/user_locations?user_id=101000928729222042760', {
       statusCode: 500,
-    });
-
-    // INtercept default locations call
-    cy.intercept('/api/default_locations', {
-      fixture: 'default_locs.json',
-    });
+    }).as('userLocationsFail');
 
     cy.visit('/');
-
-    cy.wait(1000);
+    cy.injectAxe();
 
     cy.get('section.forecast-section')
-      .find('p.error-msg')
+      .find('p.error-msg', { timeout: 10000 })
       .should('be.visible')
       .should(
         'have.text',

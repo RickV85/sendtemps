@@ -1,14 +1,14 @@
 describe('initial display for an unauthorized user', () => {
   beforeEach(() => {
-    // Intercept and return empty object for unauthorized user
-    cy.intercept('/api/auth/session', JSON.stringify({}));
-
-    // Intercept default locations req
-    cy.intercept('/api/default_locations', {
-      fixture: 'default_locs.json',
-    });
+    cy.stubSession();
 
     cy.visit('/');
+    cy.injectAxe();
+  });
+
+  it('should have no accessibility violations', () => {
+    cy.get('div.home-welcome-msg-div', { timeout: 10000 }).should('be.visible');
+    cy.checkA11y();
   });
 
   it('should display an initial loading message', { retries: 10 }, () => {
@@ -33,22 +33,17 @@ describe('initial display for an unauthorized user', () => {
   });
 
   it('should display the Welcome Message once loaded', () => {
-    cy.wait(250);
     cy.get('section.forecast-section')
       .find('div.home-welcome-msg-div>h2')
       .should('have.text', 'Welcome to SendTemps!');
   });
 
   it('should show the proper Welcome Message tailored to unauthorized user', () => {
-    cy.wait(250);
-    cy.get('div.home-welcome-msg-div').contains(
-      'Log in with Google by clicking the “Sign in!” button in the upper right corner to add your own favorite locations!',
-    );
+    cy.get('p[data-testid="unauthed-signin-msg"]').should('be.visible');
   });
 
   it('should allow a user to sign in with Google', () => {
     cy.get('button.user-profile-login-button').click();
-    cy.wait(250);
     cy.location('pathname').should('equal', '/api/auth/signin');
   });
 });
